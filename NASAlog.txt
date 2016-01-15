@@ -283,4 +283,10 @@ Done:
 jconchas@anly104:~/data2/GOCI$ ls
 COMS_GOCI_L1B_GA_201512240x1640/  COMS_GOCI_L1B_GA_201512300x1643/
 - Processed L8 from Bryan in anly104 and transfered to my machine. Saved in artic_L2/
+- Created git rep in:
+jconchas@gs616-tidal:~/Documents$ git branch
+* master
+
+jconchas@anly104:~/data2$ git branch
+* master
 (END) 

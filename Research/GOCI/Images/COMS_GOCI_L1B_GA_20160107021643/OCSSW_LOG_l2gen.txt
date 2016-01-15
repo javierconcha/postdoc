@@ -1,0 +1,394 @@
+Execution log for 
+[/Applications/seadas-7.3/ocssw/run/scripts/ocssw_runner, --ocsswroot, /Applications/seadas-7.3/ocssw, l2gen, par=/Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5/tmpParFile981949906998376875.par]
+Input file /Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5/COMS_GOCI_L1B_GA_20160107021643.he5 is a GOCI L1B HDF 5 file.
+Loading default parameters from /Applications/seadas-7.3/ocssw/run/data/common/msl12_defaults.par
+Loading default parameters for GOCI from /Applications/seadas-7.3/ocssw/run/data/goci/msl12_defaults.par
+Loading parameters for suite OC from /Applications/seadas-7.3/ocssw/run/data/goci/msl12_defaults_OC.par
+Loading command line parameters
+
+Loading user parameters for GOCI
+
+
+Loading characteristics for GOCI
+Opening sensor information file /Applications/seadas-7.3/ocssw/run/data/goci/msl12_sensor_info.dat
+  Bnd   Lam       Fo    Tau_r     k_oz    k_no2    t_co2   awhite       aw      bbw
+    0  412.000  173.231 3.168e-01 4.729e-04 6.004e-19 1.000e+00 1.000e+00 2.578e-02 2.943e-03
+    1  443.000  189.070 2.347e-01 2.997e-03 5.042e-19 1.000e+00 1.000e+00 5.168e-02 2.164e-03
+    2  490.000  196.490 1.554e-01 2.204e-02 2.794e-19 1.000e+00 1.000e+00 1.650e-02 1.411e-03
+    3  555.000  183.335 9.362e-02 9.720e-02 8.963e-20 1.000e+00 1.000e+00 5.954e-02 8.392e-04
+    4  660.000  151.961 4.630e-02 5.521e-02 8.106e-21 1.000e+00 8.871e-01 4.090e-01 4.071e-04
+    5  680.000  147.492 4.098e-02 3.615e-02 7.329e-21 1.000e+00 7.872e-01 4.780e-01 3.594e-04
+    6  745.000  127.785 2.830e-02 1.066e-02 1.623e-21 1.000e+00 6.450e+00 2.801e+00 2.462e-04
+    7  865.000   95.443 1.558e-02 2.198e-03 1.011e-22 1.000e+00 0.000e+00 4.672e+00 1.336e-04
+
+
+Internal data compression requested at compression level: 4
+# fields: 28, # records: 128
+Begin GOCI slot assignment
+GOCI supergrid made, starting full slot assignment
+GOCI slot, time assignments completed
+GOCI Level-1B /Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5/COMS_GOCI_L1B_GA_20160107021643.he5
+GOCI Scene Start time: 2016-01-07 007 02:15:38 8138000
+GOCI file has 8 bands, 5567 samples, 5685 lines
+GOCI using internal navigation
+Allocated 5372455 bytes in L1 record.
+Allocated 2649904 bytes in L2 record.
+
+Opening: /Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5/G2016007021643.L2_LAC_OC
+Reading Thuillier_F0.dat
+
+
+The following products will be included in /Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5/G2016007021643.L2_LAC_OC.
+0 aot_865
+1 angstrom
+2 Rrs_412
+3 Rrs_443
+4 Rrs_490
+5 Rrs_555
+6 Rrs_660
+7 Rrs_680
+8 chlor_a
+9 chl_ocx
+10 Kd_490
+11 poc
+12 l2_flags
+
+
+
+Begin l2gen Version 8.9.10-r12271 Processing
+Sensor is GOCI
+Sensor ID is 17
+Sensor has 8 reflective bands
+Sensor has 0 emmissive bands
+Number of along-track detectors per band is 1
+Number of input pixels per scan is 5567
+Processing pixels 1 to 5567 by 1
+Processing scans 1 to 5685 by 1
+Ocean processing enabled
+Land processing enabled
+Atmospheric correction enabled
+
+Begin MSl12 processing at 2016011105314000
+
+Allocated 5372455 bytes in L1 record.
+Allocated 5372455 bytes in L1 record.
+Allocated 5372455 bytes in L1 record.
+Loading land mask file from /Applications/seadas-7.3/ocssw/run/data/common/landmask_GMT15ARC.nc
+Loading bathymetry mask file from /Applications/seadas-7.3/ocssw/run/data/common/watermask.dat
+Loading ice mask file from /Applications/seadas-7.3/ocssw/run/data/common/ice_climatology.hdf
+Loaded monthly NSIDC ice climatology HDF file.
+Loading elevation file from /Applications/seadas-7.3/ocssw/run/data/common/ETOPO1_ocssw.nc
+Loading DEM info from /Applications/seadas-7.3/ocssw/run/data/common/ETOPO1_ocssw.nc
+Loading climatology file /Applications/seadas-7.3/ocssw/run/data/common/sst_climatology.hdf
+Loading SSS reference from Climatology file: /Applications/seadas-7.3/ocssw/run/data/common/sss_climatology_woa2009.hdf
+
+
+Opening meteorological files.
+  met1   = /Applications/seadas-7.3/ocssw/run/data/common/met_climatology_v2014.hdf
+  met2   = 
+  met3   = 
+  ozone1 = /Applications/seadas-7.3/ocssw/run/data/common/ozone_climatology_v2014.hdf
+  ozone2 = 
+  ozone3 = 
+  no2    = /Applications/seadas-7.3/ocssw/run/data/common/no2_climatology_v2013.hdf
+
+
+Opening ozone file /Applications/seadas-7.3/ocssw/run/data/common/ozone_climatology_v2014.hdf
+
+
+Opening NO2 file /Applications/seadas-7.3/ocssw/run/data/common/no2_climatology_v2013.hdf
+
+
+Opening NO2 frac file /Applications/seadas-7.3/ocssw/run/data/common/trop_f_no2_200m.hdf
+
+RJH: gas_opt: O3
+RJH: gas_opt: CO2
+RJH: gas_opt: NO2
+RJH: gas_opt: H2O
+
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_412_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_443_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_490_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_555_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_660_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_680_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_745_iqu.hdf
+Loading Rayleigh LUT /Applications/seadas-7.3/ocssw/run/data/goci/rayleigh/rayleigh_goci_865_iqu.hdf
+
+Using  865.0 nm channel for cloud flagging over water.
+Using  412.0 nm channel for cloud flagging over land.
+
+Processing scan #     0 (1 of 5685) after      1 seconds
+Aerosol selection bands 745 and 865
+NIR correction enabled.
+Loading aerosol models from /Applications/seadas-7.3/ocssw/run/data/goci/aerosol/aerosol_goci
+Number of Wavelengths                          8
+Number of Solar Zenith Angles                  33
+Number of View Zenith Angles                   35
+Number of Relative Azimuth Angles              19
+Number of Scattering Angles                    75
+Number of Diffuse Transmittance Wavelengths    8
+Number of Diffuse Transmittance Zenith Angles  33
+
+Limiting aerosol models based on RH.
+
+Using Gordon & Wang aerosol model selection
+  and NIR correction with up to 10 iterations
+Using bands at 745.0 and 865.0 nm for model selection
+Extrapolating from 865.0 nm
+80 aerosol models: 8 humidities x 10 size fractions
+model 0, rh=30.000000, sd=16, alpha=2.154348, name=r30f95v01
+model 1, rh=30.000000, sd=17, alpha=2.044307, name=r30f80v01
+model 2, rh=30.000000, sd=18, alpha=1.716964, name=r30f50v01
+model 3, rh=30.000000, sd=19, alpha=1.339438, name=r30f30v01
+model 4, rh=30.000000, sd=20, alpha=1.046403, name=r30f20v01
+model 5, rh=30.000000, sd=21, alpha=0.608865, name=r30f10v01
+model 6, rh=30.000000, sd=22, alpha=0.288045, name=r30f05v01
+model 7, rh=30.000000, sd=23, alpha=0.037690, name=r30f02v01
+model 8, rh=30.000000, sd=24, alpha=-0.059662, name=r30f01v01
+model 9, rh=30.000000, sd=25, alpha=-0.165873, name=r30f00v01
+model 10, rh=50.000000, sd=16, alpha=2.143907, name=r50f95v01
+model 11, rh=50.000000, sd=17, alpha=2.035002, name=r50f80v01
+model 12, rh=50.000000, sd=18, alpha=1.710413, name=r50f50v01
+model 13, rh=50.000000, sd=19, alpha=1.335211, name=r50f30v01
+model 14, rh=50.000000, sd=20, alpha=1.043826, name=r50f20v01
+model 15, rh=50.000000, sd=21, alpha=0.608187, name=r50f10v01
+model 16, rh=50.000000, sd=22, alpha=0.288708, name=r50f05v01
+model 17, rh=50.000000, sd=23, alpha=0.039397, name=r50f02v01
+model 18, rh=50.000000, sd=24, alpha=-0.057594, name=r50f01v01
+model 19, rh=50.000000, sd=25, alpha=-0.163361, name=r50f00v01
+model 20, rh=70.000000, sd=16, alpha=2.137311, name=r70f95v01
+model 21, rh=70.000000, sd=17, alpha=2.043434, name=r70f80v01
+model 22, rh=70.000000, sd=18, alpha=1.755064, name=r70f50v01
+model 23, rh=70.000000, sd=19, alpha=1.406821, name=r70f30v01
+model 24, rh=70.000000, sd=20, alpha=1.125734, name=r70f20v01
+model 25, rh=70.000000, sd=21, alpha=0.687209, name=r70f10v01
+model 26, rh=70.000000, sd=22, alpha=0.350723, name=r70f05v01
+model 27, rh=70.000000, sd=23, alpha=0.078252, name=r70f02v01
+model 28, rh=70.000000, sd=24, alpha=-0.030262, name=r70f01v01
+model 29, rh=70.000000, sd=25, alpha=-0.150511, name=r70f00v01
+model 30, rh=75.000000, sd=16, alpha=2.100183, name=r75f95v01
+model 31, rh=75.000000, sd=17, alpha=2.022257, name=r75f80v01
+model 32, rh=75.000000, sd=18, alpha=1.775438, name=r75f50v01
+model 33, rh=75.000000, sd=19, alpha=1.462811, name=r75f30v01
+model 34, rh=75.000000, sd=20, alpha=1.198899, name=r75f20v01
+model 35, rh=75.000000, sd=21, alpha=0.767105, name=r75f10v01
+model 36, rh=75.000000, sd=22, alpha=0.418119, name=r75f05v01
+model 37, rh=75.000000, sd=23, alpha=0.122672, name=r75f02v01
+model 38, rh=75.000000, sd=24, alpha=0.001447, name=r75f01v01
+model 39, rh=75.000000, sd=25, alpha=-0.135371, name=r75f00v01
+model 40, rh=80.000000, sd=16, alpha=2.014584, name=r80f95v01
+model 41, rh=80.000000, sd=17, alpha=1.947383, name=r80f80v01
+model 42, rh=80.000000, sd=18, alpha=1.730759, name=r80f50v01
+model 43, rh=80.000000, sd=19, alpha=1.448107, name=r80f30v01
+model 44, rh=80.000000, sd=20, alpha=1.203092, name=r80f20v01
+model 45, rh=80.000000, sd=21, alpha=0.789541, name=r80f10v01
+model 46, rh=80.000000, sd=22, alpha=0.444780, name=r80f05v01
+model 47, rh=80.000000, sd=23, alpha=0.145121, name=r80f02v01
+model 48, rh=80.000000, sd=24, alpha=0.020135, name=r80f01v01
+model 49, rh=80.000000, sd=25, alpha=-0.122604, name=r80f00v01
+model 50, rh=85.000000, sd=16, alpha=1.926905, name=r85f95v01
+model 51, rh=85.000000, sd=17, alpha=1.867074, name=r85f80v01
+model 52, rh=85.000000, sd=18, alpha=1.671930, name=r85f50v01
+model 53, rh=85.000000, sd=19, alpha=1.412248, name=r85f30v01
+model 54, rh=85.000000, sd=20, alpha=1.182958, name=r85f20v01
+model 55, rh=85.000000, sd=21, alpha=0.787945, name=r85f10v01
+model 56, rh=85.000000, sd=22, alpha=0.451435, name=r85f05v01
+model 57, rh=85.000000, sd=23, alpha=0.154123, name=r85f02v01
+model 58, rh=85.000000, sd=24, alpha=0.028725, name=r85f01v01
+model 59, rh=85.000000, sd=25, alpha=-0.115344, name=r85f00v01
+model 60, rh=90.000000, sd=16, alpha=1.844781, name=r90f95v01
+model 61, rh=90.000000, sd=17, alpha=1.793252, name=r90f80v01
+model 62, rh=90.000000, sd=18, alpha=1.622128, name=r90f50v01
+model 63, rh=90.000000, sd=19, alpha=1.388869, name=r90f30v01
+model 64, rh=90.000000, sd=20, alpha=1.177562, name=r90f20v01
+model 65, rh=90.000000, sd=21, alpha=0.802556, name=r90f10v01
+model 66, rh=90.000000, sd=22, alpha=0.472223, name=r90f05v01
+model 67, rh=90.000000, sd=23, alpha=0.172163, name=r90f02v01
+model 68, rh=90.000000, sd=24, alpha=0.043171, name=r90f01v01
+model 69, rh=90.000000, sd=25, alpha=-0.106904, name=r90f00v01
+model 70, rh=95.000000, sd=16, alpha=1.742938, name=r95f95v01
+model 71, rh=95.000000, sd=17, alpha=1.703477, name=r95f80v01
+model 72, rh=95.000000, sd=18, alpha=1.569192, name=r95f50v01
+model 73, rh=95.000000, sd=19, alpha=1.377677, name=r95f30v01
+model 74, rh=95.000000, sd=20, alpha=1.196046, name=r95f20v01
+model 75, rh=95.000000, sd=21, alpha=0.853944, name=r95f10v01
+model 76, rh=95.000000, sd=22, alpha=0.531313, name=r95f05v01
+model 77, rh=95.000000, sd=23, alpha=0.219460, name=r95f02v01
+model 78, rh=95.000000, sd=24, alpha=0.079325, name=r95f01v01
+model 79, rh=95.000000, sd=25, alpha=-0.088919, name=r95f00v01
+
+Loading water-vapor correction coefficients.
+chl_hu: using  443.00  555.00  660.00
+rh_ndims=5 rh_dimids=4 3 2 1 0 
+morel f/q file dimensions n_a=13 n_n=17 n_c=6 n_s=6 n_w=7 
+
+Reading foq file /Applications/seadas-7.3/ocssw/run/data/common/morel_fq.nc ndims=5 nvars=6 sds_id=5 var=foq
+
+
+Closing foq file /Applications/seadas-7.3/ocssw/run/data/common/morel_fq.nc
+
+
+Morel f/Q table from file /Applications/seadas-7.3/ocssw/run/data/common/morel_fq.nc
+
+Applying ocean BRDF including:
+    Reflection/refraction for upwelling radiance.
+    Reflection/refraction for downwelling radiance.
+    Morel f/Q
+
+Raman correction unsupported for this sensor. 
+No Raman scattering correction calculated for Rrs. 
+
+Processing scan #    50 (51 of 5685) after     11 seconds
+Processing scan #   100 (101 of 5685) after     22 seconds
+Processing scan #   150 (151 of 5685) after     33 seconds
+Processing scan #   200 (201 of 5685) after     44 seconds
+Processing scan #   250 (251 of 5685) after     55 seconds
+Processing scan #   300 (301 of 5685) after     65 seconds
+Processing scan #   350 (351 of 5685) after     76 seconds
+Processing scan #   400 (401 of 5685) after     87 seconds
+Processing scan #   450 (451 of 5685) after     98 seconds
+Processing scan #   500 (501 of 5685) after    109 seconds
+Processing scan #   550 (551 of 5685) after    120 seconds
+Processing scan #   600 (601 of 5685) after    131 seconds
+Processing scan #   650 (651 of 5685) after    141 seconds
+Processing scan #   700 (701 of 5685) after    151 seconds
+Processing scan #   750 (751 of 5685) after    162 seconds
+Processing scan #   800 (801 of 5685) after    174 seconds
+Processing scan #   850 (851 of 5685) after    185 seconds
+Processing scan #   900 (901 of 5685) after    198 seconds
+Processing scan #   950 (951 of 5685) after    212 seconds
+Processing scan #  1000 (1001 of 5685) after    225 seconds
+Processing scan #  1050 (1051 of 5685) after    238 seconds
+Processing scan #  1100 (1101 of 5685) after    251 seconds
+Processing scan #  1150 (1151 of 5685) after    265 seconds
+Processing scan #  1200 (1201 of 5685) after    280 seconds
+Processing scan #  1250 (1251 of 5685) after    294 seconds
+Processing scan #  1300 (1301 of 5685) after    309 seconds
+Processing scan #  1350 (1351 of 5685) after    323 seconds
+Processing scan #  1400 (1401 of 5685) after    336 seconds
+Processing scan #  1450 (1451 of 5685) after    349 seconds
+Processing scan #  1500 (1501 of 5685) after    361 seconds
+Processing scan #  1550 (1551 of 5685) after    372 seconds
+Processing scan #  1600 (1601 of 5685) after    384 seconds
+Processing scan #  1650 (1651 of 5685) after    395 seconds
+Processing scan #  1700 (1701 of 5685) after    407 seconds
+Processing scan #  1750 (1751 of 5685) after    420 seconds
+Processing scan #  1800 (1801 of 5685) after    434 seconds
+Processing scan #  1850 (1851 of 5685) after    448 seconds
+Processing scan #  1900 (1901 of 5685) after    463 seconds
+Processing scan #  1950 (1951 of 5685) after    481 seconds
+Processing scan #  2000 (2001 of 5685) after    499 seconds
+Processing scan #  2050 (2051 of 5685) after    517 seconds
+Processing scan #  2100 (2101 of 5685) after    535 seconds
+Processing scan #  2150 (2151 of 5685) after    552 seconds
+Processing scan #  2200 (2201 of 5685) after    565 seconds
+Processing scan #  2250 (2251 of 5685) after    577 seconds
+Processing scan #  2300 (2301 of 5685) after    589 seconds
+Processing scan #  2350 (2351 of 5685) after    601 seconds
+Processing scan #  2400 (2401 of 5685) after    614 seconds
+Processing scan #  2450 (2451 of 5685) after    627 seconds
+Processing scan #  2500 (2501 of 5685) after    640 seconds
+Processing scan #  2550 (2551 of 5685) after    653 seconds
+Processing scan #  2600 (2601 of 5685) after    665 seconds
+Processing scan #  2650 (2651 of 5685) after    677 seconds
+Processing scan #  2700 (2701 of 5685) after    689 seconds
+Processing scan #  2750 (2751 of 5685) after    700 seconds
+Processing scan #  2800 (2801 of 5685) after    713 seconds
+Processing scan #  2850 (2851 of 5685) after    725 seconds
+Processing scan #  2900 (2901 of 5685) after    738 seconds
+Processing scan #  2950 (2951 of 5685) after    751 seconds
+Processing scan #  3000 (3001 of 5685) after    766 seconds
+Processing scan #  3050 (3051 of 5685) after    779 seconds
+Processing scan #  3100 (3101 of 5685) after    792 seconds
+Processing scan #  3150 (3151 of 5685) after    806 seconds
+Processing scan #  3200 (3201 of 5685) after    820 seconds
+Processing scan #  3250 (3251 of 5685) after    832 seconds
+Processing scan #  3300 (3301 of 5685) after    845 seconds
+Processing scan #  3350 (3351 of 5685) after    857 seconds
+Processing scan #  3400 (3401 of 5685) after    868 seconds
+Processing scan #  3450 (3451 of 5685) after    879 seconds
+Processing scan #  3500 (3501 of 5685) after    890 seconds
+Processing scan #  3550 (3551 of 5685) after    901 seconds
+Processing scan #  3600 (3601 of 5685) after    912 seconds
+Processing scan #  3650 (3651 of 5685) after    923 seconds
+Processing scan #  3700 (3701 of 5685) after    935 seconds
+Processing scan #  3750 (3751 of 5685) after    946 seconds
+Processing scan #  3800 (3801 of 5685) after    959 seconds
+Processing scan #  3850 (3851 of 5685) after    970 seconds
+Processing scan #  3900 (3901 of 5685) after    983 seconds
+Processing scan #  3950 (3951 of 5685) after    996 seconds
+Processing scan #  4000 (4001 of 5685) after   1009 seconds
+Processing scan #  4050 (4051 of 5685) after   1022 seconds
+Processing scan #  4100 (4101 of 5685) after   1034 seconds
+Processing scan #  4150 (4151 of 5685) after   1047 seconds
+Processing scan #  4200 (4201 of 5685) after   1059 seconds
+Processing scan #  4250 (4251 of 5685) after   1072 seconds
+Processing scan #  4300 (4301 of 5685) after   1085 seconds
+Processing scan #  4350 (4351 of 5685) after   1098 seconds
+Processing scan #  4400 (4401 of 5685) after   1111 seconds
+Processing scan #  4450 (4451 of 5685) after   1123 seconds
+Processing scan #  4500 (4501 of 5685) after   1137 seconds
+Processing scan #  4550 (4551 of 5685) after   1151 seconds
+Processing scan #  4600 (4601 of 5685) after   1165 seconds
+Processing scan #  4650 (4651 of 5685) after   1179 seconds
+Processing scan #  4700 (4701 of 5685) after   1193 seconds
+Processing scan #  4750 (4751 of 5685) after   1207 seconds
+Processing scan #  4800 (4801 of 5685) after   1222 seconds
+Processing scan #  4850 (4851 of 5685) after   1237 seconds
+Processing scan #  4900 (4901 of 5685) after   1252 seconds
+Processing scan #  4950 (4951 of 5685) after   1268 seconds
+Processing scan #  5000 (5001 of 5685) after   1283 seconds
+Processing scan #  5050 (5051 of 5685) after   1297 seconds
+Processing scan #  5100 (5101 of 5685) after   1311 seconds
+Processing scan #  5150 (5151 of 5685) after   1326 seconds
+Processing scan #  5200 (5201 of 5685) after   1340 seconds
+Processing scan #  5250 (5251 of 5685) after   1354 seconds
+Processing scan #  5300 (5301 of 5685) after   1367 seconds
+Processing scan #  5350 (5351 of 5685) after   1379 seconds
+Processing scan #  5400 (5401 of 5685) after   1390 seconds
+Processing scan #  5450 (5451 of 5685) after   1401 seconds
+Processing scan #  5500 (5501 of 5685) after   1411 seconds
+Processing scan #  5550 (5551 of 5685) after   1421 seconds
+Processing scan #  5600 (5601 of 5685) after   1432 seconds
+Processing scan #  5650 (5651 of 5685) after   1442 seconds
+
+Percentage of pixels flagged:
+Flag # 1:          ATMFAIL    2423486   7.6575
+Flag # 2:             LAND   11738084  37.0890
+Flag # 3:         PRODWARN      16110   0.0509
+Flag # 4:          HIGLINT          0   0.0000
+Flag # 5:             HILT          0   0.0000
+Flag # 6:         HISATZEN          0   0.0000
+Flag # 7:           COASTZ    1579591   4.9911
+Flag # 8:            SPARE          0   0.0000
+Flag # 9:       STRAYLIGHT          0   0.0000
+Flag #10:           CLDICE   22197884  70.1391
+Flag #11:        COCCOLITH     126025   0.3982
+Flag #12:          TURBIDW     890757   2.8145
+Flag #13:         HISOLZEN    3399076  10.7401
+Flag #14:            SPARE          0   0.0000
+Flag #15:            LOWLW     595909   1.8829
+Flag #16:          CHLFAIL     203678   0.6436
+Flag #17:          NAVWARN          0   0.0000
+Flag #18:           ABSAER          0   0.0000
+Flag #19:            SPARE          0   0.0000
+Flag #20:       MAXAERITER     255318   0.8067
+Flag #21:         MODGLINT          0   0.0000
+Flag #22:          CHLWARN       1637   0.0052
+Flag #23:          ATMWARN     440662   1.3924
+Flag #24:            SPARE          0   0.0000
+Flag #25:           SEAICE     625456   1.9763
+Flag #26:          NAVFAIL          0   0.0000
+Flag #27:           FILTER          0   0.0000
+Flag #28:            SPARE          0   0.0000
+Flag #29:        BOWTIEDEL          0   0.0000
+Flag #30:            HIPOL          0   0.0000
+Flag #31:         PRODFAIL   29054471  91.8039
+Flag #32:            SPARE          0   0.0000
+
+End MSl12 processing at 2016011111724000
+Processing Rate = 3.920690 scans/sec
+
+
+Processing Completed
