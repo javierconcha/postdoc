@@ -1,0 +1,286 @@
+-----------------------------------------------------------
+2016-01-07
+To log in into the internal network:
+
+First log in into torii:
+ssh -Y obpg-torii.sci.gsfc.nasa.gov
+u/n: jconchas
+p/w: ODi33i69*odi
+
+Second, log in into anly104:
+anly104 (alias) 
+u/n: jconchas
+p/w: ODi33i69*
+
+Output:
+Last login: Thu Jan  7 17:33:59 on ttys003
+gs616-tidal:~ jconchas$ source ~/.bash_profile
+jconchas@gs616-tidal:~$ ssh -Y obpg-torii.sci.gsfc.nasa.gov
+The authenticity of host 'obpg-torii.sci.gsfc.nasa.gov (169.154.128.91)' can't be established.
+ECDSA key fingerprint is SHA256:A6b8P6/n7tTdFTuIMB6PikiZ5GqhRPyHC+g1XdIreBQ.
+Are you sure you want to continue connecting (yes/no)? y
+Please type 'yes' or 'no': yes
+Warning: Permanently added 'obpg-torii.sci.gsfc.nasa.gov,169.154.128.91' (ECDSA) to the list of known hosts.
+
+---------------------------------------------------------------
+
+  This U.S. Government computer is for authorized users only.
+
+  By accessing this system, you are consenting to complete
+  monitoring with no expectation of privacy. Unauthorized 
+  access or use may subject you to disciplinary action and
+  criminal prosecution.
+
+---------------------------------------------------------------
+
+
+jconchas@obpg-torii.sci.gsfc.nasa.gov's password: 
+/opt/X11/bin/xauth:  file /Users/jconchas/.Xauthority does not exist
+                                                                    Last login: Fri Jan  8 15:07:34 2016 from gs616-fallout.domain.sys
+/usr/local/bin/xauth:  file /home/jconchas/.Xauthority does not exist
+[jconchas@obpg-torii ~]$ passwd   
+Changing local password for jconchas
+Old Password:
+
+You can now choose the new password.
+A valid password should be a mix of upper and lower case letters,
+digits and other characters.  You can use a 12 character long
+password with characters from at least 3 of these 4 classes, or
+a 10 character long password containing characters from all the
+classes.  Characters that form a common pattern are discarded by
+the check.
+Alternatively, if noone else can see your terminal now, you can
+pick this as your password: "junk_impose-rarely".
+Enter new password: 
+Weak password: too short.
+Try again.
+
+You can now choose the new password.
+A valid password should be a mix of upper and lower case letters,
+digits and other characters.  You can use a 12 character long
+password with characters from at least 3 of these 4 classes, or
+a 10 character long password containing characters from all the
+classes.  Characters that form a common pattern are discarded by
+the check.
+Alternatively, if noone else can see your terminal now, you can
+pick this as your password: "junk&morbid.Koran".
+Enter new password: 
+Re-type new password: 
+[jconchas@obpg-torii ~]$ pwd
+/home/jconchas
+[jconchas@obpg-torii ~]$ anly104 
+---------------------------------------------------------------
+ 
+ WARNING! This is a U.S. Government Computer
+ 
+ This U.S. Government computer is for authorized users only.
+ 
+ By accessing this system, you are consenting to complete
+ monitoring with no expectation of privacy. Unauthorized
+ access or use may subject you to disciplinary action and
+ criminal prosecution.
+ 
+ ---------------------------------------------------------------
+jconchas@anly104.domain.sdps's password: 
+Last login: Fri Jan  8 15:07:42 2016 from 192.168.2.6
+jconchas@anly104:~$ passwd
+Changing password for jconchas.
+(current) UNIX password: 
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+jconchas@anly104:~$ pwd
+/home/jconchas
+jconchas@anly104:~$ ls -la
+total 24
+drwxr-xr-x  2 jconchas jconchas 4096 Jan  8 15:00 .
+drwxr-xr-x 17 root     root     4096 Jan  8 15:08 ..
+-rw-------  1 jconchas jconchas   92 Jan  8 15:00 .bash_history
+-rw-r--r--  1 jconchas jconchas  220 Jan  8 14:51 .bash_logout
+-rw-r--r--  1 jconchas jconchas 3486 Jan  8 14:51 .bashrc
+-rw-r--r--  1 jconchas jconchas  675 Jan  8 14:51 .profile
+lrwxrwxrwx  1 jconchas jconchas   15 Jan  8 15:00 data2 -> /data2/jconchas
+lrwxrwxrwx  1 jconchas jconchas   15 Jan  8 14:59 data5 -> /data5/jconchas
+jconchas@anly104:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       184G   12G  163G   7% /
+udev             12G  4.0K   12G   1% /dev
+tmpfs           2.4G  296K  2.4G   1% /run
+none            5.0M     0  5.0M   0% /run/lock
+none             12G     0   12G   0% /run/shm
+/dev/sdb1       2.8T  513G  2.3T  19% /data1
+/dev/sdc1       2.8T  150G  2.6T   6% /data2
+/dev/sdd1       2.8T  891G  1.9T  32% /data3
+/dev/sde1       2.8T  331G  2.5T  12% /data4
+/dev/sdf1       2.8T  104G  2.7T   4% /data5
+/dev/sda3       459G  217G  219G  50% /home
+jconchas@anly104:~$ cat .       
+./             ../            .bash_history  .bash_logout   .bashrc        .profile       
+jconchas@anly104:~$ cat .profile 
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+jconchas@anly104:~$ ls
+data2  data5
+jconchas@anly104:~$ pwd
+/home/jconchas
+jconchas@anly104:~$ 
+
+From Wayne:
+I forgot we have a more potent version of getfile: gethiddenfile,  and it works on getting GOCI files
+
+Here is the setup for it
+
+wget http://oceandata.sci.gsfc.nasa.gov/cgi/getfile/<file>
+
+or I do
+
+alias get_sea wget http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/!*
+
+(above on 1 line)
+
+Wayne
+
+I downloaded an image from:
+http://kosc.kiost.ac/kosc_web/GOCI_download/SatelliteData.html
+COMS_GOCI_L1B_GA_20160107021643.he5
+
+--------------------------------------------------
+2016-01-11 Mon
+For downloading from a ftp using curl:
+jconchas@gs616-tidal:~/Documents/Research/LANDSAT8/Images/LC80720212014209LGN00$ curl -L -O ftp://samoa.gsfc.nasa.gov/pub/franz/LC80720212014209LGN00/LC80720212014209LGN00_{B[1-11].TIF,GEO.nc,MTL.png,MTL.txt,BQA.TIF} > /dev/null
+
+to se values in the nc header:
+ncdump -h LC80720212014209LGN00_L2.nc
+
+I run the image that Bryan sent me both command line and GUI. I used aer_opt=-1 as suggested by Bryan.
+From ftp://samoa.gsfc.nasa.gov/pub/franz/LC80720212014209LGN00/
+LC80720212014209LGN00_L2aer_opt1.nc: created in command line
+L2014209213352.L2_LAC_OCseadas: created in GUI
+
+--------------------------------------------------
+2016-01-12 Tue
+I run the image that Bryan sent me both command line and GUI. I used aer_opt=-1 as suggested by Bryan:
+
+jconchas@gs616-tidal:~/Documents/Research/LANDSAT8/Images/LC80720212014209LGN00$ l2gen ifile=LC80720212014209LGN00_MTL.txt ofile1=LC80720212014209LGN00_L2aer_optn1_command2.nc aer_opt=-1 geofile=LC80720212014209LGN00_GEO.nc
+
+When trying to run l2gen through command line with the geofile given by Bryan (NOT NECESSARY. l2gen handles it with metadata):
+Exit get_oli_angles with error
+-E- /Users/seadas/ocssw/build/src/l2gen/l1_oli.c line 481: non-existent or incompatible geofile.
+-E- File specified must be an Enhanced Meta-Data file (EMD format)
+
+l2gen installed in anly104:
+svn co svn://svn101/OCSSW/trunk ocssw
+
+- Bryan's file are not correct: Here is the reason:
+----------------------
+Javier,
+
+The OLI images are rgb, chl, and 3-color composite water-leaving reflectance.
+
+The processing was using
+
+                 :aer_opt = "-1" ;
+                 :aer_wave_short = "865" ;
+                 :aer_wave_long = "2201" ;
+
+but the code has changed since these were generated, from reading L1B radiances 
+to reading L1B reflectances.  Nima seems to believe this was done wrong [missing 
+factor of cos(solarzenith)], so if you are not able to reproduce the images, I 
+would like to know that.
+
+
+I've put one of the L1B files here:
+
+ftp://samoa.gsfc.nasa.gov/pub/franz/LC80720212014209LGN00/
+
+with corresponding L2
+
+ftp://samoa.gsfc.nasa.gov/pub/franz/LC80720212014209LGN00_L2.nc
+
+You can see all parameters via:
+
+ncdump -h LC80720212014209LGN00_L2.nc
+
+-- bryan
+-----------------
+--------------------------------------------------
+2016-01-14 Thu
+
+Download GOCI image in anly104:
+jconchas@anly104:~/data2/GOCI$ wget http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/COMS_GOCI_L1B_GA_20151230001643.he5
+--2016-01-14 11:02:53--  http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/COMS_GOCI_L1B_GA_20151230001643.he5
+Resolving oceandata.sci.gsfc.nasa.gov (oceandata.sci.gsfc.nasa.gov)... 192.168.2.33, fddd:0:0:2::33
+Connecting to oceandata.sci.gsfc.nasa.gov (oceandata.sci.gsfc.nasa.gov)|192.168.2.33|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 776486057 (741M) [application/octet-stream]
+Saving to: `COMS_GOCI_L1B_GA_20151230001643.he5'
+
+100%[============================================================================================>] 776,486,057 90.2M/s   in 9.1s    
+
+2016-01-14 11:03:02 (81.3 MB/s) - `COMS_GOCI_L1B_GA_20151230001643.he5' saved [776486057/776486057]
+
+to download all images from OBPG server:
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images$ curl -O http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/COMS_GOCI_L1B_GA_201512240[0-7]1640.he5
+
+to see header of he5, like GOCI data
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_20160107021643.he5$ h5dump -H COMS_GOCI_L1B_GA_20160107021643.he5
+
+to download from anly104 to torii:
+from anly104:
+jconchas@anly104:/data2/jconchas/GOCI$ scp COMS_GOCI_L1B_GA_201512240*.he5 jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/
+
+to downlaod from torii to my mac:
+from the folder where I want to download to:
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ scp jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/* .
+
+to copy from a list to a folder/directory:
+jconchas@anly104:~/data2/LANDSAT8$ find . -name "*_L2.nc" -exec cp '{}' artic_L2/ \;
+
+to cp a directory:
+jconchas@anly104:~/data2/LANDSAT8$ scp -rp artic_L2/ jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/  
+
+--------------------------------------------------
+2016-01-15 Fri
+to check the file extension:
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ file COMS_GOCI_L1B_GA_20151224001640.he5 
+COMS_GOCI_L1B_GA_20151224001640.he5: gzip compressed data, was "COMS_GOCI_L1B_GA_20151224001640", from Unix, last modified: Thu Dec 24 12:41:21 2015
+
+change name to compressed extention:
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ mv COMS_GOCI_L1B_GA_20151224001640.he5 COMS_GOCI_L1B_GA_20151224001640.he5.gz 
+
+decompress:
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ gunzip COMS_GOCI_L1B_GA_20151224001640.he5.gz 
+
+to change all of them at the same time:
+$ find ./ -name "*he5" -exec mv '{}' '{}'.gz \;
+
+to unzip all of them at the same time:
+$ find ./ -name "*he5.gz" -exec gunzip '{}' \;
+
+Done:
+- Processed GOCI images: COMS_GOCI_L1B_GA_20151224001640_L2.nc in my machine
+- Processing GOCI images in anly104: 
+jconchas@anly104:~/data2/GOCI$ ls
+COMS_GOCI_L1B_GA_201512240x1640/  COMS_GOCI_L1B_GA_201512300x1643/
+- Processed L8 from Bryan in anly104 and transfered to my machine. Saved in artic_L2/
+(END) 
