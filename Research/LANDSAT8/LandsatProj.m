@@ -1,13 +1,17 @@
 
+
+%%
+[I,ImageDate,R,h] = landsat(072,021,'2014-07-28');
+
+%%
 figure('Color','white')
 ax = worldmap([45 90],[170 -120]);
 load coastlines
 geoshow(ax, coastlat, coastlon,...
 'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-%%
-[I2014209,ImageDate2014209,R2014209,h2014209] = landsat(072,021,'2014-07-28','nomap');
-R2014209.LatitudeLimits(2)
-R2014209.LongitudeLimits(2)
+linem([R.LatitudeLimits(1) R.LatitudeLimits(1) R.LatitudeLimits(2) R.LatitudeLimits(2) R.LatitudeLimits(1)],...
+    [R.LongitudeLimits(1) R.LongitudeLimits(2) R.LongitudeLimits(2) R.LongitudeLimits(1) R.LongitudeLimits(1)],...
+    'r');
 %%
 landsat(072,021,'2014-07-28'); k = waitforbuttonpress;
 landsat(077,010,'2014-07-15'); k = waitforbuttonpress;
