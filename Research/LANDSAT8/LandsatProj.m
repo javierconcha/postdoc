@@ -5,13 +5,14 @@
 
 %%
 figure('Color','white')
-ax = worldmap([45 90],[170 -120]);
+ax = worldmap([52 75],[-180 -120]);
 load coastlines
 geoshow(ax, coastlat, coastlon,...
 'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-linem([R.LatitudeLimits(1) R.LatitudeLimits(1) R.LatitudeLimits(2) R.LatitudeLimits(2) R.LatitudeLimits(1)],...
-    [R.LongitudeLimits(1) R.LongitudeLimits(2) R.LongitudeLimits(2) R.LongitudeLimits(1) R.LongitudeLimits(1)],...
-    'r');
+hold on
+geoshow(ax,[R.LatitudeLimits(1) R.LatitudeLimits(2) R.LatitudeLimits(2) R.LatitudeLimits(1) R.LatitudeLimits(1)],...
+    [R.LongitudeLimits(1) R.LongitudeLimits(1) R.LongitudeLimits(2) R.LongitudeLimits(2) R.LongitudeLimits(1)],...
+    'DisplayType','polygon', 'FaceColor', 'red','FaceAlpha','.3');
 %%
 landsat(072,021,'2014-07-28'); k = waitforbuttonpress;
 landsat(077,010,'2014-07-15'); k = waitforbuttonpress;
