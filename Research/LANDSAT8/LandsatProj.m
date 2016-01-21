@@ -1,22 +1,38 @@
-function LandsatProj(im_id)
+function LandsatProj(filepath,varargin)
 
-    CORNER_UL_LAT_PRODUCT = 56.99286
-    CORNER_UL_LON_PRODUCT = -160.06982
-    CORNER_UR_LAT_PRODUCT = 56.96465
-    CORNER_UR_LON_PRODUCT = -156.13629
-    CORNER_LL_LAT_PRODUCT = 54.81793
-    CORNER_LL_LON_PRODUCT = -160.01157
-    CORNER_LR_LAT_PRODUCT = 54.79192
-    CORNER_LR_LON_PRODUCT = -156.29201
+%% Get values from 
+parval_UL_LAT = GetParMTL(filepath,'CORNER_UL_LAT_PRODUCT');
+parval_UL_LON = GetParMTL(filepath,'CORNER_UL_LON_PRODUCT');
+parval_UR_LAT = GetParMTL(filepath,'CORNER_UR_LAT_PRODUCT');
+parval_UR_LON = GetParMTL(filepath,'CORNER_UR_LON_PRODUCT');
+parval_LL_LAT = GetParMTL(filepath,'CORNER_LL_LAT_PRODUCT');
+parval_LL_LON = GetParMTL(filepath,'CORNER_LL_LON_PRODUCT');
+parval_LR_LAT = GetParMTL(filepath,'CORNER_LR_LAT_PRODUCT');
+parval_LR_LON = GetParMTL(filepath,'CORNER_LR_LON_PRODUCT');  
+
+parval_PATH = GetParMTL(filepath,'WRS_PATH');
+parval_ROW = GetParMTL(filepath,'WRS_ROW');
+parval_DATE = GetParMTL(filepath,'DATE_ACQUIRED');
 
 % From MTL file
-
-figure('Color','white')
-ax = worldmap([52 75],[-180 -120]);
-load coastlines
-geoshow(ax, coastlat, coastlon,...
-'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-hold on
-geoshow(ax,[R.LatitudeLimits(1) R.LatitudeLimits(2) R.LatitudeLimits(2) R.LatitudeLimits(1) R.LatitudeLimits(1)],...
-    [R.LongitudeLimits(1) R.LongitudeLimits(1) R.LongitudeLimits(2) R.LongitudeLimits(2) R.LongitudeLimits(1)],...
+geoshow([parval_UL_LAT parval_UR_LAT parval_LR_LAT parval_LL_LAT parval_UL_LAT],...
+           [parval_UL_LON parval_UR_LON parval_LR_LON parval_LL_LON parval_UL_LON],...
     'DisplayType','polygon', 'FaceColor', 'red','FaceAlpha','.3');
+
+%% Set defaults: 
+MakeRGB = true;
+%% Parse inputs: 
+tmp = strcmpi(varargin,'norgb'); 
+if any(tmp)
+    MakeRGB = false; 
+end
+%% to use landsat.m (it uses internet to download the image)
+if MakeRGB
+    [I,ImageDate,R,h] = landsat(parval_PATH,parval_ROW,parval_DATE);
+end
+
+%% Clean up: 
+
+if nargout==0 
+    clear I R h ImageDate
+end
