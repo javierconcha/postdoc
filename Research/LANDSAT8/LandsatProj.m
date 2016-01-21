@@ -19,6 +19,8 @@ geoshow([parval_UL_LAT parval_UR_LAT parval_LR_LAT parval_LL_LAT parval_UL_LAT],
            [parval_UL_LON parval_UR_LON parval_LR_LON parval_LL_LON parval_UL_LON],...
     'DisplayType','polygon', 'FaceColor', 'red','FaceAlpha','.3');
 
+str = sprintf('%2.0f%2.0f ',parval_PATH,parval_ROW);
+textm(parval_UL_LAT,parval_UL_LON,str)
 %% Set defaults: 
 MakeRGB = true;
 %% Parse inputs: 
