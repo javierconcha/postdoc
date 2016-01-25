@@ -289,4 +289,55 @@ jconchas@gs616-tidal:~/Documents$ git branch
 
 jconchas@anly104:~/data2$ git branch
 * master
+
+--------------------------------------------------
+2016-01-15 Wed
+
+to create directory with basename
+$ find . -name "*tar" -print0|xargs -0 -I {} basename {} .tar|xargs mkdir
+
+from:
+http://www.cyberciti.biz/faq/linux-unix-bsd-xargs-construct-argument-lists-utility/
+
+to move to same directory name:
+$ find . -type d -name "L*" -exec mv '{}'.tar '{}' \;
+
+to tar file inside a folder:
+$ find . -name "*tar" -print0|xargs -0 -I {} basename {} .tar|xargs -I file tar -xvf ./file/file.tar -C ./file
+
+to move a file to a directory using basename:
+$ find . -name "*jpg" | xargs -I {} basename {} .jpg| xargs -I file mv ./file.jpg ./file/
+
+--------------------------------------------------
+2016-01-23 Sat
+to create a tmux window inside a session:
+- create session:
+$ tmux
+- First enter the session:
+$ tmux a -t 0
+- Create window:
+^b c
+- to switch between windows
+^b n
+^b p
+- to exit/detach session:
+^b d
+
+to see L2.nc properties:
+jconchas@gs616-tidal:Images$ file LC80720212014209LGN00/LC80720212014209LGN00_L2.nc 
+LC80720212014209LGN00/LC80720212014209LGN00_L2.nc: Hierarchical Data Format (version 5) data
+
+jconchas@gs616-tidal:Images$ file LC80720212014209LGN00/LC80720212014209LGN00_B2.TIF 
+LC80720212014209LGN00/LC80720212014209LGN00_B2.TIF: TIFF image data, little-endian
+
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ file COMS_GOCI_L1B_GA_20151224001640.he5 
+COMS_GOCI_L1B_GA_20151224001640.he5: Hierarchical Data Format (version 5) data
+
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ h5dump -H COMS_GOCI_L1B_GA_20151224001640.he5 
+HDF5 "COMS_GOCI_L1B_GA_20151224001640.he5" {
+GROUP "/" {
+
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ ncdump -h COMS_GOCI_L1B_GA_20151224001640_L2.ncnetcdf COMS_GOCI_L1B_GA_20151224001640_L2 {
+dimensions:
+
 (END) 
