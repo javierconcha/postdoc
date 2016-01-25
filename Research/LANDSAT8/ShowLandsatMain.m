@@ -15,6 +15,8 @@ ax = worldmap([52 75],[170 -120]);
 load coastlines
 geoshow(ax, coastlat, coastlon,...
 'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 hold on
 
 for idx=1:size(s{:},1)

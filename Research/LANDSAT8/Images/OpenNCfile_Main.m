@@ -14,7 +14,7 @@ ncinfo(filepath)
 %         filename = infiles(imag).name;
 longitude   = ncread(filepath,'/navigation_data/longitude');
 latitude    = ncread(filepath,'/navigation_data/latitude');
-ag412       = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
 Rrs443      = ncread(filepath,'/geophysical_data/Rrs_443');
 Rrs561      = ncread(filepath,'/geophysical_data/Rrs_561');
 Lt443       = ncread(filepath,'/geophysical_data/Lt_443');
@@ -32,10 +32,71 @@ julday      = str2double(filename(14:16));
 %     end
 
 % figure,imagesc(ag412)
-%%
+%% Plot chl_oc3 from nc from SeaDAS
+plusdegress = 0.5;
+latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+
 figure('Color','white')
-ax = worldmap([54 60],[-170 -150]);
+% ax = worldmap([52 75],[170 -120]);
+ax = worldmap(latlimplot,lonlimplot);
+
 load coastlines
 geoshow(ax, coastlat, coastlon,...
 'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-geoshow(ax,latitude,longitude,chl_oc3)
+
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+% Display product
+
+geoshow(ax,latitude,longitude,log10(chl_oc3),'DisplayType','surface','ZData',zeros(size(chl_oc3)),'CData',log10(chl_oc3))
+colormap jet
+caxis([log10(0.01),log10(20)]) % from colorbar in SeaDAS
+hcb = colorbar('southoutside');
+% set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
+fs = 11;
+set(hcb,'fontsize',fs,'Location','southoutside')
+set(hcb,'Position',[.2 .15 .6 .05])
+title(hcb,'chl-a [mg m\^-3]','FontSize',fs)
+set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
+% y = get(hcb,'XTick');
+[xmin,xmax] = caxis;
+x = [10^xmin 0.07 0.45 2.99 10^xmax];
+set(hcb,'XTick',log10(x));
+set(hcb,'XTickLabel',x)
+%%
+[DOC,ag412_real] = doc_algorithm_ag412_daily( Rrs443, Rrs561, julday );
+geoshow(latitude,longitude,ag412_real)
+%% Plot ag_412_mlrc from nc from SeaDAS
+
+plusdegress = 0.5;
+latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+
+figure('Color','white')
+% ax = worldmap([52 75],[170 -120]);
+ax = worldmap(latlimplot,lonlimplot);
+
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+% Display product
+
+geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface','ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
+colormap jet
+caxis([log10(0.00030006314),log10(2.968400001526)]) % from colorbar in SeaDAS
+hcb = colorbar('southoutside');
+% set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
+fs = 11;
+set(hcb,'fontsize',fs,'Location','southoutside')
+set(hcb,'Position',[.2 .15 .6 .05])
+title(hcb,'ag\_412\_mlrc [m\^-1]','FontSize',fs)
+set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
+y = get(hcb,'XTick');
+[xmin,xmax] = caxis;
+x = [10^xmin  10^xmax];
+set(hcb,'XTick',log10(x));
+set(hcb,'XTickLabel',x)

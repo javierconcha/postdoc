@@ -1,4 +1,4 @@
-function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs547, jd )
+function [DOC,ag412_real] = doc_algorithm_ag412_daily( Rrs443, Rrs547, jd )
 % Function to determine DOC and ag412 from MODIS Aqua Rrs @ 443 and 547nm
 % Inputs:
 % - Rrs443: remote-sensing reflectance @ 443nm
@@ -18,6 +18,8 @@ cf=1;
 %% A. Mannino DOC algorithm
 Y=-3.070-1.285.*log(Rrs443)+1.107.*log(Rrs547);
 ag412=exp(Y);
+ag412_real = real(ag412);
+
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
 %A1=-0.0047194; A2=-0.002377;
 %B1= 0.0033968; B2= 0.0047885;
@@ -84,6 +86,6 @@ DOC=DOC*12.01; % umol/L to mg/m3
 id=DOC<0 | DOC>3000;
 %id=DOC<0;
 DOC(id)=NaN;
-ag412(id)=NaN;
+ag412_real(id)=NaN;
 % end % noitcnuf
 
