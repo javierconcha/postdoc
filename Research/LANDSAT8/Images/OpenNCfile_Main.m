@@ -64,9 +64,7 @@ set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
 x = [10^xmin 0.07 0.45 2.99 10^xmax];
 set(hcb,'XTick',log10(x));
 set(hcb,'XTickLabel',x)
-%%
-[DOC,ag412_real] = doc_algorithm_ag412_daily( Rrs443, Rrs561, julday );
-geoshow(latitude,longitude,ag412_real)
+
 %% Plot ag_412_mlrc from nc from SeaDAS
 
 plusdegress = 0.5;
@@ -98,5 +96,53 @@ set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
 y = get(hcb,'XTick');
 [xmin,xmax] = caxis;
 x = [10^xmin  10^xmax];
+set(hcb,'XTick',log10(x));
+set(hcb,'XTickLabel',x)
+
+%% From Sergio's script
+[DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs561, julday );
+%% Quick display
+figure('Color','white')
+imagesc(log10(ag412))
+colormap jet
+caxis([log10(min(ag412(:))),log10(max(ag412(:)))])  
+hcb = colorbar('southoutside');
+y = get(hcb,'XTick');
+% [xmin,xmax] = caxis;
+x = 10.^y;
+set(hcb,'XTick',log10(x));
+set(hcb,'XTickLabel',x)
+%%
+plusdegress = 0.5;
+latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+
+figure('Color','white')
+% ax = worldmap([52 75],[170 -120]);
+ax = worldmap(latlimplot,lonlimplot);
+
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+% Display product
+
+geoshow(ax,latitude,longitude,log10(ag412),'DisplayType','surface',...
+      'ZData',zeros(size(ag412)),'CData',log10(ag412))
+colormap jet
+% caxis([log10(min(ag412(:))),log10(max(ag412(:)))]) 
+caxis([log10(0.00030006314),log10(2.968400001526)]) % from colorbar in SeaDAS
+hcb = colorbar('southoutside');
+% set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
+fs = 11;
+set(hcb,'fontsize',fs,'Location','southoutside')
+set(hcb,'Position',[.2 .15 .6 .05])
+title(hcb,'ag\_412 [m\^-1]','FontSize',fs)
+% set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
+y = get(hcb,'XTick');
+% [xmin,xmax] = caxis;
+x = 10.^y;
 set(hcb,'XTick',log10(x));
 set(hcb,'XTickLabel',x)

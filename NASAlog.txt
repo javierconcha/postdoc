@@ -339,5 +339,30 @@ GROUP "/" {
 
 jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ ncdump -h COMS_GOCI_L1B_GA_20151224001640_L2.ncnetcdf COMS_GOCI_L1B_GA_20151224001640_L2 {
 dimensions:
+--------------------------------------------------
+2016-01-25 Mon:
+To do for the week:
+- Check angles in the Arctic
+- Handle GOCI images in Matlab
+- Find parameters used in l2gen for Mannino's ag_412_mlrc algorithm
+
+From l2gen online guide:
+http://oceancolor.gsfc.nasa.gov/WIKI/OCSSW(2f)l2gen(2f)Inputs.html
+
+sunzen
+Solar zenith angle threshold (degrees) used for setting the l2_flags bit #13. (McClain et al., 1995). (Default=75.0)
+satzen
+Spacecraft zenith angle threshold (degrees) for setting the l2_flags bit #6. (McClain et al., 1995). (Default=60.0).
+
+to look pattern in the source src:
+jconchas@anly104:~$ grep --exclude=\*.{svn-name,nc,GEO,TIF,h5,he5} -r "ag_412*" ocssw/
+ocssw/build/src/l2gen/prodgen.c:      case CAT_ag_412_mlrc:
+ocssw/build/src/l2gen/l2prod.h:#define CAT_ag_412_mlrc             277
+ocssw/build/src/l2gen/cdom_mannino.c:   case CAT_ag_412_mlrc:
+ocssw/.svn/pristine/2a/2a3da0fb4c154a207e534dc5af97c2bd4d441b2e.svn-base:    <product name="ag_412_mlrc">
+ocssw/.svn/pristine/25/252c4933e3e078bdde0ffffe8128637affa9d618.svn-base:       case CAT_ag_412_mlrc:
+ocssw/.svn/pristine/03/03b4942599bf75d1c205153f9bada38dd664ae0b.svn-base:      case CAT_ag_412_mlrc:
+ocssw/.svn/pristine/9a/9a247290a80d58c8f6a7791cb9ca531cd5930b38.svn-base:#define CAT_ag_412_mlrc             277
+ocssw/run/data/common/product.xml:    <product name="ag_412_mlrc
 
 (END) 
