@@ -1,8 +1,8 @@
-function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs547, jd )
-% Function to determine DOC and ag412 from MODIS Aqua Rrs @ 443 and 547nm
+function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs561, jd )
+% Function to determine DOC and ag412 from MODIS Aqua Rrs @ 443 and 561nm
 % Inputs:
 % - Rrs443: remote-sensing reflectance @ 443nm
-% - Rrs547: remote-sensing reflectance @ 547nm
+% - Rrs561: remote-sensing reflectance @ 561nm
 % - jd: Julian day
 % Outputs:
 % - DOC: Dissolved Organic Carbon concentration
@@ -16,15 +16,17 @@ function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs547, jd )
 % cf=0 for sigmmoidal function, cf=1 for linear function
 cf=1;
 %% A. Mannino DOC algorithm
-% Y=-3.070-1.285.*log(Rrs443)+1.107.*log(Rrs547); % original
+% Y=-3.070-1.285.*log(Rrs443)+1.107.*log(Rrs561); % original
 
 % from ocssw/build/src/l2gen/cdom_mannino.c:   case CAT_ag_412_mlrc:
 % static float b_ag412[] = {-2.784,-1.146,1.008};
 
 Rrs443(Rrs443<0)=NaN; % Mask neg values for Rrs443
-Rrs547(Rrs547<0)=NaN; % Mask neg values for Rrs547
+Rrs561(Rrs561<0)=NaN; % Mask neg values for Rrs561
 
-Y=-2.784-1.146.*log(Rrs443)+1.008.*log(Rrs547); % original from l2gen
+Rrs561 = conv_rrs_to_555(Rrs561, 561);
+
+Y=-2.784-1.146.*log(Rrs443)+1.008.*log(Rrs561); % original from l2gen
 ag412=exp(Y);
 
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
@@ -38,54 +40,54 @@ B1= 0.003305; B2= 0.003771;
 DOC1=1./(log(ag412).*A1 + B1); % Fall-Winter-Spring
 DOC2=1./(log(ag412).*A2 + B2); % Summer
 if ( jd >= 167 && jd <= 273) % Summer
-    DOC=DOC2;
-    % Nov 1 to May 15 - Fall-Winter-Spring
+      DOC=DOC2;
+      % Nov 1 to May 15 - Fall-Winter-Spring
 elseif (jd>= 305 || (jd >=1 && jd <= 135))
-    DOC=DOC1;
+      DOC=DOC1;
 end %fi
 if( jd >= 136 && jd <= 166) % May 16 to June 15
-    % Sigmoidal weights for blending the two algorithms
-    if (cf==0)
-        t=-6:0.4:6;
-        S=1./(1+exp(-t));
-        W=1-S;
-        np=numel(S);
-        dd=1:np;
-        dd=dd+135;
-        id=dd==jd;
-        W1=S(id);
-        W2=W(id);
-    elseif (cf==1)
-        d1=136;
-        d2=166;
-        a=1/(d2-d1);
-        b=-d1/(d2-d1);
-        W1=a.*jd + b;
-        W2=1-W1;
-    end
-    DOC=W1.*DOC2 + W2.*DOC1;
+      % Sigmoidal weights for blending the two algorithms
+      if (cf==0)
+            t=-6:0.4:6;
+            S=1./(1+exp(-t));
+            W=1-S;
+            np=numel(S);
+            dd=1:np;
+            dd=dd+135;
+            id=dd==jd;
+            W1=S(id);
+            W2=W(id);
+      elseif (cf==1)
+            d1=136;
+            d2=166;
+            a=1/(d2-d1);
+            b=-d1/(d2-d1);
+            W1=a.*jd + b;
+            W2=1-W1;
+      end
+      DOC=W1.*DOC2 + W2.*DOC1;
 end % fi
 if( jd >= 274 && jd <= 304) % October 1-31
-    % Sigmoidal weights for blending the two algorithms
-    if(cf == 0)
-        t=-6:0.4:6;
-        S=1./(1+exp(-t));
-        W=1-S;
-        np=numel(S);
-        dd=1:np;
-        dd=dd+273;
-        id=dd==jd;
-        W1=S(id);
-        W2=W(id);
-    elseif (cf==1)
-        d1=274;
-        d2=304;
-        a=1/(d2-d1);
-        b=-d1/(d2-d1);
-        W1=a.*jd + b;
-        W2=1-W1;
-    end % fi
-    DOC=W1.*DOC1 + W2.*DOC2;
+      % Sigmoidal weights for blending the two algorithms
+      if(cf == 0)
+            t=-6:0.4:6;
+            S=1./(1+exp(-t));
+            W=1-S;
+            np=numel(S);
+            dd=1:np;
+            dd=dd+273;
+            id=dd==jd;
+            W1=S(id);
+            W2=W(id);
+      elseif (cf==1)
+            d1=274;
+            d2=304;
+            a=1/(d2-d1);
+            b=-d1/(d2-d1);
+            W1=a.*jd + b;
+            W2=1-W1;
+      end % fi
+      DOC=W1.*DOC1 + W2.*DOC2;
 end % fi
 %%
 DOC=real(DOC);
@@ -94,34 +96,74 @@ id=DOC<0 | DOC>3000;
 %id=DOC<0;
 DOC(id)=NaN;
 ag412(id)=NaN;
-% end % noitcnuf
+end % noitcnuf
 
+%%
+function Rrs555 = conv_rrs_to_555(Rrs, wave)
+
+if abs(wave-555) > 2
+      if abs(wave-550) <= 2
+            sw = 0.001723;
+            a1 = 0.986;
+            b1 = 0.081495;
+            a2 = 1.031;
+            b2 = 0.000216;
+      elseif abs(wave-550) <= 2
+            sw = 0.001597;
+            a1 = 0.988;
+            b1 = 0.062195;
+            a2 = 1.014;
+            b2 = 0.000128;
+      elseif abs(wave-560) <= 2
+            sw = 0.001148;
+            a1 = 1.023;
+            b1 = -0.103624;
+            a2 = 0.979;
+            b2 = -0.000121;
+      elseif abs(wave-565) <= 2
+            sw = 0.000891;
+            a1 = 1.039;
+            b1 = -0.183044;
+            a2 = 0.971;
+            b2 = -0.000170;
+      else
+            fprintf('Error: Unable to convert Rrs at %f to 555nm.\n',wave);
+            exit;
+      end
+      if (Rrs < sw)
+            Rrs555 = 10.0.^(a1 .* log10(Rrs) - b1);
+      else
+            Rrs555 = a2 .* Rrs - b2;
+      end
+end
+
+end
 %% cdom_mannino.c
 % #include <stdlib.h>
 % #include <math.h>
 % #include "l12_proto.h"
-% 
+%
 % static float badval =  BAD_FLT;
-% 
+%
 % void cdom_mannino(l2str *l2rec, int prodnum, float prod[])
 % {
 %     static int firstCall = 1;
 %     static int ib1 = -1;
 %     static int ib2 = -1;
-%   
+%
 %     static float b_ag412[] = {-2.784,-1.146,1.008};
 %     static float b_sg275[] = {-3.325,0.3,-0.252};
 %     static float b_sg300[] = {-3.679,0.168,-0.134};
-% 
+%
 %     l1str *l1rec = l2rec->l1rec;
 %     int32_t nbands = l1rec->l1file->nbands;
-% 
+%
 %     float *wave = l1rec->l1file->fwave;
 %     float *b;
 %     float *Rrs,Rrs1,Rrs2;
 %     float x1,x2;
 %     int32_t  ip;
-% 
+%
 %     if (firstCall) {
 %         firstCall = 0;
 %         ib1 = bindex_get(443);
@@ -136,13 +178,13 @@ ag412(id)=NaN;
 %             exit(1);
 %         }
 %     }
-% 
-% 
+%
+%
 %     switch (prodnum) {
 %         case CAT_ag_412_mlrc:
 %             b = b_ag412;
 %             break;
-%         case CAT_Sg_275_295_mlrc: 
+%         case CAT_Sg_275_295_mlrc:
 %             b = b_sg275;
 %             break;
 %         case CAT_Sg_300_600_mlrc:
@@ -153,30 +195,30 @@ ag412(id)=NaN;
 %             exit(1);
 %             break;
 %     }
-% 
+%
 %     for (ip=0; ip<l1rec->npix; ip++) {
-% 
+%
 %       prod[ip] = badval;
-% 
+%
 %       Rrs  = &l2rec->Rrs[ip*nbands];
 %       Rrs1 = Rrs[ib1];
 %       Rrs2 = Rrs[ib2];
-% 
+%
 %       if (Rrs1 > 0.0 && Rrs2 > 0.0) {
-% 
+%
 %         Rrs2 = conv_rrs_to_555(Rrs2,wave[ib2]);
-% 
+%
 %         x1 = log(Rrs1);
 %         x2 = log(Rrs2);
-% 
+%
 %         prod[ip] = exp(b[0] + b[1]*x1 + b[2]*x2);
-% 
+%
 %       } else {
 %         l1rec->flags[ip] |= PRODFAIL;
 %       }
-% 
+%
 %     }
-% 
+%
 %     return;
 % }
 
@@ -184,9 +226,9 @@ ag412(id)=NaN;
 % float conv_rrs_to_555(float Rrs, float wave)
 % {
 %     float sw, a1, b1, a2, b2;
-% 
+%
 %     if (fabs(wave-555) > 2) {
-%         if (fabs(wave-547) <= 2) {
+%         if (fabs(wave-561) <= 2) {
 %             sw = 0.001723;
 %             a1 = 0.986;
 %             b1 = 0.081495;
@@ -214,12 +256,12 @@ ag412(id)=NaN;
 %             printf("-E- %s line %d: Unable to convert Rrs at %f to 555nm.\n",__FILE__,__LINE__,wave);
 %             exit(1);
 %         }
-% 
+%
 %       if (Rrs < sw)
 %           Rrs = pow(10.0,a1 * log10(Rrs) - b1);
 %       else
 %           Rrs = a2 * Rrs - b2;
 %     }
-% 
-%     return(Rrs);    
+%
+%     return(Rrs);
 % }

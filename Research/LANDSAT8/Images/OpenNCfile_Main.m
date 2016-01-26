@@ -91,11 +91,11 @@ hcb = colorbar('southoutside');
 fs = 11;
 set(hcb,'fontsize',fs,'Location','southoutside')
 set(hcb,'Position',[.2 .15 .6 .05])
-title(hcb,'ag\_412\_mlrc [m\^-1]','FontSize',fs)
-set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
+title(hcb,'ag\_412 [m\^-1]','FontSize',fs)
+% set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
 y = get(hcb,'XTick');
-[xmin,xmax] = caxis;
-x = [10^xmin  10^xmax];
+% [xmin,xmax] = caxis;
+x = 10.^y;
 set(hcb,'XTick',log10(x));
 set(hcb,'XTickLabel',x)
 
@@ -146,3 +146,35 @@ y = get(hcb,'XTick');
 x = 10.^y;
 set(hcb,'XTick',log10(x));
 set(hcb,'XTickLabel',x)
+
+%% Comparison
+disp('Percentage of error:')
+disp(nanmean(ag412(:)-ag_412_mlrc(:))/(nanmin(ag412(:)-nanmax(ag412(:)))))
+figure,histogram(ag412(:)),title('ag412')
+figure,histogram(ag_412_mlrc(:)),title('ag\_412\_mlrc')
+xlim([0 1])
+%%
+% Checking if they are real
+if isreal(ag_412_mlrc)
+      disp('It is real')
+else
+      disp('It is NOT real')
+end
+if isreal(ag412)  
+      disp('It is real')
+else
+      disp('It is NOT real')
+end
+%%
+error = ag_412_mlrc(:)- ag412(:);
+RMSE = sqrt(nanmean(error.^2));
+
+
+disp(   '----------------------------------------------')
+disp(   'Product        min       max     mean    std')
+fprintf('ag_412_mlrc    %2.2G   %2.3f   %2.3f   %2.3f\n',nanmin(ag_412_mlrc(:)),nanmax(ag_412_mlrc(:)),nanmean(ag_412_mlrc(:)),nanstd(ag_412_mlrc(:)))
+fprintf('ag412 (Matlab) %2.2G   %2.3f   %2.3f   %2.3f\n',nanmin(ag412(:)),nanmax(ag412(:)),nanmean(ag412(:)),nanstd(ag412(:)))
+fprintf('error         %2.5f    %2.2G   %2.2G   %2.2G\n',nanmin(error(:)),nanmax(error(:)),nanmean(error(:)),nanstd(error(:)))
+
+fprintf('\nRMSE = %2.4f\n',RMSE)
+
