@@ -1,9 +1,9 @@
-function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs561, jd )
+function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs_b,Rrs_g,doy,wl_g)
 % Function to determine DOC and ag412 from MODIS Aqua Rrs @ 443 and 561nm
 % Inputs:
-% - Rrs443: remote-sensing reflectance @ 443nm
-% - Rrs561: remote-sensing reflectance @ 561nm
-% - jd: Julian day
+% - Rrs_b: remote-sensing reflectance @ 443nm
+% - Rrs_g: remote-sensing reflectance @ 561nm
+% - doy: day of the year
 % Outputs:
 % - DOC: Dissolved Organic Carbon concentration
 % - ag412: absorption of Gelbstoff or CDOM absorption @ 412 nm
@@ -16,17 +16,17 @@ function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs443, Rrs561, jd )
 % cf=0 for sigmmoidal function, cf=1 for linear function
 cf=1;
 %% A. Mannino DOC algorithm
-% Y=-3.070-1.285.*log(Rrs443)+1.107.*log(Rrs561); % original
+% Y=-3.070-1.285.*log(Rrs_b)+1.107.*log(Rrs_g); % original
 
 % from ocssw/build/src/l2gen/cdom_mannino.c:   case CAT_ag_412_mlrc:
 % static float b_ag412[] = {-2.784,-1.146,1.008};
 
-Rrs443(Rrs443<0)=NaN; % Mask neg values for Rrs443
-Rrs561(Rrs561<0)=NaN; % Mask neg values for Rrs561
+Rrs_b(Rrs_b<0)=NaN; % Mask neg values for Rrs_b
+Rrs_g(Rrs_g<0)=NaN; % Mask neg values for Rrs_g
 
-Rrs561 = conv_rrs_to_555(Rrs561, 561);
+Rrs_g = conv_rrs_to_555(Rrs_g,str2double(wl_g));
 
-Y=-2.784-1.146.*log(Rrs443)+1.008.*log(Rrs561); % original from l2gen
+Y=-2.784-1.146.*log(Rrs_b)+1.008.*log(Rrs_g); % original from l2gen
 ag412=exp(Y);
 
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
@@ -39,13 +39,13 @@ B1= 0.003305; B2= 0.003771;
 % June 16 to Sept 30 - Summer
 DOC1=1./(log(ag412).*A1 + B1); % Fall-Winter-Spring
 DOC2=1./(log(ag412).*A2 + B2); % Summer
-if ( jd >= 167 && jd <= 273) % Summer
+if ( doy >= 167 && doy <= 273) % Summer
       DOC=DOC2;
       % Nov 1 to May 15 - Fall-Winter-Spring
-elseif (jd>= 305 || (jd >=1 && jd <= 135))
+elseif (doy>= 305 || (doy >=1 && doy <= 135))
       DOC=DOC1;
 end %fi
-if( jd >= 136 && jd <= 166) % May 16 to June 15
+if( doy >= 136 && doy <= 166) % May 16 to June 15
       % Sigmoidal weights for blending the two algorithms
       if (cf==0)
             t=-6:0.4:6;
@@ -54,7 +54,7 @@ if( jd >= 136 && jd <= 166) % May 16 to June 15
             np=numel(S);
             dd=1:np;
             dd=dd+135;
-            id=dd==jd;
+            id=dd==doy;
             W1=S(id);
             W2=W(id);
       elseif (cf==1)
@@ -62,12 +62,12 @@ if( jd >= 136 && jd <= 166) % May 16 to June 15
             d2=166;
             a=1/(d2-d1);
             b=-d1/(d2-d1);
-            W1=a.*jd + b;
+            W1=a.*doy + b;
             W2=1-W1;
       end
       DOC=W1.*DOC2 + W2.*DOC1;
 end % fi
-if( jd >= 274 && jd <= 304) % October 1-31
+if( doy >= 274 && doy <= 304) % October 1-31
       % Sigmoidal weights for blending the two algorithms
       if(cf == 0)
             t=-6:0.4:6;
@@ -76,7 +76,7 @@ if( jd >= 274 && jd <= 304) % October 1-31
             np=numel(S);
             dd=1:np;
             dd=dd+273;
-            id=dd==jd;
+            id=dd==doy;
             W1=S(id);
             W2=W(id);
       elseif (cf==1)
@@ -84,7 +84,7 @@ if( jd >= 274 && jd <= 304) % October 1-31
             d2=304;
             a=1/(d2-d1);
             b=-d1/(d2-d1);
-            W1=a.*jd + b;
+            W1=a.*doy + b;
             W2=1-W1;
       end % fi
       DOC=W1.*DOC1 + W2.*DOC2;
@@ -99,7 +99,7 @@ ag412(id)=NaN;
 end % noitcnuf
 
 %%
-function Rrs555 = conv_rrs_to_555(Rrs, wave)
+function Rrs_g_conv = conv_rrs_to_555(Rrs, wave)
 
 if abs(wave-555) > 2
       if abs(wave-550) <= 2
@@ -131,10 +131,13 @@ if abs(wave-555) > 2
             exit;
       end
       if (Rrs < sw)
-            Rrs555 = 10.0.^(a1 .* log10(Rrs) - b1);
+            Rrs_g_conv = 10.0.^(a1 .* log10(Rrs) - b1);
       else
-            Rrs555 = a2 .* Rrs - b2;
+            Rrs_g_conv = a2 .* Rrs - b2;
       end
+elseif abs(wave-555) <= 2
+      Rrs_g_conv = Rrs;
+      fprintf('Wavelength is already close to 555. No need to convert...\n')
 end
 
 end
