@@ -1,11 +1,11 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
-% sensor = 'oli';
-sensor = 'goci';
+sensor = 'oli';
+% sensor = 'goci';
 %% Load Landsat 8 l2gen images
 if strcmp(sensor,'oli')
       dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/artic_L2wag412/';
-      % filename = 'LC80720212014209LGN00';
-      filename = 'LC80770102014196LGN00';
+      filename = 'LC80720212014209LGN00';
+%       filename = 'LC80770102014196LGN00';
       % filename = 'LC80780092014219LGN00';
       extension = '_L2.nc';
       
@@ -80,7 +80,7 @@ figure('Color','white','Name',filename),imagesc(Rrs_b<0),colormap('gray'),title(
 figure('Color','white','Name',filename),imagesc(Rrs_g<0),colormap('gray'),title('Rrs_g<0')
 disp('----------------------------------------------')
 %
-% %% Plot chl_oc3 from nc from SeaDAS
+% %% Plot chl_oc3 from nc from l2gen
 % plusdegress = 0.5;
 % latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
 % lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
@@ -99,13 +99,13 @@ disp('----------------------------------------------')
 %
 % geoshow(ax,latitude,longitude,log10(chl_oc3),'DisplayType','surface','ZData',zeros(size(chl_oc3)),'CData',log10(chl_oc3))
 % colormap jet
-% caxis([log10(0.01),log10(20)]) % from colorbar in SeaDAS
+% caxis([log10(0.01),log10(20)]) % from colorbar in l2gen
 % hcb = colorbar('southoutside');
 % % set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
 % fs = 11;
 % set(hcb,'fontsize',fs,'Location','southoutside')
 % set(hcb,'Position',[.2 .15 .6 .05])
-% title('Chl-a (SeaDAS)','FontSize',fs)
+% title('Chl-a (l2gen)','FontSize',fs)
 % title(hcb,'Chl-a (mg m\^-3)','FontSize',fs)
 % % set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
 % y = get(hcb,'XTick');
@@ -114,7 +114,7 @@ disp('----------------------------------------------')
 % set(hcb,'XTick',log10(x));
 % set(hcb,'XTickLabel',x)
 
-%% Plot ag_412_mlrc from nc from SeaDAS
+%% Plot ag_412_mlrc from nc from l2gen
 
 plusdegress = 0.5;
 latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
@@ -139,13 +139,13 @@ colormap jet
 
 cmin = 0.001;
 cmax = 1.0;
-caxis([log10(cmin),log10(cmax)]) % from colorbar in SeaDAS
+caxis([log10(cmin),log10(cmax)]) % from colorbar in l2gen
 hcb = colorbar('southoutside');
 % set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
 fs = 11;
 set(hcb,'fontsize',fs,'Location','southoutside')
 set(hcb,'Position',[.2 .15 .6 .05])
-title('ag\_412\_mlrc (SeaDAS)','FontSize',fs)
+title('ag\_412\_mlrc (l2gen)','FontSize',fs)
 title(hcb,'a_{CDOM}(412) (m\^-1)','FontSize',fs)
 % set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
 y = get(hcb,'XTick');
@@ -206,7 +206,7 @@ set(hcb,'XTickLabel',x)
 disp('Percentage of error:')
 disp(nanmean(ag412(:)-ag_412_mlrc(:))/(nanmin(ag412(:)-nanmax(ag412(:)))))
 figure('Color','white','Name',filename),histogram(ag412(:)),title('ag\_412 (Matlab)','FontSize',fs)
-figure('Color','white','Name',filename),histogram(ag_412_mlrc(:)),title('ag\_412\_mlrc (SeaDAS)','FontSize',fs)
+figure('Color','white','Name',filename),histogram(ag_412_mlrc(:)),title('ag\_412\_mlrc (l2gen)','FontSize',fs)
 xlim([0 1])
 %%
 % Checking if they are real

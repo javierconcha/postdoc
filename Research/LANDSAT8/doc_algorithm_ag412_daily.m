@@ -16,7 +16,7 @@ function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs_b,Rrs_g,doy,wl_g)
 % cf=0 for sigmmoidal function, cf=1 for linear function
 cf=1;
 %% A. Mannino DOC algorithm
-% Y=-3.070-1.285.*log(Rrs_b)+1.107.*log(Rrs_g); % original
+% Y=-3.070-1.285.*log(Rrs_b)+1.107.*log(Rrs_g); % original (for MODIS (Mannino et al., 2014))
 
 % from ocssw/build/src/l2gen/cdom_mannino.c:   case CAT_ag_412_mlrc:
 % static float b_ag412[] = {-2.784,-1.146,1.008};
@@ -26,7 +26,7 @@ Rrs_g(Rrs_g<0)=NaN; % Mask neg values for Rrs_g
 
 Rrs_g = conv_rrs_to_555(Rrs_g,str2double(wl_g));
 
-Y=-2.784-1.146.*log(Rrs_b)+1.008.*log(Rrs_g); % original from l2gen
+Y=-2.784-1.146.*log(Rrs_b)+1.008.*log(Rrs_g); % original from l2gen (for SeaWiFS (Mannino et al., 2014))
 ag412=exp(Y);
 
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
