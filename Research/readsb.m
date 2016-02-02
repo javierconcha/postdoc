@@ -158,22 +158,22 @@ p.addRequired('fileName',@(x) ischar(x));
 
 % These optional user input values must be true or false
 validationFcn = @(x) isscalar(x) && (islogical(x) || x == 1 || x == 0);
-p.addParamValue('MakeStructure', false, validationFcn);
-p.addParamValue('DatenumTime', true, validationFcn);
-p.addParamValue('FillAncillaryData', false, validationFcn)
+p.addParameter('MakeStructure', false, validationFcn);
+p.addParameter('DatenumTime', true, validationFcn);
+p.addParameter('FillAncillaryData', false, validationFcn)
 
 % SetMissingValue user input value must be numeric. Zero will be
 % interpretted as false, disabling the functionality
 validationFcn = @(x) (isnumeric(x) && isscalar(x)) || x == false;
-p.addParamValue('SetMissingValue', NaN, validationFcn);
+p.addParameter('SetMissingValue', NaN, validationFcn);
 
 % SetBDLValue user input must be numeric (including NaN)
 validationFcn = @(x) isnumeric(x) && isscalar(x);
-p.addParamValue('SetBDLValue', false, validationFcn);
+p.addParameter('SetBDLValue', false, validationFcn);
 
 % NewTextFields must be entered as a single dimensional cell array of characters
 validationFcn = @(x) iscell(x) && all(cellfun(@ischar, x)) && min(size(x)) == 1;
-p.addParamValue('NewTextFields', false, validationFcn)
+p.addParameter('NewTextFields', false, validationFcn)
 
 p.parse(fileName,varargin{:});
 optionalArgs = p.Results;
@@ -201,7 +201,6 @@ knownTextFieldNames = {
 %% Read data
 
 disp(['Reading ', fileName,'...']);
-/; f
 if ~exist(fileName, 'file')
    
     error('readsb:FileNotFound', 'Could not find or open file %s', fileName);
@@ -210,7 +209,7 @@ end
 
 % Read in the entire data block as text
 fileID = fopen(fileName, 'rt');
-    allDataLines = textscan(fileID, '%s', 'Delimiter', '\n', 'BufSize', 131072);
+    allDataLines = textscan(fileID, '%s', 'Delimiter', '\n');
 fclose(fileID);
 
 % Read meta-data headers
