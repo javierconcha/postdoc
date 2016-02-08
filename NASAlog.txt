@@ -369,5 +369,19 @@ ocssw/run/data/common/product.xml:    <product name="ag_412_mlrc
 2016-01-28 Thu:
 MLR: multiple linear regression
 MAPD: mean absolute percent difference
+--------------------------------------------------
+2016-02-02 Mon
+- DONE: SeaBASS access with Matlab script from Chris
+- DONE: SeaBASS search for Arctic data not successful
+
+To do: 
+- Look for more data for the Arctic. Email Maria and Sophie
+- See why ag from E. Boss is weird looking
+- SeaBASS search in the GOCI footprint
+--------------------------------------------------
+2016-02-04
+CDOM data over the Arctic:
+- Sophie Renaut
+http://icefloe.net/docs/hly1401_cruise_report.pdf
 
 (END) 
