@@ -66,7 +66,7 @@ t = datetime(t,'ConvertFrom','yyyymmdd');
 figure
 plot(t,ag(:,wavelength==440))
 %%
-t_days = unique([year(t(:,1)) month(t(:,1)) day(t(:,1))],'rows');       
+t_days = unique([year(t(:,1)) month(t(:,1)) day(t(:,1))],'rows'); %   number of collection dates      
 %% Rrs
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
 

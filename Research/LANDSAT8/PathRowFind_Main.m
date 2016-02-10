@@ -1,7 +1,8 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
 %%
 clear
-fileID = fopen('WRS-2_bound_world.kml');
+fileID = fopen('WRS-2_bound_world.kml'); 
+% Downloaded from: https://landsat.usgs.gov/tools_wrs-2_shapefile.php
 C = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 %%
@@ -65,7 +66,7 @@ plotm([WRS_struct(v).CTR_LAT],[WRS_struct(v).CTR_LON],'.k')
 % plotm([WRS_struct(v).LAT_LL],[WRS_struct(v).LON_LL],'*b')
 % plotm([WRS_struct(v).LAT_LR],[WRS_struct(v).LON_LR],'*c')
 %%
-d = 1000;
+d = 1000; % index to the in situ data (Tara)
 cond_lon = ...
     (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UL]>=0&...
      lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UR]<=0)|...
@@ -80,5 +81,28 @@ cond_lat = ...
 
 cond_in = cond_lon & cond_lat;
 
-WRS_struct(cond_in).Name
+p = [WRS_struct(cond_in).PATH];
+r = [WRS_struct(cond_in).ROW];
+%% Plot Tara data on map
+n = 4;
+
+figure('Color','white')
+ax = worldmap([45 90],[-180 180]);
+% ax = worldmap('North Pole');
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+hold on
+
+disp('--------------------------------------------')
+disp(strdate)
+disp(['In situ taken ',datestr(t(d))])
+fprintf('path:%i , row:%i\n',p(n),r(n))
+
+[I,ImageDate,R,h] = landsat(p(n),r(n),datestr(t(d)));
+plotm(lat,lon,'r*-')
+%%
+
 
