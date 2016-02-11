@@ -1,6 +1,6 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
-sensor = 'oli';
-% sensor = 'goci';
+% sensor = 'oli';
+sensor = 'goci';
 %% Load Landsat 8 l2gen images
 if strcmp(sensor,'oli')
       dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/artic_L2wag412/';

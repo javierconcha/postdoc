@@ -1,7 +1,7 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
 %%
 clear
-fileID = fopen('WRS-2_bound_world.kml'); 
+fileID = fopen('WRS-2_bound_world.kml');
 % Downloaded from: https://landsat.usgs.gov/tools_wrs-2_shapefile.php
 C = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
@@ -56,7 +56,7 @@ ax = worldmap('World');
 % ax = worldmap('North Pole');
 load coastlines
 geoshow(ax, coastlat, coastlon,...
-'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
 % geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 % geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 hold on
@@ -68,16 +68,16 @@ plotm([WRS_struct(v).CTR_LAT],[WRS_struct(v).CTR_LON],'.k')
 %%
 d = 1000; % index to the in situ data (Tara)
 cond_lon = ...
-    (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UL]>=0&...
-     lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UR]<=0)|...
-    (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LL]>=0&...
-     lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LR]<=0);
+      (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UL]>=0&...
+      lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UR]<=0)|...
+      (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LL]>=0&...
+      lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LR]<=0);
 
 cond_lat = ...
-    (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LL]>=0&...
-     lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UL]<=0)|...
-    (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LR]>=0&...
-     lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UR]<=0);
+      (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LL]>=0&...
+      lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UL]<=0)|...
+      (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LR]>=0&...
+      lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UR]<=0);
 
 cond_in = cond_lon & cond_lat;
 
@@ -91,18 +91,70 @@ ax = worldmap([45 90],[-180 180]);
 % ax = worldmap('North Pole');
 load coastlines
 geoshow(ax, coastlat, coastlon,...
-'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
 geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 hold on
 
 disp('--------------------------------------------')
-disp(strdate)
 disp(['In situ taken ',datestr(t(d))])
 fprintf('path:%i , row:%i\n',p(n),r(n))
 
 [I,ImageDate,R,h] = landsat(p(n),r(n),datestr(t(d)));
 plotm(lat,lon,'r*-')
 %%
-
-
+days_offset = 3;
+clear Matchup
+clc
+idx_match = 0;
+h1 = waitbar(0,'Initializing ...');
+tic
+for d = 1:size(lon,1)
+      waitbar(d/size(lon,1),h1,'Processing')
+      cond_lon = ...
+            (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UL]>=0&...
+            lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UR]<=0)|...
+            (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LL]>=0&...
+            lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_LR]<=0);
+      
+      cond_lat = ...
+            (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LL]>=0&...
+            lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UL]<=0)|...
+            (lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_LR]>=0&...
+            lat(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LAT_UR]<=0);
+      
+      cond_in = cond_lon & cond_lat;
+      
+      p = [WRS_struct(cond_in).PATH];
+      r = [WRS_struct(cond_in).ROW];
+      for n=1:size(p,2) %  how many path and row combinations
+            if datenum(t(d))-datenum(days_offset) >= datenum(2013,2,11) % date must be larger than Landsat 8 first scene
+                  [~,ImageDate,~,~] = landsat(p(n),r(n),datestr(datetime([t(d).Year t(d).Month t(d).Day])+days_offset),'nomap');
+                  if ~isempty(ImageDate)
+                        if ImageDate >= datenum(t(d))-datenum(days_offset)
+                              disp('--------------------------------------------')
+                              disp(['In situ taken: ',datestr(t(d))])
+                              
+                              disp(['Image taken:   ',datestr(ImageDate)])
+                              
+                              
+                              fprintf('path:%i , row:%i, d:%i\n',p(n),r(n),d)
+                              da = datevec(ImageDate);
+                              v = datenum(da);
+                              DOY = v - datenum(da(:,1), 1,0);
+                              L8id = ['LC8',sprintf('%03.f',p(n)),sprintf('%03.f',r(n)),sprintf('%03.f',da(:,1)),...
+                                    sprintf('%03.f',DOY),'LGN00'] ;
+                              fprintf('ID: %s\n',L8id)
+                              
+                              % Save it in a structure
+                              idx_match = idx_match + 1;
+                              Matchup(idx_match).number_d = d;
+                              Matchup(idx_match).id_scene = L8id;
+                        end
+                  end
+            end
+      end
+end
+close(h1)
+save('L8Matchups_Arctics.mat','Matchup')
+toc
