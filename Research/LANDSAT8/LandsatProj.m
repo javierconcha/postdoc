@@ -1,7 +1,7 @@
 function LandsatProj(filepath,varargin)
 
 %% Get values from 
-parval_UL_LAT = GetParMTL(filepath,'CORNER_UL_LAT_PRODUCT');
+parval_UL_LAT = who(filepath,'CORNER_UL_LAT_PRODUCT');
 parval_UL_LON = GetParMTL(filepath,'CORNER_UL_LON_PRODUCT');
 parval_UR_LAT = GetParMTL(filepath,'CORNER_UR_LAT_PRODUCT');
 parval_UR_LON = GetParMTL(filepath,'CORNER_UR_LON_PRODUCT');

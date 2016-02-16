@@ -375,13 +375,15 @@ MAPD: mean absolute percent difference
 - DONE: SeaBASS search for Arctic data not successful
 
 To do: 
-- Look for more data for the Arctic. Email Maria and Sophie
-- See why ag from E. Boss is weird looking
+- DONE: Look for more data for the Arctic. Email Maria and Sophie
+- DONE: See why ag from E. Boss is weird looking
 - SeaBASS search in the GOCI footprint
+- Create Tool to retrieve path row from kml file for Landsat
 --------------------------------------------------
 2016-02-04
 CDOM data over the Arctic:
 - Sophie Renaut
 http://icefloe.net/docs/hly1401_cruise_report.pdf
+
 
 (END) 
