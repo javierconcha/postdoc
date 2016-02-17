@@ -103,7 +103,6 @@ addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
 % [I,ImageDate,R,h] = landsat(p(n),r(n),datestr(t(d)));
 % plotm(lat,lon,'r*-')
 %%
-days_offset = 3;
 clear DB
 clc
 idx_match = 0;
@@ -111,7 +110,7 @@ h1 = waitbar(0,'Initializing ...');
 tic
 aux_idx = 0;
 firsttime = true;
-
+days_offset = 3;
 db_idx = 0;
 for d = 1:size(lon,1)
 %       d
@@ -145,17 +144,22 @@ for d = 1:size(lon,1)
                         DB(db_idx).ROW  = aux_pr(2,j);
                         DB(db_idx).YEAR = t(d).Year;
                         DB(db_idx).MONTH= t(d).Month;
-                        DB(db_idx).DAY  = t(d).Day;                       
+                        DB(db_idx).DAY  = t(d).Day;
+                        DB(db_idx).insituidx  = d;
                   end         
             else
                   for j=1:size(DB,2) % Check DB for duplicates
 %                         j
                         if DB(j).PATH==aux_pr(1,i) && ...
                            DB(j).ROW== aux_pr(2,i) &&...
-                           DB(j).YEAR == t(d).Year &&...
-                           DB(j).MONTH== t(d).Month &&...
-                           DB(j).DAY  == t(d).Day
+                           datenum(datetime([DB(db_idx).YEAR DB(db_idx).MONTH DB(db_idx).DAY]))+datenum(days_offset)...
+                           >datenum(datetime([t(d).Year t(d).Month t(d).Day]))              
+%                            DB(j).YEAR == t(d).Year &&...
+%                            DB(j).MONTH== t(d).Month &&...
+%                            DB(j).DAY  == t(d).Day
+%                               
 %                               disp('Duplicate found...')
+                              DB(j).insituidx(size(DB(j).insituidx,2)+1) = d;
                               break
                         elseif j== size(DB,2)
                               db_idx = db_idx+1;
@@ -164,6 +168,7 @@ for d = 1:size(lon,1)
                               DB(db_idx).YEAR = t(d).Year;
                               DB(db_idx).MONTH= t(d).Month;
                               DB(db_idx).DAY  = t(d).Day;
+                              DB(db_idx).insituidx  = d;
                         end
          
                   end
@@ -179,31 +184,42 @@ save('L8Matchups_Arctics.mat','DB')
 toc
 %%
 load('L8Matchups_Arctics.mat','DB')
+
+
+% [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
+% unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
+
 %%
-      for n=1:size(p,2) %  how many path and row combinations
-            if datenum(t(d))-datenum(days_offset) >= datenum(2013,2,11) % date must be larger than Landsat 8 first scene
-                  [~,ImageDate,~,~] = landsat(p(n),r(n),datestr(datetime([t(d).Year t(d).Month t(d).Day])+days_offset),'nomap');
-                  if ~isempty(ImageDate)
-                        if ImageDate >= datenum(t(d))-datenum(days_offset)
-                              disp('--------------------------------------------')
-                              disp(['In situ taken: ',datestr(t(d))])
-                              
-                              disp(['Image taken:   ',datestr(ImageDate)])
-                              
-                              
-                              fprintf('path:%i , row:%i, d:%i\n',p(n),r(n),d)
-                              da = datevec(ImageDate);
-                              v = datenum(da);
-                              DOY = v - datenum(da(:,1), 1,0);
-                              L8id = ['LC8',sprintf('%03.f',p(n)),sprintf('%03.f',r(n)),sprintf('%03.f',da(:,1)),...
-                                    sprintf('%03.f',DOY),'LGN00'] ;
-                              fprintf('ID: %s\n',L8id)
-                              
-                              % Save it in a structure
-                              idx_match = idx_match + 1;
-                              Matchup(idx_match).number_d = d;
-                              Matchup(idx_match).id_scene = L8id;
-                        end
+h2 = waitbar(0,'Initializing ...');
+idx_match = 0;
+for n=1:size(DB,2) %  how many path and row combinations
+      waitbar(n/size(DB,2),h2,'Processing')
+      if datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset) >= datenum(2013,2,11) % date must be larger than Landsat 8 first scene
+            [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
+            if ~isempty(ImageDate)
+                  if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
+                        disp('--------------------------------------------')
+                        disp(['In situ taken: ',datestr(t(DB(n).insituidx(1)))])
+                        
+                        disp(['Image taken:   ',datestr(ImageDate)])
+                        
+                        
+                        fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
+                        da = datevec(ImageDate);
+                        v = datenum(da);
+                        DOY = v - datenum(da(:,1), 1,0);
+                        L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
+                              sprintf('%03.f',DOY),'LGN00'] ;
+                        fprintf('ID: %s\n',L8id)
+                        
+                        % Save it in a structure
+                        idx_match = idx_match + 1;
+                        Matchup(idx_match).number_d = DB(n).insituidx(1);
+                        Matchup(idx_match).id_scene = L8id;
                   end
             end
       end
+end
+close(h2)
+
+save('L8Matchups_Arctics.mat','Matchup')
