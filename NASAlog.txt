@@ -830,4 +830,10 @@ Image taken:   10-Nov-2013
 path:12 , row:26, d:1573
 ID: LC80120262013314LGN00
 
+Not available:
+L8 OLI/TIRS	LC81890112013178LGN00
+--------------------------------------------------
+2016-02-17 Wed
+Error downloading it:
+LC80360092013274LGN00
 (END) 

@@ -96,4 +96,27 @@ ylabel('Lwn (mW cm\^-2 um\^-1 sr\^-1)')
 xlabel('wavelength (nm)')
 grid on
 %%
+fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 615838/L8 OLI_TIRS/file_best_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+for n = 1:size(s{:},1)
+      disp(s{1}{n})
+      for i=1:size(Matchup,2)
+            if s{1}{n} == Matchup(i).id_scene
+                  Matchup(i)
+                  disp('Found it!')
+                  break
+            end
+            
+      end
+      path = str2num(s{1}{n}(4:6))
+      row  = str2num(s{1}{n}(7:9))
+      year = str2num(s{1}{n}(10:13))
+      doy  = str2num(s{1}{n}(14:16))
+      [yy mm dd] = datevec(datenum(year,1,doy));
+      str= datestr(datenum([yy mm dd]),'yyyy-mm-dd')
+      landsat(path,row,str);
+end
+%%
 clear dirname filepath

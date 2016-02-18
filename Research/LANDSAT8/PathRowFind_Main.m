@@ -190,6 +190,8 @@ load('L8Matchups_Arctics.mat','DB')
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 
 %%
+clear Matchup
+tic
 h2 = waitbar(0,'Initializing ...');
 idx_match = 0;
 for n=1:size(DB,2) %  how many path and row combinations
@@ -214,12 +216,15 @@ for n=1:size(DB,2) %  how many path and row combinations
                         
                         % Save it in a structure
                         idx_match = idx_match + 1;
-                        Matchup(idx_match).number_d = DB(n).insituidx(1);
+                        Matchup(idx_match).number_d = DB(n).insituidx(:);
                         Matchup(idx_match).id_scene = L8id;
                   end
             end
       end
 end
 close(h2)
-
+toc
 save('L8Matchups_Arctics.mat','Matchup')
+
+%%
+load('L8Matchups_Arctics.mat','Matchup')
