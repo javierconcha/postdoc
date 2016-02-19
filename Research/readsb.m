@@ -200,7 +200,7 @@ knownTextFieldNames = {
  
 %% Read data
 
-disp(['Reading ', fileName,'...']);
+% disp(['Reading ', fileName,'...']);xf
 if ~exist(fileName, 'file')
    
     error('readsb:FileNotFound', 'Could not find or open file %s', fileName);
@@ -438,7 +438,7 @@ else
 end
 
 
-disp(['Finished reading ', fileName]);
+% disp(['Finished reading ', fileName]);
 
 end
 

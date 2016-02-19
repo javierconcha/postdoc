@@ -1,6 +1,6 @@
 
 addpath('/Users/jconchas/Documents/Research/')
-%%
+%% Extract Tara data from SeaBASS file
 % dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/';
 
@@ -64,9 +64,7 @@ t = [t(:,1:12) time_acquired];
 t = datetime(t,'ConvertFrom','yyyymmdd');
 
 figure
-plot(t,ag(:,wavelength==440))
-%%
-t_days = unique([year(t(:,1)) month(t(:,1)) day(t(:,1))],'rows'); %   number of collection dates      
+plot(t,ag(:,wavelength==440))     
 %% Rrs
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
 
@@ -101,6 +99,7 @@ s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
 for n = 1:size(s{:},1)
+      disp('----------------------------------')
       disp(s{1}{n})
       for i=1:size(Matchup,2)
             if s{1}{n} == Matchup(i).id_scene
@@ -109,14 +108,83 @@ for n = 1:size(s{:},1)
                   break
             end
             
-      end
-      path = str2num(s{1}{n}(4:6))
-      row  = str2num(s{1}{n}(7:9))
-      year = str2num(s{1}{n}(10:13))
-      doy  = str2num(s{1}{n}(14:16))
+      end     
+      path = str2num(s{1}{n}(4:6));
+      row  = str2num(s{1}{n}(7:9));
+      year = str2num(s{1}{n}(10:13));
+      doy  = str2num(s{1}{n}(14:16));
       [yy mm dd] = datevec(datenum(year,1,doy));
-      str= datestr(datenum([yy mm dd]),'yyyy-mm-dd')
-      landsat(path,row,str);
+      str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
+      t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
+      str2 = datestr(t_acq);
+      
+      h1 = figure(100);
+      [~,~,~,h] = landsat(path,row,str);      
+      figure(gcf)
+      set(gcf,'Color','white','Name',s{1}{n})
+      plotm(lat(Matchup(i).number_d),lon(Matchup(i).number_d),'*-r')
+      
+      
+      disp(['Acquired Date:' str2])
+      disp('In situ:')
+      t(Matchup(i).number_d)
+      [lat(Matchup(i).number_d),lon(Matchup(i).number_d)]
+      close(h1)
+      
 end
 %%
 clear dirname filepath
+% for image LC80110252013307LGN00
+   plotm(49.9352,  -65.0648,'b*')
+   49.8661  -65.1339
+   49.7924  -65.2076
+   49.7178  -65.2822
+   49.6403  -65.3597
+   49.5561  -65.4439
+   49.4689  -65.5311
+   49.9813  -66.0187
+   49.8935  -66.1065
+   49.8094  -66.1906
+   49.7273  -66.2727
+   49.6432  -66.3568
+   49.9876  -67.0124
+   49.8570  -67.1430
+   49.6987  -67.3013
+   plotm(49.6214,  -67.3786,'*b')
+   49.5522  -67.4478
+   49.4843  -67.5157
+   
+   %% Extract Tara data from SeaBASS file
+dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
+
+
+% Open file with the list of images names
+% fileID = fopen([dirname 'file_list.txt']);
+fileID = fopen([dirname 'file_list.txt']);
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+% Plot Tara data on map
+figure('Color','white')
+ax = worldmap([45 90],[-180 180]);
+% ax = worldmap('North Pole');
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')  
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+hold on    
+count = 0;
+for idx=1:size(s{:},1)
+      disp('------------------------')
+      idx
+      filename = s{1}{idx} % search on the list of filenames
+      % filename = 'Tara_ACS_apcp2013_254ag.sb';
+      
+      filepath = [dirname filename];
+      
+      [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
+      plotm(data.lat,data.lon,'*-r')
+      waitforbuttonpress
+      count = count + size(data.lat,1)
+end
