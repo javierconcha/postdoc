@@ -93,8 +93,8 @@ plot(wavelength_short,Lwn)
 ylabel('Lwn (mW cm\^-2 um\^-1 sr\^-1)')
 xlabel('wavelength (nm)')
 grid on
-%%
-fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 615838/L8 OLI_TIRS/file_best_list.txt');
+%% Look in the Matchup structure the best images selected by visual inspection
+fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 617942/BEST/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -118,7 +118,7 @@ for n = 1:size(s{:},1)
       t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
       str2 = datestr(t_acq);
       
-      h1 = figure(100);
+      h1 = figure(1000);
       [~,~,~,h] = landsat(path,row,str);      
       figure(gcf)
       set(gcf,'Color','white','Name',s{1}{n})
@@ -129,6 +129,15 @@ for n = 1:size(s{:},1)
       disp('In situ:')
       t(Matchup(i).number_d)
       [lat(Matchup(i).number_d),lon(Matchup(i).number_d)]
+      
+      t_diff = t(Matchup(i).number_d) - t_acq;
+      
+      [Y,I] = min(abs(t_diff));
+       
+      str3 = sprintf('Closest in Situ: %s, Diff: %s',datestr(t(Matchup(i).number_d(I))),char(t_diff(I)))
+      
+      title(str3)
+      
       close(h1)
       
 end

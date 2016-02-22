@@ -114,7 +114,7 @@ days_offset = 3;
 db_idx = 0;
 for d = 1:size(lon,1)
 %       d
-      waitbar(d/size(lon,1),h1,'Processing')
+      waitbar(d/size(lon,1),h1,'Determining paths and rows...')
       %% Check for paths and rows that contain the specific lat and lon for the in situ point
       cond_lon = ...
             (lon(d)*ones(1,size(WRS_struct,1))-[WRS_struct(:).LON_UL]>=0&...
@@ -180,12 +180,7 @@ for d = 1:size(lon,1)
       end   
 end
 close(h1)
-save('L8Matchups_Arctics.mat','DB')
 toc
-%%
-load('L8Matchups_Arctics.mat','DB')
-
-
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 
@@ -195,7 +190,7 @@ tic
 h2 = waitbar(0,'Initializing ...');
 idx_match = 0;
 for n=1:size(DB,2) %  how many path and row combinations
-      waitbar(n/size(DB,2),h2,'Processing')
+      waitbar(n/size(DB,2),h2,'Looking for Matchups')
       if datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset) >= datenum(2013,2,11) % date must be larger than Landsat 8 first scene
             [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
             if ~isempty(ImageDate)
@@ -209,7 +204,7 @@ for n=1:size(DB,2) %  how many path and row combinations
                         fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
                         da = datevec(ImageDate);
                         v = datenum(da);
-                        DOY = v - datenum(da(:,1), 1,0);
+                        DOY = v - datenum(da(:,1), 1,0);sa
                         L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
                               sprintf('%03.f',DOY),'LGN00'] ;
                         fprintf('ID: %s\n',L8id)
@@ -224,7 +219,7 @@ for n=1:size(DB,2) %  how many path and row combinations
 end
 close(h2)
 toc
-save('L8Matchups_Arctics.mat','Matchup')
+save('L8Matchups_Arctics.mat','Matchup','DB')
 
 %%
-load('L8Matchups_Arctics.mat','Matchup')
+load('L8Matchups_Arctics.mat')
