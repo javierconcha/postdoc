@@ -200,7 +200,7 @@ for n=1:size(DB,2) %  how many path and row combinations
                         fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
                         da = datevec(ImageDate);
                         v = datenum(da);
-                        DOY = v - datenum(da(:,1), 1,0);sa
+                        DOY = v - datenum(da(:,1), 1,0);
                         L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
                               sprintf('%03.f',DOY),'LGN00'] ;
                         fprintf('ID: %s\n',L8id)
