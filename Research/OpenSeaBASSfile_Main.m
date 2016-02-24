@@ -94,7 +94,7 @@ ylabel('Lwn (mW cm\^-2 um\^-1 sr\^-1)')
 xlabel('wavelength (nm)')
 grid on
 %% Look in the Matchup structure the best images selected by visual inspection
-fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 617942/BEST/file_list.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618866/L8 OLI_TIRS/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -134,7 +134,7 @@ for n = 1:size(s{:},1)
       
       [Y,I] = min(abs(t_diff));
        
-      str3 = sprintf('Closest in Situ: %s, Diff: %s',datestr(t(Matchup(i).number_d(I))),char(t_diff(I)))
+      str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(t(Matchup(i).number_d(I))),char(t_diff(I)))
       
       title(str3)
       
