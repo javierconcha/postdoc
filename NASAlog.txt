@@ -836,4 +836,14 @@ L8 OLI/TIRS	LC81890112013178LGN00
 2016-02-17 Wed
 Error downloading it:
 LC80360092013274LGN00
+
+--------------------------------------------------
+2016-02-23 Tue
+To do:
+- DONE: Created in situ dataset for GOCI
+- Retrieve files based on in situ dates
+- Open GOCI image in Matlab
+
+- Search images for Arctic Color area of study
+- Check values of CDOM from the Tara retrieved images with in situ
 (END) 
