@@ -129,4 +129,4 @@ save('GOCI_InSitu.mat','InSitu')
 
 %%
 load('GOCI_InSitu.mat')
-[InSitu(:).start_date]'
+unique([InSitu(:).start_date]','rows')

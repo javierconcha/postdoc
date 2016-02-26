@@ -846,4 +846,133 @@ To do:
 
 - Search images for Arctic Color area of study
 - Check values of CDOM from the Tara retrieved images with in situ
+
+to search the files that meet a pattern in a list of pattern:
+jconchas@anly104:~/data2/GOCI$ cat scene_dates.txt | xargs -I {} grep {} goci_l1.txt > scene_list.txt
+
+to create a dir using a pattern in a list:
+jconchas@anly104:~/data2/GOCI$ cat scene_dates.txt | xargs -I {} mkdir COMS_GOCI_L1B_GA_{}
+
+GOCI files retrieved from the server:
+jconchas@anly104:~/data2/GOCI$ du -h
+0       ./COMS_GOCI_L1B_GA_20101130
+0       ./COMS_GOCI_L1B_GA_20101201
+0       ./COMS_GOCI_L1B_GA_20101202
+6.0G    ./COMS_GOCI_L1B_GA_20110409
+6.0G    ./COMS_GOCI_L1B_GA_20110410
+6.0G    ./COMS_GOCI_L1B_GA_20110411
+5.9G    ./COMS_GOCI_L1B_GA_20110412
+5.9G    ./COMS_GOCI_L1B_GA_20110413
+5.9G    ./COMS_GOCI_L1B_GA_20110414
+6.0G    ./COMS_GOCI_L1B_GA_20110415
+6.0G    ./COMS_GOCI_L1B_GA_20110416
+6.0G    ./COMS_GOCI_L1B_GA_20110417
+6.0G    ./COMS_GOCI_L1B_GA_20110810
+6.0G    ./COMS_GOCI_L1B_GA_20110811
+6.0G    ./COMS_GOCI_L1B_GA_20110812
+71G     .
+
+to open matlab from command line:
+jconchas@gs616-tidal:ag$ /Applications/MATLAB_R2015b.app/bin/matlab
+--------------------------------------------------
+2016-02-25 Thu
+
+how to use h5dump:
+https://www.hdfgroup.org/HDF5/Tutor/cmdtoolview.html
+ to display attibutes header:
+jconchas@anly104:~/data2/GOCI$ h5dump -n 1 COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5|less
+
+
+ group      /HDFEOS/POINTS/Scene Header
+ attribute  /HDFEOS/POINTS/Scene Header/Band Indices
+ attribute  /HDFEOS/POINTS/Scene Header/Difference between on-board time and ground station time
+ attribute  /HDFEOS/POINTS/Scene Header/Image Type
+ attribute  /HDFEOS/POINTS/Scene Header/Mission
+ attribute  /HDFEOS/POINTS/Scene Header/Nominal sub-satellite point latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Nominal sub-satellite point longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Number of Bands
+ attribute  /HDFEOS/POINTS/Scene Header/Number of Slots
+ attribute  /HDFEOS/POINTS/Scene Header/Product Level
+ attribute  /HDFEOS/POINTS/Scene Header/Satellite ID
+ attribute  /HDFEOS/POINTS/Scene Header/Satellite Name
+ attribute  /HDFEOS/POINTS/Scene Header/Satellite azimuth angle at scene center
+ attribute  /HDFEOS/POINTS/Scene Header/Satellite elevation angle at scene center
+ attribute  /HDFEOS/POINTS/Scene Header/Scene Start time
+ attribute  /HDFEOS/POINTS/Scene Header/Scene Title
+ attribute  /HDFEOS/POINTS/Scene Header/Scene center latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene center longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene center time
+ attribute  /HDFEOS/POINTS/Scene Header/Scene end time
+ attribute  /HDFEOS/POINTS/Scene Header/Scene lower-left latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene lower-left longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene lower-right latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene lower-right longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene upper-left latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene upper-left longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene upper-right latitude
+ attribute  /HDFEOS/POINTS/Scene Header/Scene upper-right longitude
+ attribute  /HDFEOS/POINTS/Scene Header/Sensor Characteristics
+ attribute  /HDFEOS/POINTS/Scene Header/Sensor Mode name
+ attribute  /HDFEOS/POINTS/Scene Header/Sensor name
+ attribute  /HDFEOS/POINTS/Scene Header/Slot Indices
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point altitude at scene center time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point altitude at scene end time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point altitude at scene start time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point latitude at scene center time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point latitude at scene end time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point latitude at scene start time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point longitude at scene center time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point longitude at scene end time
+ attribute  /HDFEOS/POINTS/Scene Header/Sub-satellite point longitude at scene start time
+ attribute  /HDFEOS/POINTS/Scene Header/Sun azimuth angle at scene center
+ attribute  /HDFEOS/POINTS/Scene Header/Sun elevation angle at scene center
+ attribute  /HDFEOS/POINTS/Scene Header/_LevelWritten
+ attribute  /HDFEOS/POINTS/Scene Header/line spacing
+ attribute  /HDFEOS/POINTS/Scene Header/number of columns
+ attribute  /HDFEOS/POINTS/Scene Header/number of rows
+ attribute  /HDFEOS/POINTS/Scene Header/pixel spacing
+ group      /HDFEOS/POINTS/Scene Header/Data
+ dataset    /HDFEOS/POINTS/Scene Header/Data/Resampling kernel name
+ group      /HDFEOS/POINTS/Scene Header/Linkage
+
+ group      /HDFEOS/POINTS/File Descripter Metadata
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/File format document title
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/Geometric correction software ID
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/IDACS system version
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/IMPS software version
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/Input File Name
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/Issue&revision
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/Product name
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/Radiometric correction software ID
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/_LevelWritten
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/processing end time
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/processing start time
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/processing time
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/station latitude
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/station longitude
+ attribute  /HDFEOS/POINTS/File Descripter Metadata/station name
+ group      /HDFEOS/POINTS/File Descripter Metadata/Data
+ group      /HDFEOS/POINTS/File Descripter Metadata/Linkage
+
+to display specific attribute:
+jconchas@anly104:~/data2/GOCI$ h5dump -a "/HDFEOS/POINTS/Scene Header/Scene Start time" COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5
+HDF5 "COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5" {
+ATTRIBUTE "Scene Start time" {
+   DATATYPE  H5T_STRING {
+      STRSIZE 24;
+      STRPAD H5T_STR_NULLTERM;
+      CSET H5T_CSET_ASCII;
+      CTYPE H5T_C_S1;
+   }
+   DATASPACE  SCALAR
+   DATA {
+   (0): "09-APR-2011 00:15:39.000"
+   }
+}
+}
+
+to display the complete group:
+jconchas@anly104:/data2/jconchas/GOCI$ h5dump -g "/HDFEOS/POINTS/Scene Header" COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5    
+
+jconchas@anly104:/data2/jconchas/GOCI$ h5dump -g "/HDFEOS/POINTS/File Descripter Metadata" COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5     
 (END) 

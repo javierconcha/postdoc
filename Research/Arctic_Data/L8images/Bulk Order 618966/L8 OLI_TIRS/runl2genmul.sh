@@ -3,10 +3,6 @@
 # Javier A. Concha
 # 2016-02-09
 
-#echo "Type the range that you want to run (4 digits), followed by [ENTER]:"
-
-#read range
-
 for FILE in `cat file_list.txt`
 do 	
 	echo running l2gen on $FILE 	
