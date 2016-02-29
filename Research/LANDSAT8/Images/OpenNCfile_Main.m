@@ -114,7 +114,7 @@ disp('----------------------------------------------')
 % set(hcb,'XTick',log10(x));
 % set(hcb,'XTickLabel',x)
 
-%% Plot ag_412_mlrc from nc from l2gen
+%% Plot ag_412_mlrc from nc in l2gen
 
 plusdegress = 0.5;
 latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
