@@ -5,7 +5,6 @@ addpath('/Users/jconchas/Documents/Research/')
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/';
 
 % Open file with the list of images names
-% fileID = fopen([dirname 'file_list.txt']);
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
