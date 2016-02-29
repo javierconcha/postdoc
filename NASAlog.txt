@@ -853,6 +853,9 @@ jconchas@anly104:~/data2/GOCI$ cat scene_dates.txt | xargs -I {} grep {} goci_l1
 to create a dir using a pattern in a list:
 jconchas@anly104:~/data2/GOCI$ cat scene_dates.txt | xargs -I {} mkdir COMS_GOCI_L1B_GA_{}
 
+to convert from dos to unix in vim:
+:w ++ff=unix
+
 GOCI files retrieved from the server:
 jconchas@anly104:~/data2/GOCI$ du -h
 0       ./COMS_GOCI_L1B_GA_20101130
