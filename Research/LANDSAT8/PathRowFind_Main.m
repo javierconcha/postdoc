@@ -114,7 +114,7 @@ db_idx = 0;
 cond_in = zeros(1,size(WRS_struct,2));
 for d = 1:size(lon,1)
       waitbar(d/size(lon,1),h1,'Determining paths and rows...')
-
+      %% Check if it is inside the polygon
       for u = 1:size(WRS_struct,2)
             xv = [WRS_struct(u).LON_LL WRS_struct(u).LON_LR ...
                   WRS_struct(u).LON_UR WRS_struct(u).LON_UL WRS_struct(u).LON_LL];
