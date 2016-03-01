@@ -137,120 +137,51 @@ whos InSitu MTLGOCI
 unique([InSitu(:).start_date]','rows') % to have only one date per day
 
 %%  Matchups
-
+count = 0;
+count2 = 0;
+clear MatchupsGOCI MatchupsGOCI2
 for idx = 1:size(InSitu,2)
       t = datetime(InSitu(idx).start_date,'ConvertFrom','yyyymmdd');
       t = char(t);
       t = [t(:,1:12) InSitu(idx).start_time];
       t = datetime(t,'ConvertFrom','yyyymmdd');
       
-      [t_dif,I] = min(abs([MTLGOCI(:).Scene_end_time]-t));
+      A = abs([MTLGOCI(:).Scene_end_time]-t);
+      [t_dif,I] = min(A);
+      t_dif2 = min(setdiff(A(:),min(A(:))));
+      [~,I2] = min(abs(A - t_dif2));
+      
       if t_dif <= hours(3)
-            InSitu(idx).Matchup_index = I; % index to the MTLGOCI structure
-            InSitu(idx).Matchup_scene_id = MTLGOCI(I).Product_name;
-      else
-            InSitu(idx).Matchup_index = NaN;
-            InSitu(idx).Matchup_scene_id = NaN;
+            count = count+1;
+            MatchupsGOCI(count) = InSitu(idx); % closest image
+            MatchupsGOCI(count).Matchup_index = I; % index to the MTLGOCI structure
+            MatchupsGOCI(count).Matchup_scene_id = MTLGOCI(I).Product_name;
+      end
+      
+      if t_dif2 <= hours(3)
+            count2 = count2+1;
+            MatchupsGOCI2(count2) = InSitu(idx); % second closest image
+            MatchupsGOCI2(count2).Matchup_index = I2; % index to the MTLGOCI structure
+            MatchupsGOCI2(count2).Matchup_scene_id = MTLGOCI(I2).Product_name;
       end
       
 end
 %% Number of matchups
-fprintf('Number of Matchups: %i\n',sum(~isnan([InSitu(:).Matchup_index])))
-%%
-MTLGOCI(~isnan([InSitu(:).Matchup_index])).Product_name
+fprintf('Number of Matchups: %i\n',sum(~isnan([MatchupsGOCI(:).Matchup_index])))
 
-% Structure with only matchups
-MTLGOCI([InSitu(~isnan([InSitu(:).Matchup_index])).Matchup_index])
-%%
-
-dirname = '/Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640/';
-filename = 'COMS_GOCI_L1B_GA_20151224001640';
-extension = '_L2wag412.nc';
-
-wl_b = '443'; % blue band wavelength
-wl_g = '555'; % green band wavelength
-
-filepath = [dirname filename extension];
-
-% ncdisp(filepath)
-% ncinfo(filepath)
-
-%     infiles = dir('/disk04/Landsat/Processing/Australia/LC8115075*_Australia.L2');  % file has reflectances and Lw,Lt,La for noise model
-
-%     for imag = 1:length(infiles)
-%         filename = infiles(imag).name;
-longitude   = ncread(filepath,'/navigation_data/longitude');
-latitude    = ncread(filepath,'/navigation_data/latitude');
-ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
-Rrs_b      = ncread(filepath,['/geophysical_data/Rrs_' wl_b]);
-Rrs_g      = ncread(filepath,['/geophysical_data/Rrs_' wl_g]');
-% Lt443       = ncread(filepath,'/geophysical_data/Lt_443');
-% Lt561       = ncread(filepath,'/geophysical_data/Lt_561');
-% Lt2201      = ncread(filepath,'/geophysical_data/Lt_2201');
-% Lw443       = ncread(filepath,'/geophysical_data/Lw_443');
-% Lw561       = ncread(filepath,'/geophysical_data/Lw_561');
-% La443       = ncread(filepath,'/geophysical_data/La_443');
-% La561       = ncread(filepath,'/geophysical_data/La_561');
-% La2201      = ncread(filepath,'/geophysical_data/La_2201');
-% chl_oc3     = ncread(filepath,'/geophysical_data/chl_oc3');
-
-year        = str2double(filename(18:21));
-daystr      = [filename(22:23) '/' filename(24:25) '/' filename(18:21)];
-d = datevec(daystr);
-v = datenum(d);
-DOY = v - datenum(d(:,1), 1,0);
-
-%% Plot ag_412_mlrc from nc imn l2gen
-
-plusdegress = 0.5;
-latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
-lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
-
-figure('Color','white','Name',filename)
-% ax = worldmap([52 75],[170 -120]);
-ax = worldmap(latlimplot,lonlimplot);
-
-load coastlines
-geoshow(ax, coastlat, coastlon,...
-      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-
-geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-% Display product
-
-geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface','ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
-colormap jet
-% cmin = nanmin(ag_412_mlrc(:));
-% cmax = nanmax(ag_412_mlrc(:));
-
-% cmin = 0.001;
-% cmax = 1.0;
-% caxis([log10(cmin),log10(cmax)]) % from colorbar in l2gen
-% hcb = colorbar('southoutside');
-% set(get(hcb,'Xlabel'),'String','Chl-a [mg m\^-3]')
-% fs = 11;
-% set(hcb,'fontsize',fs,'Location','southoutside')
-% set(hcb,'Position',[.2 .15 .6 .05])
-% title('ag\_412\_mlrc (l2gen)','FontSize',fs)
-% title(hcb,'a_{CDOM}(412) (m\^-1)','FontSize',fs)
-% set(gca, 'Units', 'normalized', 'Position', [0 0.1 1 1])
-% y = get(hcb,'XTick');
-% [xmin,xmax] = caxis;
-% x = 10.^y;
-% set(hcb,'XTick',log10(x));
-% set(hcb,'XTickLabel',x)
 %% Plot images
 pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/';
 
-for idx = 1:size(InSitu,2)
-      if ~isnan(InSitu(idx).Matchup_index(1)) && ...
-                  ~isnan(InSitu(idx).Matchup_scene_id(1))
-            disp([pathname InSitu(idx).Matchup_scene_id '_L2.nc'])
+for idx = 1:size(MatchupsGOCI,2)
+      %%
+      if ~isnan(MatchupsGOCI(idx).Matchup_index(1)) && ...
+                  ~isnan(MatchupsGOCI(idx).Matchup_scene_id(1))
+            disp([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'])
             
-            if exist([pathname InSitu(idx).Matchup_scene_id '_L2.nc'], 'file')
-                  disp([pathname InSitu(idx).Matchup_scene_id '_L2.nc' ' exist...'])
+            if exist([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'], 'file')
+                  disp([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc' ' exist...'])
                   %% plot scene
-                  filepath = [pathname InSitu(idx).Matchup_scene_id '_L2.nc'];
+                  filepath = [pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'];
                   longitude   = ncread(filepath,'/navigation_data/longitude');
                   latitude    = ncread(filepath,'/navigation_data/latitude');
                   ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
@@ -259,10 +190,10 @@ for idx = 1:size(InSitu,2)
                   latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
                   lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
                   
-                  figure('Color','white','Name',[InSitu(idx).Matchup_scene_id '_L2.nc'])
+                  figure('Color','white','Name',[MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'])
                   % ax = worldmap([52 75],[170 -120]);
                   ax = worldmap(latlimplot,lonlimplot);
-                  
+                   
                   load coastlines
                   geoshow(ax, coastlat, coastlon,...
                         'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
@@ -274,12 +205,12 @@ for idx = 1:size(InSitu,2)
                   geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface','ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
                   % Plot in situ data
                   hold on
-                  plotm(InSitu(idx).lat,InSitu(idx).lon,'*c')
-                  textm(InSitu(idx).lat,InSitu(idx).lon,InSitu(idx).station)
+                  plotm(MatchupsGOCI(idx).lat,MatchupsGOCI(idx).lon,'*c')
+                  textm(MatchupsGOCI(idx).lat,MatchupsGOCI(idx).lon,MatchupsGOCI(idx).station)
                  
                   
                   colormap jet
-%                   waitforbuttonpress;
+                  waitforbuttonpress;
                   
             else
                   % File does not exist.
