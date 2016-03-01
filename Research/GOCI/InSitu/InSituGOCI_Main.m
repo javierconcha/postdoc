@@ -1,4 +1,7 @@
 addpath('/Users/jconchas/Documents/Research/')
+addpath('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR')
+addpath('/Users/jconchas/Documents/Research/GOCI')
+cd '/Users/jconchas/Documents/Research/GOCI/InSitu';
 count = 0; % to create the InSitu structure
 clear InSitu
 %% Open file for cruise GEOCAPE_GOCI
@@ -129,6 +132,8 @@ save('GOCI_InSitu.mat','InSitu')
 
 %%
 load('GOCI_InSitu.mat')
+load('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/MTLGOCI_struct.mat')
+whos InSitu MTLGOCI
 unique([InSitu(:).start_date]','rows') % to have only one date per day
 
 %%  Matchups
@@ -149,11 +154,12 @@ for idx = 1:size(InSitu,2)
       end
       
 end
-%%
+%% Number of matchups
 fprintf('Number of Matchups: %i\n',sum(~isnan([InSitu(:).Matchup_index])))
 %%
 MTLGOCI(~isnan([InSitu(:).Matchup_index])).Product_name
 
+% Structure with only matchups
 MTLGOCI([InSitu(~isnan([InSitu(:).Matchup_index])).Matchup_index])
 %%
 
@@ -233,6 +239,54 @@ colormap jet
 % x = 10.^y;
 % set(hcb,'XTick',log10(x));
 % set(hcb,'XTickLabel',x)
-%%
+%% Plot images
 pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/';
-filename = 'file_list.txt';
+
+for idx = 1:size(InSitu,2)
+      if ~isnan(InSitu(idx).Matchup_index(1)) && ...
+                  ~isnan(InSitu(idx).Matchup_scene_id(1))
+            disp([pathname InSitu(idx).Matchup_scene_id '_L2.nc'])
+            
+            if exist([pathname InSitu(idx).Matchup_scene_id '_L2.nc'], 'file')
+                  disp([pathname InSitu(idx).Matchup_scene_id '_L2.nc' ' exist...'])
+                  %% plot scene
+                  filepath = [pathname InSitu(idx).Matchup_scene_id '_L2.nc'];
+                  longitude   = ncread(filepath,'/navigation_data/longitude');
+                  latitude    = ncread(filepath,'/navigation_data/latitude');
+                  ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+                  
+                  plusdegress = 0.5;
+                  latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+                  lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+                  
+                  figure('Color','white','Name',[InSitu(idx).Matchup_scene_id '_L2.nc'])
+                  % ax = worldmap([52 75],[170 -120]);
+                  ax = worldmap(latlimplot,lonlimplot);
+                  
+                  load coastlines
+                  geoshow(ax, coastlat, coastlon,...
+                        'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+                  
+                  geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+                  geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+                  % Display product
+                  
+                  geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface','ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
+                  % Plot in situ data
+                  hold on
+                  plotm(InSitu(idx).lat,InSitu(idx).lon,'*c')
+                  textm(InSitu(idx).lat,InSitu(idx).lon,InSitu(idx).station)
+                 
+                  
+                  colormap jet
+%                   waitforbuttonpress;
+                  
+            else
+                  % File does not exist.
+                  warningMessage = sprintf('Warning: file does not exist:\n%s', fullFileName);
+                  uiwait(msgbox(warningMessage));
+            end
+            
+      end
+      
+end

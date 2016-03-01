@@ -211,3 +211,5 @@ for idx=1:size(s{:},1)
       MTLGOCI(idx).Product_name = temp{:}{2};
 end
 save('MTLGOCI_struct.mat','MTLGOCI')
+%%
+load('MTLGOCI_struct.mat','MTLGOCI')
