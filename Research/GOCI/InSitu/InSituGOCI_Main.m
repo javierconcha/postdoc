@@ -153,14 +153,28 @@ for idx = 1:size(InSitu,2)
       
       if t_dif <= hours(3)
             count = count+1;
-            MatchupsGOCI(count) = InSitu(idx); % closest image
+            MatchupsGOCI(count).station = InSitu(idx).station; % closest image
+            MatchupsGOCI(count).start_date = InSitu(idx).start_date;
+            MatchupsGOCI(count).start_time = InSitu(idx).start_time;
+            MatchupsGOCI(count).filepath = InSitu(idx).filepath;
+            MatchupsGOCI(count).wavelength = InSitu(idx).wavelength;
+            MatchupsGOCI(count).ag = InSitu(idx).ag;
+            MatchupsGOCI(count).lat = InSitu(idx).lat;
+            MatchupsGOCI(count).lon = InSitu(idx).lon;
             MatchupsGOCI(count).Matchup_index = I; % index to the MTLGOCI structure
             MatchupsGOCI(count).Matchup_scene_id = MTLGOCI(I).Product_name;
       end
       
       if t_dif2 <= hours(3)
             count2 = count2+1;
-            MatchupsGOCI2(count2) = InSitu(idx); % second closest image
+            MatchupsGOCI2(count2).station = InSitu(idx).station; % second closest image
+            MatchupsGOCI2(count2).start_date = InSitu(idx).start_date;
+            MatchupsGOCI2(count2).start_time = InSitu(idx).start_time;
+            MatchupsGOCI2(count2).filepath = InSitu(idx).filepath;
+            MatchupsGOCI2(count2).wavelength = InSitu(idx).wavelength;
+            MatchupsGOCI2(count2).ag = InSitu(idx).ag;
+            MatchupsGOCI2(count2).lat = InSitu(idx).lat;
+            MatchupsGOCI2(count2).lon = InSitu(idx).lon;
             MatchupsGOCI2(count2).Matchup_index = I2; % index to the MTLGOCI structure
             MatchupsGOCI2(count2).Matchup_scene_id = MTLGOCI(I2).Product_name;
       end
@@ -172,52 +186,128 @@ fprintf('Number of Matchups: %i\n',sum(~isnan([MatchupsGOCI(:).Matchup_index])))
 %% Plot images
 pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/';
 
-for idx = 1:size(MatchupsGOCI,2)
+image_list = unique({MatchupsGOCI(:).Matchup_scene_id}'); % not repeated images
+h1 = waitbar(0,'Initializing ...');
+
+for idx = 1:size(image_list,1)
+      waitbar(idx/size(image_list,1),h1,'Searching for matchups...')
       %%
-      if ~isnan(MatchupsGOCI(idx).Matchup_index(1)) && ...
-                  ~isnan(MatchupsGOCI(idx).Matchup_scene_id(1))
-            disp([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'])
+      tic
+      filepath = [pathname image_list{idx} '_L2.nc'];
+      if exist(filepath, 'file');
+            disp('------------------------------------------')
+            disp([filepath ' exist...'])          
+            %% plot scene  
+            longitude   = ncread(filepath,'/navigation_data/longitude');
+            latitude    = ncread(filepath,'/navigation_data/latitude');
+            ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
             
-            if exist([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'], 'file')
-                  disp([pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc' ' exist...'])
-                  %% plot scene
-                  filepath = [pathname MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'];
-                  longitude   = ncread(filepath,'/navigation_data/longitude');
-                  latitude    = ncread(filepath,'/navigation_data/latitude');
-                  ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
-                  
-                  plusdegress = 0.5;
-                  latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
-                  lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
-                  
-                  figure('Color','white','Name',[MatchupsGOCI(idx).Matchup_scene_id '_L2.nc'])
-                  % ax = worldmap([52 75],[170 -120]);
-                  ax = worldmap(latlimplot,lonlimplot);
-                   
-                  load coastlines
-                  geoshow(ax, coastlat, coastlon,...
-                        'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-                  
-                  geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-                  geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-                  % Display product
-                  
-                  geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface','ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
+            plusdegress = 0.5;
+            latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+            lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+            
+            h = figure('Color','white','Name',[image_list{idx} '_L2.nc']);
+            % ax = worldmap([52 75],[170 -120]);
+            ax = worldmap(latlimplot,lonlimplot);
+            
+            load coastlines
+            geoshow(ax, coastlat, coastlon,...
+                  'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+            
+            geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+            geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+            % Display product
+            
+%             geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface',...
+%                   'ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
+            
+            pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
+            
                   % Plot in situ data
-                  hold on
-                  plotm(MatchupsGOCI(idx).lat,MatchupsGOCI(idx).lon,'*c')
-                  textm(MatchupsGOCI(idx).lat,MatchupsGOCI(idx).lon,MatchupsGOCI(idx).station)
-                 
-                  
-                  colormap jet
-                  waitforbuttonpress;
-                  
-            else
-                  % File does not exist.
-                  warningMessage = sprintf('Warning: file does not exist:\n%s', fullFileName);
-                  uiwait(msgbox(warningMessage));
-            end
+            hold on
             
+            for idx2 = 1:size(MatchupsGOCI,2)
+                  if image_list{idx} == MatchupsGOCI(idx2).Matchup_scene_id
+                        plotm(MatchupsGOCI(idx2).lat,MatchupsGOCI(idx2).lon,'*c')
+                        textm(MatchupsGOCI(idx2).lat,MatchupsGOCI(idx2).lon,MatchupsGOCI(idx2).station)
+                        lat_diff = abs(MatchupsGOCI(idx2).lat-latitude);
+                        [r_lat,c_lat] = find(lat_diff==min(min(lat_diff)))
+                        lon_diff = abs(MatchupsGOCI(idx2).lon-longitude);
+                        [r_lon,c_lon] = find(lon_diff==min(min(lon_diff)))
+                  end
+            end
+            colormap jet
+%             waitforbuttonpress;
+            
+      else
+            % File does not exist.
+            warningMessage = sprintf('Warning: file does not exist:\n%s', fullFileName);
+            uiwait(msgbox(warningMessage));
       end
-      
+%       savefig(h,['/Users/jconchas/Documents/Research/GOCI/InSitu/MatlabFigs/' image_list{idx} '.fig'],'compact')
+      saveas(gcf,['/Users/jconchas/Documents/Research/GOCI/InSitu/MatlabFigs/' image_list{idx} '.png'],'png')
+      toc
 end
+close(h1)
+%%
+tic
+x = latitude;
+y = longitude;
+CX = MatchupsGOCI(idx2).lat;
+CY = MatchupsGOCI(idx2).lon;
+
+
+index_matrix1 = 1:size(x,1)*size(x,2); 
+index_matrix1 = reshape(index_matrix1,size(x));
+lin_ind = griddata(x,y,index_matrix1,CX,CY,'nearest'); % where CX and CY are the coords of the contour
+[sub_ind(1,:),sub_ind(2,:)] = ind2sub(size(x),lin_ind)
+toc
+
+%% or use dsearchn
+tic
+X = [latitude(:) longitude(:)];
+
+% X = [3.5 8.2; 6.8 8.3; 1.3 6.5; 3.5 6.3; 5.8 6.2; 8.3 6.5;...
+%     1 4; 2.7 4.3; 5 4.5; 7 3.5; 8.7 4.2; 1.5 2.1; 4.1 1.1; ...
+%     7 1.5; 8.5 2.75];
+% figure
+% plot(X(:,1),X(:,2),'ob')
+% hold on
+% vxlabels = arrayfun(@(n) {sprintf('X%d', n)}, (1:15)');
+% Hpl = text(X(:,1)+0.2, X(:,2)+0.2, vxlabels, 'FontWeight', ...
+%   'bold', 'HorizontalAlignment','center', 'BackgroundColor', ...
+%   'none');
+% hold off
+
+dt = delaunayTriangulation(X);
+
+% numq = 1;
+% rng(0,'twister');
+% q = 2+rand(numq,2)*6;
+
+q = [MatchupsGOCI(idx2).lat MatchupsGOCI(idx2).lon];
+
+xi = nearestNeighbor(dt, q);
+
+xnn = X(xi,:);
+
+[r,c]=ind2sub(size(latitude),xi)
+
+% hold on
+% plot(q(:,1),q(:,2),'or');
+% plot([xnn(:,1) q(:,1)]',[xnn(:,2) q(:,2)]','-r');
+% 
+% vxlabels = arrayfun(@(n) {sprintf('q%d', n)}, (1:numq)');
+% Hpl = text(q(:,1)+0.2, q(:,2)+0.2, vxlabels, 'FontWeight', ...
+%      'bold', 'HorizontalAlignment','center', ...
+%      'BackgroundColor','none');
+% 
+% hold off
+toc
+
+%% 
+tic
+dist_squared = (latitude-MatchupsGOCI(idx2).lat).^2 + (longitude-MatchupsGOCI(idx2).lon).^2;
+[m,I] = min(dist_squared(:));
+[r,c]=ind2sub(size(latitude),I)
+toc
