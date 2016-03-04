@@ -138,6 +138,8 @@ load('GOCI_InSitu.mat')
 load('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/MTLGOCI_struct.mat')
 whos InSitu MTLGOCI
 unique([InSitu(:).start_date]','rows') % to have only one date per day
+% this list is used to search for the GOCI scene in the in house server
+% from the list goci_l1.txt provided by John Wildings
 
 %%  Matchups
 count = 0;
@@ -187,8 +189,9 @@ for idx = 1:size(InSitu,2)
 end
 clear idx t A t_dif t_dif2 I2 I count count2
 
-%% Plot images
-pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/';
+%% See if there is valid value in the product and plot the images
+pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/'; % for the default aer_opt=-2
+% pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2n1Product/'; % for aer_opt=-1
 
 % MatchupMat = MatchupsGOCI;
 MatchupMat = [MatchupsGOCI MatchupsGOCI2];
@@ -200,7 +203,7 @@ for idx = 1:size(image_list,1)
       waitbar(idx/size(image_list,1),h1,'Searching for matchups...')
       %%
       firsttime = true;
-      filepath = [pathname image_list{idx} '_L2.nc'];
+      filepath = [pathname image_list{idx} '_L2.nc']; % '_L2n1.nc' or '_L2.nc']
       if exist(filepath, 'file');
             %% Extract info
             longitude   = ncread(filepath,'/navigation_data/longitude');
