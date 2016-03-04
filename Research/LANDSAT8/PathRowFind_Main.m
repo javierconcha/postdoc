@@ -1,5 +1,8 @@
+% Script to obtain the path and row associated with a potential image based
+% on the lat and lon from the OpenSeaBASSfile_Main.m script.
+
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
-%%
+%% Create an estucture WRS_struct with the path and row's coordinate limits
 % clear
 % fileID = fopen('WRS-2_bound_world.kml');
 % % Downloaded from: https://landsat.usgs.gov/tools_wrs-2_shapefile.php
@@ -46,8 +49,6 @@ addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
 % end
 % count
 % save('WRS2_pathrow_struct.mat','WRS_struct')
-% %%
-% load('WRS2_pathrow_struct.mat');
 % %%
 % v = 1:28556;
 %
@@ -102,9 +103,14 @@ addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
 %
 % [I,ImageDate,R,h] = landsat(p(n),r(n),datestr(t(d)));
 % plotm(lat,lon,'r*-')
-%%
+%% Create structure DB (database) with the potential scene path and row based on the lat and lon of the
+% in situ data obtained from OpenSeaBASSfile_Main.m. Note: some paths and
+% rows could be not valid because they are only over water and Landsat does
+% not acquired images over only water...
+% RUN OpenSeaBASSfile_Main.m first!!!
 clear DB
 clc
+load('WRS2_pathrow_struct.mat');
 h1 = waitbar(0,'Initializing ...');
 tic
 aux_idx = 0;
@@ -188,6 +194,9 @@ idx_match = 0;
 for n=1:size(DB,2) %  how many path and row combinations
       waitbar(n/size(DB,2),h2,'Looking for Matchups')
       if datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset) >= datenum(2013,2,11) % date must be larger than Landsat 8 first scene
+            %% landsat.m is a script written by Chad A. Greene of the University of Texas at Austin's and available online.
+            % it checks if there is a jpg image associated with the scene
+            % on the USGS server.
             [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
             if ~isempty(ImageDate)
                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
