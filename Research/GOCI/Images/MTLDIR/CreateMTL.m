@@ -1,7 +1,8 @@
 % Script to create an estructure with metadata from the h5dump for each
 % GOCI image
 
-dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/MTLDIR/';
+cd /Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/
+dirname = '/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/';
 clear MTLGOCI
 % Open file with the list of images names
 fileID = fopen([dirname 'file_list.txt']);
@@ -30,7 +31,7 @@ for idx=1:size(s{:},1)
 %       }
       linu = find(strcmp(C{1},'ATTRIBUTE "Scene Start time" {'), 1, 'first'); % line number
       temp = textscan(C{1}{linu+9},'%s','Delimiter','"');      
-      MTLGOCI(idx).Scene_Star_time = datetime(temp{:}{2},'InputFormat','dd-MMM-yyyy HH:mm:ss.SSS');      
+      MTLGOCI(idx).Scene_Start_time = datetime(temp{:}{2},'InputFormat','dd-MMM-yyyy HH:mm:ss.SSS');      
 %2    ATTRIBUTE "Scene center time" {
 %       DATATYPE  H5T_STRING {
 %          STRSIZE 24;

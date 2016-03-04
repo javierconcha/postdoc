@@ -978,4 +978,85 @@ to display the complete group:
 jconchas@anly104:/data2/jconchas/GOCI$ h5dump -g "/HDFEOS/POINTS/Scene Header" COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5    
 
 jconchas@anly104:/data2/jconchas/GOCI$ h5dump -g "/HDFEOS/POINTS/File Descripter Metadata" COMS_GOCI_L1B_GA_20110409/COMS_GOCI_L1B_GA_20110409001644.he5     
+--------------------------------------------------
+2016-03-02 Wed
+time for the SeaBASS file:
+/start_time=6:31:02[GMT]
+/end_time=6:43:35[GMT]
+GMT: Greenwich Mean Time
+
+GOCI: eight times a day
+during the daytime (from 10 AM to 5 PM Local Time)
+--------------------------------------------------
+2016-03-03 Thu
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ h5dump -A COMS_GOCI_L1B_GA_20151224001640.he5 |less
+            ATTRIBUTE "processing start time" {
+               DATATYPE  H5T_STRING {
+                  STRSIZE 24;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "24-DEC-2015 00:16:40.000"
+               }
+            }
+            ATTRIBUTE "processing start time" {
+               DATATYPE  H5T_STRING {
+                  STRSIZE 24;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "24-DEC-2015 00:16:40.000"
+               }
+            }
+            ATTRIBUTE "processing time" {
+               DATATYPE  H5T_IEEE_F64LE
+               DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
+               DATA {
+               (0): 2330
+               }
+            }
+            ATTRIBUTE "Scene Start time" {
+               DATATYPE  H5T_STRING {
+                  STRSIZE 24;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "24-DEC-2015 00:15:35.000"
+               }
+            }
+            ATTRIBUTE "Scene center time" {
+               DATATYPE  H5T_STRING {
+                  STRSIZE 24;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "24-DEC-2015 00:28:44.156"
+               }
+            }
+            ATTRIBUTE "Scene end time" {
+               DATATYPE  H5T_STRING {
+                  STRSIZE 24;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "24-DEC-2015 00:42:11.000"
+               }
+            }
+
+
 (END) 

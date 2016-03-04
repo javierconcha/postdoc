@@ -35,17 +35,18 @@ geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 %%
 
 for idx=1:size(s{:},1)
+      %%
       filename = s{1}{idx}; % search on the list of filenames
       
       filepath = [dirname filename];
       
       [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
-      %% ag
+      % ag
       figure(hf1)
       hold on
       plot(data.wavelength,data.ag);
       grid on
-      %% location
+      % location
       figure(hf2)
       hold on
       plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
@@ -57,12 +58,13 @@ for idx=1:size(s{:},1)
       InSitu(count).filepath = filepath;
       InSitu(count).wavelength = data.wavelength;
       InSitu(count).ag = data.ag;
+      InSitu(count).ag_412_insitu = data.ag(data.wavelength==412);
       InSitu(count).lat = sbHeader.north_latitude;
       InSitu(count).lon = sbHeader.east_longitude;
       
       fprintf('%s %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
 end
-
+clear coastlat coastlon ax idx filepath dirname filename
 
 %% Open file for cruise GOCI_2013
 dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GOCI_2013/archive/iop/';
@@ -122,6 +124,7 @@ for idx=1:size(s{:},1)
       InSitu(count).filepath = filepath;
       InSitu(count).wavelength = wavelength;
       InSitu(count).ag = ag;
+      InSitu(count).ag_412_insitu = ag(wavelength==412.6);
       InSitu(count).lat = sbHeader.north_latitude;
       InSitu(count).lon = sbHeader.east_longitude;
       
@@ -146,7 +149,7 @@ for idx = 1:size(InSitu,2)
       t = [t(:,1:12) InSitu(idx).start_time];
       t = datetime(t,'ConvertFrom','yyyymmdd');
       
-      A = abs([MTLGOCI(:).Scene_end_time]-t);
+      A = abs([MTLGOCI(:).Scene_center_time]-t);
       [t_dif,I] = min(A);
       t_dif2 = min(setdiff(A(:),min(A(:))));
       [~,I2] = min(abs(A - t_dif2));
@@ -159,9 +162,10 @@ for idx = 1:size(InSitu,2)
             MatchupsGOCI(count).filepath = InSitu(idx).filepath;
             MatchupsGOCI(count).wavelength = InSitu(idx).wavelength;
             MatchupsGOCI(count).ag = InSitu(idx).ag;
+            MatchupsGOCI(count).ag_412_insitu = InSitu(idx).ag_412_insitu;
             MatchupsGOCI(count).lat = InSitu(idx).lat;
             MatchupsGOCI(count).lon = InSitu(idx).lon;
-            MatchupsGOCI(count).Matchup_index = I; % index to the MTLGOCI structure
+            MatchupsGOCI(count).MTL_index = I; % index to the MTLGOCI structure
             MatchupsGOCI(count).Matchup_scene_id = MTLGOCI(I).Product_name;
       end
       
@@ -173,20 +177,23 @@ for idx = 1:size(InSitu,2)
             MatchupsGOCI2(count2).filepath = InSitu(idx).filepath;
             MatchupsGOCI2(count2).wavelength = InSitu(idx).wavelength;
             MatchupsGOCI2(count2).ag = InSitu(idx).ag;
+            MatchupsGOCI2(count2).ag_412_insitu = InSitu(idx).ag_412_insitu;
             MatchupsGOCI2(count2).lat = InSitu(idx).lat;
             MatchupsGOCI2(count2).lon = InSitu(idx).lon;
-            MatchupsGOCI2(count2).Matchup_index = I2; % index to the MTLGOCI structure
+            MatchupsGOCI2(count2).MTL_index = I2; % index to the MTLGOCI structure
             MatchupsGOCI2(count2).Matchup_scene_id = MTLGOCI(I2).Product_name;
       end
       
 end
-%% Number of matchups
-fprintf('Number of Matchups: %i\n',sum(~isnan([MatchupsGOCI(:).Matchup_index])))
+clear idx t A t_dif t_dif2 I2 I count count2
 
 %% Plot images
 pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/';
 
-image_list = unique({MatchupsGOCI(:).Matchup_scene_id}'); % not repeated images
+% MatchupMat = MatchupsGOCI;
+MatchupMat = [MatchupsGOCI MatchupsGOCI2];
+
+image_list = unique({MatchupMat(:).Matchup_scene_id}'); % not repeated images
 h1 = waitbar(0,'Initializing ...');
 
 for idx = 1:size(image_list,1)
@@ -200,13 +207,13 @@ for idx = 1:size(image_list,1)
             latitude    = ncread(filepath,'/navigation_data/latitude');
             ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
             
-            for idx2 = 1:size(MatchupsGOCI,2)
-                  if image_list{idx} == MatchupsGOCI(idx2).Matchup_scene_id
+            for idx2 = 1:size(MatchupMat,2)
+                  if image_list{idx} == MatchupMat(idx2).Matchup_scene_id
                         %% closest distance
                         % latitude and longitude are arrays of MxN
                         % lat0 and lon0 is the coordinates of one point
-                        lat0 = MatchupsGOCI(idx2).lat;
-                        lon0 = MatchupsGOCI(idx2).lon;
+                        lat0 = MatchupMat(idx2).lat;
+                        lon0 = MatchupMat(idx2).lon;
                         dist_squared = (latitude-lat0).^2 + (longitude-lon0).^2;
                         [m,I] = min(dist_squared(:));
                         [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
@@ -214,14 +221,28 @@ for idx = 1:size(image_list,1)
                         if ~isnan(ag_412_mlrc (r,c))
                               disp('------------------------------------------')
                               disp(['Image: ' image_list{idx}])
-                              ag_insitu = MatchupsGOCI(idx2).ag((MatchupsGOCI(idx2).wavelength==412));
-                              fprintf('Station: %s; In Situ: %2.2f; Product: %2.2f\n',MatchupsGOCI(idx2).station,ag_insitu,ag_412_mlrc (r,c))
+                              disp(['START: ' datestr(MTLGOCI(MatchupMat(idx2).MTL_index).Scene_Start_time)])
+                              disp(['END: ' datestr(MTLGOCI(MatchupMat(idx2).MTL_index).Scene_end_time)])
+                              
+                              ag_412_insitu = MatchupMat(idx2).ag_412_insitu;
+                              
+                              t = datetime(MatchupMat(idx2).start_date,'ConvertFrom','yyyymmdd');
+                              t = char(t);
+                              t = [t(:,1:12) MatchupMat(idx2).start_time];
+                              t = datetime(t,'ConvertFrom','yyyymmdd');
+                              
+                              disp(['In Situ taken on ' datestr(t)])
+                              
+                              fprintf('Station: %s; In Situ: %2.4f; Product: %2.4f\n',MatchupMat(idx2).station,ag_412_insitu,ag_412_mlrc (r,c))
+                              MatchupMat(idx2).ag_412_mlrc = ag_412_mlrc (r,c);
+                              MatchupMat(idx2).ag_412_insitu = ag_412_insitu;
                               %% Plot
                               plusdegress = 0.5;
                               latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
                               lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
                               
                               if firsttime
+
                                     h = figure('Color','white','Name',[image_list{idx} '_L2.nc']);
                                     % ax = worldmap([52 75],[170 -120]);
                                     ax = worldmap(latlimplot,lonlimplot);
@@ -245,14 +266,18 @@ for idx = 1:size(image_list,1)
                               figure(h)
                               hold on
                               
-                              plotm(MatchupsGOCI(idx2).lat,MatchupsGOCI(idx2).lon,'*c')
-                              textm(MatchupsGOCI(idx2).lat,MatchupsGOCI(idx2).lon,MatchupsGOCI(idx2).station)
+                              plotm(MatchupMat(idx2).lat,MatchupMat(idx2).lon,'*c')
+                              textm(MatchupMat(idx2).lat,MatchupMat(idx2).lon,MatchupMat(idx2).station)
                               plotm(latitude(r,c),longitude(r,c),'*m')
                               
+                        else
+                              MatchupMat(idx2).ag_412_mlrc = NaN;
                         end
                         
                   end
-                  if idx2 == size(MatchupsGOCI,2) && ~isnan(ag_412_mlrc (r,c))
+                  if idx2 == size(MatchupMat,2) && ~isnan(ag_412_mlrc (r,c))
+                        figure(gcf)
+                        title(image_list{idx},'interpreter', 'none')
                         saveas(gcf,['/Users/jconchas/Documents/Research/GOCI/InSitu/MatlabFigs/' image_list{idx} '.png'],'png')
                   end
             end
@@ -265,4 +290,32 @@ for idx = 1:size(image_list,1)
             uiwait(msgbox(warningMessage));
       end
 end
+
 close(h1)
+
+clear pathname h1 idx idx2 ax r c count count2 coastlat coastlon ...
+      firsttime h plusdegress latlimplot lonlimplot ag_412_mlrc ...
+      ag_412_insitu image_list latitude longitude t
+
+%% Plotting in situ vs retrieved
+cond1 = ~isnan([MatchupMat(:).ag_412_mlrc]);
+
+fs = 16;
+figure('Color','white','DefaultAxesFontSize',fs)
+plot([MatchupMat(cond1).ag_412_mlrc],[MatchupMat(cond1).ag_412_insitu],'*')
+xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
+ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
+axis equal 
+a_g_max = 0.16;
+xlim([0 a_g_max])
+ylim([0 a_g_max])
+hold on
+plot([0 a_g_max],[0 a_g_max],'--k')
+%%
+fs = 16;
+figure('Color','white','DefaultAxesFontSize',fs)
+fs = 16;
+hist([InSitu(:).ag_412_insitu],20)
+xlabel('In situ ag\_412 (m\^-1)','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+title('Histogram','FontSize',fs)
