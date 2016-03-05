@@ -1,7 +1,8 @@
 % Script to obtain the path and row associated with a potential image based
 % on the lat and lon from the OpenSeaBASSfile_Main.m script.
 
-addpath('/Users/jconchas/Documents/Research/LANDSAT8/')
+addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
+cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %% Create an estucture WRS_struct with the path and row's coordinate limits
 % clear
 % fileID = fopen('WRS-2_bound_world.kml');
@@ -186,7 +187,7 @@ toc
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 
-%%
+%% To search for the available Landsat 8 scene and make sure the path and row is acquired by the sensor
 clear Matchup
 tic
 h2 = waitbar(0,'Initializing ...');

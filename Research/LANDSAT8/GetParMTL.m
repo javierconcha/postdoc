@@ -9,8 +9,8 @@ fclose(fileID);
 %% Find parameter value
 idx1 = find(strcmp(s{1},[parname ' ']), 1, 'first');
 
-if ~strcmp(parname,'DATE_ACQUIRED') % When is DATE_ACQUIRED not convert to number
-    parval = str2double(s{1}{idx1+1});
-else
+if strcmp(parname,'DATE_ACQUIRED') || strcmp(parname,'SCENE_CENTER_TIME') % When is DATE_ACQUIRED or SCENE_CENTER_TIME not convert to number
     parval = s{1}{idx1+1};
+else
+    parval = str2double(s{1}{idx1+1});
 end

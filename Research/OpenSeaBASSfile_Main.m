@@ -1,5 +1,7 @@
 % Script to open In Situ data obtained in a single file from Thomas Leeuw
 addpath('/Users/jconchas/Documents/Research/')
+addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
+cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %% Extract Tara data from SeaBASS file
 % dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/';
@@ -104,33 +106,63 @@ plot(wavelength_short,Lwn)
 ylabel('Lwn (mW cm\^-2 um\^-1 sr\^-1)')
 xlabel('wavelength (nm)')
 grid on
-%% Look in the Matchup structure the best images selected by visual inspection
-fileID = fopen('/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618866/L8 OLI_TIRS/file_list.txt');
-s = textscan(fileID,'%s','Delimiter','\n');
+%% Look in the Matchup structure the best images previously selected by visual inspection
+% using landsat.m and plot the jpg image and the in situ data location
+load('L8Matchups_Arctics.mat')
+
+dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';
+
+fileID = fopen([dirname 'file_list.txt']);
+s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
 fclose(fileID);
 
 for n = 1:size(s{:},1)
+      %%
       disp('----------------------------------')
       disp(s{1}{n})
       for i=1:size(Matchup,2)
             if s{1}{n} == Matchup(i).id_scene
-                  Matchup(i)
-                  disp('Found it!')
-                  break
+                  filepath = [dirname Matchup(i).id_scene '/' Matchup(i).id_scene '_MTL.txt'];
+                  if exist(filepath, 'file');
+                        parval_DATE = GetParMTL(filepath,'DATE_ACQUIRED');
+                        parval_TIME = GetParMTL(filepath,'SCENE_CENTER_TIME');
+                        if parval_TIME(1) == '"'
+                              tc = textscan(parval_TIME,'%s','Delimiter','"');
+                              tc = tc{:}{2};
+                              tc = tc(1:8);
+                        else
+                              tc = textscan(parval_TIME,'%s');
+                              tc = tc{:}{1};
+                              tc = tc(1:8);
+                        end
+                        
+                        taux = datetime(parval_DATE,'ConvertFrom','yyyy-mm-dd');
+                        taux = datetime([char(taux) ' ' tc],'ConvertFrom','yyyymmdd');
+                        Matchup(i).scenetime = taux;
+                        clear taux tc parval_DATE parval_TIME
+                        disp('Found it!')
+                        disp(Matchup(i))
+                        break
+                  else
+                        % File does not exist.
+                        warningMessage = sprintf('Warning: file does not exist:\n%s', fullFileName);
+                        uiwait(msgbox(warningMessage));
+                  end
             end
-            
       end
-      path = str2num(s{1}{n}(4:6));
-      row  = str2num(s{1}{n}(7:9));
-      year = str2num(s{1}{n}(10:13));
-      doy  = str2num(s{1}{n}(14:16));
+      path = str2double(s{1}{n}(4:6));
+      row  = str2double(s{1}{n}(7:9));
+      year = str2double(s{1}{n}(10:13));
+      doy  = str2double(s{1}{n}(14:16));
       [yy mm dd] = datevec(datenum(year,1,doy));
       str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
       t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
-      str2 = datestr(t_acq);
+%       str2 = datestr(t_acq);
       
       h1 = figure(1000);
+      % lansat.m to check the USGS server for jpg images as proxy to scenes available
       [~,~,~,h] = landsat(path,row,str);
+      
       figure(gcf)
       set(gcf,'Color','white','Name',s{1}{n})
       plotm(lat(Matchup(i).number_d),lon(Matchup(i).number_d),'*-r')
@@ -145,7 +177,8 @@ for n = 1:size(s{:},1)
       
       [Y,I] = min(abs(t_diff));
       
-      str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(t(Matchup(i).number_d(I))),char(t_diff(I)))
+      str2 = datestr(Matchup(i).scenetime);
+      str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(t(Matchup(i).number_d(I))),char(t_diff(I)));
       
       title(str3)
       
