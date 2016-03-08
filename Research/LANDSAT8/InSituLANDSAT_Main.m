@@ -402,7 +402,7 @@ for idx = 1:size(Matchup,2)
 end
 
 save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-%% Plot retrieved vs in situ
+%% Plot retrieved vs in situ for ALL
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
 plot([MatchupReal.ag_412_mlrc],[MatchupReal.ag_412_insitu],'*')
@@ -416,13 +416,17 @@ hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
 %% 
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-cond1 = abs(t_diff) <= days(1);
+cond1 = abs(t_diff) <= hours(3); % days(1) or hours(3)
 
-figure
+fprintf('Number of matchups: %i\n',sum(cond1))
+
+fs = 16;
+figure('Color','white','DefaultAxesFontSize',fs)
 plot(t_diff)
 hold on
-plot(t_diff(cond1),'*r')
-%%
+plot(find(cond1),t_diff(cond1),'*r')
+grid on
+%
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
 plot([MatchupReal(cond1).ag_412_mlrc],[MatchupReal(cond1).ag_412_insitu],'*')
