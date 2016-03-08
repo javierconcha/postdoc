@@ -414,7 +414,7 @@ xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
-%% 
+%% Plot retrieved vs in situ for less than 3 hours or 1 day
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
 cond1 = abs(t_diff) <= hours(3); % days(1) or hours(3)
 
@@ -438,5 +438,5 @@ xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
-%%
+%% List scene time and in situ time together
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
