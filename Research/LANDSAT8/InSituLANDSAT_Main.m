@@ -342,7 +342,7 @@ for idx = 1:size(Matchup,2)
       idx
       if ~isempty(Matchup(idx).scenetime)
             %% Open ag_412 product and plot
-            filepath = [dirname Matchup(idx).id_scene '/' Matchup(idx).id_scene '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc']
+            filepath = [dirname Matchup(idx).id_scene '/' Matchup(idx).id_scene '_L2n2.nc']; % '_L2n1.nc' or '_L2n2.nc']
             longitude   = ncread(filepath,'/navigation_data/longitude');
             latitude    = ncread(filepath,'/navigation_data/latitude');
             ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
@@ -402,34 +402,30 @@ for idx = 1:size(Matchup,2)
 end
 
 save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-%% Plot retrieved vs in situ for ALL
-fs = 16;
-figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal.ag_412_mlrc],[MatchupReal.ag_412_insitu],'*')
-xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
-ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
-axis equal 
-a_g_max = 0.16;
-xlim([0 a_g_max])
-ylim([0 a_g_max])
-hold on
-plot([0 a_g_max],[0 a_g_max],'--k')
-%% Plot retrieved vs in situ for less than 3 hours or 1 day
+%% Plot retrieved vs in situ for all and less than 3 hours or 1 day
+load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-cond1 = abs(t_diff) <= hours(3); % days(1) or hours(3)
+cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
+cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
 
 fprintf('Number of matchups: %i\n',sum(cond1))
 
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot(t_diff)
+plot(t_diff,'*-k')
 hold on
 plot(find(cond1),t_diff(cond1),'*r')
+plot(find(cond2),t_diff(cond2),'*b')
 grid on
+legend('3 days','1 day','3 hours')
+
 %
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal(cond1).ag_412_mlrc],[MatchupReal(cond1).ag_412_insitu],'*')
+plot([MatchupReal.ag_412_mlrc],[MatchupReal.ag_412_insitu],'*k')
+hold on
+plot([MatchupReal(cond1).ag_412_mlrc],[MatchupReal(cond1).ag_412_insitu],'*r')
+plot([MatchupReal(cond2).ag_412_mlrc],[MatchupReal(cond2).ag_412_insitu],'*b')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
 axis equal 
@@ -438,5 +434,92 @@ xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
+grid on
+legend('3 days','1 day','3 hours')
 %% List scene time and in situ time together
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
+
+%% Plot only Matchup Real
+scene_list = unique({MatchupReal(cond2).id_scene}');
+MatchupReal_aux = MatchupReal(cond2);
+dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the products are
+
+for idx = 1:size(scene_list,1)
+            %% Open ag_412 product and plot
+            scene_id_char =  char(scene_list(idx,:));
+            filepath = [dirname scene_id_char '/' scene_id_char '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc']
+            longitude   = ncread(filepath,'/navigation_data/longitude');
+            latitude    = ncread(filepath,'/navigation_data/latitude');
+            ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+            
+            % plot
+            plusdegress = 0;
+            latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+            lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+            h = figure('Color','white','Name',scene_id_char);
+            ax = worldmap(latlimplot,lonlimplot);
+            mlabel('MLabelParallel','north')
+            
+            load coastlines
+            geoshow(ax, coastlat, coastlon,...
+                  'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+            
+            geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+            geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+            
+            % Plot jpg image
+            path = str2double(scene_id_char(4:6));
+            row  = str2double(scene_id_char(7:9));
+            year = str2double(scene_id_char(10:13));
+            DOY  = str2double(scene_id_char(14:16));
+            date_aux = datevec(DOY+datenum(year,1,1)-1);
+            date_char = sprintf('%i-%i-%i',date_aux(1),date_aux(2),date_aux(3));
+            hold on
+            [~,~,~,h0] = landsat(path,row,date_char);
+            
+            % Display product
+         
+            
+            figure(gcf)
+            pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
+            colormap jet
+            
+            for idx2 = 1:size(MatchupReal_aux,2)
+                  if char(scene_list(idx,:)) == MatchupReal_aux(idx2).id_scene
+                        figure(h)
+                        hold on
+                        plotm(lat(MatchupReal_aux(idx2).insitu_idx),lon(MatchupReal_aux(idx2).insitu_idx),'*c')
+                  end
+            end
+            
+            mask = isnan(ag_412_mlrc);
+            ag_412_mlrc_log10 =log10(ag_412_mlrc);
+            ag_412_mlrc_mean = nanmean(ag_412_mlrc_log10(:));
+            ag_412_mlrc_std= nanstd(ag_412_mlrc_log10(:));
+            cte = 3;
+            set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ag_412_mlrc_mean+cte*ag_412_mlrc_std]);
+            set(h0, 'AlphaData', mask)
+            
+            hbar = colorbar('SouthOutside');
+            pos = get(gca,'position');
+            set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
+            set(hbar,'location','manual','position',[.2 0.05 .64 .05]); % [left, bottom, width, height]
+            title(hbar,'ag\_412\_mlrc (m\^-1)','FontSize',fs)
+            y = get(hbar,'XTick');
+            format short
+            x = 10.^y;
+            set(hbar,'XTick',log10(x));
+            for i=1:size(x,2)
+                  x_clean{i} = sprintf('%0.3f',x(i));
+            end
+            set(hbar,'XTickLabel',x_clean)
+end
+
+clear MatchupReal_aux ixc latlimplot lonlimplot h ax path row year DOY date_aux idx2
+
+%%
+figure
+axesm('miller','maplatlim',[-40 40],'maplonlim',[-20 60])
+framem; gridm; mlabel; plabel
+load coast
+plotm(lat, long)
