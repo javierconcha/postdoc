@@ -151,6 +151,7 @@ while datenum(clock) < finalTime & isempty(I)
                   I = imread(['http://earthexplorer.usgs.gov/browse/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
                         '/',sprintf('%03.f',wrs2row),'/LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
                         sprintf('%03.f',doy),'LGN00.jpg']);
+               
                   ImageNumber = ImageNumber + 1;  % If the image read above worked, log it.
             end
             
@@ -231,7 +232,7 @@ if MakeMap
             
             % An imperfect method of getting rid of the black triangles bounding landsat image:
             lat(sum(I,3)==0) = NaN;
-            lon(sum(I,3)==0) = NaN;
+            lon(sum(I,3)==0) = NaN; 
             
             h = geoshow(lat,lon,I);
             

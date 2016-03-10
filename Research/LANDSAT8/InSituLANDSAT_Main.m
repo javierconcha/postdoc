@@ -440,8 +440,8 @@ legend('3 days','1 day','3 hours')
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
 
 %% Plot only Matchup Real
-scene_list = unique({MatchupReal(cond2).id_scene}');
-MatchupReal_aux = MatchupReal(cond2);
+scene_list = unique({MatchupReal(cond1).id_scene}');
+MatchupReal_aux = MatchupReal(cond1);
 dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the products are
 
 for idx = 1:size(scene_list,1)
@@ -460,12 +460,12 @@ for idx = 1:size(scene_list,1)
             ax = worldmap(latlimplot,lonlimplot);
             mlabel('MLabelParallel','north')
             
-            load coastlines
-            geoshow(ax, coastlat, coastlon,...
-                  'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-            
-            geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-            geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+%             load coastlines
+%             geoshow(ax, coastlat, coastlon,...
+%                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+%             
+%             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+%             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
             
             % Plot jpg image
             path = str2double(scene_id_char(4:6));
@@ -475,6 +475,7 @@ for idx = 1:size(scene_list,1)
             date_aux = datevec(DOY+datenum(year,1,1)-1);
             date_char = sprintf('%i-%i-%i',date_aux(1),date_aux(2),date_aux(3));
             hold on
+            
             [~,~,~,h0] = landsat(path,row,date_char);
             
             % Display product
@@ -486,9 +487,9 @@ for idx = 1:size(scene_list,1)
             
             for idx2 = 1:size(MatchupReal_aux,2)
                   if char(scene_list(idx,:)) == MatchupReal_aux(idx2).id_scene
-                        figure(h)
+                        figure(gcf)
                         hold on
-                        plotm(lat(MatchupReal_aux(idx2).insitu_idx),lon(MatchupReal_aux(idx2).insitu_idx),'*c')
+                        plotm(lat(MatchupReal_aux(idx2).insitu_idx),lon(MatchupReal_aux(idx2).insitu_idx),'om','markerfacecolor','m')
                   end
             end
             
@@ -503,7 +504,7 @@ for idx = 1:size(scene_list,1)
             hbar = colorbar('SouthOutside');
             pos = get(gca,'position');
             set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
-            set(hbar,'location','manual','position',[.2 0.05 .64 .05]); % [left, bottom, width, height]
+            set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
             title(hbar,'ag\_412\_mlrc (m\^-1)','FontSize',fs)
             y = get(hbar,'XTick');
             format short
@@ -512,14 +513,7 @@ for idx = 1:size(scene_list,1)
             for i=1:size(x,2)
                   x_clean{i} = sprintf('%0.3f',x(i));
             end
-            set(hbar,'XTickLabel',x_clean)
+            set(hbar,'XTickLabel',x_clean,'FontSize',fs-1)
 end
 
 clear MatchupReal_aux ixc latlimplot lonlimplot h ax path row year DOY date_aux idx2
-
-%%
-figure
-axesm('miller','maplatlim',[-40 40],'maplonlim',[-20 60])
-framem; gridm; mlabel; plabel
-load coast
-plotm(lat, long)
