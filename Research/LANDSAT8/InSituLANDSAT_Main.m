@@ -507,7 +507,6 @@ for idx = 1:size(scene_list,1)
             set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
             title(hbar,'ag\_412\_mlrc (m\^-1)','FontSize',fs)
             y = get(hbar,'XTick');
-            format short
             x = 10.^y;
             set(hbar,'XTick',log10(x));
             for i=1:size(x,2)
