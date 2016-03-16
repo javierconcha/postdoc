@@ -1057,6 +1057,15 @@ jconchas@gs616-tidal:COMS_GOCI_L1B_GA_201512240x1640$ h5dump -A COMS_GOCI_L1B_GA
                (0): "24-DEC-2015 00:42:11.000"
                }
             }
-
+--------------------------------------------------
+2016-03-14 Mon
+git pull remote repo and create new band:
+jconchas@gs616-tidal:Latex$ git remote
+jconchas@gs616-tidal:Latex$ git branch new_branch
+jconchas@gs616-tidal:Latex$ git branch
+* master
+  new_branch
+jconchas@gs616-tidal:Latex$ git checkout new_branch
+Switched to branch 'new_branch'
 
 (END) 
