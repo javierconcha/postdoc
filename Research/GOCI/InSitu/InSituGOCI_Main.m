@@ -245,7 +245,7 @@ for idx = 1:size(image_list,1)
                                     warning('Window indices out of range...')
                               end
                               
-                              ws = 3; % window size
+                              ws = 3; % window size:3, 5, or 7
                               
                               window = ag_412_mlrc(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
                               window_mean = nanmean(window(:)); % only non NaN values
@@ -319,7 +319,7 @@ for idx = 1:size(image_list,1)
                               plotm(latitude(r,c),longitude(r,c),'*m')
                               
                         else
-                              MatchupMat(idx2).ag_412_mlrc = NaN;
+                              MatchupMat(idx2).ag_412_mlrc_center = NaN;
                         end
                         
                   end
@@ -366,18 +366,19 @@ clear pathname h1 idx idx2 ax r c count count2 coastlat coastlon ...
       ag_412_insitu image_list latitude longitude t
 
 %% Plotting in situ vs retrieved
-cond1 = ~isnan([MatchupMat(:).ag_412_mlrc]);
-% cond2 = ~isnan([MatchupsGOCI2(:).ag_412_mlrc]);
+cond1 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 1; % closest
+cond2 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 2; % second closest
 %
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
 %
 hold on
-plot([MatchupMat(cond1).ag_412_mlrc],[MatchupMat(cond1).ag_412_insitu],'*')
-% plot([MatchupsGOCI2(cond2).ag_412_mlrc],[MatchupsGOCI2(cond2).ag_412_insitu],'*r')
-plot([MatchupMat(cond1).ag_412_mlrc_filt],[MatchupMat(cond1).ag_412_insitu],'*r')
-% legend('Closest','2nd Closest')
-xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
+plot([MatchupMat(cond1).ag_412_mlrc_center],[MatchupMat(cond1).ag_412_insitu],'*')
+plot([MatchupMat(cond1).ag_412_mlrc_filt_mean],[MatchupMat(cond1).ag_412_insitu],'*r')
+plot([MatchupMat(cond2).ag_412_mlrc_center],[MatchupMat(cond2).ag_412_insitu],'*k')
+plot([MatchupMat(cond2).ag_412_mlrc_filt_mean],[MatchupMat(cond2).ag_412_insitu],'*m')
+legend('Closest center','2nd Closest center','Closest filt. mean','2nd Closest filt. mean')
+xlabel('ag\_412\_mlrc\_filt\_mean (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
 axis equal
 a_g_max = 0.16;
