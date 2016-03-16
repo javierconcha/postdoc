@@ -169,6 +169,7 @@ for idx = 1:size(InSitu,2)
             MatchupsGOCI(count).lon = InSitu(idx).lon;
             MatchupsGOCI(count).MTL_index = I; % index to the MTLGOCI structure
             MatchupsGOCI(count).Matchup_scene_id = MTLGOCI(I).Product_name;
+            MatchupsGOCI(count).close_status = 1; % 1 if closest, 2 if second closest
       end
       
       if t_dif2 <= hours(3)
@@ -184,6 +185,7 @@ for idx = 1:size(InSitu,2)
             MatchupsGOCI2(count2).lon = InSitu(idx).lon;
             MatchupsGOCI2(count2).MTL_index = I2; % index to the MTLGOCI structure
             MatchupsGOCI2(count2).Matchup_scene_id = MTLGOCI(I2).Product_name;
+            MatchupsGOCI2(count2).close_status = 2; % 1 if closest, 2 if second closest
       end
       
 end
@@ -192,7 +194,7 @@ clear idx t A t_dif t_dif2 I2 I count count2
 %% See if there is valid value in the product and plot the images
 pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/'; % for the default aer_opt=-2
 % pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2n1Product/'; % for aer_opt=-1
-
+clear MatchupMat
 % MatchupMat = MatchupsGOCI;
 MatchupMat = [MatchupsGOCI MatchupsGOCI2];
 
@@ -243,33 +245,46 @@ for idx = 1:size(image_list,1)
                                     warning('Window indices out of range...')
                               end
                               
-                              window = ag_412_mlrc (r-1:r+1,c-1:c+1);
-                              MatchupMat(idx2).window = window;
+                              ws = 3; % window size
+                              
+                              window = ag_412_mlrc(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
                               window_mean = nanmean(window(:)); % only non NaN values
                               window_std = nanstd(window(:));
                               
                               % indices to the cells that pass the filter
-                              xi_idx = (window > (1.5*window_std-window_mean)) &...
-                                    (window < (1.5*window_std+window_mean)) &...
+                              xi_idx = (window > (window_mean-1.5*window_std)) &...
+                                    (window < (window_mean+1.5*window_std)) &...
                                     ~isnan(window); % to exclude NaN
                               
-                              window_filtered = window(xi_idx(:));
-                             
-                              CV = std(window_filtered)/mean(window_filtered);
-                              MatchupMat(idx2).CV = CV;
+                              window_filt = window(xi_idx(:));
                               
-                              if CV < 0.15 && size(window_filtered,1)>=5 % at least 5 pixels form the 3x3 pixel arrays
-                                    MatchupMat(idx2).ag_412_mlrc_filtered = mean(window_filtered);
+                              CV = std(window_filt)/mean(window_filt);
+                              
+                              MatchupMat(idx2).ag_412_mlrc_mean = window_mean;
+                              MatchupMat(idx2).ag_412_mlrc_meadian = nanmedian(window(:));
+                              MatchupMat(idx2).ag_412_mlrc_std = window_std;
+                              MatchupMat(idx2).ag_412_mlrc_center = ag_412_mlrc(r,c);
+                              
+                              if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                                    MatchupMat(idx2).ag_412_mlrc_filt_mean = mean(window_filt);
+                                    MatchupMat(idx2).ag_412_mlrc_filt_std = std(window_filt);
+                                    
                               else
                                     warning('CV < 0.15. ag_412_mlrc not valid.')
-                                    MatchupMat(idx2).ag_412_mlrc_filtered = NaN;
+                                    MatchupMat(idx2).ag_412_mlrc_filt_mean = NaN;
+                                    MatchupMat(idx2).ag_412_mlrc_filt_std = NaN;
                               end
                               
-                              MatchupMat(idx2).ag_412_mlrc = ag_412_mlrc(r,c);
-                              
+                              MatchupMat(idx2).ag_412_mlrc_filt_min = min(window_filt);
+                              MatchupMat(idx2).ag_412_mlrc_filt_max = max(window_filt);
+                              MatchupMat(idx2).valid_px = sum(~isnan(window(:)));
+                              MatchupMat(idx2).ag_412_mlrc_filt_px_count = sum(~isnan(window_filt(:)));
                               MatchupMat(idx2).ag_412_insitu = ag_412_insitu;
+                              MatchupMat(idx2).window = window;
+                              MatchupMat(idx2).CV = CV;
+                              
                               %% Plot
-                              plusdegress = 0.5;
+                              plusdegress = 0;
                               latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
                               lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
                               
@@ -308,6 +323,7 @@ for idx = 1:size(image_list,1)
                         end
                         
                   end
+                  %% Plot when all the stations are processed for one scene
                   if idx2 == size(MatchupMat,2) && ~isnan(ag_412_mlrc(r,c))
                         figure(gcf)
                         fs = 16;
@@ -359,7 +375,7 @@ figure('Color','white','DefaultAxesFontSize',fs)
 hold on
 plot([MatchupMat(cond1).ag_412_mlrc],[MatchupMat(cond1).ag_412_insitu],'*')
 % plot([MatchupsGOCI2(cond2).ag_412_mlrc],[MatchupsGOCI2(cond2).ag_412_insitu],'*r')
-plot([MatchupMat(cond1).ag_412_mlrc_filtered],[MatchupMat(cond1).ag_412_insitu],'*r')
+plot([MatchupMat(cond1).ag_412_mlrc_filt],[MatchupMat(cond1).ag_412_insitu],'*r')
 % legend('Closest','2nd Closest')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
