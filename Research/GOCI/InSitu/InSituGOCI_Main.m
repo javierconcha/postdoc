@@ -221,7 +221,7 @@ for idx = 1:size(image_list,1)
                         [m,I] = min(dist_squared(:));
                         [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
                         clear lat0 lon0 m I dist_squared
-                        if ~isnan(ag_412_mlrc (r,c))
+                        if ~isnan(ag_412_mlrc(r,c))
                               disp('------------------------------------------')
                               disp(['Image: ' image_list{idx}])
                               disp(['START: ' datestr(MTLGOCI(MatchupMat(idx2).MTL_index).Scene_Start_time)])
@@ -237,7 +237,36 @@ for idx = 1:size(image_list,1)
                               disp(['In Situ taken on ' datestr(t)])
                               
                               fprintf('Station: %s; In Situ: %2.4f; Product: %2.4f\n',MatchupMat(idx2).station,ag_412_insitu,ag_412_mlrc (r,c))
-                              MatchupMat(idx2).ag_412_mlrc = ag_412_mlrc (r,c);
+                              
+                              %% Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                              if r-1 == 0 || c-1 ==0 || r == size(ag_412_mlrc,1) || c == size(ag_412_mlrc,2)
+                                    warning('Window indices out of range...')
+                              end
+                              
+                              window = ag_412_mlrc (r-1:r+1,c-1:c+1);
+                              MatchupMat(idx2).window = window;
+                              window_mean = nanmean(window(:)); % only non NaN values
+                              window_std = nanstd(window(:));
+                              
+                              % indices to the cells that pass the filter
+                              xi_idx = (window > (1.5*window_std-window_mean)) &...
+                                    (window < (1.5*window_std+window_mean)) &...
+                                    ~isnan(window); % to exclude NaN
+                              
+                              window_filtered = window(xi_idx(:));
+                             
+                              CV = std(window_filtered)/mean(window_filtered);
+                              MatchupMat(idx2).CV = CV;
+                              
+                              if CV < 0.15 && size(window_filtered,1)>=5 % at least 5 pixels form the 3x3 pixel arrays
+                                    MatchupMat(idx2).ag_412_mlrc_filtered = mean(window_filtered);
+                              else
+                                    warning('CV < 0.15. ag_412_mlrc not valid.')
+                                    MatchupMat(idx2).ag_412_mlrc_filtered = NaN;
+                              end
+                              
+                              MatchupMat(idx2).ag_412_mlrc = ag_412_mlrc(r,c);
+                              
                               MatchupMat(idx2).ag_412_insitu = ag_412_insitu;
                               %% Plot
                               plusdegress = 0.5;
@@ -245,10 +274,11 @@ for idx = 1:size(image_list,1)
                               lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
                               
                               if firsttime
-
+                                    
                                     h = figure('Color','white','Name',[image_list{idx} '_L2.nc']);
                                     % ax = worldmap([52 75],[170 -120]);
                                     ax = worldmap(latlimplot,lonlimplot);
+                                    mlabel('MLabelParallel','north')
                                     
                                     load coastlines
                                     geoshow(ax, coastlat, coastlon,...
@@ -269,7 +299,7 @@ for idx = 1:size(image_list,1)
                               figure(h)
                               hold on
                               
-                              plotm(MatchupMat(idx2).lat,MatchupMat(idx2).lon,'*c')
+                              plotm(MatchupMat(idx2).lat,MatchupMat(idx2).lon,'om','markerfacecolor','m')
                               textm(MatchupMat(idx2).lat,MatchupMat(idx2).lon,MatchupMat(idx2).station)
                               plotm(latitude(r,c),longitude(r,c),'*m')
                               
@@ -278,9 +308,28 @@ for idx = 1:size(image_list,1)
                         end
                         
                   end
-                  if idx2 == size(MatchupMat,2) && ~isnan(ag_412_mlrc (r,c))
+                  if idx2 == size(MatchupMat,2) && ~isnan(ag_412_mlrc(r,c))
                         figure(gcf)
-                        title(image_list{idx},'interpreter', 'none')
+                        fs = 16;
+                        ag_412_mlrc_log10 =log10(ag_412_mlrc);
+                        ag_412_mlrc_mean = nanmean(ag_412_mlrc_log10(:));
+                        ag_412_mlrc_std= nanstd(ag_412_mlrc_log10(:));
+                        cte = 3;
+                        set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ag_412_mlrc_mean+cte*ag_412_mlrc_std]);
+                        
+                        hbar = colorbar('SouthOutside');
+                        pos = get(gca,'position');
+                        set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
+                        set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
+                        title(hbar,'ag\_412\_mlrc (m\^-1)','FontSize',fs)
+                        y = get(hbar,'XTick');
+                        x = 10.^y;
+                        set(hbar,'XTick',log10(x));
+                        for i=1:size(x,2)
+                              x_clean{i} = sprintf('%0.3f',x(i));
+                        end
+                        set(hbar,'XTickLabel',x_clean,'FontSize',fs-4)
+                        %                         title(image_list{idx},'interpreter', 'none')
                         saveas(gcf,['/Users/jconchas/Documents/Research/GOCI/InSitu/MatlabFigs/' image_list{idx} '.png'],'png')
                   end
             end
@@ -302,19 +351,27 @@ clear pathname h1 idx idx2 ax r c count count2 coastlat coastlon ...
 
 %% Plotting in situ vs retrieved
 cond1 = ~isnan([MatchupMat(:).ag_412_mlrc]);
-
+% cond2 = ~isnan([MatchupsGOCI2(:).ag_412_mlrc]);
+%
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
+%
+hold on
 plot([MatchupMat(cond1).ag_412_mlrc],[MatchupMat(cond1).ag_412_insitu],'*')
+% plot([MatchupsGOCI2(cond2).ag_412_mlrc],[MatchupsGOCI2(cond2).ag_412_insitu],'*r')
+plot([MatchupMat(cond1).ag_412_mlrc_filtered],[MatchupMat(cond1).ag_412_insitu],'*r')
+% legend('Closest','2nd Closest')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
-axis equal 
+axis equal
 a_g_max = 0.16;
 xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
-%%
+grid on
+
+%% Distribution of all in situ data
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
 fs = 16;
