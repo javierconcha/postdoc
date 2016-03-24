@@ -334,13 +334,12 @@ for n = 1:size(s{:},1)
       
 end
 save('L8Matchups_Arctics.mat','Matchup')
-%% Plot Matchups with product
+%% Find valid matchups
 load('L8Matchups_Arctics.mat','Matchup')
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the products are
+dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
 count = 0;
-for idx = 1:size(Matchup,2)
-      idx
-      if ~isempty(Matchup(idx).scenetime)
+for idx = 1:size(Matchup,2)   
+      if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
             %% Open ag_412 product and plot
             filepath = [dirname Matchup(idx).id_scene '/' Matchup(idx).id_scene '_L2n2.nc']; % '_L2n1.nc' or '_L2n2.nc']
             longitude   = ncread(filepath,'/navigation_data/longitude');
@@ -366,7 +365,7 @@ for idx = 1:size(Matchup,2)
 %             colormap jet
 %            
             %% Plot in situ and obtain value from the product
-            for idx2 = 1:size(Matchup(idx).number_d,1)
+            for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
 %                   figure(h)
 %                   hold on
 %                   plotm(lat(Matchup(idx).number_d(idx2)),lon(Matchup(idx).number_d(idx2)),'*c')
@@ -381,17 +380,58 @@ for idx = 1:size(Matchup,2)
                   clear lat0 lon0 m I dist_squared
                   
                   if ~isnan(ag_412_mlrc (r,c))
-%                         plotm(latitude(r,c),longitude(r,c),'*m')
-                        Matchup(idx).ag_412_mlrc(idx2) = ag_412_mlrc (r,c);
-                        Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
+%                         Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
                         
                         count = count+1;
-                        MatchupReal(count).ag_412_mlrc = ag_412_mlrc (r,c);
+                        fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
                         MatchupReal(count).ag_412_insitu = ag(Matchup(idx).number_d(idx2),wavelength==412);
                         MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
                         MatchupReal(count).id_scene = Matchup(idx).id_scene;
-                        MatchupReal(count).scenetime = Matchup(idx).scenetime;    
+                        MatchupReal(count).scenetime = Matchup(idx).scenetime;
                         MatchupReal(count).insitutime = t(Matchup(idx).number_d(idx2));
+                        
+                        %% Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                        if r-1 == 0 || c-1 ==0 || r == size(ag_412_mlrc,1) || c == size(ag_412_mlrc,2)
+                              warning('Window indices out of range...')
+                        end
+                        
+                        ws = 3; % window size:3, 5, or 7
+                        
+                        window = ag_412_mlrc(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                        window_mean = nanmean(window(:)); % only non NaN values
+                        window_std = nanstd(window(:));
+                        
+                        % indices to the cells that pass the filter
+                        xi_idx = (window > (window_mean-1.5*window_std)) &...
+                              (window < (window_mean+1.5*window_std)) &...
+                              ~isnan(window); % to exclude NaN
+                        
+                        window_filt = window(xi_idx(:));
+                        
+                        CV = std(window_filt)/mean(window_filt);
+                        
+                        MatchupReal(count).ag_412_mlrc_mean = window_mean;
+                        MatchupReal(count).ag_412_mlrc_meadian = nanmedian(window(:));
+                        MatchupReal(count).ag_412_mlrc_std = window_std;
+                        MatchupReal(count).ag_412_mlrc_center = ag_412_mlrc(r,c);
+                        
+                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                              MatchupReal(count).ag_412_mlrc_filt_mean = mean(window_filt);
+                              MatchupReal(count).ag_412_mlrc_filt_std = std(window_filt);
+                              
+                        else
+                              warning('CV < 0.15. ag_412_mlrc not valid.')
+                              MatchupReal(count).ag_412_mlrc_filt_mean = NaN;
+                              MatchupReal(count).ag_412_mlrc_filt_std = NaN;
+                        end
+                        
+                        MatchupReal(count).ag_412_mlrc_filt_min = min(window_filt);
+                        MatchupReal(count).ag_412_mlrc_filt_max = max(window_filt);
+                        MatchupReal(count).valid_px = sum(~isnan(window(:)));
+                        MatchupReal(count).ag_412_mlrc_filt_px_count = sum(~isnan(window_filt(:)));
+                        MatchupReal(count).window = window;
+                        MatchupMat(idx2).CV = CV;
+                        
                   else
                         Matchup(idx).ag_412_mlrc(idx2) = NaN;
                         Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
@@ -422,10 +462,10 @@ legend('3 days','1 day','3 hours')
 %
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal.ag_412_mlrc],[MatchupReal.ag_412_insitu],'*k')
+plot([MatchupReal.ag_412_mlrc_center],[MatchupReal.ag_412_insitu],'*k')
 hold on
-plot([MatchupReal(cond1).ag_412_mlrc],[MatchupReal(cond1).ag_412_insitu],'*r')
-plot([MatchupReal(cond2).ag_412_mlrc],[MatchupReal(cond2).ag_412_insitu],'*b')
+plot([MatchupReal(cond1).ag_412_mlrc_center],[MatchupReal(cond1).ag_412_insitu],'*r')
+plot([MatchupReal(cond2).ag_412_mlrc_center],[MatchupReal(cond2).ag_412_insitu],'*b')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
 axis equal 
