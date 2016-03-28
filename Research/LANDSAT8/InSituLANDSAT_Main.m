@@ -462,9 +462,9 @@ legend('3 days','1 day','3 hours')
 %% NO filtered
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal.ag_412_mlrc_center],[MatchupReal.ag_412_insitu],'*k')
+plot([MatchupReal.ag_412_mlrc_center],[MatchupReal.ag_412_insitu],'ok')
 hold on
-plot([MatchupReal(cond1).ag_412_mlrc_center],[MatchupReal(cond1).ag_412_insitu],'*r')
+plot([MatchupReal(cond1).ag_412_mlrc_center],[MatchupReal(cond1).ag_412_insitu],'sr')
 plot([MatchupReal(cond2).ag_412_mlrc_center],[MatchupReal(cond2).ag_412_insitu],'*b')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
@@ -474,8 +474,12 @@ xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
+plot([0 a_g_max],[0.1*a_g_max 1.1*a_g_max],':k')
+plot([0 a_g_max],[-0.1*a_g_max 0.9*a_g_max],':k')
 grid on
 legend(['3 d; N: ' num2str(sum(~isnan([MatchupReal.ag_412_mlrc_center]))) ],['1 d; N: ' num2str(sum(cond1)) ],['3 h; N: ' num2str(sum(cond2)) ])
+ax = gca;
+ax.XTick =ax.YTick;
 %% filtered
 cond0 =  ~isnan([MatchupReal.ag_412_mlrc_filt_mean]);
 cond3 = cond1 & cond0;
@@ -483,9 +487,9 @@ cond4 = cond2 & cond0;
 
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal(cond0).ag_412_mlrc_center],[MatchupReal(cond0).ag_412_insitu],'*k')
+plot([MatchupReal(cond0).ag_412_mlrc_center],[MatchupReal(cond0).ag_412_insitu],'ok')
 hold on
-plot([MatchupReal(cond3).ag_412_mlrc_filt_mean],[MatchupReal(cond3).ag_412_insitu],'*r')
+plot([MatchupReal(cond3).ag_412_mlrc_filt_mean],[MatchupReal(cond3).ag_412_insitu],'sr')
 plot([MatchupReal(cond4).ag_412_mlrc_filt_mean],[MatchupReal(cond4).ag_412_insitu],'*b')
 xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
 ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
@@ -495,8 +499,32 @@ xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
 plot([0 a_g_max],[0 a_g_max],'--k')
+plot([0 a_g_max],[0.1*a_g_max 1.1*a_g_max],':k')
+plot([0 a_g_max],[-0.1*a_g_max 0.9*a_g_max],':k')
 grid on
 legend(['3 d; N: ' num2str(sum(cond0)) ],['1 d; N: ' num2str(sum(cond3)) ],['3 h; N: ' num2str(sum(cond4)) ])
+ax = gca;
+ax.XTick =ax.YTick;
+%% filtered only < 3 hours
+fs = 16;
+figure('Color','white','DefaultAxesFontSize',fs)
+plot([MatchupReal(cond4).ag_412_mlrc_filt_mean],[MatchupReal(cond4).ag_412_insitu],'*b')
+xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
+ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
+axis equal 
+a_g_max = 0.16;
+xlim([0 a_g_max])
+ylim([0 a_g_max])
+hold on
+plot([0 a_g_max],[0 a_g_max],'--k')
+plot([0 a_g_max],[0.1*a_g_max 1.1*a_g_max],':k')
+plot([0 a_g_max],[-0.1*a_g_max 0.9*a_g_max],':k')
+grid on
+legend(['3 h; N: ' num2str(sum(cond4)) ])
+ax = gca;
+ax.XTick =ax.YTick;
+%% Statistics
+% Mean_APD = ;% mean of the absolute percent difference (APD)
 
 %% List scene time and in situ time together
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
