@@ -1067,5 +1067,14 @@ jconchas@gs616-tidal:Latex$ git branch
   new_branch
 jconchas@gs616-tidal:Latex$ git checkout new_branch
 Switched to branch 'new_branch'
+--------------------------------------------------
+2016-03-16 Wed
+error installing SeaDAS source code:
+error: Recv failure: Operation timed out (curl_result = 56, http_code = 0, sha1 = 70447bff1ceb5aa2ad32f92675bfeee22b636876)
+error: Unable to find 70447bff1ceb5aa2ad32f92675bfeee22b636876 under http://oceandata.sci.gsfc.nasa.gov/ocssw/bin-macosx_intel.git
+Cannot obtain needed blob 70447bff1ceb5aa2ad32f92675bfeee22b636876
+while processing commit 387f19f1321cc58c4286d3e67e7f9ba71335f923.
+error: fetch failed.
+Error - Could not run "cd /Applications/seadas-7.3/ocssw/run/bin/macosx_intel; git fetch -q > /dev/null"
 
 (END) 

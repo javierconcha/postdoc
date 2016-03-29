@@ -524,8 +524,21 @@ legend(['3 h; N: ' num2str(sum(cond4)) ])
 ax = gca;
 ax.XTick =ax.YTick;
 %% Statistics
-% Mean_APD = ;% mean of the absolute percent difference (APD)
+C_alg = [MatchupReal(cond4).ag_412_mlrc_filt_mean];
+C_insitu = [MatchupReal(cond4).ag_412_insitu];
+N = size([MatchupReal(cond4).ag_412_insitu],2);
 
+Mean_APD = (100/N)*sum(abs(C_alg-C_insitu)./C_insitu);% mean of the absolute percent difference (APD)
+
+RMSE = sqrt((1/N)*sum((C_alg-C_insitu).^2));
+
+Percentage_Bias = 100*((1/N)*sum(C_alg-C_insitu))/(mean(C_insitu));
+
+disp(['Mean APD(%) = ' num2str(Mean_APD)])
+disp(['RMSE = ' num2str(RMSE)])
+disp(['Bias (%) = ' num2str(Percentage_Bias)])
+
+% clear C_alg C_insitu N
 %% List scene time and in situ time together
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
 
