@@ -534,9 +534,15 @@ RMSE = sqrt((1/N)*sum((C_alg-C_insitu).^2));
 
 Percentage_Bias = 100*((1/N)*sum(C_alg-C_insitu))/(mean(C_insitu));
 
+ratio_alg_insitu = C_alg./C_insitu;
+Q3 = prctile(ratio_alg_insitu,75);
+Q1 = prctile(ratio_alg_insitu,25);
+SIQR = (Q3-Q1)/2;
+
 disp(['Mean APD(%) = ' num2str(Mean_APD)])
 disp(['RMSE = ' num2str(RMSE)])
 disp(['Bias (%) = ' num2str(Percentage_Bias)])
+disp(['SIQR = ' num2str(SIQR)])
 
 % clear C_alg C_insitu N
 %% List scene time and in situ time together
