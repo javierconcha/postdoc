@@ -462,12 +462,12 @@ legend('3 days','1 day','3 hours')
 %% NO filtered
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal.ag_412_mlrc_center],[MatchupReal.ag_412_insitu],'ok')
+plot([MatchupReal.ag_412_insitu],[MatchupReal.ag_412_mlrc_center],'ok')
 hold on
-plot([MatchupReal(cond1).ag_412_mlrc_center],[MatchupReal(cond1).ag_412_insitu],'sr')
-plot([MatchupReal(cond2).ag_412_mlrc_center],[MatchupReal(cond2).ag_412_insitu],'*b')
-xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
-ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
+plot([MatchupReal(cond1).ag_412_insitu],[MatchupReal(cond1).ag_412_mlrc_center],'sr')
+plot([MatchupReal(cond2).ag_412_insitu],[MatchupReal(cond2).ag_412_mlrc_center],'*b')
+ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
 axis equal 
 a_g_max = 0.16;
 xlim([0 a_g_max])
@@ -486,13 +486,13 @@ cond3 = cond1 & cond0;
 cond4 = cond2 & cond0;
 
 fs = 16;
-figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal(cond0).ag_412_mlrc_center],[MatchupReal(cond0).ag_412_insitu],'ok')
+h = figure('Color','white','DefaultAxesFontSize',fs);
+plot([MatchupReal(cond0).ag_412_insitu],[MatchupReal(cond0).ag_412_mlrc_center],'ok')
 hold on
-plot([MatchupReal(cond3).ag_412_mlrc_filt_mean],[MatchupReal(cond3).ag_412_insitu],'sr')
-plot([MatchupReal(cond4).ag_412_mlrc_filt_mean],[MatchupReal(cond4).ag_412_insitu],'*b')
-xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
-ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
+plot([MatchupReal(cond3).ag_412_insitu],[MatchupReal(cond3).ag_412_mlrc_filt_mean],'sr')
+plot([MatchupReal(cond4).ag_412_insitu],[MatchupReal(cond4).ag_412_mlrc_filt_mean],'*b')
+ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
 axis equal 
 a_g_max = 0.16;
 xlim([0 a_g_max])
@@ -507,10 +507,10 @@ ax = gca;
 ax.XTick =ax.YTick;
 %% filtered only < 3 hours
 fs = 16;
-figure('Color','white','DefaultAxesFontSize',fs)
-plot([MatchupReal(cond4).ag_412_mlrc_filt_mean],[MatchupReal(cond4).ag_412_insitu],'*b')
-xlabel('ag\_412\_mlrc (m\^-1)','FontSize',fs)
-ylabel('ag\_412\_insitu (m\^-1)','FontSize',fs)
+h = figure('Color','white','DefaultAxesFontSize',fs);
+plot([MatchupReal(cond4).ag_412_insitu],[MatchupReal(cond4).ag_412_mlrc_filt_mean],'*b')
+ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
 axis equal 
 a_g_max = 0.16;
 xlim([0 a_g_max])
@@ -528,23 +528,90 @@ C_alg = [MatchupReal(cond4).ag_412_mlrc_filt_mean];
 C_insitu = [MatchupReal(cond4).ag_412_insitu];
 N = size([MatchupReal(cond4).ag_412_insitu],2);
 
-Mean_APD = (100/N)*sum(abs(C_alg-C_insitu)./C_insitu);% mean of the absolute percent difference (APD)
+PD = abs(C_alg-C_insitu)./C_insitu; % percent difference
+
+Mean_APD = (100/N)*sum(PD);% mean of the absolute percent difference (APD)
+
+Stdv_APD = 100*std(PD);% standard deviation of the absolute difference
+
+Median_APD = 100*median(PD); % a.k.a. MPD
 
 RMSE = sqrt((1/N)*sum((C_alg-C_insitu).^2));
 
 Percentage_Bias = 100*((1/N)*sum(C_alg-C_insitu))/(mean(C_insitu));
 
 ratio_alg_insitu = C_alg./C_insitu;
+
+Median_ratio = median(ratio_alg_insitu);
+
 Q3 = prctile(ratio_alg_insitu,75);
 Q1 = prctile(ratio_alg_insitu,25);
-SIQR = (Q3-Q1)/2;
+SIQR = (Q3-Q1)/2; % Semi-interquartile range
 
-disp(['Mean APD(%) = ' num2str(Mean_APD)])
+
+disp(['Mean APD (%) = ' num2str(Mean_APD)])
+disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
+disp(['Median APD (%) = ' num2str(Median_APD)])
 disp(['RMSE = ' num2str(RMSE)])
 disp(['Bias (%) = ' num2str(Percentage_Bias)])
+disp(['Median ratio = ' num2str(Median_ratio)])
 disp(['SIQR = ' num2str(SIQR)])
 
 % clear C_alg C_insitu N
+
+%% RMA regression and r-squared (or coefficient of determination) 
+regressiontype = 'RMA';
+
+if strcmp(regressiontype,'OLS') 
+    [a,~] = polyfit(C_insitu,C_alg,1);
+elseif strcmp(regressiontype,'RMA')
+    % %%%%%%%% RMA Regression %%%%%%%%%%%%%
+    % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
+    a(1) = std(C_alg)/std(C_insitu); % slope
+    
+    if corr(C_insitu,C_alg)<0
+        a(1) = -abs(a(1));
+    elseif corr(C_insitu,C_alg)>=0
+        a(1) = abs(a(1));
+    end
+    
+    a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+    
+end
+
+maxref = a_g_max;
+
+x1=[0 maxref];
+y1=a(1).*x1+a(2);
+
+figure(h)
+plot(x1,y1,'r-','LineWidth',1.2)
+
+
+SStot = sum((C_alg-mean(C_alg)).^2);
+SSres = sum((C_alg-polyval(a,C_insitu)).^2);
+rsq_SS = 1-(SSres/SStot)
+rsq_corr = corr(C_insitu',C_alg')^2 % when OLS rsq_SS and rsq_corr are equal
+
+if a(2)>=0
+    str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+else
+    str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+end
+
+axis([0 maxref 0 maxref])
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.85*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs,'FontWeight','normal');
+disp(str1)
+
 %% List scene time and in situ time together
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
 
@@ -614,7 +681,7 @@ for idx = 1:size(scene_list,1)
             pos = get(gca,'position');
             set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
             set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
-            title(hbar,'ag\_412\_mlrc (m\^-1)','FontSize',fs)
+            title(hbar,'Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
             y = get(hbar,'XTick');
             x = 10.^y;
             set(hbar,'XTick',log10(x));
