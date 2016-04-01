@@ -1077,4 +1077,13 @@ while processing commit 387f19f1321cc58c4286d3e67e7f9ba71335f923.
 error: fetch failed.
 Error - Could not run "cd /Applications/seadas-7.3/ocssw/run/bin/macosx_intel; git fetch -q > /dev/null"
 
+
+--------------------------------------------------
+2016-03-30 Wed
+From Antonio, coefficients for the MLRC algorithm for Landsat 8's band center bands:
+CONSTANT= -2.6156
+LN_RRS443 = -1.0670
+LN_RRS560 = 0.9542
+
+
 (END) 

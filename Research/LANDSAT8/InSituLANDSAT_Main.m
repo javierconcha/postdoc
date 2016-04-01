@@ -526,7 +526,7 @@ ax.XTick =ax.YTick;
 %% Statistics
 C_alg = [MatchupReal(cond4).ag_412_mlrc_filt_mean];
 C_insitu = [MatchupReal(cond4).ag_412_insitu];
-N = size([MatchupReal(cond4).ag_412_insitu],2);
+N = size(C_insitu,2);
 
 PD = abs(C_alg-C_insitu)./C_insitu; % percent difference
 
