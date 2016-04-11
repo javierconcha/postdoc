@@ -536,6 +536,115 @@ for idx=1:size(MatchupMatTemp,2)
 end
 
 clear MatchupMatTemp
+save('GOCI_Matchups.mat','MatchupMatClean','-append')
+%% Plotting in situ vs retrieved Filtered
+load('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2','MatchupMatClean')
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+%
+hold on
+plot([MatchupMatClean.ag_412_insitu],[MatchupMatClean.ag_412_mlrc_filt_mean],'ob');
+ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
+axis equal
+a_g_max = 0.16;
+xlim([0 a_g_max])
+ylim([0 a_g_max])
+hold on
+plot([0 a_g_max],[0 a_g_max],'--k')
+plot([0 a_g_max],[0.1*a_g_max 1.1*a_g_max],':k')
+plot([0 a_g_max],[-0.1*a_g_max 0.9*a_g_max],':k')
+ax = gca;
+ax.XTick =ax.YTick;
+grid on
+%% Statistics
+C_insitu = [MatchupMatClean.ag_412_insitu];
+C_alg = [MatchupMatClean.ag_412_mlrc_filt_mean];
+N = size(C_insitu,2);
+
+PD = abs(C_alg-C_insitu)./C_insitu; % percent difference
+
+Mean_APD = (100/N)*sum(PD);% mean of the absolute percent difference (APD)
+
+Stdv_APD = 100*std(PD);% standard deviation of the absolute difference
+
+Median_APD = 100*median(PD); % a.k.a. MPD
+
+RMSE = sqrt((1/N)*sum((C_alg-C_insitu).^2));
+
+Percentage_Bias = 100*((1/N)*sum(C_alg-C_insitu))/(mean(C_insitu));
+
+ratio_alg_insitu = C_alg./C_insitu;
+
+Median_ratio = median(ratio_alg_insitu);
+
+Q3 = prctile(ratio_alg_insitu,75);
+Q1 = prctile(ratio_alg_insitu,25);
+SIQR = (Q3-Q1)/2; % Semi-interquartile range
+
+
+disp(['Mean APD (%) = ' num2str(Mean_APD)])
+disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
+disp(['Median APD (%) = ' num2str(Median_APD)])
+disp(['RMSE = ' num2str(RMSE)])
+disp(['Bias (%) = ' num2str(Percentage_Bias)])
+disp(['Median ratio = ' num2str(Median_ratio)])
+disp(['SIQR = ' num2str(SIQR)])
+
+% clear C_alg C_insitu N
+
+%% RMA regression and r-squared (or coefficient of determination) 
+regressiontype = 'RMA';
+
+if strcmp(regressiontype,'OLS') 
+    [a,~] = polyfit(C_insitu,C_alg,1);
+elseif strcmp(regressiontype,'RMA')
+    % %%%%%%%% RMA Regression %%%%%%%%%%%%%
+    % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
+    a(1) = std(C_alg)/std(C_insitu); % slope
+    
+    if corr(C_insitu,C_alg)<0
+        a(1) = -abs(a(1));
+    elseif corr(C_insitu,C_alg)>=0
+        a(1) = abs(a(1));
+    end
+    
+    a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+    
+end
+
+maxref = a_g_max;
+
+x1=[0 maxref];
+y1=a(1).*x1+a(2);
+
+figure(h)
+plot(x1,y1,'r-','LineWidth',1.2)
+
+
+SStot = sum((C_alg-mean(C_alg)).^2);
+SSres = sum((C_alg-polyval(a,C_insitu)).^2);
+rsq_SS = 1-(SSres/SStot)
+rsq_corr = corr(C_insitu',C_alg')^2 % when OLS rsq_SS and rsq_corr are equal
+
+if a(2)>=0
+    str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+else
+    str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+end
+
+axis([0 maxref 0 maxref])
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.85*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs,'FontWeight','normal');
+disp(str1)
 %% Distribution of all in situ data
 fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
