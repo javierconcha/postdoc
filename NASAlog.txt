@@ -1085,5 +1085,65 @@ CONSTANT= -2.6156
 LN_RRS443 = -1.0670
 LN_RRS560 = 0.9542
 
+--------------------------------------------------
+2016-04-01 Fri
 
-(END) 
+svn update in anly4:
+5.1.15.tar.Z
+D    lib3/src/proj4/proj-4.8.0.tar.gz
+A    lib3/src/proj4/proj.4-4.9.2.tar.gz
+U    lib3/src/proj4/BuildIt
+U    lib3/src/proj4/README
+Updated to revision 12765.
+jconchas@anly104:~/ocssw/
+
+--------------------------------------------------
+2016-04-06 Wed
+to checkout in my local machine (gs616-tidal):
+$ svc co svn://localhost/OCSSW/trunk ocssw
+
+to tunnel the svn server:
+$ssh jconchas@obpg-torii.sci.gsfc.nasa.gov  -f -N -L3690:svn101:3690 
+
+Otherwise it does not update. 
+to update:
+$svn up
+
+--------------------------------------------------
+2016-04-07 Thu
+error at the end of building 3rd party libraries
+============================
+Testing hdftest 
+/bin/sh: line 1:  6160 Segmentation fault: 11  srcdir="." ./${tname} >> ${log} 2>&1
+----------------------------
+hdftest  Test Log
+----------------------------
+Testing create/read/write compressed datasets (tcomp.c)                PASSED
+Testing create/read/write chunked datasets (tchunk.c)                  PASSED
+Testing reading of netCDF file using the SDxxx inteface (tnetcdf.c)   make[5]: *** [hdftest.chkexe_] Error 1
+make[4]: *** [build-check-s] Error 2
+make[3]: *** [test] Error 2
+make[2]: *** [check-am] Error 2
+make[1]: *** [check-recursive] Error 1
+make: *** [check-recursive] Error 1
+***** make check failed *****
+***** BuildIt (hdf4) failed *****
+--------------------------------------------------
+2016-04-11 Mon
+to decompress file from SeaBASS:
+jconchas@gs616-tidal:InSituData$ gzip -d bio1460395980588062.tgz 
+jconchas@gs616-tidal:InSituData$ ls
+Javier/                   VIIRS2014CaryCDOMa_g/     VIIRS2014CaryCDOMa_g.zip  bio1460395980588062.tar
+jconchas@gs616-tidal:InSituData$ tar -xvf bio1460395980588062.tar 
+ torii:
+p/w: L@S!ren!ta15
+
+--------------------------------------------------
+2016-04-15 Fri
+to do:
+- Compile l2gen locally
+- Change cdom_mannino.c
+- Calculate s_{CDOM}300-600
+- Study Diurnal variability GOCI
+- Collect DOC in situ data
+(END)

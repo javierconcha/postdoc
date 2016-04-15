@@ -2,132 +2,81 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 cd '/Users/jconchas/Documents/Research/LANDSAT8';
-%% Create WRS Structure
-% Create an estucture WRS_struct with the path and row's coordinate limits
-% clear
-fileID = fopen('WRS-2_bound_world.kml');
-% Downloaded from: https://landsat.usgs.gov/tools_wrs-2_shapefile.php
-C = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
+% Load in situ data from VIIRS 2014
+clear
+DIRMAT(1).dirname = '/Users/jconchas/Documents/Research/InSituData/VIIRS2014CaryCDOMa_g/';
+DIRMAT(2).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/CLIVAR/p16s_2014/archive/';
+DIRMAT(3).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/ECOMON/archive/ag/';
+DIRMAT(4).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/ASIRI/archive/';
+DIRMAT(5).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/GEOCAPE/gomex_2013/archive/ag/';
 
-count =0;
-for idx=1:size(C{:},1)
-      %       if strcmp(C{1}{idx},'<name>')
-      %             count = count+1;
-      %       end
-      if regexp(C{1}{idx},'<strong>PATH</strong>:')
+count = 0;
+for idx0=1:size(DIRMAT,2)
+      % Open file with the list of images names
+      fileID = fopen([DIRMAT(idx0).dirname 'file_list.txt']);
+      s = textscan(fileID,'%s','Delimiter','\n');
+      fclose(fileID);
+      
+      disp('-------------------------')
+      disp('Starting Matchups search...')
+      disp(DIRMAT(idx0).dirname)
+      
+      % figure for plottig the data
+      figure('Color','white')
+      hf1 = gcf;
+      ylabel('a\_g (m\^-1)')
+      xlabel('wavelength (nm)')
+      
+      
+      % Plot GOCI footprint
+      figure('Color','white')
+      hf2 = gcf;
+      % ax = worldmap([30 45],[116 136]);
+      ax = worldmap('world');
+      load coastlines
+      geoshow(ax, coastlat, coastlon,...
+            'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+      geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+      geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+      %
+      for idx=1:size(s{:},1)
+            %%
+            filename = s{1}{idx}; % search on the list of filenames
+            
+            filepath = [DIRMAT(idx0).dirname filename];
+            
+            [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
+            % ag
+            figure(hf1)
+            hold on
+            plot(data.wavelength,data.ag);
+            grid on
+            % location
+            figure(hf2)
+            hold on
+            plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
+            
             count = count+1;
-            WRS_struct(count).linenumber = idx;
-            aux = textscan(C{1}{idx},'%s','Delimiter','<>_:');
-            WRS_struct(count).PATH = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+1},'%s','Delimiter','<>_:');
-            WRS_struct(count).ROW  = str2double(aux{1}{6});
+            InSitu(count).station = sbHeader.station;
+            InSitu(count).start_date = sbHeader.start_date;
+            InSitu(count).start_time = sbHeader.start_time;
+            InSitu(count).file_name = sbHeader.data_file_name;
+            InSitu(count).wavelength = data.wavelength;
+            InSitu(count).ag = data.ag;
+            InSitu(count).ag_412_insitu = data.ag(data.wavelength==412);
+            InSitu(count).lat = sbHeader.north_latitude;
+            InSitu(count).lon = sbHeader.east_longitude;
             
-            aux = textscan(C{1}{idx+2},'%s','Delimiter','<>_:');
-            WRS_struct(count).CTR_LAT = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+3},'%s','Delimiter','<>_:');
-            WRS_struct(count).CTR_LON = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+4},'%s','Delimiter','<>:');
-            WRS_struct(count).Name    = aux{1}{6};
-            aux = textscan(C{1}{idx+5},'%s','Delimiter','<>_:');
-            WRS_struct(count).LAT_UL  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+6},'%s','Delimiter','<>_:');
-            WRS_struct(count).LON_UL  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+7},'%s','Delimiter','<>_:');
-            WRS_struct(count).LAT_UR  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+8},'%s','Delimiter','<>_:');
-            WRS_struct(count).LON_UR  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+9},'%s','Delimiter','<>_:');
-            WRS_struct(count).LAT_LL  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+10},'%s','Delimiter','<>_:');
-            WRS_struct(count).LON_LL  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+11},'%s','Delimiter','<>_:');
-            WRS_struct(count).LAT_LR  = str2double(aux{1}{6});
-            aux = textscan(C{1}{idx+12},'%s','Delimiter','<>_:');
-            WRS_struct(count).LON_LR  = str2double(aux{1}{6});
+            t = datetime(sbHeader.start_date,'ConvertFrom','yyyymmdd');
+            t = char(t);
+            t = [t(:,1:12) sbHeader.start_time];
+            t = datetime(t,'ConvertFrom','yyyymmdd');
             
+            InSitu(count).t = t;
+            
+            fprintf('%i %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
       end
 end
-clear aux C count idx fileID
-save('WRS2_pathrow_struct.mat','WRS_struct')
-%% Load in situ data
-% Extract Tara data from SeaBASS file
-% dirname = '/Users/jconchas/Documents/Research/Arctic_Data/SeaBASS_ArcticL8/MAINE/boss/Tara_Oceans_Polar_Circle/Pevek_Tuktoyaktuk/archive/';
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/';
-
-% Open file with the list of images names
-% fileID = fopen([dirname 'file_list.txt']);
-% s = textscan(fileID,'%s','Delimiter','\n');
-% fclose(fileID);
-
-% for idx=1:size(s{:},1) % when it is many file
-%       filename = s{1}{idx}; % search on the list of filenames
-filename = 'TaraArctic_ag_cal_UpdatedGPS.txt'; % from Thomas Leeuw
-
-filepath = [dirname filename];
-
-[data, sbHeader, headerArray] = readsb(filepath);
-
-date_acquired = data{:,1};
-
-time_acquired = datestr(data{:,2},'HH:MM:SS');
-lat = [data{3}];
-lon = [data{4}];
-ag = [data{7:81}];
-%       ag_sd = [data{88:168}];
-
-%       wavelength = [400.1,404.3,408.5,412.8,417.3,422.1,426.9,431.7,...
-%           436.3,440.7,445.6,450.9,456,460.6,465.5,470.6,476.1,481.1,...
-%           486.4,490.9,495.8,500.7,505.7,511.1,516.3,521.5,526.8,531.5,...
-%           536.1,541.1,546.1,551,556,561.1,566.1,570.7,575.2,579.7,583.7,...
-%           588.3,592.3,596.7,601.1,606,610.7,615.3,620,624.5,629,633.4,...
-%           638,642.5,647.3,651.7,656.5,661.3,665.9,670.3,674.7,679.1,683.2,...
-%           687.2,691.1,695.2,698.9,702.8,706.3,710.2,713.6,717.2,720.8,...
-%           724.1,727.8,730.8,734,737.2,740.3,742.7,745.7,748.4,750];
-wavelength = [400,402,406,408,410,412,414,416,418,420,422,424,...
-      426,428,430,432,434,436,438,440,442,444,446,448,450,452,...
-      454,456,458,460,462,464,466,468,470,472,474,476,478,480,...
-      482,484,486,488,490,492,494,496,498,500,502,504,506,508,...
-      510,512,514,516,518,520,522,524,526,528,530,532,534,536,...
-      538,540,542,544,546,548,550];
-
-n = size(ag,1);
-
-% figure('Color','white','Name',filename)
-% %       subplot(2,1,1)
-% plot(wavelength,ag')
-% ylabel('a or c (m\^-1)')
-% str = sprintf('N=%i',n);
-% title(str)
-% grid on
-
-%       subplot(2,1,2)
-%       plot(wavelength,ag_sd','r')
-%       ylabel('std. dev. a or c (m\^-1)')
-%       xlabel('wavelength (nm)')
-%       grid on
-% end
-% %% Plot Tara data on map
-% figure('Color','white')
-% ax = worldmap([45 90],[-180 180]);
-% % ax = worldmap('North Pole');
-% load coastlines
-% geoshow(ax, coastlat, coastlon,...
-%       'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-% geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-% geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-% hold on
-% plotm(lat,lon,'r*-')
-% %% Plot time
-
-t = datetime(date_acquired,'ConvertFrom','yyyymmdd');
-t = char(t);
-t = [t(:,1:12) time_acquired];
-t = datetime(t,'ConvertFrom','yyyymmdd');
-%
-% figure
-% plot(t,ag(:,wavelength==440))
-clear dirname filename filepath headerArray n sbHeader
 %% Find path and row for in situ data and select the image
 % Create structure DB (database) with the potential scene path and row based on the lat and lon of the
 % in situ data obtained from OpenSeaBASSfile_Main.m. Note: some paths and
@@ -136,17 +85,21 @@ clear dirname filename filepath headerArray n sbHeader
 % For each image, there are several indexes associated to the in situ data
 % RUN OpenSeaBASSfile_Main.m first!!!
 clear DB
-clc
+% clc
 load('WRS2_pathrow_struct.mat');
 h1 = waitbar(0,'Initializing ...');
 
-tic
+lat = [InSitu.lat];
+lon = [InSitu.lon];
+t = [InSitu.t];
+
+% tic
 firsttime = true;
 days_offset = 3;
 db_idx = 0;
 cond_in = zeros(1,size(WRS_struct,2));
-for d = 1:size(lon,1)
-      waitbar(d/size(lon,1),h1,'Determining paths and rows...')
+for d = 1:size(lon,2)
+      waitbar(d/size(lon,2),h1,'Determining paths and rows...')
       %% Check if it is inside the polygon
       for u = 1:size(WRS_struct,2)
             xv = [WRS_struct(u).LON_LL WRS_struct(u).LON_LR ...
@@ -209,14 +162,14 @@ for d = 1:size(lon,1)
       end
 end
 close(h1)
-toc
+% toc
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 
 % To search for the available Landsat 8 scene and make sure the path and
 % row is acquired by the sensor. Note: this process takes a long time
 clear Matchup
-tic
+% tic
 h2 = waitbar(0,'Initializing ...');
 idx_match = 0;
 for n=1:size(DB,2) %  how many path and row combinations
@@ -246,20 +199,30 @@ for n=1:size(DB,2) %  how many path and row combinations
                         idx_match = idx_match + 1;
                         Matchup(idx_match).number_d = DB(n).insituidx(:);
                         Matchup(idx_match).id_scene = L8id;
+                        Matchup(idx_match).dirname = DIRMAT(idx0).dirname;
+                        
                   end
             end
       end
 end
+
+disp('Matchups search finished!')
+disp('-------------------------')
+
 close(h2)
+
+
+
+
 clear aux_idx aux_pr cond_in d db_idx firsttime h1 h2 i idx_match ImageDate j n u x xv y yv
-toc
-save('L8Matchups_Arctics.mat','Matchup','DB')
+% toc
+% save('L8Matchups_VIIRSS2014.mat','Matchup','DB')
 
 %% Look in the Matchup structure the best images previously selected by visual inspection
 % using landsat.m and plot the jpg image and the in situ data location
-load('L8Matchups_Arctics.mat')
+% load('L8Matchups_VIIRSS2014.mat')
 
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';
+dirname = '/Volumes/Data/OLI/L8MatchPot/';
 
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
@@ -333,21 +296,21 @@ for n = 1:size(s{:},1)
       close(h1)
       
 end
-save('L8Matchups_Arctics.mat','Matchup')
+% save('L8Matchups_Arctics.mat','Matchup')
 %% Find valid matchups
-load('L8Matchups_Arctics.mat','Matchup')
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
+% load('L8Matchups_Arctics.mat','Matchup')
+% dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
 count = 0;
-for idx = 1:size(Matchup,2)   
+for idx = 1:size(Matchup,2)
       if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
             %% Open ag_412 product and plot
-            filepath = [dirname Matchup(idx).id_scene '/' Matchup(idx).id_scene '_L2n2.nc']; % '_L2n1.nc' or '_L2n2.nc']
+            filepath = [dirname Matchup(idx).id_scene '/' Matchup(idx).id_scene '_L2.nc']; % '_L2n1.nc' or '_L2n2.nc']
             longitude   = ncread(filepath,'/navigation_data/longitude');
             latitude    = ncread(filepath,'/navigation_data/latitude');
             ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
             
             % plot
-%             plusdegress = 0.5;
+%             plusdegress = 0;
 %             latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
 %             lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
 %             h = figure('Color','white','Name',[Matchup(idx).id_scene '_L2.nc']);
@@ -363,7 +326,7 @@ for idx = 1:size(Matchup,2)
 %             % Display product
 %             pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
 %             colormap jet
-%            
+            %
             %% Plot in situ and obtain value from the product
             for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
 %                   figure(h)
@@ -379,12 +342,12 @@ for idx = 1:size(Matchup,2)
                   [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
                   clear lat0 lon0 m I dist_squared
                   
-                  if ~isnan(ag_412_mlrc (r,c))
-%                         Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                  if ~isnan(ag_412_mlrc(r,c))
+                        %                         Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
                         
                         count = count+1;
                         fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
-                        MatchupReal(count).ag_412_insitu = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                        MatchupReal(count).ag_412_insitu = InSitu(Matchup(idx).number_d(idx2)).ag(InSitu(Matchup(idx).number_d(idx2)).wavelength==412);
                         MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
                         MatchupReal(count).id_scene = Matchup(idx).id_scene;
                         MatchupReal(count).scenetime = Matchup(idx).scenetime;
@@ -434,7 +397,7 @@ for idx = 1:size(Matchup,2)
                         
                   else
                         Matchup(idx).ag_412_mlrc(idx2) = NaN;
-                        Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                        Matchup(idx).ag_412_insitu(idx2) = InSitu(Matchup(idx).number_d(idx2)).ag(InSitu(Matchup(idx).number_d(idx2)).wavelength==412);
                   end
             end
             clear latitude longitude ag_412_mlrc
@@ -443,7 +406,7 @@ end
 
 save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
-load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+% load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
 cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
 cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
@@ -468,8 +431,8 @@ plot([MatchupReal(cond1).ag_412_insitu],[MatchupReal(cond1).ag_412_mlrc_center],
 plot([MatchupReal(cond2).ag_412_insitu],[MatchupReal(cond2).ag_412_mlrc_center],'*b')
 ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
 xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
-axis equal 
-a_g_max = 0.16;
+axis equal
+a_g_max = 0.9;
 xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
@@ -493,8 +456,8 @@ plot([MatchupReal(cond3).ag_412_insitu],[MatchupReal(cond3).ag_412_mlrc_filt_mea
 plot([MatchupReal(cond4).ag_412_insitu],[MatchupReal(cond4).ag_412_mlrc_filt_mean],'*b')
 ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
 xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
-axis equal 
-a_g_max = 0.16;
+axis equal
+a_g_max = 0.9;
 xlim([0 a_g_max])
 ylim([0 a_g_max])
 hold on
@@ -511,7 +474,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot([MatchupReal(cond4).ag_412_insitu],[MatchupReal(cond4).ag_412_mlrc_filt_mean],'*b')
 ylabel('Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
 xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
-axis equal 
+axis equal
 a_g_max = 0.16;
 xlim([0 a_g_max])
 ylim([0 a_g_max])
@@ -524,8 +487,9 @@ legend(['3 h; N: ' num2str(sum(cond4)) ])
 ax = gca;
 ax.XTick =ax.YTick;
 %% Statistics
-C_alg = [MatchupReal(cond4).ag_412_mlrc_filt_mean];
-C_insitu = [MatchupReal(cond4).ag_412_insitu];
+cond_used = cond0;
+C_alg = [MatchupReal(cond_used).ag_412_mlrc_filt_mean];
+C_insitu = [MatchupReal(cond_used).ag_412_insitu];
 N = size(C_insitu,2);
 
 PD = abs(C_alg-C_insitu)./C_insitu; % percent difference
@@ -559,24 +523,24 @@ disp(['SIQR = ' num2str(SIQR)])
 
 % clear C_alg C_insitu N
 
-%% RMA regression and r-squared (or coefficient of determination) 
+%% RMA regression and r-squared (or coefficient of determination)
 regressiontype = 'RMA';
 
-if strcmp(regressiontype,'OLS') 
-    [a,~] = polyfit(C_insitu,C_alg,1);
+if strcmp(regressiontype,'OLS')
+      [a,~] = polyfit(C_insitu,C_alg,1);
 elseif strcmp(regressiontype,'RMA')
-    % %%%%%%%% RMA Regression %%%%%%%%%%%%%
-    % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
-    a(1) = std(C_alg)/std(C_insitu); % slope
-    
-    if corr(C_insitu,C_alg)<0
-        a(1) = -abs(a(1));
-    elseif corr(C_insitu,C_alg)>=0
-        a(1) = abs(a(1));
-    end
-    
-    a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
-    
+      % %%%%%%%% RMA Regression %%%%%%%%%%%%%
+      % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
+      a(1) = std(C_alg)/std(C_insitu); % slope
+      
+      if corr(C_insitu,C_alg)<0
+            a(1) = -abs(a(1));
+      elseif corr(C_insitu,C_alg)>=0
+            a(1) = abs(a(1));
+      end
+      
+      a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+      
 end
 
 maxref = a_g_max;
@@ -594,11 +558,11 @@ rsq_SS = 1-(SSres/SStot)
 rsq_corr = corr(C_insitu',C_alg')^2 % when OLS rsq_SS and rsq_corr are equal
 
 if a(2)>=0
-    str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 else
-    str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 end
 
 axis([0 maxref 0 maxref])
@@ -616,79 +580,80 @@ disp(str1)
 [[MatchupReal(cond1).scenetime]' [MatchupReal(cond1).insitutime]']
 
 %% Plot only Matchup Real
-scene_list = unique({MatchupReal(cond4).id_scene}'); % cond4 for less than 3 hours and filtered mean
-MatchupReal_aux = MatchupReal(cond4);
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the products are
+cond_used = cond0;
+scene_list = unique({MatchupReal(cond_used).id_scene}'); % cond4 for less than 3 hours and filtered mean
+MatchupReal_aux = MatchupReal(cond_used);
+% dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the products are
 
 for idx = 1:size(scene_list,1)
-            %% Open ag_412 product and plot
-            scene_id_char =  char(scene_list(idx,:));
-            filepath = [dirname scene_id_char '/' scene_id_char '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc']
-            longitude   = ncread(filepath,'/navigation_data/longitude');
-            latitude    = ncread(filepath,'/navigation_data/latitude');
-            ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
-            
-            % plot
-            plusdegress = 0;
-            latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
-            lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
-            h = figure('Color','white','Name',scene_id_char);
-            ax = worldmap(latlimplot,lonlimplot);
-            mlabel('MLabelParallel','north')
-            
-%             load coastlines
-%             geoshow(ax, coastlat, coastlon,...
-%                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-%             
-%             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-%             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-            
-            % Plot jpg image
-            path = str2double(scene_id_char(4:6));
-            row  = str2double(scene_id_char(7:9));
-            year = str2double(scene_id_char(10:13));
-            DOY  = str2double(scene_id_char(14:16));
-            date_aux = datevec(DOY+datenum(year,1,1)-1);
-            date_char = sprintf('%i-%i-%i',date_aux(1),date_aux(2),date_aux(3));
-            hold on
-            
-            [~,~,~,h0] = landsat(path,row,date_char);
-            
-            % Display product
-         
-            
-            figure(gcf)
-            pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
-            colormap jet
-            
-            for idx2 = 1:size(MatchupReal_aux,2)
-                  if char(scene_list(idx,:)) == MatchupReal_aux(idx2).id_scene
-                        figure(gcf)
-                        hold on
-                        plotm(lat(MatchupReal_aux(idx2).insitu_idx),lon(MatchupReal_aux(idx2).insitu_idx),'om','markerfacecolor','m')
-                  end
+      %% Open ag_412 product and plot
+      scene_id_char =  char(scene_list(idx,:));
+      filepath = [dirname scene_id_char '/' scene_id_char '_L2.nc']; % '_L2n1.nc' or '_L2n2.nc']
+      longitude   = ncread(filepath,'/navigation_data/longitude');
+      latitude    = ncread(filepath,'/navigation_data/latitude');
+      ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+      
+      % plot
+      plusdegress = 0;
+      latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+      lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+      h = figure('Color','white','Name',scene_id_char);
+      ax = worldmap(latlimplot,lonlimplot);
+      mlabel('MLabelParallel','north')
+      
+      %             load coastlines
+      %             geoshow(ax, coastlat, coastlon,...
+      %                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+      %
+      %             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+      %             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+      
+      % Plot jpg image
+      path = str2double(scene_id_char(4:6));
+      row  = str2double(scene_id_char(7:9));
+      year = str2double(scene_id_char(10:13));
+      DOY  = str2double(scene_id_char(14:16));
+      date_aux = datevec(DOY+datenum(year,1,1)-1);
+      date_char = sprintf('%i-%i-%i',date_aux(1),date_aux(2),date_aux(3));
+      hold on
+      
+      [~,~,~,h0] = landsat(path,row,date_char);
+      
+      % Display product
+      
+      
+      figure(gcf)
+      pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
+      colormap jet
+      
+      for idx2 = 1:size(MatchupReal_aux,2)
+            if char(scene_list(idx,:)) == MatchupReal_aux(idx2).id_scene
+                  figure(gcf)
+                  hold on
+                  plotm(lat(MatchupReal_aux(idx2).insitu_idx),lon(MatchupReal_aux(idx2).insitu_idx),'om','markerfacecolor','m')
             end
-            
-            mask = isnan(ag_412_mlrc);
-            ag_412_mlrc_log10 =log10(ag_412_mlrc);
-            ag_412_mlrc_mean = nanmean(ag_412_mlrc_log10(:));
-            ag_412_mlrc_std= nanstd(ag_412_mlrc_log10(:));
-            cte = 3;
-            set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ag_412_mlrc_mean+cte*ag_412_mlrc_std]);
-            set(h0, 'AlphaData', mask)
-            
-            hbar = colorbar('SouthOutside');
-            pos = get(gca,'position');
-            set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
-            set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
-            title(hbar,'Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
-            y = get(hbar,'XTick');
-            x = 10.^y;
-            set(hbar,'XTick',log10(x));
-            for i=1:size(x,2)
-                  x_clean{i} = sprintf('%0.3f',x(i));
-            end
-            set(hbar,'XTickLabel',x_clean,'FontSize',fs-1)
+      end
+      
+      mask = isnan(ag_412_mlrc);
+      ag_412_mlrc_log10 =log10(ag_412_mlrc);
+      ag_412_mlrc_mean = nanmean(ag_412_mlrc_log10(:));
+      ag_412_mlrc_std= nanstd(ag_412_mlrc_log10(:));
+      cte = 3;
+      set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ag_412_mlrc_mean+cte*ag_412_mlrc_std]);
+      set(h0, 'AlphaData', mask)
+      
+      hbar = colorbar('SouthOutside');
+      pos = get(gca,'position');
+      set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
+      set(hbar,'location','manual','position',[.2 0.07 .64 .05]); % [left, bottom, width, height]
+      title(hbar,'Satellite a_{CDOM}(412) (m^{-1})','FontSize',fs)
+      y = get(hbar,'XTick');
+      x = 10.^y;
+      set(hbar,'XTick',log10(x));
+      for i=1:size(x,2)
+            x_clean{i} = sprintf('%0.3f',x(i));
+      end
+      set(hbar,'XTickLabel',x_clean,'FontSize',fs-1)
 end
 
 clear MatchupReal_aux ixc latlimplot lonlimplot h ax path row year DOY date_aux idx2
