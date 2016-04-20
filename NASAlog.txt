@@ -1128,6 +1128,7 @@ make[1]: *** [check-recursive] Error 1
 make: *** [check-recursive] Error 1
 ***** make check failed *****
 ***** BuildIt (hdf4) failed *****
+SOLVED: $export $LIB3_CHECK=1
 --------------------------------------------------
 2016-04-11 Mon
 to decompress file from SeaBASS:
@@ -1146,4 +1147,55 @@ to do:
 - Calculate s_{CDOM}300-600
 - Study Diurnal variability GOCI
 - Collect DOC in situ data
+
+Compiling netcdf for l2gen locally, ERROR error:
+checking whether we are cross compiling... configure: error: in `/Users/jconchas/Applications/ocssw/build/lib3/src/netcdf/netcdf-cxx4-4.2.1':
+configure: error: cannot run C compiled programs.
+If you meant to cross compile, use `--host'.
+See `config.log' for more details
+***** configure failed *****
+
+
+svn co svn://svn101/OCSSW/trunk/build ocssw
+
+--------------------------------------------------
+2016-04-19 Tue
+From Sean:
+Javier,
+
+That will work, but it's probably better to do :
+
+$ svn co -N svn://svn101/OCSSW/trunk ocssw
+$ cd ocssw
+$ svn update build
+
+Sean
+
+libjpeg.so.9
+/SetupSwath: error while loading shared libraries: libjpeg.so.9: cannot open shared object file: No such file or directory
+
+--------------------------------------------------
+2016-04-20 Wed
+l2gen compiled in anly4:
+jconchas@anly104:~/ocssw$ /home/jconchas/ocssw/run/bin/linux_64/l2gen --version
+l2gen 9.0.2-r12855 (Apr 19 2016 18:00:46)
+
+l2gen last compiled in anly4:
+jconchas@anly104:~/ocssw/run/bin/linux_64$ which l2gen
+/home/jconchas/ocssw/run/bin/linux_64/l2gen
+jconchas@anly104:~/ocssw/run/bin/linux_64$ l2gen --version
+l2gen 9.0.2-r12855 (Apr 20 2016 16:02:06)
+jconchas@anly104:~/ocssw/run/bin/linux_64$ ./l2gen --version
+l2gen 9.0.2-r12855 (Apr 20 2016 16:02:06)
+jconchas@anly104:~/ocssw/run/bin/linux_64$ echo $LIB3_CHECK
+1
+jconchas@anly104:~/ocssw/run/bin/linux_64$ echo $OCSSW_DEBUG
+1
+
+error after compiling l2gen:
+jconchas@anly104:/data2/jconchas/GOCI/COMS_GOCI_L1B_GA_20131002$ l2gen ifile=COMS_GOCI_L1B_GA_20131002001643.he5 ofile=COMS_GOCI_L1B_GA_20131002001643.he5_L2.nc aer_opt=-1
+Input file COMS_GOCI_L1B_GA_20131002001643.he5 is a GOCI L1B HDF 5 file.
+Loading default parameters from /home/jconchas/ocssw/run/data/common/msl12_defaults.par
+-E- clo_readFile: Can't open parameter file - /home/jconchas/ocssw/run/data/common/msl12_defaults.par
+
 (END)

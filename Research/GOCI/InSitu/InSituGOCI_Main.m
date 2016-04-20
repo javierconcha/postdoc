@@ -2,71 +2,73 @@ addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR')
 addpath('/Users/jconchas/Documents/Research/GOCI')
 cd '/Users/jconchas/Documents/Research/GOCI/InSitu';
+
+%% Open file for cruise GEOCAPE_GOCI
 count = 0; % to create the InSitu structure
 clear InSitu
-%% Open file for cruise GEOCAPE_GOCI
-% dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Dec2010/archive/ag/';
-% dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Apr2011/archive/ag/';
-dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Aug2011/archive/ag/';
+% run multiple time, one for each in situ cruise
+DIRMAT(1).dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Dec2010/archive/ag/';
+DIRMAT(2).dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Apr2011/archive/ag/';
+DIRMAT(3).dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Aug2011/archive/ag/';
 
-
-% Open file with the list of images names
-fileID = fopen([dirname 'file_list.txt']);
-s = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
-
-%% figure for plottig the data
-figure('Color','white')
-hf1 = gcf;
-ylabel('a\_g (m\^-1)')
-xlabel('wavelength (nm)')
-
-
-%% Plot GOCI footprint
-figure('Color','white')
-hf2 = gcf;
-ax = worldmap([30 45],[116 136]);
-% ax = worldmap('North Pole');
-load coastlines
-geoshow(ax, coastlat, coastlon,...
-      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-%%
-
-for idx=1:size(s{:},1)
-      %%
-      filename = s{1}{idx}; % search on the list of filenames
+for idx0=1:size(DIRMAT,2)
+      % Open file with the list of images names
+      fileID = fopen([DIRMAT(idx0).dirname 'file_list.txt']);
+      s = textscan(fileID,'%s','Delimiter','\n');
+      fclose(fileID);
       
-      filepath = [dirname filename];
+      % figure for plottig the data
+      figure('Color','white')
+      hf1 = gcf;
+      ylabel('a\_g (m\^-1)')
+      xlabel('wavelength (nm)')
       
-      [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
-      % ag
-      figure(hf1)
-      hold on
-      plot(data.wavelength,data.ag);
-      grid on
-      % location
-      figure(hf2)
-      hold on
-      plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
       
-      count = count+1;
-      InSitu(count).station = sbHeader.station;
-      InSitu(count).start_date = sbHeader.start_date;
-      InSitu(count).start_time = sbHeader.start_time;
-      InSitu(count).filepath = filepath;
-      InSitu(count).wavelength = data.wavelength;
-      InSitu(count).ag = data.ag;
-      InSitu(count).ag_412_insitu = data.ag(data.wavelength==412);
-      InSitu(count).lat = sbHeader.north_latitude;
-      InSitu(count).lon = sbHeader.east_longitude;
+      % Plot GOCI footprint
+      figure('Color','white')
+      hf2 = gcf;
+      ax = worldmap([30 45],[116 136]);
+      % ax = worldmap('North Pole');
+      load coastlines
+      geoshow(ax, coastlat, coastlon,...
+            'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+      geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+      geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+      %
       
-      fprintf('%s %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
+      for idx=1:size(s{:},1)
+            %%
+            filename = s{1}{idx}; % search on the list of filenames
+            
+            filepath = [DIRMAT(idx0).dirname filename];
+            
+            [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
+            % ag
+            figure(hf1)
+            hold on
+            plot(data.wavelength,data.ag);
+            grid on
+            % location
+            figure(hf2)
+            hold on
+            plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
+            
+            count = count+1;
+            InSitu(count).station = sbHeader.station;
+            InSitu(count).start_date = sbHeader.start_date;
+            InSitu(count).start_time = sbHeader.start_time;
+            InSitu(count).filepath = filepath;
+            InSitu(count).wavelength = data.wavelength;
+            InSitu(count).ag = data.ag;
+            InSitu(count).ag_412_insitu = data.ag(data.wavelength==412);
+            InSitu(count).lat = sbHeader.north_latitude;
+            InSitu(count).lon = sbHeader.east_longitude;
+            
+            fprintf('%s %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
+      end
+      clear coastlat coastlon ax idx filepath dirname filename
 end
-clear coastlat coastlon ax idx filepath dirname filename
-
-%% Open file for cruise GOCI_2013
+% Open file for cruise GOCI_2013
 dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GOCI_2013/archive/iop/';
 
 
@@ -75,14 +77,13 @@ fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
-%% figure for plottig the data
+% figure for plottig the data
 figure('Color','white')
 hf1 = gcf;
 ylabel('a\_g (m\^-1)')
 xlabel('wavelength (nm)')
 
-
-%% Plot GOCI footprint
+% Plot GOCI footprint
 figure('Color','white')
 hf2 = gcf;
 ax = worldmap([30 45],[116 136]);
@@ -92,7 +93,7 @@ geoshow(ax, coastlat, coastlon,...
       'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
 geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-%%
+%
 
 for idx=1:size(s{:},1)
       filename = s{1}{idx}; % search on the list of filenames
@@ -130,11 +131,11 @@ for idx=1:size(s{:},1)
       
       fprintf('%s %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
 end
-%%
-save('GOCI_InSitu.mat','InSitu')
+%
+% save('GOCI_InSitu.mat','InSitu')
 
 %%
-load('GOCI_InSitu.mat')
+% load('GOCI_InSitu.mat')
 load('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/MTLGOCI_struct.mat')
 whos InSitu MTLGOCI
 unique([InSitu(:).start_date]','rows') % to have only one date per day
@@ -191,11 +192,11 @@ for idx = 1:size(InSitu,2)
       end
       
 end
-clear idx t A t_dif t_dif2 I2 I count count2
+% clear idx t A t_dif t_dif2 I2 I count count2
 
 %% See if there is valid value in the product and plot the images
-pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2Product/'; % for the default aer_opt=-2
-% pathname = '/Users/jconchas/Documents/Research/GOCI/Images/L2n1Product/'; % for aer_opt=-1
+% pathname = '/Volumes/Data/GOCI/L2Product/'; % for the default aer_opt=-2
+pathname = '/Volumes/Data/GOCI/L2n1Product/';% for aer_opt=-1
 clear MatchupMat
 % MatchupMat = MatchupsGOCI;
 MatchupMat = [MatchupsGOCI MatchupsGOCI2];
@@ -207,7 +208,7 @@ for idx = 1:size(image_list,1)
       waitbar(idx/size(image_list,1),h1,'Searching for matchups...')
       %%
       firsttime = true;
-      filepath = [pathname image_list{idx} '_L2.nc']; % '_L2n1.nc' or '_L2.nc']
+      filepath = [pathname image_list{idx} '_L2n1.nc']; % '_L2n1.nc' or '_L2.nc']
       if exist(filepath, 'file');
             %% Extract info
             longitude   = ncread(filepath,'/navigation_data/longitude');
@@ -363,13 +364,13 @@ end
 
 close(h1)
 
-clear pathname h1 idx idx2 ax r c count count2 coastlat coastlon ...
-      firsttime h plusdegress latlimplot lonlimplot ag_412_mlrc ...
-      ag_412_insitu image_list latitude longitude t
+% clear pathname h1 idx idx2 ax r c count count2 coastlat coastlon ...
+%       firsttime h plusdegress latlimplot lonlimplot ag_412_mlrc ...
+%       ag_412_insitu image_list latitude longitude t
 
-save('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
+% save('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
 %% Plotting in situ vs retrieved filtered and NO filtered
-load('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
+% load('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
 cond1 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 1; % closest
 cond2 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 2; % second closest
 %
@@ -396,7 +397,7 @@ ax = gca;
 ax.XTick =ax.YTick;
 grid on
 %% Plotting in situ vs retrieved Filtered
-load('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
+% load('GOCI_Matchups.mat','MatchupMat','MatchupsGOCI','MatchupsGOCI2')
 cond1 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 1; % closest
 cond2 = ~isnan([MatchupMat.ag_412_mlrc_center]) & [MatchupMat.close_status] == 2; % second closest
 %
@@ -457,24 +458,24 @@ disp(['SIQR = ' num2str(SIQR)])
 
 % clear C_alg C_insitu N
 
-%% RMA regression and r-squared (or coefficient of determination) 
+%% RMA regression and r-squared (or coefficient of determination)
 regressiontype = 'RMA';
 
-if strcmp(regressiontype,'OLS') 
-    [a,~] = polyfit(C_insitu,C_alg,1);
+if strcmp(regressiontype,'OLS')
+      [a,~] = polyfit(C_insitu,C_alg,1);
 elseif strcmp(regressiontype,'RMA')
-    % %%%%%%%% RMA Regression %%%%%%%%%%%%%
-    % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
-    a(1) = std(C_alg)/std(C_insitu); % slope
-    
-    if corr(C_insitu,C_alg)<0
-        a(1) = -abs(a(1));
-    elseif corr(C_insitu,C_alg)>=0
-        a(1) = abs(a(1));
-    end
-    
-    a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
-    
+      % %%%%%%%% RMA Regression %%%%%%%%%%%%%
+      % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
+      a(1) = std(C_alg)/std(C_insitu); % slope
+      
+      if corr(C_insitu,C_alg)<0
+            a(1) = -abs(a(1));
+      elseif corr(C_insitu,C_alg)>=0
+            a(1) = abs(a(1));
+      end
+      
+      a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+      
 end
 
 maxref = a_g_max;
@@ -492,11 +493,11 @@ rsq_SS = 1-(SSres/SStot)
 rsq_corr = corr(C_insitu',C_alg')^2 % when OLS rsq_SS and rsq_corr are equal
 
 if a(2)>=0
-    str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 else
-    str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 end
 
 axis([0 maxref 0 maxref])
@@ -593,24 +594,24 @@ disp(['SIQR = ' num2str(SIQR)])
 
 % clear C_alg C_insitu N
 
-%% RMA regression and r-squared (or coefficient of determination) 
+%% RMA regression and r-squared (or coefficient of determination)
 regressiontype = 'RMA';
 
-if strcmp(regressiontype,'OLS') 
-    [a,~] = polyfit(C_insitu,C_alg,1);
+if strcmp(regressiontype,'OLS')
+      [a,~] = polyfit(C_insitu,C_alg,1);
 elseif strcmp(regressiontype,'RMA')
-    % %%%%%%%% RMA Regression %%%%%%%%%%%%%
-    % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
-    a(1) = std(C_alg)/std(C_insitu); % slope
-    
-    if corr(C_insitu,C_alg)<0
-        a(1) = -abs(a(1));
-    elseif corr(C_insitu,C_alg)>=0
-        a(1) = abs(a(1));
-    end
-    
-    a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
-    
+      % %%%%%%%% RMA Regression %%%%%%%%%%%%%
+      % [[b1 b0],bintr,bintjm] = gmregress(C_insitu,C_alg);
+      a(1) = std(C_alg)/std(C_insitu); % slope
+      
+      if corr(C_insitu,C_alg)<0
+            a(1) = -abs(a(1));
+      elseif corr(C_insitu,C_alg)>=0
+            a(1) = abs(a(1));
+      end
+      
+      a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+      
 end
 
 maxref = a_g_max;
@@ -628,11 +629,11 @@ rsq_SS = 1-(SSres/SStot)
 rsq_corr = corr(C_insitu',C_alg')^2 % when OLS rsq_SS and rsq_corr are equal
 
 if a(2)>=0
-    str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 else
-    str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-        a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+      str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+            a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
 end
 
 axis([0 maxref 0 maxref])
@@ -650,6 +651,23 @@ fs = 16;
 figure('Color','white','DefaultAxesFontSize',fs)
 fs = 16;
 hist([InSitu(:).ag_412_insitu],20)
-xlabel('In situ ag\_412 (m\^-1)','FontSize',fs)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
 ylabel('Frequency','FontSize',fs)
 title('Histogram','FontSize',fs)
+
+ag412_mean = mean([InSitu(:).ag_412_insitu]);
+ag412_stdv = std([InSitu(:).ag_412_insitu]);
+ag412_min = min([InSitu(:).ag_412_insitu]);
+ag412_max = max([InSitu(:).ag_412_insitu]);
+N = size([InSitu(:).ag_412_insitu],2);
+
+str2 = sprintf('Mean: %2.4f\nSd: %2.4f\nmax: %2.4f\nmin: %2.4f\nN: %i\n',...
+      ag412_mean,ag412_stdv,ag412_min,ag412_max,N);
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+
+hold on
+text(xLoc,yLoc,str2,'FontSize',fs,'FontWeight','normal');
+disp(str2)

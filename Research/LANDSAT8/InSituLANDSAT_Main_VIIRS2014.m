@@ -657,3 +657,28 @@ for idx = 1:size(scene_list,1)
 end
 
 clear MatchupReal_aux ixc latlimplot lonlimplot h ax path row year DOY date_aux idx2
+%% Distribution of all in situ data
+fs = 16;
+figure('Color','white','DefaultAxesFontSize',fs)
+fs = 16;
+hist([InSitu(:).ag_412_insitu],40)
+xlabel('in situ a_{CDOM}(412) (m^{-1})','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+title('Histogram','FontSize',fs)
+
+ag412_mean = mean([InSitu(:).ag_412_insitu]);
+ag412_stdv = std([InSitu(:).ag_412_insitu]);
+ag412_min = min([InSitu(:).ag_412_insitu]);
+ag412_max = max([InSitu(:).ag_412_insitu]);
+N = size([InSitu(:).ag_412_insitu],2);
+
+str2 = sprintf('Mean: %2.4f\nSd: %2.4f\nmax: %2.4f\nmin: %2.4f\nN: %i\n',...
+      ag412_mean,ag412_stdv,ag412_min,ag412_max,N);
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+
+hold on
+text(xLoc,yLoc,str2,'FontSize',fs,'FontWeight','normal');
+disp(str2)
