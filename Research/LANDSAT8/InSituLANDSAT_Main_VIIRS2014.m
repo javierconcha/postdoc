@@ -404,7 +404,7 @@ for idx = 1:size(Matchup,2)
       end
 end
 
-save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+% save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
 % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];

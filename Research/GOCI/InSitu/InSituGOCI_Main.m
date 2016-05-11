@@ -4,8 +4,11 @@ addpath('/Users/jconchas/Documents/Research/GOCI')
 cd '/Users/jconchas/Documents/Research/GOCI/InSitu';
 
 %% Open file for cruise GEOCAPE_GOCI
+clear
+clc
+close all
 count = 0; % to create the InSitu structure
-clear InSitu
+
 % run multiple time, one for each in situ cruise
 DIRMAT(1).dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Dec2010/archive/ag/';
 DIRMAT(2).dirname = '/Users/jconchas/Documents/Research/GOCI/InSitu/NASA_GSFC/GEOCAPE_GOCI/GEOCAPE_GOCI_Apr2011/archive/ag/';
