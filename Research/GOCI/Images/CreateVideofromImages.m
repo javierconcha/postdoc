@@ -35,6 +35,20 @@ for idx=1:size(s{:},1)
                   Raster(idx3).longitude   = ncread(filepath,'/navigation_data/longitude');
                   Raster(idx3).latitude    = ncread(filepath,'/navigation_data/latitude');
                   Raster(idx3).ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+                  Raster(idx3).l2_flags = ncread(filepath,'/geophysical_data/l2_flags');
+                  
+                  Raster(idx3).LANDmask = bitget(Raster(idx3).l2_flags,2,'int32');
+                  Raster(idx3).PRODFAILmask = bitget(Raster(idx3).l2_flags,31,'int32');
+                  
+                  % from ncdump -h
+%                   int l2_flags(number_of_lines, pixels_per_line) ;
+%                 l2_flags:long_name = "Level-2 Processing Flags" ;
+%                 l2_flags:valid_min = -2147483648 ;
+%                 l2_flags:valid_max = 2147483647 ;
+%                 l2_flags:flag_masks = 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144
+% , 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824, -2147483648 ;
+%                 l2_flags:flag_meanings = "ATMFAIL LAND PRODWARN HIGLINT HILT HISATZEN COASTZ SPARE STRAYLIGHT CLDICE COCCOLITH TURBIDW HISOLZEN SPARE LOWLW CHLFAIL NAVWARN ABSAER SPARE MAXAERITER MODGLINT CHLWARN ATMWARN SPARE SEAICE NAVFAIL FILTER SPARE BOWTIEDEL HIPOL PRODFAIL SPARE" ;
+%   } // group geophysical_data
             else
                   % File does not exist.
                   warningMessage = sprintf('Warning: file does not exist:\n%s', filepath);
@@ -54,43 +68,50 @@ for idx=1:size(s{:},1)
       %%
       for idx2=1:8
             % Plot
-            plusdegress = 0;
-            latlimplot = [min(Raster(idx3-8+idx2).latitude(:))-.5*plusdegress max(Raster(idx3-8+idx2).latitude(:))+.5*plusdegress];
-            lonlimplot = [min(Raster(idx3-8+idx2).longitude(:))-plusdegress max(Raster(idx3-8+idx2).longitude(:))+plusdegress];
-            
+%             plusdegress = 0;
+%             latlimplot = [min(Raster(idx3-8+idx2).latitude(:))-.5*plusdegress max(Raster(idx3-8+idx2).latitude(:))+.5*plusdegress];
+%             lonlimplot = [min(Raster(idx3-8+idx2).longitude(:))-plusdegress max(Raster(idx3-8+idx2).longitude(:))+plusdegress];
+            %% Plot it
             h = figure('Color','white','Name',Raster(idx3-8+idx2).filename);
-            % ax = worldmap([52 75],[170 -120]);
-            ax = worldmap(latlimplot,lonlimplot);
-            mlabel('MLabelParallel','north')
-            
-            load coastlines
-            geoshow(ax, coastlat, coastlon,...
-                  'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-            
-            geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-            geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-            % Display product
-            
-            %             geoshow(ax,latitude,longitude,log10(ag_412_mlrc),'DisplayType','surface',...
-            %                   'ZData',zeros(size(ag_412_mlrc)),'CData',log10(ag_412_mlrc))
-            
+
             ag_412_mlrc_log10 =log10(Raster(idx3-8+idx2).ag_412_mlrc);
             
-            pcolorm(Raster(idx3-8+idx2).latitude,Raster(idx3-8+idx2).longitude,ag_412_mlrc_log10) % faster than geoshow
-            colormap jet
+            landmask = logical(Raster(idx3-8+idx2).LANDmask);
+            prodfailmask = logical(Raster(idx3-8+idx2).PRODFAILmask);
+            mask = landmask|prodfailmask;
+            
+            maskcolor =cat(3,   (0.7*landmask)+~prodfailmask, ...
+                  (0.7*landmask)+~prodfailmask,...
+                  (0.7*landmask)+~prodfailmask);
+
+            % land mask
+            imagesc(maskcolor)
+            hold on
+            
+            h0 = imagesc(ag_412_mlrc_log10); % display Map image second. From PaperPlots.m
+            set(h0, 'AlphaData', ~mask) % Apply transparency to the mask
+            set(gca,'fontsize',fs)
+            axis equal
+            axis image
+            axis off
+
+            set(gca,'XDir','rev')
+            
+            view([-90 90]);
             
             figure(gcf)
             fs = 16;
-            htitle = title([num2str(idx2) ':00h'],'FontSize',fs);
+%             htitle = title([num2str(idx2) ':00h'],'FontSize',fs);
             v = axis;
-            set(htitle,'Position',[v(1)*0.95 v(4)*0.95])
+            text(250,350,[num2str(idx2) ':00h'],'FontSize',25)
             
-            %       ag_412_mlrc_mean = nanmean(ag_412_mlrc_log10(:));
-            %       ag_412_mlrc_std= nanstd(ag_412_mlrc_log10(:));
             cte = 3;
             set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ...
                   ag_412_mlrc_mean+cte*ag_412_mlrc_std]);
+           
+            colormap jet
             
+            %
             hbar = colorbar('SouthOutside');
             pos = get(gca,'position');
             set(gca,'position',[pos(1) pos(2) pos(3) pos(4)])
@@ -104,9 +125,9 @@ for idx=1:size(s{:},1)
             end
             set(hbar,'XTickLabel',x_clean,'FontSize',fs-4)
             %                         title(image_list{idx3},'interpreter', 'none')
+            %% Save it
             saveas(gcf,[videopath Raster(idx3-8+idx2).filename '.png'],'png')
             % load the images
-            idx2
             images{idx2} = imread([videopath Raster(idx3-8+idx2).filename '.png']);
             
       end
