@@ -72,8 +72,9 @@ for idx=1:size(s{:},1)
 %             latlimplot = [min(Raster(idx3-8+idx2).latitude(:))-.5*plusdegress max(Raster(idx3-8+idx2).latitude(:))+.5*plusdegress];
 %             lonlimplot = [min(Raster(idx3-8+idx2).longitude(:))-plusdegress max(Raster(idx3-8+idx2).longitude(:))+plusdegress];
             %% Plot it
+            fs = 16;
             h = figure('Color','white','Name',Raster(idx3-8+idx2).filename);
-
+      
             ag_412_mlrc_log10 =log10(Raster(idx3-8+idx2).ag_412_mlrc);
             
             landmask = logical(Raster(idx3-8+idx2).LANDmask);
@@ -100,10 +101,10 @@ for idx=1:size(s{:},1)
             view([-90 90]);
             
             figure(gcf)
-            fs = 16;
+            
 %             htitle = title([num2str(idx2) ':00h'],'FontSize',fs);
             v = axis;
-            text(250,350,[num2str(idx2) ':00h'],'FontSize',25)
+            text(350,200,[num2str(idx2+8) ':00h'],'FontSize',25)
             
             cte = 3;
             set(gca, 'CLim', [ag_412_mlrc_mean-cte*ag_412_mlrc_std, ...
@@ -135,10 +136,10 @@ for idx=1:size(s{:},1)
       %% Create the video
       % create the video writer with 4 fps
       writerObj = VideoWriter([filepath(end-42:end) '.avi']);
-      fps = 6; % frames per second
+      fps = 3; % frames per second
       writerObj.FrameRate = fps;
       % set the seconds per image
-      startDelay = 1; % starting delay in seconds
+      startDelay = 2; % starting delay in seconds
       secsPerImage = startDelay:1/fps:((length(images)-1)/fps)+startDelay;
       % open the video writer
       open(writerObj);
