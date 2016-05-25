@@ -1,6 +1,5 @@
------------------------------------------------------------
-2016-01-07
 To log in into the internal network:
+--------------------------------------------------
 
 First log in into torii:
 ssh -Y obpg-torii.sci.gsfc.nasa.gov
@@ -342,8 +341,8 @@ dimensions:
 --------------------------------------------------
 2016-01-25 Mon:
 To do for the week:
-- Check angles in the Arctic
-- Handle GOCI images in Matlab
+- DONE: Check angles in the Arctic
+- DONE: Handle GOCI images in Matlab
 - DONE: Find parameters used in l2gen for Mannino's ag_412_mlrc algorithm.
 - DONE: Include convert to 555 function in Matlab.
 
@@ -1101,7 +1100,7 @@ jconchas@anly104:~/ocssw/
 2016-04-06 Wed
 to checkout in my local machine (gs616-tidal):
 $ svc co svn://localhost/OCSSW/trunk ocssw
-
+q
 to tunnel the svn server:
 $ssh jconchas@obpg-torii.sci.gsfc.nasa.gov  -f -N -L3690:svn101:3690 
 
@@ -1198,4 +1197,346 @@ Input file COMS_GOCI_L1B_GA_20131002001643.he5 is a GOCI L1B HDF 5 file.
 Loading default parameters from /home/jconchas/ocssw/run/data/common/msl12_defaults.par
 -E- clo_readFile: Can't open parameter file - /home/jconchas/ocssw/run/data/common/msl12_defaults.par
 
+to update the first level svn: 
+jconchas@anly104:~/ocssw$ svn ls |xargs svn up -N
+
+to checkout a subdirectory without all the content in svn:
+svn co -N svn://svn101/OCSSW/trunk/run/data/ data/
+
+then to checkout a subdirectory with content:
+svn co svn://svn101/OCSSW/trunk/run/data/common/ common/
+--------------------------------------------------
+2016-04-22 Fri
+error trying to build third party libraries from src code in the SeaDAS 7.3.1 in home directorie:
+checking for suffix of executables... 
+checking whether we are cross compiling... configure: error: in `/Users/jconchas/Applications/seadas-7.3.1/ocssw/build/lib3/src/netcdf/netcdf-cxx4-4.2.1':
+configure: error: cannot run C compiled programs.
+If you meant to cross compile, use `--host'.
+See `config.log' for more details
+***** configure failed *****
+***** BuildIt (netcdf) failed *****
+
+
+--------------------------------------------------
+2016-04-25 Mon
+ 1079  echo $OCSSWROOT 
+ 1080  export OCSSWROOT=/Users/jconchas/Applications/seadas-7.3.1/ocssw
+ 1081  source /Users/jconchas/Applications/seadas-7.3.1/ocssw/OCSSW_bash.env 
+ 1082  cd ..
+ 1083  ls
+ 1084  cd src/
+ 1085  env | grep OCSSW
+ 1086  env | grep LIB3
+ 1087  export LIB3_CHECK=0
+ 1088  env | grep LIB3
+ 1089  ./BuildIt 
+
+...updated 11428 targets...
+
+Everything Built Successfully
+
+
+jconchas@gs616-tidal-128154165007:src$ !1079
+echo $OCSSWROOT 
+/Users/jconchas/Applications/seadas-7.3.1/ocssw
+jconchas@gs616-tidal-128154165007:src$ !1085
+env | grep OCSSW
+OCSSW_ARCH=macosx_intel
+OCSSWROOT=/Users/jconchas/Applications/seadas-7.3.1/ocssw
+OCSSW_BIN=/Users/jconchas/Applications/seadas-7.3.1/ocssw/run/bin/macosx_intel
+OCSSW_DEBUG=0
+jconchas@gs616-tidal-128154165007:src$ !1086
+env | grep LIB3
+LIB3_DIR=/Users/jconchas/Applications/seadas-7.3.1/ocssw/build/lib3
+LIB3_CHECK=0
+LIB3_LIB=/Users/jconchas/Applications/seadas-7.3.1/ocssw/build/lib3/lib
+LIB3_BIN=/Users/jconchas/Applications/seadas-7.3.1/ocssw/run/bin3/macosx_intel
+LIB3_INC=/Users/jconchas/Applications/seadas-7.3.1/ocssw/build/lib3/include
+
+to create svn rep:
+- create directory where the rep will be located: 
+jconchas@gs616-tidal-128154165007:seadas-7.3.1$ mkdir svnrep
+jconchas@gs616-tidal-128154165007:seadas-7.3.1$ cd svnrep/
+jconchas@gs616-tidal-128154165007:svnrep$ ls
+
+- create repo:
+jconchas@gs616-tidal-128154165007:svnrep$ svnadmin create ocssw_svnrep
+jconchas@gs616-tidal-128154165007:svnrep$ ls
+ocssw_svnrep/
+
+
+- create empty directory:
+jconchas@gs616-tidal-128154165007:seadas-7.3.1$ mkdir ocssw_svnwork
+
+- import empty directory to the svn repo"
+jconchas@gs616-tidal-128154165007:seadas-7.3.1$ svn import ocssw_svnwork/ file:///Users/jconchas/Applications/seadas-7.3.1/svnrep/ocssw_svnrep/trunk -m "Initial import"
+
+- check out repo in a workind directory:
+jconchas@gs616-tidal-128154165007:ocssw_svnwork$ svn co file:///Users/jconchas/Applications/seadas-7.3.1/svnrep/ocssw_svnrep/trunk .
+Checked out revision 1.
+
+--------------------------------------------------
+2016-04-26 Tue
+error after lib3 built:
+jconchas@gs616-tidal-128154165007:cbuild$ cmake ..
+[  8%] Building C object src/liboli/CMakeFiles/oli.dir/wviifor.c.o
+[  8%] Building C object src/liboli/CMakeFiles/oli.dir/wviiinv.c.o
+6 warnings generated.
+[  8%] Linking C static library libmeris.a
+[  8%] Built target meris
+[  8%] Linking C static library liboli.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: liboli.a(br_gctp.c.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: liboli.a(br_gctp.c.o) has no symbols
+[  8%] Built target oli
+1 warning generated.
+[  8%] Linking CXX executable nccmp
+clang: error: unsupported option '-static-libgcc'
+make[2]: *** [src/nccmp/nccmp] Error 1
+make[1]: *** [src/nccmp/CMakeFiles/nccmp.dir/all] Error 2
+make: *** [all] Error 2
+
+
+to look in Macports:
+jconchas@gs616-tidal-128154165007:~$ port search gcc|less
+
+--------------------------------------------------
+2016-04-27 Wed
+- with:
+
+jconchas@gs616-tidal-128154165007:src$ ../../../show_var.sh 
+OCSSWROOT=/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork
+OCSSW_DEBUG=0
+LIB3_CHECK=0
+CC=gcc-mp-4.8
+CXX=g++-mp-4.8
+FC=gfortran-mp-4.8
+
+- ERROR:
+
+[ 39%] Building Fortran object Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/ran_tools_dist.f90.o
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/long_intrinsic.F90:45.6:
+
+  use healpix_types, only: i4b, i8b, sp, dp, lgt
+      1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/long_intrinsic.F90.o] Error 1
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/long_intrinsic.F90.o.provides] Error 2
+make[2]: *** Waiting for unfinished jobs....
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/rngmod.f90:39.6:
+
+  use healpix_types
+      1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/bit_manipulation.F90:36.4:
+
+use healpix_types
+    1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/rngmod.f90.o] Error 1
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/bit_manipulation.F90.o] Error 1
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/bit_manipulation.F90.o.provides] Error 2
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/rngmod.f90.o.provides] Error 2
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/extension.F90:47.6:
+
+  USE healpix_types, ONLY : I4B
+      1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/extension.F90.o] Error 1
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/extension.F90.o.provides] Error 2
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/obsolete.f90:60.6:
+
+  use healpix_types
+      1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/obsolete.f90.o] Error 1
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/obsolete.f90.o.provides] Error 2
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/healpix/Healpix_3.11/src/f90/mod/ran_tools_dist.f90:31.4:
+
+use healpix_types
+    1
+Fatal Error: File 'healpix_types.mod' opened at (1) is not a GNU Fortran module file
+make[3]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/ran_tools_dist.f90.o] Error 1
+make[2]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/ran_tools_dist.f90.o.provides] Error 2
+[ 42%] Linking C static library libchealpix.a
+[ 42%] Built target chealpix
+make[1]: *** [Healpix_3.11/src/f90/mod/CMakeFiles/healpix.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 46%] Linking C static library libsharp_healpix_f.a
+[ 46%] Built target sharp_healpix_f
+make: *** [all] Error 2
+***** make failed *****
+***** BuildIt (healpix) failed *****
+
+now with FC=gfortran lib3 was built but following error:
+
+[  8%] Building C object src/liboli/CMakeFiles/oli.dir/wviiinv.c.o
+make[1]: *** [src/lib24to8/CMakeFiles/24to8.dir/all] Error 2
+[  8%] Linking C static library libmeris.a
+[  8%] Built target meris
+[  8%] Linking C static library liboli.a
+/opt/local/bin/ranlib: file: liboli.a(br_gctp.c.o) has no symbols
+/opt/local/bin/ranlib: file: liboli.a(br_gctp.c.o) has no symbols
+[  8%] Built target oli
+[  8%] Linking CXX executable nccmp
+[  8%] Built target nccmp
+make: *** [all] Error 2
+
+--------------------------------------------------
+2016-04-28 Thu
+
+- Change path to X11 in CMakeLists.txt:
+jconchas@gs616-tidal-128154165007:build$ pwd
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build
+
+jconchas@gs616-tidal-128154165007:build$ cat CMakeLists.txt
+include_directories (
+  ${CMAKE_SOURCE_DIR}/lib3/include
+  ${CMAKE_SOURCE_DIR}/include
+  /usr/X11/include
+)
+- delete previous libraries built: 
+
+rm -rf EOS/ bin/ include/ lib/ man/ share/
+
+- Not building this lib:
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/src/sdptk
+
+- Don built the following library in his mac and put it in my mac:
+jconchas@gs616-tidal-128154165007:EOS$ pwd
+/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/build/lib3/EOS
+ mv EOS/ EOS.old
+
+ 1462  tar tzf eos.tar.gz 
+ 1463  tar xzf eos.tar.gz 
+
+--------------------------------------------------
+2016-04-29 Fri
+
+jconchas@gs616-tidal-128154165007:LC80720212014209LGN00$ lonlat2pixline LC80720212014209LGN00_MTL.txt -158.10155 55.965103 -158.09918 55.966434
+# 4038 4042 3814 3818
+sline=3814
+eline=3818
+spixl=4038
+epixl=4042
+
+jconchas@gs616-tidal-128154165007:LC80720212014209LGN00$ l2gen ifile=LC80720212014209LGN00_MTL.txt ofile=LC80720212014209LGN00_L2test.nc l2prod="default,ag_412_mlrc" sline=3814 eline=3818 spixl=4038 epixl=4042
+
+--------------------------------------------------
+2016-05-05 Fri
+
+COMS_GOCI_L1B_GA_20151014001656.he5
+COMS_GOCI_L1B_GA_20151009001650.he5
+COMS_GOCI_L1B_GA_20150909001642.he5
+COMS_GOCI_L1B_GA_20150910001640.he5
+COMS_GOCI_L1B_GA_20150911001643.he5
+COMS_GOCI_L1B_GA_20150913001640.he5
+COMS_GOCI_L1B_GA_20150709001642.he5
+COMS_GOCI_L1B_GA_20150425001642.he5
+COMS_GOCI_L1B_GA_20150510001633.he5
+COMS_GOCI_L1B_GA_20120527001639.he5
+--------------------------------------------------
+2016-05-17 Mon
+Dani's tips:
+cd .seadas/beam-core/auxdata/rgb_profiles
+
+rhos_469
+555
+645
+
+/seadas/.seadas/beam-ui/auxdata/color-palletes
+--------------------------------------------------
+2016-05-18 Tue
+to install aqua in SeaDAS 7.3:
+jconchas@gs616-tidal-128154165007:data$ pwd
+/Users/jconchas/Applications/seadas-7.3.1/ocssw/run/data
+jconchas@gs616-tidal-128154165007:data$ ../scripts/install_ocssw.py --aqua --git-branch=v7.3
+
+1600  git status
+ 1601  git pull
+ 1602  cd ..
+ 1603  ls
+ 1604  cd bin
+ 1605  cd macosx_intel/
+ 1606  git status
+ 1607  git pull
+ 1608  cd ..
+ 1609  cd ..
+ 1610  cd bin3/
+ 1611  git pull
+ 1612  cd macosx_intel/
+ 1613  git pull
+ 1614  cd ..
+ 1615  cd ..
+ 1616  ls
+ 1617  cd data/
+ 1618  ls
+ 1619  cd common/
+ 1620  git pull
+ 1621  cd ../goci/
+ 1622  git pull
+ 1623  cd ..
+ 1624  cd modis/
+ 1625  git status
+ 1626  git branch -a
+ 1627  cd ..
+ 1628  ls
+ 1629  cd ocrvc/
+ 1630  git status
+ 1631  git log
+ 1632  git pull
+ 1633  git branch -a
+ 1634  git checkout v7.3
+ 1635  git pull
+ 1636  cd ..
+ 1637  ls
+ 1638  cd oli/
+ 1639  git status
+ 1640  git pull
+ 1641  cd ..
+ 1642  ls
+ 1643  cd modis/
+ 1644  git branch -a
+ 1645  cd ..
+ 1646  cd modis/
+ 1647  git config --list
+ 1648  git status
+ 1649  cd ..
+ 1650  cd ..
+ 1651  ls
+ 1652  cd ..
+ 1653  s
+ 1654  ls
+ 1655  cd build/
+ 1656  ls
+ 1657  git status
+ 1658  git pull
+ 1659  git branch -a
+ 1660  cd ..
+ 1661  cd run/data/
+ 1662  ls
+ 1663  rm -rf modis/
+ 1664  ./install_ocssw.py --help
+ 1665  ../scripts/install_ocssw.py --help
+ 1666  ./install_ocssw.py --aqua --git-branch=v7.3
+ 1667  ../scripts/install_ocssw.py --aqua --git-branch=v7.3
+
+--------------------------------------------------
+2016-05-24 Tue
+for mosaic in SeaDAS:
+1 degree = 111.3km
+from:
+http://gis.stackexchange.com/questions/115032/how-to-know-the-gsd-grid-size-resolution-in-meters-of-an-existing-raster-when
+
+therefore: 0.001 degrees =~ 100 m
+
+Still processing:
+LC81680042013223LGN00
+LC81780052013197LGN00
+LC81680052013191LGN00
+
+--------------------------------------------------
+2016-05-25 Wed
+readsb.m:
+- Does not read date as: 2016-05-25 only 20160525
+- Does not read filename or string
 (END)
