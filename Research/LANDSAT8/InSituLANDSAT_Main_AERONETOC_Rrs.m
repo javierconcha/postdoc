@@ -24,7 +24,7 @@ geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 
 %%
-% Extract Tara data from SeaBASS file
+% Extract AERONET Rrs data from SeaBASS file
 clear InSitu
 dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups/';
 
@@ -172,24 +172,25 @@ for n=1:size(DB,2) %  how many path and row combinations
             [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
             if ~isempty(ImageDate)
                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
-                        disp('--------------------------------------------')
-                        disp(['In situ taken: ',datestr(InSitu(DB(n).insituidx(1)).t)])
                         
-                        disp(['Image taken:   ',datestr(ImageDate)])
-                        
-                        
-                        fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
-                        da = datevec(ImageDate);
-                        v = datenum(da);
-                        DOY = v - datenum(da(:,1), 1,0);
-                        L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
-                              sprintf('%03.f',DOY),'LGN00'] ;
-                        fprintf('ID: %s\n',L8id)
-                        
-                        % Save it in a structure
-                        idx_match = idx_match + 1;
-                        Matchup(idx_match).number_d = DB(n).insituidx(:);
-                        Matchup(idx_match).id_scene = L8id;
+                        for idx1 = 1:length(DB(n).insituidx(:))
+                              disp('--------------------------------------------')
+                              disp(['In situ taken: ',datestr(InSitu(DB(n).insituidx(idx1)).t)])
+                              
+                              disp(['Image taken:   ',datestr(ImageDate)])
+                              
+                              fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(idx1))
+                              da = datevec(ImageDate);
+                              v = datenum(da);
+                              DOY = v - datenum(da(:,1), 1,0);
+                              L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
+                                    sprintf('%03.f',DOY),'LGN00'] ;
+                              fprintf('ID: %s\n',L8id)
+                              % Save it in a structure
+                              idx_match = idx_match + 1;
+                              Matchup(idx_match).number_d = DB(n).insituidx(idx1);
+                              Matchup(idx_match).id_scene = L8id;
+                        end
                   end
             end
       end
@@ -199,11 +200,34 @@ close(h2)
 T=toc;
 disp(['Seconds: ' num2str(T/60) ' minutes.'])
 clear T
-% save('L8Matchups_AERONET_Rrs.mat','Matchup','DB')
+save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB')
+
+%% Create idlatlon_list.txt
+A = {Matchup.id_scene}';
+B = {InSitu(cell2mat({Matchup.number_d})).lat}';
+C = {InSitu(cell2mat({Matchup.number_d})).lon}';
+D = [A B C];
+
+fileID = fopen('idlatlon_list.txt','w');
+
+formatSpec = '%s %4.6f %4.6f\n';
+
+[nrows,ncols] = size(D);
+for row = 1:nrows
+    fprintf(fileID,formatSpec,D{row,:});
+end
+
+fclose(fileID);
+
+type idlatlon_list.txt
+
+% clear A B C D
+
 %% Look in the Matchup structure the best images previously selected by visual inspection
 % using landsat.m and plot the jpg image and the in situ data location
 
-dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
+% dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
+dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET_L2/';
 
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
@@ -277,4 +301,110 @@ for n = 1:size(s{:},1)
       close(h1)
       
 end
-save('L8Matchups_Arctics.mat','Matchup')
+% save('L8Matchups_Arctics.mat','Matchup')
+%% Find valid matchups
+count = 0;
+for idx = 1:size(Matchup,2)   
+      if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
+            %% Open ag_412 product and plot
+            filepath = [dirname Matchup(idx).id_scene '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc']
+            longitude   = ncread(filepath,'/navigation_data/longitude');
+            latitude    = ncread(filepath,'/navigation_data/latitude');
+            ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
+            
+            % plot
+%             plusdegress = 0.5;
+%             latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+%             lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+%             h = figure('Color','white','Name',[Matchup(idx).id_scene '_L2.nc']);
+%             ax = worldmap(latlimplot,lonlimplot);
+%             
+%             load coastlines
+%             geoshow(ax, coastlat, coastlon,...
+%                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+%             
+%             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+%             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+%             
+%             % Display product
+%             pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
+%             colormap jet
+%            
+            %% Plot in situ and obtain value from the product
+            for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
+%                   figure(h)
+%                   hold on
+%                   plotm(lat(Matchup(idx).number_d(idx2)),lon(Matchup(idx).number_d(idx2)),'*c')
+                  %% closest distance
+                  % latitude and longitude are arrays of MxN
+                  % lat0 and lon0 is the coordinates of one point
+                  lat0 = lat(Matchup(idx).number_d(idx2));
+                  lon0 = lon(Matchup(idx).number_d(idx2));
+                  dist_squared = (latitude-lat0).^2 + (longitude-lon0).^2;
+                  [m,I] = min(dist_squared(:));
+                  [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
+                  clear lat0 lon0 m I dist_squared
+                  
+                  if ~isnan(ag_412_mlrc (r,c))
+%                         Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                        
+                        count = count+1;
+                        fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
+                        MatchupReal(count).ag_412_insitu = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                        MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
+                        MatchupReal(count).id_scene = Matchup(idx).id_scene;
+%                         MatchupReal(count).scenetime = Matchup(idx).scenetime;
+                        MatchupReal(count).insitutime = t(Matchup(idx).number_d(idx2));
+                        
+                        %% Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                        if r-1 == 0 || c-1 ==0 || r == size(ag_412_mlrc,1) || c == size(ag_412_mlrc,2)
+                              warning('Window indices out of range...')
+                        end
+                        
+                        ws = 3; % window size:3, 5, or 7
+                        
+                        window = ag_412_mlrc(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                        window_mean = nanmean(window(:)); % only non NaN values
+                        window_std = nanstd(window(:));
+                        
+                        % indices to the cells that pass the filter
+                        xi_idx = (window > (window_mean-1.5*window_std)) &...
+                              (window < (window_mean+1.5*window_std)) &...
+                              ~isnan(window); % to exclude NaN
+                        
+                        window_filt = window(xi_idx(:));
+                        
+                        CV = std(window_filt)/mean(window_filt);
+                        
+                        MatchupReal(count).ag_412_mlrc_mean = window_mean;
+                        MatchupReal(count).ag_412_mlrc_meadian = nanmedian(window(:));
+                        MatchupReal(count).ag_412_mlrc_std = window_std;
+                        MatchupReal(count).ag_412_mlrc_center = ag_412_mlrc(r,c);
+                        
+                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                              MatchupReal(count).ag_412_mlrc_filt_mean = mean(window_filt);
+                              MatchupReal(count).ag_412_mlrc_filt_std = std(window_filt);
+                              
+                        else
+                              warning('CV < 0.15. ag_412_mlrc not valid.')
+                              MatchupReal(count).ag_412_mlrc_filt_mean = NaN;
+                              MatchupReal(count).ag_412_mlrc_filt_std = NaN;
+                        end
+                        
+                        MatchupReal(count).ag_412_mlrc_filt_min = min(window_filt);
+                        MatchupReal(count).ag_412_mlrc_filt_max = max(window_filt);
+                        MatchupReal(count).valid_px = sum(~isnan(window(:)));
+                        MatchupReal(count).ag_412_mlrc_filt_px_count = sum(~isnan(window_filt(:)));
+                        MatchupReal(count).window = window;
+                        MatchupReal(count).CV = CV;
+                        
+                  else
+                        Matchup(idx).ag_412_mlrc(idx2) = NaN;
+                        Matchup(idx).ag_412_insitu(idx2) = ag(Matchup(idx).number_d(idx2),wavelength==412);
+                  end
+            end
+            clear latitude longitude ag_412_mlrc
+      end
+end
+
+% save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
