@@ -4,7 +4,9 @@ clear
 close all
 clc
 %% Open product, create a Raster with all eight images. Determine min and max for the colorbar
-pathname = '/Volumes/Data/GOCI/L2n1Product_diurnal_var/';% for aer_opt=-1
+% pathname = '/Volumes/Data/GOCI/L2n1Product_diurnal_var/';% for aer_opt=-1
+pathname = '/Users/jconchas/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640/';
+
 videopath = '/Users/jconchas/Documents/Research/GOCI/Images/Videos/';
 % filename = 'COMS_GOCI_L1B_GA_20120527001639.he5_L2n1.nc';
 % filepath = [pathname filename];
@@ -17,11 +19,12 @@ fclose(fileID);
 idx3 = 0;
 for idx=1:size(s{:},1)
       for idx2 = 1:8
+            idx2
             filenametemp = s{1}{idx}; % search on the list of filenames
             
             filepathtemp = [pathname filenametemp(1:25) '0' num2str(idx2-1)];
             
-            filepath = ls([filepathtemp '*']);
+            filepath = ls([filepathtemp '*.he5']);
             
             filepath = filepath(1:end-1);
             
