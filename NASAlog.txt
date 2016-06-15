@@ -220,7 +220,7 @@ You can see all parameters via:
 
 ncdump -h LC80720212014209LGN00_L2.nc
 
--- bryan
+--2 in situ pointsbryan
 -----------------
 --------------------------------------------------
 2016-01-14 Thu
@@ -1539,4 +1539,108 @@ LC81680052013191LGN00
 readsb.m:
 - Does not read date as: 2016-05-25 only 20160525
 - Does not read filename or string
+
+Images not available from AERONET:
+L8 OLI/TIRS	LC81810292013122LGN00
+L8 OLI/TIRS	LC81810292013138LGN00
+L8 OLI/TIRS	LC81870182013132LGN00
+L8 OLI/TIRS	LC81890182013178LGN00
+L8 OLI/TIRS	LC80120312013094LGN00
+L8 OLI/TIRS	LC80120312013099LGN00
+L8 OLI/TIRS	LC80120312013106LGN00
+L8 OLI/TIRS	LC80120312013122LGN00
+
+For Rrs AERONET-OC:
+- 1032 in situ points
+- 165 points with possible matchups but some of them in the same image, and therefore, 131 possible images but the images above not available (8).
+--------------------------------------------------
+2016-05-31 Tue
+
+aer_opt (int) (default=99) = aerosol mode option
+-1: Multi-scattering with 2-band model selection
+-2: Multi-scattering with 2-band, RH-based model selection and
+    iterative NIR correction
+-10: Multi-scattering with MUMM correction
+    and MUMM NIR calculation 
+
+jconchas@anly104:~/ocssw/run/data/oli$ vim msl12_filterUSER.dat
+#############################################################
+#ltmean,  1,  7,  7,  1
+#ltmean,  2,  7,  7,  1
+#ltmean,  3,  7,  7,  1
+#ltmean,  4,  7,  7,  1
+#ltmean,  5,  7,  7,  1
+ltmean,  6,  5,  5,  1
+ltmean,  7,  5,  5,  1
+
+size or space directory:
+du -h
+du -d 1
+
+--------------------------------------------------
+2016-06-06 Mon
+
+21 scenes not found in AERONET:
+LC80110312013081LGN00
+LC80120312013094LGN00
+LC80120312013099LGN00
+LC80120312013106LGN00
+LC80120312013122LGN00
+LC81280532014010LGN00
+LC81280532014074LGN00
+LC81810292013122LGN00
+LC81810292013138LGN00
+LC81870182013132LGN00
+LC81870182013180LGN00
+LC81870182013212LGN00
+LC81880182013139LGN00
+LC81880182013203LGN00
+LC81890182013162LGN00
+LC81890182013178LGN00
+LC81890182013242LGN00
+LC81910292013088LGN00
+LC81910292013112LGN00
+LC81920282013083LGN00
+LC81920282013135LGN00
+
+jconchas@gs616-tidal-128154165007:LC80720212014209LGN00$ lonlat2pixline -x 50 -y 50 LC80720212014209LGN00_MTL.txt -156.29243 54.792473
+#Lon=-156.292435
+#Lat=54.792473
+sline=8019
+eline=8070
+spixl=7920
+epixl=7970
+
+To evaluate an output from grep:
+eval "$(grep "eline" temp.txt)"
+
+--------------------------------------------------
+2016-06-07 Tue
+B = unique({Matchup.id_scene}');
+>> whos B InSitu DB Matchup
+  Name           Size                Bytes  Class     Attributes
+
+  B            369x1                 56826  cell                
+  DB             1x1755            1264816  struct              
+  InSitu         1x1032            1349272  struct              
+  Matchup        1x771              211382  struct 
+
+to delete repeated:
+uniq idlatlon_list.txt > idlatlon_list.txt
+
+jconchas@anly104:~/data2/LANDSAT8/L8_Rrs_Matchups_AERONET$ comm -23 needed_listSORTED.txt have_listSORTED.txt 
+
+how to scroll in tmux:
+http://superuser.com/questions/209437/how-do-i-scroll-in-tmux
+ctr+B -> [ and then arrows
+
+--------------------------------------------------
+2016-06-10 Fri
+to find empty cells:
+cellfun('isempty',{Matchup.scenetime})
+
+--------------------------------------------------
+2016-06-14 Tue
+to grep from a list in a file:
+jconchas@anly104:/data2/jconchas/LANDSAT8/L8_Rrs_Matchups_AERONET$ cat temp3.txt | xargs -I {} grep {} idlatlon_list.txt
 (END)

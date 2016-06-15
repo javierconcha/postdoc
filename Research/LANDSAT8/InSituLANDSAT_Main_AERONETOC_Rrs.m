@@ -296,6 +296,9 @@ for n = 1:size(s{:},1)
 end
 
 %% Find valid matchups
+
+L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
+
 count = 0;
 clear MatchupReal
 h2 = waitbar(0,'Initializing ...');
@@ -303,7 +306,7 @@ for idx = 1:size(Matchup,2)
       waitbar(idx/size(Matchup,2),h2,'Looking for Real Matchups')
       if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
             %% Open ag_412 product and plot
-            filepath = [dirname Matchup(idx).id_scene '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc']
+            filepath = [dirname Matchup(idx).id_scene '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
             longitude   = ncread(filepath,'/navigation_data/longitude');
             latitude    = ncread(filepath,'/navigation_data/latitude');
             Rrs_443 = ncread(filepath,'/geophysical_data/Rrs_443');
@@ -540,7 +543,42 @@ grid on
 legend('3 days','1 day','3 hours')
 
 %% filtered
-plot_insitu_vs_sat('443','443',MatchupReal); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-plot_insitu_vs_sat('482','488',MatchupReal); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-plot_insitu_vs_sat('561','547',MatchupReal); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-plot_insitu_vs_sat('655','667',MatchupReal); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+which_time_range = {'3 days','1 day','3 hours'};
+
+for idx = 1:size(which_time_range,2)
+      fs = 16;
+      f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',char(which_time_range(idx)));
+      
+      [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+      [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+      [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+      [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+      
+      
+      figure(f1)
+      copies = copyobj([ax1,leg1],f1);
+      ax1_copy = copies(1);
+      subplot(2,2,1,ax1_copy)
+      
+      copies = copyobj([ax2,leg2],f1);
+      ax2_copy = copies(1);
+      subplot(2,2,2,ax2_copy)
+      
+      copies = copyobj([ax3,leg3],f1);
+      ax3_copy = copies(1);
+      subplot(2,2,3,ax3_copy)
+      
+      copies = copyobj([ax4,leg4],f1);
+      ax4_copy = copies(1);
+      subplot(2,2,4,ax4_copy)
+      
+      figure(h1)
+      close
+      figure(h2)
+      close
+      figure(h3)
+      close
+      figure(h4)
+      close
+
+end
