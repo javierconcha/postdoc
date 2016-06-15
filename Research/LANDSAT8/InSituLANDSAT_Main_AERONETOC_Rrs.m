@@ -23,7 +23,7 @@ for idx=1:size(data.date_time,1)
       
       Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
             data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
-      wavelength = [412,443,488,531,547,667,678];  
+      wavelength = [412,443,488,531,547,667,678];
       
       count = count+1;
       %       InSitu(count).station = data.station;
@@ -119,7 +119,7 @@ for d = 1:size(InSitu,2)
                                     DB(j).DAY  == InSitu(d).t.Day &&...
                                     datenum(datetime([DB(db_idx).YEAR DB(db_idx).MONTH DB(db_idx).DAY]))+datenum(days_offset)...
                                     >datenum(datetime([InSitu(d).t.Year InSitu(d).t.Month InSitu(d).t.Day]))
-
+                              
                               %                               disp('Duplicate found...')
                               DB(j).insituidx(size(DB(j).insituidx,2)+1) = d;
                               break
@@ -206,7 +206,7 @@ formatSpec = '%s %4.6f %4.6f\n';
 
 [nrows,ncols] = size(D);
 for row = 1:nrows
-    fprintf(fileID,formatSpec,D{row,:});
+      fprintf(fileID,formatSpec,D{row,:});
 end
 
 fclose(fileID);
@@ -269,13 +269,13 @@ for n = 1:size(s{:},1)
       t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
       %       str2 = datestr(t_acq);
       
-%       h1 = figure(1000);
+      %       h1 = figure(1000);
       % lansat.m to check the USGS server for jpg images as proxy to scenes available
-%       [~,~,~,h] = landsat(path,row,str);
+      %       [~,~,~,h] = landsat(path,row,str);
       
-%       figure(gcf)
-%       set(gcf,'Color','white','Name',s{1}{n})
-%       plotm([InSitu(Matchup(i).number_d).lat],[InSitu(Matchup(i).number_d).lon],'*-r')
+      %       figure(gcf)
+      %       set(gcf,'Color','white','Name',s{1}{n})
+      %       plotm([InSitu(Matchup(i).number_d).lat],[InSitu(Matchup(i).number_d).lon],'*-r')
       
       t_diff = [InSitu(Matchup(i).number_d).t] - t_acq;
       
@@ -284,301 +284,302 @@ for n = 1:size(s{:},1)
       str2 = datestr(Matchup(i).scenetime);
       str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(InSitu(Matchup(i).number_d(I)).t),char(t_diff(I)));
       
-%       title(str3)
+      %       title(str3)
       
       disp(['Acquired Date:' str2])
       disp('In situ:')
       InSitu(Matchup(i).number_d).t
       [InSitu(Matchup(i).number_d).lat,InSitu(Matchup(i).number_d).lon]
       
-%       close(h1)
+      %       close(h1)
       
 end
 
 %% Find valid matchups
 
 L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
-
-count = 0;
-clear MatchupReal
-h2 = waitbar(0,'Initializing ...');
-for idx = 1:size(Matchup,2)   
-      waitbar(idx/size(Matchup,2),h2,'Looking for Real Matchups')
-      if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
-            %% Open ag_412 product and plot
-            filepath = [dirname Matchup(idx).id_scene '_L2n1.nc']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
-            longitude   = ncread(filepath,'/navigation_data/longitude');
-            latitude    = ncread(filepath,'/navigation_data/latitude');
-            Rrs_443 = ncread(filepath,'/geophysical_data/Rrs_443');
-            Rrs_482 = ncread(filepath,'/geophysical_data/Rrs_482');
-            Rrs_561 = ncread(filepath,'/geophysical_data/Rrs_561');
-            Rrs_655 = ncread(filepath,'/geophysical_data/Rrs_655');
-               
-            %% Plot in situ and obtain value from the product
-            for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
-                  %% closest distance
-                  % latitude and longitude are arrays of MxN
-                  % lat0 and lon0 is the coordinates of one point
-                  lat0 = InSitu(Matchup(idx).number_d(idx2)).lat;
-                  lon0 = InSitu(Matchup(idx).number_d(idx2)).lon;
-                  dist_squared = (latitude-lat0).^2 + (longitude-lon0).^2;
-                  [m,I] = min(dist_squared(:));
-                  [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
-                  clear lat0 lon0 m I dist_squared
+for idx0 = 1:size(L2ext,2)
+      count = 0;
+      clear MatchupReal
+      h2 = waitbar(0,'Initializing ...');
+      for idx = 1:size(Matchup,2)
+            waitbar(idx/size(Matchup,2),h2,'Looking for Real Matchups')
+            if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
+                  %% Open ag_412 product and plot
+                  filepath = [dirname Matchup(idx).id_scene char(L2ext(idx0))]; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  longitude   = ncread(filepath,'/navigation_data/longitude');
+                  latitude    = ncread(filepath,'/navigation_data/latitude');
+                  Rrs_443 = ncread(filepath,'/geophysical_data/Rrs_443');
+                  Rrs_482 = ncread(filepath,'/geophysical_data/Rrs_482');
+                  Rrs_561 = ncread(filepath,'/geophysical_data/Rrs_561');
+                  Rrs_655 = ncread(filepath,'/geophysical_data/Rrs_655');
                   
-                  if ~isnan(Rrs_443(r,c))
-                        count = count+1;
-                        fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
-                        MatchupReal(count).Rrs_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs;
-                        MatchupReal(count).Rrs_412_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(1);
-                        MatchupReal(count).Rrs_443_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(2);
-                        MatchupReal(count).Rrs_488_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(3);
-                        MatchupReal(count).Rrs_531_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(4);
-                        MatchupReal(count).Rrs_547_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(5);
-                        MatchupReal(count).Rrs_667_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(6);
-                        MatchupReal(count).Rrs_678_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(7);
-                        MatchupReal(count).wavelength_insitu = InSitu(Matchup(idx).number_d(idx2)).wavelength;
-                        MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
-                        MatchupReal(count).id_scene = Matchup(idx).id_scene;
-                        MatchupReal(count).scenetime = Matchup(idx).scenetime;
-                        MatchupReal(count).insitutime = InSitu(Matchup(idx).number_d(idx2)).t;
+                  %% Plot in situ and obtain value from the product
+                  for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
+                        %% closest distance
+                        % latitude and longitude are arrays of MxN
+                        % lat0 and lon0 is the coordinates of one point
+                        lat0 = InSitu(Matchup(idx).number_d(idx2)).lat;
+                        lon0 = InSitu(Matchup(idx).number_d(idx2)).lon;
+                        dist_squared = (latitude-lat0).^2 + (longitude-lon0).^2;
+                        [m,I] = min(dist_squared(:));
+                        [r,c]=ind2sub(size(latitude),I); % index to the closest in the latitude and longitude arrays
+                        clear lat0 lon0 m I dist_squared
                         
-                        
-                        ws = 3; % window size:3, 5, or 7
-                        
-                        %% Rrs_443
-                        % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
-                        if r-1 == 0 || c-1 ==0 || r == size(Rrs_443,1) || c == size(Rrs_443,2)
-                              warning('Window indices out of range...')
-                        end
-                        
-                        window = Rrs_443(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
-                        window_mean = nanmean(window(:)); % only non NaN values
-                        window_std = nanstd(window(:));
-                        
-                        % indices to the cells that pass the filter
-                        xi_idx = (window > (window_mean-1.5*window_std)) &...
-                              (window < (window_mean+1.5*window_std)) &...
-                              ~isnan(window); % to exclude NaN
-                        
-                        window_filt = window(xi_idx(:));
-                        
-                        CV = std(window_filt)/mean(window_filt);
-                        
-                        MatchupReal(count).Rrs_443_mean = window_mean;
-                        MatchupReal(count).Rrs_443_meadian = nanmedian(window(:));
-                        MatchupReal(count).Rrs_443_std = window_std;
-                        MatchupReal(count).Rrs_443_center = Rrs_443(r,c);
-                        
-                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
-                              MatchupReal(count).Rrs_443_filt_mean = mean(window_filt);
-                              MatchupReal(count).Rrs_443_filt_std = std(window_filt);
+                        if ~isnan(Rrs_443(r,c))
+                              count = count+1;
+                              fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
+                              MatchupReal(count).Rrs_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs;
+                              MatchupReal(count).Rrs_412_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(1);
+                              MatchupReal(count).Rrs_443_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(2);
+                              MatchupReal(count).Rrs_488_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(3);
+                              MatchupReal(count).Rrs_531_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(4);
+                              MatchupReal(count).Rrs_547_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(5);
+                              MatchupReal(count).Rrs_667_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(6);
+                              MatchupReal(count).Rrs_678_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(7);
+                              MatchupReal(count).wavelength_insitu = InSitu(Matchup(idx).number_d(idx2)).wavelength;
+                              MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
+                              MatchupReal(count).id_scene = Matchup(idx).id_scene;
+                              MatchupReal(count).scenetime = Matchup(idx).scenetime;
+                              MatchupReal(count).insitutime = InSitu(Matchup(idx).number_d(idx2)).t;
                               
-                        else
-                              warning('CV < 0.15. Rrs_443 not valid.')
-                              MatchupReal(count).Rrs_443_filt_mean = NaN;
-                              MatchupReal(count).Rrs_443_filt_std = NaN;
-                        end
-                        
-                        MatchupReal(count).Rrs_443_filt_min = min(window_filt);
-                        MatchupReal(count).Rrs_443_filt_max = max(window_filt);
-                        MatchupReal(count).Rrs_443_valid_px = sum(~isnan(window(:)));
-                        MatchupReal(count).Rrs_443_filt_px_count = sum(~isnan(window_filt(:)));
-                        MatchupReal(count).Rrs_443_window = window;
-                        MatchupReal(count).Rrs_443_CV = CV;
-                        
-                        %% Rrs_482
-                        % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
-                        if r-1 == 0 || c-1 ==0 || r == size(Rrs_482,1) || c == size(Rrs_482,2)
-                              warning('Window indices out of range...')
-                        end
-                        
-                        window = Rrs_482(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
-                        window_mean = nanmean(window(:)); % only non NaN values
-                        window_std = nanstd(window(:));
-                        
-                        % indices to the cells that pass the filter
-                        xi_idx = (window > (window_mean-1.5*window_std)) &...
-                              (window < (window_mean+1.5*window_std)) &...
-                              ~isnan(window); % to exclude NaN
-                        
-                        window_filt = window(xi_idx(:));
-                        
-                        CV = std(window_filt)/mean(window_filt);
-                        
-                        MatchupReal(count).Rrs_482_mean = window_mean;
-                        MatchupReal(count).Rrs_482_meadian = nanmedian(window(:));
-                        MatchupReal(count).Rrs_482_std = window_std;
-                        MatchupReal(count).Rrs_482_center = Rrs_482(r,c);
-                        
-                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
-                              MatchupReal(count).Rrs_482_filt_mean = mean(window_filt);
-                              MatchupReal(count).Rrs_482_filt_std = std(window_filt);
                               
-                        else
-                              warning('CV < 0.15. Rrs_482 not valid.')
-                              MatchupReal(count).Rrs_482_filt_mean = NaN;
-                              MatchupReal(count).Rrs_482_filt_std = NaN;
-                        end
-                        
-                        MatchupReal(count).Rrs_482_filt_min = min(window_filt);
-                        MatchupReal(count).Rrs_482_filt_max = max(window_filt);
-                        MatchupReal(count).Rrs_482_valid_px = sum(~isnan(window(:)));
-                        MatchupReal(count).Rrs_482_filt_px_count = sum(~isnan(window_filt(:)));
-                        MatchupReal(count).Rrs_482_window = window;
-                        MatchupReal(count).Rrs_482_CV = CV;
-                        %% Rrs_561
-                        % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
-                        if r-1 == 0 || c-1 ==0 || r == size(Rrs_561,1) || c == size(Rrs_561,2)
-                              warning('Window indices out of range...')
-                        end
-                        
-                        window = Rrs_561(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
-                        window_mean = nanmean(window(:)); % only non NaN values
-                        window_std = nanstd(window(:));
-                        
-                        % indices to the cells that pass the filter
-                        xi_idx = (window > (window_mean-1.5*window_std)) &...
-                              (window < (window_mean+1.5*window_std)) &...
-                              ~isnan(window); % to exclude NaN
-                        
-                        window_filt = window(xi_idx(:));
-                        
-                        CV = std(window_filt)/mean(window_filt);
-                        
-                        MatchupReal(count).Rrs_561_mean = window_mean;
-                        MatchupReal(count).Rrs_561_meadian = nanmedian(window(:));
-                        MatchupReal(count).Rrs_561_std = window_std;
-                        MatchupReal(count).Rrs_561_center = Rrs_561(r,c);
-                        
-                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
-                              MatchupReal(count).Rrs_561_filt_mean = mean(window_filt);
-                              MatchupReal(count).Rrs_561_filt_std = std(window_filt);
+                              ws = 3; % window size:3, 5, or 7
                               
-                        else
-                              warning('CV < 0.15. Rrs_561 not valid.')
-                              MatchupReal(count).Rrs_561_filt_mean = NaN;
-                              MatchupReal(count).Rrs_561_filt_std = NaN;
-                        end
-                        
-                        MatchupReal(count).Rrs_561_filt_min = min(window_filt);
-                        MatchupReal(count).Rrs_561_filt_max = max(window_filt);
-                        MatchupReal(count).Rrs_561_valid_px = sum(~isnan(window(:)));
-                        MatchupReal(count).Rrs_561_filt_px_count = sum(~isnan(window_filt(:)));
-                        MatchupReal(count).Rrs_561_window = window;
-                        MatchupReal(count).Rrs_561_CV = CV;
-                        %% Rrs_655
-                        % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
-                        if r-1 == 0 || c-1 ==0 || r == size(Rrs_655,1) || c == size(Rrs_655,2)
-                              warning('Window indices out of range...')
-                        end
-                        
-                        window = Rrs_655(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
-                        window_mean = nanmean(window(:)); % only non NaN values
-                        window_std = nanstd(window(:));
-                        
-                        % indices to the cells that pass the filter
-                        xi_idx = (window > (window_mean-1.5*window_std)) &...
-                              (window < (window_mean+1.5*window_std)) &...
-                              ~isnan(window); % to exclude NaN
-                        
-                        window_filt = window(xi_idx(:));
-                        
-                        CV = std(window_filt)/mean(window_filt);
-                        
-                        MatchupReal(count).Rrs_655_mean = window_mean;
-                        MatchupReal(count).Rrs_655_meadian = nanmedian(window(:));
-                        MatchupReal(count).Rrs_655_std = window_std;
-                        MatchupReal(count).Rrs_655_center = Rrs_655(r,c);
-                        
-                        if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
-                              MatchupReal(count).Rrs_655_filt_mean = mean(window_filt);
-                              MatchupReal(count).Rrs_655_filt_std = std(window_filt);
+                              %% Rrs_443
+                              % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                              if r-1 == 0 || c-1 ==0 || r == size(Rrs_443,1) || c == size(Rrs_443,2)
+                                    warning('Window indices out of range...')
+                              end
                               
+                              window = Rrs_443(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                              window_mean = nanmean(window(:)); % only non NaN values
+                              window_std = nanstd(window(:));
+                              
+                              % indices to the cells that pass the filter
+                              xi_idx = (window > (window_mean-1.5*window_std)) &...
+                                    (window < (window_mean+1.5*window_std)) &...
+                                    ~isnan(window); % to exclude NaN
+                              
+                              window_filt = window(xi_idx(:));
+                              
+                              CV = std(window_filt)/mean(window_filt);
+                              
+                              MatchupReal(count).Rrs_443_mean = window_mean;
+                              MatchupReal(count).Rrs_443_meadian = nanmedian(window(:));
+                              MatchupReal(count).Rrs_443_std = window_std;
+                              MatchupReal(count).Rrs_443_center = Rrs_443(r,c);
+                              
+                              if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                                    MatchupReal(count).Rrs_443_filt_mean = mean(window_filt);
+                                    MatchupReal(count).Rrs_443_filt_std = std(window_filt);
+                                    
+                              else
+                                    warning('CV < 0.15. Rrs_443 not valid.')
+                                    MatchupReal(count).Rrs_443_filt_mean = NaN;
+                                    MatchupReal(count).Rrs_443_filt_std = NaN;
+                              end
+                              
+                              MatchupReal(count).Rrs_443_filt_min = min(window_filt);
+                              MatchupReal(count).Rrs_443_filt_max = max(window_filt);
+                              MatchupReal(count).Rrs_443_valid_px = sum(~isnan(window(:)));
+                              MatchupReal(count).Rrs_443_filt_px_count = sum(~isnan(window_filt(:)));
+                              MatchupReal(count).Rrs_443_window = window;
+                              MatchupReal(count).Rrs_443_CV = CV;
+                              
+                              %% Rrs_482
+                              % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                              if r-1 == 0 || c-1 ==0 || r == size(Rrs_482,1) || c == size(Rrs_482,2)
+                                    warning('Window indices out of range...')
+                              end
+                              
+                              window = Rrs_482(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                              window_mean = nanmean(window(:)); % only non NaN values
+                              window_std = nanstd(window(:));
+                              
+                              % indices to the cells that pass the filter
+                              xi_idx = (window > (window_mean-1.5*window_std)) &...
+                                    (window < (window_mean+1.5*window_std)) &...
+                                    ~isnan(window); % to exclude NaN
+                              
+                              window_filt = window(xi_idx(:));
+                              
+                              CV = std(window_filt)/mean(window_filt);
+                              
+                              MatchupReal(count).Rrs_482_mean = window_mean;
+                              MatchupReal(count).Rrs_482_meadian = nanmedian(window(:));
+                              MatchupReal(count).Rrs_482_std = window_std;
+                              MatchupReal(count).Rrs_482_center = Rrs_482(r,c);
+                              
+                              if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                                    MatchupReal(count).Rrs_482_filt_mean = mean(window_filt);
+                                    MatchupReal(count).Rrs_482_filt_std = std(window_filt);
+                                    
+                              else
+                                    warning('CV < 0.15. Rrs_482 not valid.')
+                                    MatchupReal(count).Rrs_482_filt_mean = NaN;
+                                    MatchupReal(count).Rrs_482_filt_std = NaN;
+                              end
+                              
+                              MatchupReal(count).Rrs_482_filt_min = min(window_filt);
+                              MatchupReal(count).Rrs_482_filt_max = max(window_filt);
+                              MatchupReal(count).Rrs_482_valid_px = sum(~isnan(window(:)));
+                              MatchupReal(count).Rrs_482_filt_px_count = sum(~isnan(window_filt(:)));
+                              MatchupReal(count).Rrs_482_window = window;
+                              MatchupReal(count).Rrs_482_CV = CV;
+                              %% Rrs_561
+                              % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                              if r-1 == 0 || c-1 ==0 || r == size(Rrs_561,1) || c == size(Rrs_561,2)
+                                    warning('Window indices out of range...')
+                              end
+                              
+                              window = Rrs_561(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                              window_mean = nanmean(window(:)); % only non NaN values
+                              window_std = nanstd(window(:));
+                              
+                              % indices to the cells that pass the filter
+                              xi_idx = (window > (window_mean-1.5*window_std)) &...
+                                    (window < (window_mean+1.5*window_std)) &...
+                                    ~isnan(window); % to exclude NaN
+                              
+                              window_filt = window(xi_idx(:));
+                              
+                              CV = std(window_filt)/mean(window_filt);
+                              
+                              MatchupReal(count).Rrs_561_mean = window_mean;
+                              MatchupReal(count).Rrs_561_meadian = nanmedian(window(:));
+                              MatchupReal(count).Rrs_561_std = window_std;
+                              MatchupReal(count).Rrs_561_center = Rrs_561(r,c);
+                              
+                              if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                                    MatchupReal(count).Rrs_561_filt_mean = mean(window_filt);
+                                    MatchupReal(count).Rrs_561_filt_std = std(window_filt);
+                                    
+                              else
+                                    warning('CV < 0.15. Rrs_561 not valid.')
+                                    MatchupReal(count).Rrs_561_filt_mean = NaN;
+                                    MatchupReal(count).Rrs_561_filt_std = NaN;
+                              end
+                              
+                              MatchupReal(count).Rrs_561_filt_min = min(window_filt);
+                              MatchupReal(count).Rrs_561_filt_max = max(window_filt);
+                              MatchupReal(count).Rrs_561_valid_px = sum(~isnan(window(:)));
+                              MatchupReal(count).Rrs_561_filt_px_count = sum(~isnan(window_filt(:)));
+                              MatchupReal(count).Rrs_561_window = window;
+                              MatchupReal(count).Rrs_561_CV = CV;
+                              %% Rrs_655
+                              % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
+                              if r-1 == 0 || c-1 ==0 || r == size(Rrs_655,1) || c == size(Rrs_655,2)
+                                    warning('Window indices out of range...')
+                              end
+                              
+                              window = Rrs_655(r-(ws-1)/2:r+(ws-1)/2,c-(ws-1)/2:c+(ws-1)/2);
+                              window_mean = nanmean(window(:)); % only non NaN values
+                              window_std = nanstd(window(:));
+                              
+                              % indices to the cells that pass the filter
+                              xi_idx = (window > (window_mean-1.5*window_std)) &...
+                                    (window < (window_mean+1.5*window_std)) &...
+                                    ~isnan(window); % to exclude NaN
+                              
+                              window_filt = window(xi_idx(:));
+                              
+                              CV = std(window_filt)/mean(window_filt);
+                              
+                              MatchupReal(count).Rrs_655_mean = window_mean;
+                              MatchupReal(count).Rrs_655_meadian = nanmedian(window(:));
+                              MatchupReal(count).Rrs_655_std = window_std;
+                              MatchupReal(count).Rrs_655_center = Rrs_655(r,c);
+                              
+                              if CV < 0.15 && size(window_filt,1)>=5 % filter outliers and at least 5 pixels form the 3x3 pixel arrays (from Mannino at al. 2014)
+                                    MatchupReal(count).Rrs_655_filt_mean = mean(window_filt);
+                                    MatchupReal(count).Rrs_655_filt_std = std(window_filt);
+                                    
+                              else
+                                    warning('CV < 0.15. Rrs_655 not valid.')
+                                    MatchupReal(count).Rrs_655_filt_mean = NaN;
+                                    MatchupReal(count).Rrs_655_filt_std = NaN;
+                              end
+                              
+                              MatchupReal(count).Rrs_655_filt_min = min(window_filt);
+                              MatchupReal(count).Rrs_655_filt_max = max(window_filt);
+                              MatchupReal(count).Rrs_655_valid_px = sum(~isnan(window(:)));
+                              MatchupReal(count).Rrs_655_filt_px_count = sum(~isnan(window_filt(:)));
+                              MatchupReal(count).Rrs_655_window = window;
+                              MatchupReal(count).Rrs_655_CV = CV;
+                              %%
                         else
-                              warning('CV < 0.15. Rrs_655 not valid.')
-                              MatchupReal(count).Rrs_655_filt_mean = NaN;
-                              MatchupReal(count).Rrs_655_filt_std = NaN;
+                              Matchup(idx).Rrs_443(idx2) = NaN;
+                              Matchup(idx).Rrs_482(idx2) = NaN;
+                              Matchup(idx).Rrs_561(idx2) = NaN;
+                              Matchup(idx).Rrs_655(idx2) = NaN;
+                              
                         end
-                        
-                        MatchupReal(count).Rrs_655_filt_min = min(window_filt);
-                        MatchupReal(count).Rrs_655_filt_max = max(window_filt);
-                        MatchupReal(count).Rrs_655_valid_px = sum(~isnan(window(:)));
-                        MatchupReal(count).Rrs_655_filt_px_count = sum(~isnan(window_filt(:)));
-                        MatchupReal(count).Rrs_655_window = window;
-                        MatchupReal(count).Rrs_655_CV = CV;
-                        %%
-                  else
-                        Matchup(idx).Rrs_443(idx2) = NaN;
-                        Matchup(idx).Rrs_482(idx2) = NaN;
-                        Matchup(idx).Rrs_561(idx2) = NaN;
-                        Matchup(idx).Rrs_655(idx2) = NaN;
-                        
                   end
+                  clear latitude longitude Rrs_443 Rrs_482 Rrs_561 Rrs_655 CV window window_filt xi_idx window_mean window_std r c
             end
-            clear latitude longitude Rrs_443 Rrs_482 Rrs_561 Rrs_655 CV window window_filt xi_idx window_mean window_std r c
       end
-end
-
-close(h2)
-
-save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
-%% Plot retrieved vs in situ for all and less than 3 hours or 1 day
-% load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
-cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
-
-fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
-fprintf('Matchups less than 1 day: %i\n',sum(cond1))
-fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
-
-fs = 16;
-figure('Color','white','DefaultAxesFontSize',fs)
-plot(t_diff,'*-k')
-hold on
-plot(find(cond1),t_diff(cond1),'*r')
-plot(find(cond2),t_diff(cond2),'*b')
-grid on
-legend('3 days','1 day','3 hours')
-
-%% filtered
-which_time_range = {'3 days','1 day','3 hours'};
-
-for idx = 1:size(which_time_range,2)
+      
+      close(h2)
+      
+      save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
+      %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
+      % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+      t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
+      cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
+      cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
+      
+      fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
+      fprintf('Matchups less than 1 day: %i\n',sum(cond1))
+      fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
+      
       fs = 16;
-      f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',char(which_time_range(idx)));
+      figure('Color','white','DefaultAxesFontSize',fs)
+      plot(t_diff,'*-k')
+      hold on
+      plot(find(cond1),t_diff(cond1),'*r')
+      plot(find(cond2),t_diff(cond2),'*b')
+      grid on
+      legend('3 days','1 day','3 hours')
       
-      [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-      [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-      [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-      [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+      %% filtered
+      which_time_range = {'3 days','1 day','3 hours'};
       
-      
-      figure(f1)
-      copies = copyobj([ax1,leg1],f1);
-      ax1_copy = copies(1);
-      subplot(2,2,1,ax1_copy)
-      
-      copies = copyobj([ax2,leg2],f1);
-      ax2_copy = copies(1);
-      subplot(2,2,2,ax2_copy)
-      
-      copies = copyobj([ax3,leg3],f1);
-      ax3_copy = copies(1);
-      subplot(2,2,3,ax3_copy)
-      
-      copies = copyobj([ax4,leg4],f1);
-      ax4_copy = copies(1);
-      subplot(2,2,4,ax4_copy)
-      
-      figure(h1)
-      close
-      figure(h2)
-      close
-      figure(h3)
-      close
-      figure(h4)
-      close
-
+      for idx = 1:size(which_time_range,2)
+            fs = 16;
+            f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx)) char(L2ext(idx0))]);
+            
+            [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            
+            
+            figure(f1)
+            copies = copyobj([ax1,leg1],f1);
+            ax1_copy = copies(1);
+            subplot(2,2,1,ax1_copy)
+            
+            copies = copyobj([ax2,leg2],f1);
+            ax2_copy = copies(1);
+            subplot(2,2,2,ax2_copy)
+            
+            copies = copyobj([ax3,leg3],f1);
+            ax3_copy = copies(1);
+            subplot(2,2,3,ax3_copy)
+            
+            copies = copyobj([ax4,leg4],f1);
+            ax4_copy = copies(1);
+            subplot(2,2,4,ax4_copy)
+            
+            figure(h1)
+            close
+            figure(h2)
+            close
+            figure(h3)
+            close
+            figure(h4)
+            close
+            
+      end
 end
