@@ -298,6 +298,9 @@ end
 %% Find valid matchups
 
 L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
+
+debug = 0;
+
 for idx0 = 1:size(L2ext,2)
       count = 0;
       clear MatchupReal
@@ -328,7 +331,10 @@ for idx0 = 1:size(L2ext,2)
                         
                         if ~isnan(Rrs_443(r,c))
                               count = count+1;
-                              fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
+                              
+                              if debug
+                                    fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
+                              end
                               MatchupReal(count).Rrs_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs;
                               MatchupReal(count).Rrs_412_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(1);
                               MatchupReal(count).Rrs_443_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(2);
@@ -375,7 +381,9 @@ for idx0 = 1:size(L2ext,2)
                                     MatchupReal(count).Rrs_443_filt_std = std(window_filt);
                                     
                               else
-                                    warning('CV < 0.15. Rrs_443 not valid.')
+                                    if debug
+                                          warning('CV < 0.15. Rrs_443 not valid.')
+                                    end
                                     MatchupReal(count).Rrs_443_filt_mean = NaN;
                                     MatchupReal(count).Rrs_443_filt_std = NaN;
                               end
@@ -416,7 +424,9 @@ for idx0 = 1:size(L2ext,2)
                                     MatchupReal(count).Rrs_482_filt_std = std(window_filt);
                                     
                               else
-                                    warning('CV < 0.15. Rrs_482 not valid.')
+                                    if debug
+                                          warning('CV < 0.15. Rrs_482 not valid.')
+                                    end
                                     MatchupReal(count).Rrs_482_filt_mean = NaN;
                                     MatchupReal(count).Rrs_482_filt_std = NaN;
                               end
@@ -456,7 +466,9 @@ for idx0 = 1:size(L2ext,2)
                                     MatchupReal(count).Rrs_561_filt_std = std(window_filt);
                                     
                               else
-                                    warning('CV < 0.15. Rrs_561 not valid.')
+                                    if debug
+                                          warning('CV < 0.15. Rrs_561 not valid.')
+                                    end
                                     MatchupReal(count).Rrs_561_filt_mean = NaN;
                                     MatchupReal(count).Rrs_561_filt_std = NaN;
                               end
@@ -496,7 +508,9 @@ for idx0 = 1:size(L2ext,2)
                                     MatchupReal(count).Rrs_655_filt_std = std(window_filt);
                                     
                               else
-                                    warning('CV < 0.15. Rrs_655 not valid.')
+                                    if debug
+                                          warning('CV < 0.15. Rrs_655 not valid.')
+                                    end
                                     MatchupReal(count).Rrs_655_filt_mean = NaN;
                                     MatchupReal(count).Rrs_655_filt_std = NaN;
                               end
@@ -523,29 +537,33 @@ for idx0 = 1:size(L2ext,2)
       close(h2)
       
       save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
-      %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
-      % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-      t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-      cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
-      cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
-      
-      fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
-      fprintf('Matchups less than 1 day: %i\n',sum(cond1))
-      fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
-      
-      fs = 16;
-      figure('Color','white','DefaultAxesFontSize',fs)
-      plot(t_diff,'*-k')
-      hold on
-      plot(find(cond1),t_diff(cond1),'*r')
-      plot(find(cond2),t_diff(cond2),'*b')
-      grid on
-      legend('3 days','1 day','3 hours')
+%       %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
+%       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+%       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
+%       cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
+%       cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
+%       
+%       fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
+%       fprintf('Matchups less than 1 day: %i\n',sum(cond1))
+%       fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
+%       
+%       fs = 16;
+%       figure('Color','white','DefaultAxesFontSize',fs)
+%       plot(t_diff,'*-k')
+%       hold on
+%       plot(find(cond1),t_diff(cond1),'*r')
+%       plot(find(cond2),t_diff(cond2),'*b')
+%       grid on
+%       legend('3 days','1 day','3 hours')
       
       %% filtered
       which_time_range = {'3 days','1 day','3 hours'};
       
       for idx = 1:size(which_time_range,2)
+            
+            disp('-----------------------------------------')
+            disp(['ACO scheme: ' char(L2ext(idx0))])
+            
             fs = 16;
             f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx)) char(L2ext(idx0))]);
             

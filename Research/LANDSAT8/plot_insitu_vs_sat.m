@@ -177,7 +177,6 @@ if ~isnan(Matchup_ins_used)
       Q1 = prctile(ratio_alg_insitu,25);
       SIQR = (Q3-Q1)/2; % Semi-interquartile range
       
-      disp('-----------------------------------------')
       disp(['Sat: ' wl_sat ' nm; InSitu: ' wl_ins ' nm; Data: ' which_time_range])
       disp(['Mean APD (%) = ' num2str(Mean_APD)])
       disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
