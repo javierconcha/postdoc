@@ -558,20 +558,46 @@ for idx0 = 1:size(L2ext,2)
       
       %% filtered
       which_time_range = {'3 days','1 day','3 hours'};
+      %%
       
       for idx = 1:size(which_time_range,2)
             
-            disp('-----------------------------------------')
-            disp(['ACO scheme: ' char(L2ext(idx0))])
-            
+            if idx == 1 && idx0 == 1
+                  % latex table
+                  !rm ./MyTable.tex
+                  FID = fopen('./MyTable.tex','w');
+                  
+                  fprintf(FID,'\\begin{tabular}{ccccccccccccccc} \n \\hline \n');
+                  
+                  fprintf(FID, 'Data');
+                  fprintf(FID, '& ACO scheme ');
+                  fprintf(FID, '& Sat (nm) ');
+                  fprintf(FID, '& InSitu (nm) ');
+                  fprintf(FID, '& $R^2$ ');
+                  fprintf(FID, '& Regression ');
+                  fprintf(FID, '& RMSE ');
+                  fprintf(FID, '& N ');
+                  fprintf(FID, '& Mean APD ($\\%%$) ');
+                  fprintf(FID, '& St.Dev. APD ($\\%%$) ');
+                  fprintf(FID, '& Median APD ($\\%%$) ');
+                  fprintf(FID, '& Bias ($\\%%$) ');
+                  fprintf(FID, '& Median ratio ');
+                  fprintf(FID, '& SIQR ');
+                  fprintf(FID, '& rsqcorr ');
+                  fprintf(FID,'\\\\ \\hline \n');
+                  
+            end
+            %%
             fs = 16;
             f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx)) char(L2ext(idx0))]);
             
-            [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx))); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
             
+            % latex table
+            fprintf(FID,'\\hline \n');
             
             figure(f1)
             copies = copyobj([ax1,leg1],f1);
@@ -601,3 +627,7 @@ for idx0 = 1:size(L2ext,2)
             
       end
 end
+
+% latex table
+fprintf(FID,'\n \\end{tabular} \n');
+fclose(FID);

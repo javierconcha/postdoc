@@ -1,4 +1,4 @@
-function [h,ax,leg] = plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal,which_time_range)
+function [h,ax,leg] = plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal,which_time_range,L2ext,FID)
 
 %% filtered
 
@@ -177,15 +177,6 @@ if ~isnan(Matchup_ins_used)
       Q1 = prctile(ratio_alg_insitu,25);
       SIQR = (Q3-Q1)/2; % Semi-interquartile range
       
-      disp(['Sat: ' wl_sat ' nm; InSitu: ' wl_ins ' nm; Data: ' which_time_range])
-      disp(['Mean APD (%) = ' num2str(Mean_APD)])
-      disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
-      disp(['Median APD (%) = ' num2str(Median_APD)])
-      disp(['RMSE = ' num2str(RMSE)])
-      disp(['Bias (%) = ' num2str(Percentage_Bias)])
-      disp(['Median ratio = ' num2str(Median_ratio)])
-      disp(['SIQR = ' num2str(SIQR)])
-      
       %% RMA regression and r-squared (or coefficient of determination)
       regressiontype = 'RMA';
       
@@ -220,15 +211,15 @@ if ~isnan(Matchup_ins_used)
       rsq_SS = 1-(SSres/SStot);
       rsq_corr = corr(C_insitu',C_alg')^2; % when OLS rsq_SS and rsq_corr are equal
       
-      disp(['rsq_SS = ' num2str(rsq_SS)])
-      disp(['rsq_corr = ' num2str(rsq_corr)])
       
       if a(2)>=0
             str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
                   a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+            str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
       else
             str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
                   a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+            str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
       end
       
 %       axis([0 maxref 0 maxref])
@@ -240,7 +231,47 @@ if ~isnan(Matchup_ins_used)
       figure(h)
       hold on
       text(xLoc,yLoc,str1,'FontSize',fs,'FontWeight','normal');
-      disp(str1)
+      
+      
+      % display
+      
+      disp('-----------------------------------------')
+      disp(['Data = ' which_time_range])
+      disp(['ACO scheme = ' L2ext])
+      disp(['Sat (nm) = ' wl_sat])
+      disp(['InSitu (nm) = ' wl_ins])
+      disp(['R^2 = ' num2str(rsq_SS)])
+      disp(str_reg) % regression equation
+      disp(['RMSE = ' num2str(RMSE)])
+      disp(['N = ' num2str(size(C_insitu,2))])
+      disp(['Mean APD (%) = ' num2str(Mean_APD)])
+      disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
+      disp(['Median APD (%) = ' num2str(Median_APD)])
+      disp(['Bias (%) = ' num2str(Percentage_Bias)])
+      disp(['Median ratio = ' num2str(Median_ratio)])
+      disp(['SIQR = ' num2str(SIQR)])
+      disp(['rsq_corr = ' num2str(rsq_corr)])
+
+      % latex table
+
+      fprintf(FID,'%s & ',which_time_range);
+      fprintf(FID,'$%s$ & ',L2ext);
+      fprintf(FID,'%s & ',wl_sat);
+      fprintf(FID,'%s & ',wl_ins);
+      fprintf(FID,'%s & ',num2str(rsq_SS));
+      fprintf(FID,'$%s$ & ',str_reg); % regression equation
+      fprintf(FID,'%s & ',num2str(RMSE));
+      fprintf(FID,'%s & ',num2str(size(C_insitu,2)));
+      fprintf(FID,'%s & ',num2str(Mean_APD));
+      fprintf(FID,'%s & ',num2str(Stdv_APD));
+      fprintf(FID,'%s & ',num2str(Median_APD));
+      fprintf(FID,'%s & ',num2str(Percentage_Bias));
+      fprintf(FID,'%s & ',num2str(Median_ratio));
+      fprintf(FID,'%s & ',num2str(SIQR));
+      fprintf(FID,'%s',num2str(rsq_corr));
+      fprintf(FID,'\\\\ \n');
+
+      
 else
       disp('Regression not calculated...')
 end
