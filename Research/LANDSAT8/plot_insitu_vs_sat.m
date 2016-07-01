@@ -41,8 +41,8 @@ switch which_time_range
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
             
-%             xlim([Rrs_min Rrs_max])
-%             ylim([Rrs_min Rrs_max])
+            xlim([Rrs_min Rrs_max])
+            ylim([Rrs_min Rrs_max])
             
             hold on
             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
@@ -142,8 +142,8 @@ switch which_time_range
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
             
-%             xlim([Rrs_min Rrs_max])
-%             ylim([Rrs_min Rrs_max])
+            xlim([Rrs_min Rrs_max])
+            ylim([Rrs_min Rrs_max])
             
             hold on
             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
@@ -157,8 +157,8 @@ end
 
 if sum(isfinite(Matchup_ins_used))
       %% Statistics
-      C_insitu = Matchup_ins_used;
-      C_alg = Matchup_sat_used;
+      C_insitu = Matchup_ins_used(isfinite(Matchup_ins_used));
+      C_alg = Matchup_sat_used(isfinite(Matchup_ins_used));
       N = size(C_insitu,2);
       
       PD = abs(C_alg-C_insitu)./C_insitu; % percent difference

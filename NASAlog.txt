@@ -1680,4 +1680,9 @@ cat scene_list.txt | xargs -I {} grep {} idlatlon_listORIGINAL_all.txt |uniq > i
 
 to highlight search in less program:
 :set hlsearch
+
+--------------------------------------------------
+2016-06-30 Thu
+
+DONE: For the AERONET-OC validation for Landsat 8: The calculation of the scene id will output file only ending in LGN00. Then, by hand the id that are not found in the server using the python script are checked in earthexplorer, and downloaded using the phyton script. The Matlab script handle the different possibles endings. 
 (END)
