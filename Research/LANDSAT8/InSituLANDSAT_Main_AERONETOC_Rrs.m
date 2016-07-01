@@ -5,36 +5,55 @@ addpath('/Users/jconchas/Documents/Research/')
 cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %% Load in situ data: Extract AERONET Rrs data from SeaBASS file
 clear InSitu
-dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
+% dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
+dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
 
 count = 0;
 
-h1 = waitbar(0,'Initializing ...');
-
-filename = 'val1464210174176624_Rrs_original.csv';
+% filename = 'val1464210174176624_Rrs_original.csv';
+filename = 'aeronet_oc_env_data.txt';
 
 filepath = [dirname filename];
 
-[data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true,'NewTextFields',{'date_time','cruise_name','file_name'});
+[data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true,...
+      'NewTextFields',{'cruise_name','data_id','date','time',});
+% [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true,'NewTextFields',{'date_time','cruise_name','file_name'});
 
-for idx=1:size(data.date_time,1)
-      waitbar(idx/size(data.date_time,1),h1,'Creating In Situ cells...')
+% Preallocation
+InSitu(size(data.date,1)).station = '';
+
+h1 = waitbar(0,'Initializing ...');
+for idx=1:size(data.date,1)
+      waitbar(idx/size(data.date,1),h1,'Creating In Situ cells...')
       %% Rrs
       
-      Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
-            data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
-      wavelength = [412,443,488,531,547,667,678];
+%       Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
+%             data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
+%       wavelength = [412,443,488,531,547,667,678];
       
+      Rrs = [data.rrs410(idx),data.rrs412(idx),data.rrs413(idx),data.rrs443(idx),data.rrs486(idx),data.rrs488(idx),data.rrs490(idx),data.rrs531(idx),data.rrs547(idx),data.rrs551(idx),data.rrs555(idx),data.rrs665(idx),data.rrs667(idx),data.rrs670(idx),data.rrs671(idx),data.rrs678(idx),data.rrs681(idx)];
+      wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
+
       count = count+1;
-      %       InSitu(count).station = data.station;
-      InSitu(count).start_date = datetime(data.date_time(idx),'Format','yyyyMMdd');
-      InSitu(count).start_time = datetime(data.date_time(idx),'Format','HH:mm:ss');
+      
+      time_acquired = datestr(data.time(idx),'HH:MM:ss');
+      t_date = datetime(data.date(idx),'Format','yyyy-MM-dd');
+      t = char(t_date);
+      t = [t(:,1:10) ' ' time_acquired];
+      t = datetime(t,'ConvertFrom','yyyymmdd');
+      
+      InSitu(count).station = data.cruise_name(idx);
+      InSitu(count).data_id = data.data_id(idx);
+%       InSitu(count).start_date = t_date;
+% %       InSitu(count).start_time =
+% datetime(data.time(idx),'Format','HH:mm:ss');
+%       InSitu(count).start_time = time_acquired;
       %       InSitu(count).filepath = filepath;
       InSitu(count).wavelength = wavelength;
       InSitu(count).Rrs = Rrs;
       InSitu(count).lat = data.latitude(idx);
       InSitu(count).lon = data.longitude(idx);
-      InSitu(count).t = datetime(data.date_time(idx));
+      InSitu(count).t = t;
       
       %       fprintf('%i %s\n',idx,char(data.date_time(idx)))
 end
@@ -148,7 +167,7 @@ clear T
 
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
-%%
+%
 % To search for the available Landsat 8 scene and make sure the path and
 % row is acquired by the sensor. Note: this process takes a long time
 clear Matchup
@@ -297,9 +316,13 @@ end
 
 %% Find valid matchups
 
-L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
+% L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
+L2ext = {'_L2n2.nc'};
 
 debug = 0;
+
+global MatchupReal
+MatchupReal(size(Matchup,2)).Rrs_insitu = '';
 
 for idx0 = 1:size(L2ext,2)
       count = 0;
@@ -309,7 +332,28 @@ for idx0 = 1:size(L2ext,2)
             waitbar(idx/size(Matchup,2),h2,'Looking for Real Matchups')
             if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
                   %% Open ag_412 product and plot
-                  filepath = [dirname Matchup(idx).id_scene char(L2ext(idx0))]; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  id = Matchup(idx).id_scene;
+                  filepath00 = [dirname id(1:16) 'LGN00'  char(L2ext(idx0))]; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  filepath01 = [dirname id(1:16) 'LGN01'  char(L2ext(idx0))]; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  filepath02 = [dirname id(1:16) 'LGN02'  char(L2ext(idx0))]; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  
+                  if exist(filepath00, 'file');
+                        filepath = filepath00;
+                        
+                  elseif exist(filepath01, 'file');
+                        filepath = filepath01;
+                        
+                  elseif exist(filepath02, 'file');
+                        filepath = filepath02;
+                       
+                  else % File does not exist.
+                        warning('Warning: file does not exist:\n%s\n', filepath);
+                        fid = fopen('file_not_found.txt','a');
+                        fprintf(fid,[char(Matchup(idx).id_scene) '\n']);
+                        fclose(fid);
+                        continue
+                  end
+                  
                   longitude   = ncread(filepath,'/navigation_data/longitude');
                   latitude    = ncread(filepath,'/navigation_data/latitude');
                   Rrs_443 = ncread(filepath,'/geophysical_data/Rrs_443');
@@ -335,14 +379,23 @@ for idx0 = 1:size(L2ext,2)
                               if debug
                                     fprintf('idx=%i,idx2=%i,count=%i\n',idx,idx2,count)
                               end
-                              MatchupReal(count).Rrs_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs;
-                              MatchupReal(count).Rrs_412_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(1);
-                              MatchupReal(count).Rrs_443_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(2);
-                              MatchupReal(count).Rrs_488_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(3);
-                              MatchupReal(count).Rrs_531_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(4);
-                              MatchupReal(count).Rrs_547_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(5);
-                              MatchupReal(count).Rrs_667_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(6);
-                              MatchupReal(count).Rrs_678_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(7);
+                              MatchupReal(count).Rrs_410_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(1);
+                              MatchupReal(count).Rrs_412_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(2);
+                              MatchupReal(count).Rrs_413_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(3);
+                              MatchupReal(count).Rrs_443_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(4);
+                              MatchupReal(count).Rrs_486_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(5);
+                              MatchupReal(count).Rrs_488_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(6);
+                              MatchupReal(count).Rrs_490_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(7);
+                              MatchupReal(count).Rrs_531_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(8);
+                              MatchupReal(count).Rrs_547_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(9);
+                              MatchupReal(count).Rrs_551_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(10);
+                              MatchupReal(count).Rrs_555_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(11);
+                              MatchupReal(count).Rrs_665_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(12);
+                              MatchupReal(count).Rrs_667_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(13);
+                              MatchupReal(count).Rrs_670_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(14);
+                              MatchupReal(count).Rrs_671_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(15);
+                              MatchupReal(count).Rrs_678_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(16);
+                              MatchupReal(count).Rrs_681_insitu = InSitu(Matchup(idx).number_d(idx2)).Rrs(17);
                               MatchupReal(count).wavelength_insitu = InSitu(Matchup(idx).number_d(idx2)).wavelength;
                               MatchupReal(count).insitu_idx = Matchup(idx).number_d(idx2);
                               MatchupReal(count).id_scene = Matchup(idx).id_scene;
@@ -530,6 +583,7 @@ for idx0 = 1:size(L2ext,2)
                               
                         end
                   end
+                  
                   clear latitude longitude Rrs_443 Rrs_482 Rrs_561 Rrs_655 CV window window_filt xi_idx window_mean window_std r c
             end
       end
@@ -537,22 +591,22 @@ for idx0 = 1:size(L2ext,2)
       close(h2)
       
       save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
-%       %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
-%       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-%       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-%       cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
-%       cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
-%       
-%       fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
-%       fprintf('Matchups less than 1 day: %i\n',sum(cond1))
-%       fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
-%       
-%       fs = 16;
-%       figure('Color','white','DefaultAxesFontSize',fs)
-%       plot(t_diff,'*-k')
-%       hold on
-%       plot(find(cond1),t_diff(cond1),'*r')
-%       plot(find(cond2),t_diff(cond2),'*b')
+      %       %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
+      %       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+      %       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
+      %       cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
+      %       cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
+      %
+      %       fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
+      %       fprintf('Matchups less than 1 day: %i\n',sum(cond1))
+      %       fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
+      %
+      %       fs = 16;
+      %       figure('Color','white','DefaultAxesFontSize',fs)
+      %       plot(t_diff,'*-k')
+      %       hold on
+      %       plot(find(cond1),t_diff(cond1),'*r')
+      %       plot(find(cond2),t_diff(cond2),'*b')
 %       grid on
 %       legend('3 days','1 day','3 hours')
       
@@ -592,9 +646,9 @@ for idx0 = 1:size(L2ext,2)
             f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx)) char(L2ext(idx0))]);
             
             [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h2,ax2,leg2] = plot_insitu_vs_sat('482','488',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h3,ax3,leg3] = plot_insitu_vs_sat('561','547',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h4,ax4,leg4] = plot_insitu_vs_sat('655','667',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h2,ax2,leg2] = plot_insitu_vs_sat('482','486',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h3,ax3,leg3] = plot_insitu_vs_sat('561','555',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h4,ax4,leg4] = plot_insitu_vs_sat('655','665',MatchupReal,char(which_time_range(idx)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
             
             % latex table
             fprintf(FID,'\\hline \n');

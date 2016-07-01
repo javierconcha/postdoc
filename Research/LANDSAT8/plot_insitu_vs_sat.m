@@ -41,8 +41,8 @@ switch which_time_range
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
             
-            xlim([Rrs_min Rrs_max])
-            ylim([Rrs_min Rrs_max])
+%             xlim([Rrs_min Rrs_max])
+%             ylim([Rrs_min Rrs_max])
             
             hold on
             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
@@ -60,7 +60,11 @@ switch which_time_range
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins(cond0),Matchup_sat(cond0),'ok')
+            hp1 = plot(Matchup_ins(cond0),Matchup_sat(cond0),'ok');
+            
+            set(hp1,'XDataSource','Matchup_ins(cond0)') 
+            set(hp1,'YDataSource','Matchup_sat(cond0)') 
+            
             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
@@ -151,7 +155,7 @@ switch which_time_range
             ax.XTick =ax.YTick;
 end
 
-if ~isnan(Matchup_ins_used)
+if sum(isfinite(Matchup_ins_used))
       %% Statistics
       C_insitu = Matchup_ins_used;
       C_alg = Matchup_sat_used;
