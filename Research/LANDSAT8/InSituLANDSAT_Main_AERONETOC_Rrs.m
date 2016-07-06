@@ -5,8 +5,8 @@ addpath('/Users/jconchas/Documents/Research/')
 cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %% Load in situ data: Extract AERONET Rrs data from SeaBASS file
 clear InSitu
-% dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
-dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
+dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
+% dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
 
 count = 0;
 
@@ -244,75 +244,98 @@ fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
 fclose(fileID);
 
+h2 = waitbar(0,'Initializing ...');
+
 for n = 1:size(s{:},1)
-      %%
+      %% 
+      waitbar(n/size(s{:},1),h2,'Extracting MTL info...')
+      
       disp('----------------------------------')
       disp(s{1}{n})
       for i=1:size(Matchup,2)
             if s{1}{n} == Matchup(i).id_scene
                   filepath = [dirname  Matchup(i).id_scene '_MTL.txt'];
-                  if exist(filepath, 'file');
-                        parval_DATE = GetParMTL(filepath,'DATE_ACQUIRED');
-                        parval_TIME = GetParMTL(filepath,'SCENE_CENTER_TIME');
-                        if parval_TIME(1) == '"'
-                              tc = textscan(parval_TIME,'%s','Delimiter','"'); % I can or cannot have "" delimiters
-                              tc = tc{:}{2};
-                              tc = tc(1:8);
-                        else
-                              tc = textscan(parval_TIME,'%s');
-                              tc = tc{:}{1};
-                              tc = tc(1:8);
-                        end
+                                    % for the different possible id scene endings
+                  id = Matchup(i).id_scene;
+                  filepath00 = [dirname id(1:16) 'LGN00_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  filepath01 = [dirname id(1:16) 'LGN01_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  filepath02 = [dirname id(1:16) 'LGN02_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
+                  
+                  if exist(filepath00, 'file');
+                        filepath = filepath00;
                         
-                        taux = datetime(parval_DATE,'ConvertFrom','yyyy-mm-dd');
-                        taux = datetime([char(taux) ' ' tc],'ConvertFrom','yyyymmdd');
-                        %% Assign scene time from MTL
-                        Matchup(i).scenetime = taux;
-                        clear taux tc parval_DATE parval_TIME
-                        disp('Found it!')
-                        disp(Matchup(i))
-                        break
-                  else
-                        % File does not exist.
-                        warningMessage = sprintf('Warning: file does not exist:\n%s\n', fullFileName);
-                        uiwait(msgbox(warningMessage));
+                  elseif exist(filepath01, 'file');
+                        filepath = filepath01;
+                        
+                  elseif exist(filepath02, 'file');
+                        filepath = filepath02;
+                       
+                  else % File does not exist.
+                        warning('Warning: file does not exist:\n%s\n', filepath);
+                        fid = fopen('file_not_found.txt','a');
+                        fprintf(fid,[char(Matchup(i).id_scene) '\n']);
+                        fclose(fid);
+                        continue
                   end
-            end
+                  
+                  parval_DATE = GetParMTL(filepath,'DATE_ACQUIRED');
+                  parval_TIME = GetParMTL(filepath,'SCENE_CENTER_TIME');
+                  if parval_TIME(1) == '"'
+                        tc = textscan(parval_TIME,'%s','Delimiter','"'); % I can or cannot have "" delimiters
+                        tc = tc{:}{2};
+                        tc = tc(1:8);
+                  else
+                        tc = textscan(parval_TIME,'%s');
+                        tc = tc{:}{1};
+                        tc = tc(1:8);
+                  end
+                  
+                  taux = datetime(parval_DATE,'ConvertFrom','yyyy-mm-dd');
+                  taux = datetime([char(taux) ' ' tc],'ConvertFrom','yyyymmdd');
+                  %% Assign scene time from MTL
+                  Matchup(i).scenetime = taux;
+                  clear taux tc parval_DATE parval_TIME
+                  disp('Found it!')
+                  disp(Matchup(i))
+                  %                   break
+                  
+                  path = str2double(s{1}{n}(4:6));
+                  row  = str2double(s{1}{n}(7:9));
+                  year = str2double(s{1}{n}(10:13));
+                  doy  = str2double(s{1}{n}(14:16));
+                  [yy,mm,dd] = datevec(datenum(year,1,doy));
+                  str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
+                  t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
+                  %       str2 = datestr(t_acq);
+                  
+                  %       h1 = figure(1000);
+                  % lansat.m to check the USGS server for jpg images as proxy to scenes available
+                  %       [~,~,~,h] = landsat(path,row,str);
+                  
+                  %       figure(gcf)
+                  %       set(gcf,'Color','white','Name',s{1}{n})
+                  %       plotm([InSitu(Matchup(i).number_d).lat],[InSitu(Matchup(i).number_d).lon],'*-r')
+                  
+                  t_diff = [InSitu(Matchup(i).number_d).t] - t_acq;
+                  
+                  [Y,I] = min(abs(t_diff));
+                  
+                  str2 = datestr(Matchup(i).scenetime);
+                  str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(InSitu(Matchup(i).number_d(I)).t),char(t_diff(I)));
+                  
+                  %       title(str3)
+                  
+                  disp(['Acquired Date:' str2])
+                  disp('In situ:')
+                  InSitu(Matchup(i).number_d).t
+                  [InSitu(Matchup(i).number_d).lat,InSitu(Matchup(i).number_d).lon]
+                  
+                  %       close(h1)
+           end
       end
-      path = str2double(s{1}{n}(4:6));
-      row  = str2double(s{1}{n}(7:9));
-      year = str2double(s{1}{n}(10:13));
-      doy  = str2double(s{1}{n}(14:16));
-      [yy mm dd] = datevec(datenum(year,1,doy));
-      str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
-      t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
-      %       str2 = datestr(t_acq);
-      
-      %       h1 = figure(1000);
-      % lansat.m to check the USGS server for jpg images as proxy to scenes available
-      %       [~,~,~,h] = landsat(path,row,str);
-      
-      %       figure(gcf)
-      %       set(gcf,'Color','white','Name',s{1}{n})
-      %       plotm([InSitu(Matchup(i).number_d).lat],[InSitu(Matchup(i).number_d).lon],'*-r')
-      
-      t_diff = [InSitu(Matchup(i).number_d).t] - t_acq;
-      
-      [Y,I] = min(abs(t_diff));
-      
-      str2 = datestr(Matchup(i).scenetime);
-      str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(InSitu(Matchup(i).number_d(I)).t),char(t_diff(I)));
-      
-      %       title(str3)
-      
-      disp(['Acquired Date:' str2])
-      disp('In situ:')
-      InSitu(Matchup(i).number_d).t
-      [InSitu(Matchup(i).number_d).lat,InSitu(Matchup(i).number_d).lon]
-      
-      %       close(h1)
-      
 end
+
+close(h2)
 
 %% Find valid matchups
 
