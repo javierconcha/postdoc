@@ -27,13 +27,13 @@ for idx=1:size(data.date,1)
       waitbar(idx/size(data.date,1),h1,'Creating In Situ cells...')
       %% Rrs
       
-%       Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
-%             data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
-%       wavelength = [412,443,488,531,547,667,678];
+      %       Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
+      %             data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
+      %       wavelength = [412,443,488,531,547,667,678];
       
       Rrs = [data.rrs410(idx),data.rrs412(idx),data.rrs413(idx),data.rrs443(idx),data.rrs486(idx),data.rrs488(idx),data.rrs490(idx),data.rrs531(idx),data.rrs547(idx),data.rrs551(idx),data.rrs555(idx),data.rrs665(idx),data.rrs667(idx),data.rrs670(idx),data.rrs671(idx),data.rrs678(idx),data.rrs681(idx)];
       wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
-
+      
       count = count+1;
       
       time_acquired = datestr(data.time(idx),'HH:MM:ss');
@@ -44,10 +44,10 @@ for idx=1:size(data.date,1)
       
       InSitu(count).station = data.cruise_name(idx);
       InSitu(count).data_id = data.data_id(idx);
-%       InSitu(count).start_date = t_date;
-% %       InSitu(count).start_time =
-% datetime(data.time(idx),'Format','HH:mm:ss');
-%       InSitu(count).start_time = time_acquired;
+      %       InSitu(count).start_date = t_date;
+      % %       InSitu(count).start_time =
+      % datetime(data.time(idx),'Format','HH:mm:ss');
+      %       InSitu(count).start_time = time_acquired;
       %       InSitu(count).filepath = filepath;
       InSitu(count).wavelength = wavelength;
       InSitu(count).Rrs = Rrs;
@@ -247,7 +247,7 @@ fclose(fileID);
 h2 = waitbar(0,'Initializing ...');
 
 for n = 1:size(s{:},1)
-      %% 
+      %%
       waitbar(n/size(s{:},1),h2,'Extracting MTL info...')
       
       disp('----------------------------------')
@@ -255,7 +255,7 @@ for n = 1:size(s{:},1)
       for i=1:size(Matchup,2)
             if s{1}{n} == Matchup(i).id_scene
                   filepath = [dirname  Matchup(i).id_scene '_MTL.txt'];
-                                    % for the different possible id scene endings
+                  % for the different possible id scene endings
                   id = Matchup(i).id_scene;
                   filepath00 = [dirname id(1:16) 'LGN00_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
                   filepath01 = [dirname id(1:16) 'LGN01_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
@@ -269,7 +269,7 @@ for n = 1:size(s{:},1)
                         
                   elseif exist(filepath02, 'file');
                         filepath = filepath02;
-                       
+                        
                   else % File does not exist.
                         warning('Warning: file does not exist:\n%s\n', filepath);
                         fid = fopen('file_not_found.txt','a');
@@ -331,7 +331,7 @@ for n = 1:size(s{:},1)
                   [InSitu(Matchup(i).number_d).lat,InSitu(Matchup(i).number_d).lon]
                   
                   %       close(h1)
-           end
+            end
       end
 end
 
@@ -368,7 +368,7 @@ for idx0 = 1:size(L2ext,2)
                         
                   elseif exist(filepath02, 'file');
                         filepath = filepath02;
-                       
+                        
                   else % File does not exist.
                         warning('Warning: file does not exist:\n%s\n', filepath);
                         fid = fopen('file_not_found.txt','a');
@@ -630,8 +630,8 @@ for idx0 = 1:size(L2ext,2)
       %       hold on
       %       plot(find(cond1),t_diff(cond1),'*r')
       %       plot(find(cond2),t_diff(cond2),'*b')
-%       grid on
-%       legend('3 days','1 day','3 hours')
+      %       grid on
+      %       legend('3 days','1 day','3 hours')
       
       %% filtered
       which_time_range = {'3 days','1 day','3 hours'};
