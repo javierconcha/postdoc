@@ -168,7 +168,7 @@ clear T
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 %
-% To search for the available Landsat 8 scene and make sure the path and
+%% To search for the available Landsat 8 scene and make sure the path and
 % row is acquired by the sensor. Note: this process takes a long time
 clear Matchup
 tic
@@ -180,7 +180,9 @@ for n=1:size(DB,2) %  how many path and row combinations
             %% landsat.m is a script written by Chad A. Greene of the University of Texas at Austin's and available online.
             % it checks if there is a jpg image associated with the scene
             % on the USGS server.
-            [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
+            [~,ImageDate,~,~,scene_id] = landsat(DB(n).PATH,DB(n).ROW,...
+                  datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])),...
+                  'nomap',days_offset);
             if ~isempty(ImageDate)
                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
                         
@@ -191,16 +193,11 @@ for n=1:size(DB,2) %  how many path and row combinations
                               disp(['Image taken:   ',datestr(ImageDate)])
                               
                               fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(idx1))
-                              da = datevec(ImageDate);
-                              v = datenum(da);
-                              DOY = v - datenum(da(:,1), 1,0);
-                              L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
-                                    sprintf('%03.f',DOY),'LGN00'] ;
-                              fprintf('ID: %s\n',L8id)
+                              fprintf('ID: %s\n',scene_id)
                               % Save it in a structure
                               idx_match = idx_match + 1;
                               Matchup(idx_match).number_d = DB(n).insituidx(idx1);
-                              Matchup(idx_match).id_scene = L8id;
+                              Matchup(idx_match).id_scene = scene_id;
                         end
                   end
             end
