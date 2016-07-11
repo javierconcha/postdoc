@@ -1,4 +1,4 @@
-function [I,ImageDate,R,h] = landsat(wrs2path,wrs2row,varargin)
+function [I,ImageDate,R,h,scene_id] = landsat(wrs2path,wrs2row,varargin)
 % landsat searches the internet for low-resolution Landsat 8 images of
 % specified path and row number and plots the most recent image in georeferenced coordinates.
 %
@@ -94,7 +94,7 @@ function [I,ImageDate,R,h] = landsat(wrs2path,wrs2row,varargin)
 
 %% Initial input checks:
 
-narginchk(2,4)
+narginchk(2,5)
 assert(isscalar(wrs2path)==1,'wrs2path must be a scalar. Look up path/row data here: https://landsat.usgs.gov/tools_latlong.php')
 assert(isscalar(wrs2row)==1,'wrs2row must be a scalar. Look up path/row data here: https://landsat.usgs.gov/tools_latlong.php')
 assert(mod(wrs2path,1)==0,'wrs2path must be a scalar. Look up path/row data here: https://landsat.usgs.gov/tools_latlong.php')
@@ -130,6 +130,7 @@ if numvar>0
             end
       else
             InputDate = floor(datenum(varargin{1}));
+            days_offset = varargin{2};
       end
 end
 
@@ -139,44 +140,78 @@ assert(InputDate>=datenum(2013,2,11),'You are looking for a Landsat 8 image from
 %% Look for images:
 
 
-% Limit searching to 45 seconds:
-finalTime = datenum(clock + [0, 0, 0, 0, 0, 45]);
-while datenum(clock) < finalTime & isempty(I)
-      for searchdate = InputDate:-1:datenum(2013,2,11)
-            [year,~,~] = datevec(searchdate);            % search year
-            doy = datenum(searchdate)-datenum(year,1,0); % search day of year
+% Limit searching to 1 seconds:
+% finalTime = datenum(clock + [0, 0, 0, 0, 0, 1]);
+% while datenum(clock) < finalTime & isempty(I)
+% It tries to connect to the server just ONE!!!!!!
+for searchdate = InputDate+days_offset:-1:InputDate-days_offset
+      [year,~,~] = datevec(searchdate);            % search year
+      doy = datenum(searchdate)-datenum(year,1,0); % search day of year
+      
+      %             % Does an image exist for this search date?
+      try
+            %                   I = imread(['http://earthexplorer.usgs.gov/browse/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
+            %                         '/',sprintf('%03.f',wrs2row),'/LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+            %                         sprintf('%03.f',doy),'LGN00.jpg']);
             
-            % Does an image exist for this search date?
+            I = imread(['http://earthexplorer.usgs.gov/browse/thumbnails/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
+                  '/',sprintf('%03.f',wrs2row),'/LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+                  sprintf('%03.f',doy),'LGN02.jpg']);
+            scene_id = ['LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+                  sprintf('%03.f',doy),'LGN02'];
+            ImageNumber = ImageNumber + 1;  % If the image read above worked, log it.
+      end
+      
+      if isempty(I)
+            
             try
-                  I = imread(['http://earthexplorer.usgs.gov/browse/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
+                  I = imread(['http://earthexplorer.usgs.gov/browse/thumbnails/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
                         '/',sprintf('%03.f',wrs2row),'/LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
-                        sprintf('%03.f',doy),'LGN00.jpg']);
-               
+                        sprintf('%03.f',doy),'LGN01.jpg']);
+                  scene_id = ['LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+                  sprintf('%03.f',doy),'LGN01'];
                   ImageNumber = ImageNumber + 1;  % If the image read above worked, log it.
-            end
-            
-            % When a valid image is found, break out of the search loop:
-            if ImageNumber==0
-                  break
             end
       end
       
-      % And if a valid image is found, we can break out of the timer loop too:
+      
+      if isempty(I)
+            try
+                  I = imread(['http://earthexplorer.usgs.gov/browse/thumbnails/landsat_8/',sprintf('%03.f',year),'/',sprintf('%03.f',wrs2path),...
+                        '/',sprintf('%03.f',wrs2row),'/LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+                        sprintf('%03.f',doy),'LGN00.jpg']);
+                  scene_id = ['LC8',sprintf('%03.f',wrs2path),sprintf('%03.f',wrs2row),sprintf('%03.f',year),...
+                  sprintf('%03.f',doy),'LGN00'];
+                  ImageNumber = ImageNumber + 1;  % If the image read above worked, log it.
+            end
+      end
+      
+      
+      
+      
+      
+      % When a valid image is found, break out of the search loop:
       if ImageNumber==0
             break
       end
 end
 
+% And if a valid image is found, we can break out of the timer loop too:
+%       if ImageNumber==0
+%             break
+%       end
+% end
+
 % If the loop got to Feb 11, 2013 or timed out, give up now:
 if isempty(I)
-%       warning('No image found.')
+      %       warning('No image found.')
       ImageDate = [];
+      scene_id = [];
       return
       
 end
 
 ImageDate = datenum(year,1,doy);
-
 
 %% Map data:
 
@@ -232,7 +267,7 @@ if MakeMap
             
             % An imperfect method of getting rid of the black triangles bounding landsat image:
             lat(sum(I,3)==0) = NaN;
-            lon(sum(I,3)==0) = NaN; 
+            lon(sum(I,3)==0) = NaN;
             
             h = geoshow(lat,lon,I);
             
@@ -246,7 +281,7 @@ else
 end
 
 % %% Display message if image is from any date other than InputDate:
-% 
+%
 % if ImageDate ~= InputDate
 %       disp(['Image taken:   ',datestr(ImageDate)])
 % end
