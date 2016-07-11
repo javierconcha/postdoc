@@ -2,7 +2,7 @@
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 cd '/Users/jconchas/Documents/Research/LANDSAT8';
-% Load in situ data from VIIRS 2014
+%% Load in situ data from VIIRS 2014
 clear
 DIRMAT(1).dirname = '/Users/jconchas/Documents/Research/InSituData/VIIRS2014CaryCDOMa_g/';
 DIRMAT(2).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/CLIVAR/p16s_2014/archive/';
@@ -10,7 +10,11 @@ DIRMAT(3).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/ECO
 DIRMAT(4).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/ASIRI/archive/';
 DIRMAT(5).dirname = '/Users/jconchas/Documents/Research/InSituData/NASA_GSFC/GEOCAPE/gomex_2013/archive/ag/';
 
+% Preallocation based on a priori knowledge of how many in situ mea. are available
+InSitu(315).station = '';
+
 count = 0;
+tic
 for idx0=1:size(DIRMAT,2)
       % Open file with the list of images names
       fileID = fopen([DIRMAT(idx0).dirname 'file_list.txt']);
@@ -20,25 +24,7 @@ for idx0=1:size(DIRMAT,2)
       disp('-------------------------')
       disp('Starting Matchups search...')
       disp(DIRMAT(idx0).dirname)
-      
-      % figure for plottig the data
-      figure('Color','white')
-      hf1 = gcf;
-      ylabel('a\_g (m\^-1)')
-      xlabel('wavelength (nm)')
-      
-      
-      % Plot GOCI footprint
-      figure('Color','white')
-      hf2 = gcf;
-      % ax = worldmap([30 45],[116 136]);
-      ax = worldmap('world');
-      load coastlines
-      geoshow(ax, coastlat, coastlon,...
-            'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-      geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-      geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-      %
+
       for idx=1:size(s{:},1)
             %%
             filename = s{1}{idx}; % search on the list of filenames
@@ -46,15 +32,6 @@ for idx0=1:size(DIRMAT,2)
             filepath = [DIRMAT(idx0).dirname filename];
             
             [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true);
-            % ag
-            figure(hf1)
-            hold on
-            plot(data.wavelength,data.ag);
-            grid on
-            % location
-            figure(hf2)
-            hold on
-            plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
             
             count = count+1;
             InSitu(count).station = sbHeader.station;
@@ -73,10 +50,38 @@ for idx0=1:size(DIRMAT,2)
             t = datetime(t,'ConvertFrom','yyyymmdd');
             
             InSitu(count).t = t;
+            InSitu(count).filepath = filepath;
             
             fprintf('%i %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
       end
 end
+toc
+%% Plotting spectral data
+figure('Color','white');
+ylabel('a\_g (412) (m\^-1)')
+xlabel('wavelength (nm)')
+hold on
+grid on
+
+for i=1:size(InSitu,2)
+ag = cell2mat({InSitu(i).ag});
+wavelength = cell2mat({InSitu(i).wavelength});
+plot(wavelength,ag);
+end
+
+
+%% Plot location
+figure('Color','white')
+% ax = worldmap([30 45],[116 136]);
+ax = worldmap('world');
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+grid on
+
+plotm(cell2mat({InSitu.lat}),cell2mat({InSitu.lon}),'*r')
 %% Find path and row for in situ data and select the image
 % Create structure DB (database) with the potential scene path and row based on the lat and lon of the
 % in situ data obtained from OpenSeaBASSfile_Main.m. Note: some paths and
@@ -86,14 +91,14 @@ end
 % RUN OpenSeaBASSfile_Main.m first!!!
 clear DB
 % clc
-load('WRS2_pathrow_struct.mat');
+load('WRS2_pathrow_struct.mat'); % Structure with the lat and lot limits for all path and row images
 h1 = waitbar(0,'Initializing ...');
 
 lat = [InSitu.lat];
 lon = [InSitu.lon];
 t = [InSitu.t];
 
-% tic
+tic
 firsttime = true;
 days_offset = 3;
 db_idx = 0;
@@ -101,20 +106,18 @@ cond_in = zeros(1,size(WRS_struct,2));
 for d = 1:size(lon,2)
       waitbar(d/size(lon,2),h1,'Determining paths and rows...')
       %% Check if it is inside the polygon
-      for u = 1:size(WRS_struct,2)
+      for u = 1:size(WRS_struct,2) 
             xv = [WRS_struct(u).LON_LL WRS_struct(u).LON_LR ...
                   WRS_struct(u).LON_UR WRS_struct(u).LON_UL WRS_struct(u).LON_LL];
             yv = [WRS_struct(u).LAT_LL WRS_struct(u).LAT_LR ...
                   WRS_struct(u).LAT_UR WRS_struct(u).LAT_UL WRS_struct(u).LAT_LL];
             x =lon(d); y = lat(d);
             cond_in(u) = inpolygon(x,y,xv,yv);
-            
       end
       cond_in = logical(cond_in);
       aux_pr = [WRS_struct(cond_in).PATH;WRS_struct(cond_in).ROW];
       
       %% Only save when it is not in the database (DB)
-      
       for i=1:sum(cond_in) % index for aux_pr: potential combinations of pairs of paths and rows
             % Initialize DB (database)
             %             i
@@ -162,14 +165,14 @@ for d = 1:size(lon,2)
       end
 end
 close(h1)
-% toc
+toc
 % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 
-% To search for the available Landsat 8 scene and make sure the path and
+%% To search for the available Landsat 8 scene and make sure the path and
 % row is acquired by the sensor. Note: this process takes a long time
 clear Matchup
-% tic
+tic
 h2 = waitbar(0,'Initializing ...');
 idx_match = 0;
 for n=1:size(DB,2) %  how many path and row combinations
@@ -178,7 +181,9 @@ for n=1:size(DB,2) %  how many path and row combinations
             %% landsat.m is a script written by Chad A. Greene of the University of Texas at Austin's and available online.
             % it checks if there is a jpg image associated with the scene
             % on the USGS server.
-            [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
+            [~,ImageDate,~,~,scene_id] = landsat(DB(n).PATH,DB(n).ROW,...
+                  datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])),...
+                  'nomap',days_offset);
             if ~isempty(ImageDate)
                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
                         disp('--------------------------------------------')
@@ -188,19 +193,13 @@ for n=1:size(DB,2) %  how many path and row combinations
                         
                         
                         fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
-                        da = datevec(ImageDate);
-                        v = datenum(da);
-                        DOY = v - datenum(da(:,1), 1,0);
-                        L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
-                              sprintf('%03.f',DOY),'LGN00'] ;
-                        fprintf('ID: %s\n',L8id)
+
+                        fprintf('ID: %s\n',scene_id)
                         
                         % Save it in a structure
                         idx_match = idx_match + 1;
                         Matchup(idx_match).number_d = DB(n).insituidx(:);
-                        Matchup(idx_match).id_scene = L8id;
-                        Matchup(idx_match).dirname = DIRMAT(idx0).dirname;
-                        
+                        Matchup(idx_match).id_scene = scene_id;
                   end
             end
       end
@@ -215,8 +214,8 @@ close(h2)
 
 
 clear aux_idx aux_pr cond_in d db_idx firsttime h1 h2 i idx_match ImageDate j n u x xv y yv
-% toc
-% save('L8Matchups_VIIRSS2014.mat','Matchup','DB')
+toc
+
 
 %% Look in the Matchup structure the best images previously selected by visual inspection
 % using landsat.m and plot the jpg image and the in situ data location
@@ -254,7 +253,19 @@ for n = 1:size(s{:},1)
                         clear taux tc parval_DATE parval_TIME
                         disp('Found it!')
                         disp(Matchup(i))
-                        break
+                        
+                        path = str2double(s{1}{n}(4:6));
+                        row  = str2double(s{1}{n}(7:9));
+                        year = str2double(s{1}{n}(10:13));
+                        doy  = str2double(s{1}{n}(14:16));
+                        [yy mm dd] = datevec(datenum(year,1,doy));
+                        str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
+                        t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
+                        t_diff = t(Matchup(i).number_d) - t_acq;
+                        [Y,I] = min(abs(t_diff));
+                        str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s\n',datestr(Matchup(i).scenetime),datestr(t(Matchup(i).number_d(I))),char(t_diff(I)));
+                        disp(str3)
+                        %                         break
                   else
                         % File does not exist.
                         warningMessage = sprintf('Warning: file does not exist:\n%s', fullFileName);
@@ -262,41 +273,25 @@ for n = 1:size(s{:},1)
                   end
             end
       end
-      path = str2double(s{1}{n}(4:6));
-      row  = str2double(s{1}{n}(7:9));
-      year = str2double(s{1}{n}(10:13));
-      doy  = str2double(s{1}{n}(14:16));
-      [yy mm dd] = datevec(datenum(year,1,doy));
-      str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
-      t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
-      %       str2 = datestr(t_acq);
+
       
-      h1 = figure(1000);
-      % lansat.m to check the USGS server for jpg images as proxy to scenes available
-      [~,~,~,h] = landsat(path,row,str);
       
-      figure(gcf)
-      set(gcf,'Color','white','Name',s{1}{n})
-      plotm(lat(Matchup(i).number_d),lon(Matchup(i).number_d),'*-r')
+%       h1 = figure(1000);
+%       % lansat.m to check the USGS server for jpg images as proxy to scenes available
+%       %       [~,~,~,h] = landsat(path,row,str);
+%       
+%       figure(gcf)
+%       set(gcf,'Color','white','Name',s{1}{n})
+%       plotm(lat(Matchup(i).number_d),lon(Matchup(i).number_d),'*-r')
       
-      t_diff = t(Matchup(i).number_d) - t_acq;
+    
+%       disp('In situ:')
+%       t(Matchup(i).number_d)
+%       [lat(Matchup(i).number_d),lon(Matchup(i).number_d)]
       
-      [Y,I] = min(abs(t_diff));
-      
-      str2 = datestr(Matchup(i).scenetime);
-      str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(t(Matchup(i).number_d(I))),char(t_diff(I)));
-      
-      title(str3)
-      
-      disp(['Acquired Date:' str2])
-      disp('In situ:')
-      t(Matchup(i).number_d)
-      [lat(Matchup(i).number_d),lon(Matchup(i).number_d)]
-      
-      close(h1)
+%       close(h1)
       
 end
-% save('L8Matchups_Arctics.mat','Matchup')
 %% Find valid matchups
 % load('L8Matchups_Arctics.mat','Matchup')
 % dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
@@ -310,28 +305,28 @@ for idx = 1:size(Matchup,2)
             ag_412_mlrc = ncread(filepath,'/geophysical_data/ag_412_mlrc');
             
             % plot
-%             plusdegress = 0;
-%             latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
-%             lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
-%             h = figure('Color','white','Name',[Matchup(idx).id_scene '_L2.nc']);
-%             ax = worldmap(latlimplot,lonlimplot);
-%             
-%             load coastlines
-%             geoshow(ax, coastlat, coastlon,...
-%                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-%             
-%             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-%             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-%             
-%             % Display product
-%             pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
-%             colormap jet
+            %             plusdegress = 0;
+            %             latlimplot = [min(latitude(:))-.5*plusdegress max(latitude(:))+.5*plusdegress];
+            %             lonlimplot = [min(longitude(:))-plusdegress max(longitude(:))+plusdegress];
+            %             h = figure('Color','white','Name',[Matchup(idx).id_scene '_L2.nc']);
+            %             ax = worldmap(latlimplot,lonlimplot);
+            %
+            %             load coastlines
+            %             geoshow(ax, coastlat, coastlon,...
+            %                   'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+            %
+            %             geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+            %             geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+            %
+            %             % Display product
+            %             pcolorm(latitude,longitude,log10(ag_412_mlrc)) % faster than geoshow
+            %             colormap jet
             %
             %% Plot in situ and obtain value from the product
             for idx2 = 1:size(Matchup(idx).number_d,1) % each scene could have several field points
-%                   figure(h)
-%                   hold on
-%                   plotm(lat(Matchup(idx).number_d(idx2)),lon(Matchup(idx).number_d(idx2)),'*c')
+                  %                   figure(h)
+                  %                   hold on
+                  %                   plotm(lat(Matchup(idx).number_d(idx2)),lon(Matchup(idx).number_d(idx2)),'*c')
                   %% closest distance
                   % latitude and longitude are arrays of MxN
                   % lat0 and lon0 is the coordinates of one point
@@ -404,7 +399,7 @@ for idx = 1:size(Matchup,2)
       end
 end
 
-% save('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+save('L8Matchups_VIIRSS2014.mat','Matchup','DB','MatchupReal')
 %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
 % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
