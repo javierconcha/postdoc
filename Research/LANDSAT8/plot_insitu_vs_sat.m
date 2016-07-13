@@ -6,13 +6,13 @@ eval(sprintf('Matchup_sat = [MatchupReal.Rrs_%s_filt_mean];',wl_sat)); % from sa
 eval(sprintf('Matchup_ins = [MatchupReal.Rrs_%s_insitu];',wl_ins)); % in situ
 
 cond0 =  ~isnan(Matchup_sat); % valid values
+% 
+% t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
+% cond1 = abs(t_diff) <= years(1); % days(1) !!! Switched to comply with modification
+% cond2 = abs(t_diff) <= years(1); % hours(3) !!! Switched to comply with modification
 
-t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-cond1 = abs(t_diff) <= days(1); % days(1)
-cond2 = abs(t_diff) <= hours(3); % hours(3)
-
-cond3 = cond1 & cond0; % valid and less than 1 day
-cond4 = cond2 & cond0; % valid and less than 3 hours
+cond3 = cond0 & cond0; % valid and less than 1 day
+cond4 = cond0 & cond0; % valid and less than 3 hours
 cond5 = Matchup_sat>0;
 
 
