@@ -64,9 +64,9 @@ hold on
 grid on
 
 for i=1:size(InSitu,2)
-ag = cell2mat({InSitu(i).ag});
-wavelength = cell2mat({InSitu(i).wavelength});
-plot(wavelength,ag);
+      ag = cell2mat({InSitu(i).ag});
+      wavelength = cell2mat({InSitu(i).wavelength});
+      plot(wavelength,ag);
 end
 
 

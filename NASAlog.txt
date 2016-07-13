@@ -1628,6 +1628,7 @@ B = unique({Matchup.id_scene}');
 to delete repeated:
 uniq idlatlon_list.txt > idlatlon_list.txt
 
+to obtain the different:
 jconchas@anly104:~/data2/LANDSAT8/L8_Rrs_Matchups_AERONET$ comm -23 needed_listSORTED.txt have_listSORTED.txt 
 
 how to scroll in tmux:
@@ -1685,4 +1686,77 @@ to highlight search in less program:
 2016-06-30 Thu
 
 DONE: For the AERONET-OC validation for Landsat 8: The calculation of the scene id will output file only ending in LGN00. Then, by hand the id that are not found in the server using the python script are checked in earthexplorer, and downloaded using the phyton script. The Matlab script handle the different possibles endings. 
+
+
+not found in matlab:
+Warning: Warning: file does not exist:
+/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/L8_Rrs_Matchups_AERONET_L2/LC81930192015196LGN00_L2n2.nc
+ 
+ 
+Warning: Warning: file does not exist:
+/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/L8_Rrs_Matchups_AERONET_L2/LC81950192015274LGN00_L2n2.nc
+ 
+ 
+Warning: Warning: file does not exist:
+/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/L8_Rrs_Matchups_AERONET_L2/LC80400372014321LGN00_L2n2.nc
+ 
+ 
+Warning: Warning: file does not exist:
+/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/L8_Rrs_Matchups_AERONET_L2/LC81920282015141LGN00_L2n2.nc
+
+--------------------------------------------------
+2016-07-07 Thu
+How to look if image exist:
+http://earthexplorer.usgs.gov/browse/landsat_8/2013/041/037/LC80410372013117LGN00.jpg
+http://earthexplorer.usgs.gov/browse/landsat_8/2013/041/037/LC80410372013117LGN01.jpg
+http://earthexplorer.usgs.gov/browse/landsat_8/2013/041/037/LC80410372013117LGN02.jpg
+
+http://earthexplorer.usgs.gov/browse/thumbnails/landsat_8/2013/041/037/LC80410372013117LGN02.jpg
+
+
+jconchas@anly104:~/data2/LANDSAT8/L8_Rrs_Matchups_AERONET$ cat file_on_site.txt       
+LC80110312013115LGN01
+LC80120312014061LGN01
+LC80120312014365LGN01
+LC80220402015102LGN01
+LC80950732014195LGN01
+LC81810292013234LGN01
+LC81890182013210LGN01
+
+jconchas@anly104:~/data2/LANDSAT8/L8_Rrs_Matchups_AERONET$ cat file_not_on_site.txt 
+LC80110312013081LGN01
+LC80110312015041LGN01
+LC80120312013094LGN01
+LC80120312013099LGN01
+LC80220402013088LGN01
+LC80400372013078LGN01
+LC80410372013091LGN01
+LC81810292013099LGN01
+LC81910292013088LGN01
+LC81920282013083LGN01
+
+
+--------------------------------------------------
+2016-07-11 Mon
+For Tara Rrs, only 9 possible matchups from 27 in situ mea.:
+>> {Matchup.id_scene}'
+
+ans = 
+
+    'LC81680042013223LGN00'
+    'LC81050102013246LGN00'
+    'LC80090112013293LGN00'
+    'LC81680052013191LGN00'
+    'LC81780052013197LGN00'
+    'LC81650082013202LGN00'
+    'LC80340092013276LGN00'
+    'LC80360082013274LGN00'
+    'LC80340082013276LGN00'
+
+
+1 image could not work using scheduler.sh:
+from the L2n2SWIR5x5.nc file (that for some reason worked OK at some point...)
+l2gen ifile=./LC80110312013081LGN01/LC80110312013081LGN01_MTL.txt ofile1=./LC80110312013081LGN01/LC80110312013081LGN01_L2n2SWIR5x5.nc aer_opt=-2 ctl_pt_incr=1 maskglint=1 l2prod=default,ag_412_mlrc,rhos_vvv aer_wave_long=2201 aer_wave_short=1609 filter_file=/home/jconchas/ocssw/run/data/oli/msl12_filterUSER.dat filter_opt=1 sline=3878 eline=3978 spixl=3503 epixl=3603
+
+
 (END)

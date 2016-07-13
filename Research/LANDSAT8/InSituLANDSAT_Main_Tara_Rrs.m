@@ -9,27 +9,15 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % Extract Tara data from SeaBASS file
 dirname = '/Users/jconchas/Documents/Research/InSituData/MAINE/boss/Tara_Oceans_Polar_Circle/';
 
-% figure for plottig the data
-figure('Color','white')
-hf1 = gcf;
-ylabel('Rrs (1/sr)')
-xlabel('wavelength (nm)')
-
-% Plot GOCI footprint
-figure('Color','white')
-hf2 = gcf;
-ax = worldmap([45 90],[-180 180]);
-% ax = worldmap('North Pole');
-load coastlines
-geoshow(ax, coastlat, coastlon,...
-      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
-geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
-geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-
 % Open file with the list of images names
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
+
+clear InSitu
+
+% Preallocation based on a priori knowledge of how many in situ mea. are available
+InSitu(27).station = '';
 
 count = 0;
 
@@ -44,17 +32,6 @@ for idx=1:size(s{:},1)
       
       Rrs = [data.rrs340,data.rrs412,data.rrs443,data.rrs465,data.rrs490,data.rrs510,data.rrs532,data.rrs555,data.rrs560,data.rrs589,data.rrs625,data.rrs665,data.rrs670,data.rrs683,data.rrs694,data.rrs710,data.rrs765,data.rrs780,data.rrs875];
       wavelength = [340,412,443,465,490,510,532,555,560,589,625,665,670,683,694,710,765,780,875];
-      
-      figure(hf1)
-      hold on
-      plot(wavelength,Rrs);
-      grid on
-      title('Rrs')
-      
-      %% Location
-      figure(hf2)
-      hold on
-      plotm(sbHeader.north_latitude,sbHeader.east_longitude,'*r')
       
       date_acquired = data.date;
       time_acquired = datestr(data.time,'HH:MM:SS');
@@ -76,6 +53,31 @@ for idx=1:size(s{:},1)
       
       fprintf('%s %i %s\n',sbHeader.station,sbHeader.start_date,sbHeader.start_time)
 end
+
+%% figure for plottig the data
+figure('Color','white')
+hold on
+grid on
+ylabel('Rrs (1/sr)')
+xlabel('wavelength (nm)')
+
+for i=1:size(InSitu,2)
+      Rrs = cell2mat({InSitu(i).Rrs});
+      wavelength = cell2mat({InSitu(i).wavelength});
+      plot(wavelength,Rrs);
+end
+%% Location
+figure('Color','white')
+ax = worldmap([45 90],[-180 180]);
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+grid on
+
+plotm(cell2mat({InSitu.lat}),cell2mat({InSitu.lon}),'*r')
+
 
 %% Find path and row for in situ data and select the image
 % Create structure DB (database) with the potential scene path and row based on the lat and lon of the
@@ -173,7 +175,9 @@ for n=1:size(DB,2) %  how many path and row combinations
             %% landsat.m is a script written by Chad A. Greene of the University of Texas at Austin's and available online.
             % it checks if there is a jpg image associated with the scene
             % on the USGS server.
-            [~,ImageDate,~,~] = landsat(DB(n).PATH,DB(n).ROW,datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])+days_offset),'nomap');
+            [~,ImageDate,~,~,scene_id] = landsat(DB(n).PATH,DB(n).ROW,...
+                  datestr(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY])),...
+                  'nomap',days_offset);            
             if ~isempty(ImageDate)
                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
                         disp('--------------------------------------------')
@@ -183,17 +187,17 @@ for n=1:size(DB,2) %  how many path and row combinations
                         
                         
                         fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(1))
-                        da = datevec(ImageDate);
-                        v = datenum(da);
-                        DOY = v - datenum(da(:,1), 1,0);
-                        L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
-                              sprintf('%03.f',DOY),'LGN00'] ;
-                        fprintf('ID: %s\n',L8id)
+%                         da = datevec(ImageDate);
+%                         v = datenum(da);
+%                         DOY = v - datenum(da(:,1), 1,0);
+%                         L8id = ['LC8',sprintf('%03.f',DB(n).PATH),sprintf('%03.f',DB(n).ROW),sprintf('%03.f',da(:,1)),...
+%                               sprintf('%03.f',DOY),'LGN00'] ;
+                        fprintf('ID: %s\n',scene_id)
                         
                         % Save it in a structure
                         idx_match = idx_match + 1;
                         Matchup(idx_match).number_d = DB(n).insituidx(:);
-                        Matchup(idx_match).id_scene = L8id;
+                        Matchup(idx_match).id_scene = scene_id;
                   end
             end
       end
@@ -201,4 +205,4 @@ end
 close(h2)
 clear aux_idx aux_pr cond_in d db_idx firsttime h1 h2 i idx_match ImageDate j n u x xv y yv
 toc
-save('L8Matchups_Arctic_Rrs.mat','Matchup','DB')
+save('L8Matchups_Arctic_Rrs.mat','InSitu','Matchup','DB')
