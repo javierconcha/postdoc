@@ -1759,4 +1759,38 @@ from the L2n2SWIR5x5.nc file (that for some reason worked OK at some point...)
 l2gen ifile=./LC80110312013081LGN01/LC80110312013081LGN01_MTL.txt ofile1=./LC80110312013081LGN01/LC80110312013081LGN01_L2n2SWIR5x5.nc aer_opt=-2 ctl_pt_incr=1 maskglint=1 l2prod=default,ag_412_mlrc,rhos_vvv aer_wave_long=2201 aer_wave_short=1609 filter_file=/home/jconchas/ocssw/run/data/oli/msl12_filterUSER.dat filter_opt=1 sline=3878 eline=3978 spixl=3503 epixl=3603
 
 
+AERONET-OC COVE_SEAPRISM
+N 36^o 53'60"
+W 75^o 42'36"
+36° 53' 60"
+= 36° + 53'/60 + 60"/3600
+= 36.9° N
+
+75° 42' 36"
+= 75° + 42'/60 + 36"/3600
+= 75.71°
+
+Image LC80140342016161LGN00:
+- Platform seems to be in a different location to in situ AERONET-OC file in about 17px horizontal direction (NS) and 8px vertical direction (NS)  
+
+
+jconchas@gs616-tidal:LANDSAT8$ cat temp.txt |sort|uniq
+aoc_bukhoosh_l20
+aoc_cove_l20
+aoc_gageocho_l20
+aoc_galata_l20
+aoc_gloria_l20
+aoc_got_l20
+aoc_gustav_l20
+aoc_helsinki_l20
+aoc_ieodo_l20
+aoc_kaust_l20
+aoc_lisco_l20
+aoc_lucinda_l20
+aoc_mvco_l20
+aoc_palgrunden_l20
+aoc_usc_l20
+aoc_venise_l20
+aoc_wavecis_l20
+aoc_zeebrugge_l20
 (END)

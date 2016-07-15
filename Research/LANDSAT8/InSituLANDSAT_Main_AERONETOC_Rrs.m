@@ -333,6 +333,7 @@ for n = 1:size(s{:},1)
 end
 
 close(h2)
+save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB')
 
 %% Find valid matchups
 
@@ -341,7 +342,7 @@ L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
 
 debug = 0;
 
-
+count2 = 0; % for creating the MatchupRealFilt
 
 for idx0 = 1:size(L2ext,2)
       count = 0;
@@ -426,7 +427,7 @@ for idx0 = 1:size(L2ext,2)
                               MatchupReal(count).insitutime = InSitu(Matchup(idx).number_d(idx2)).t;
                               
                               
-                              ws = 3; % window size:3, 5, or 7
+                              ws = 10; % window size:3, 5, or 7
                               
                               %% Rrs_443
                               % Filtered Mean = [sum_i(1.5*std-mean)<xi<(1.5*std+mean)]/N from Maninno et al. 2014
@@ -638,8 +639,7 @@ for idx0 = 1:size(L2ext,2)
       which_time_range = {'3 hours'};
       for idx = 1:size(which_time_range,2)
             %% filtering to the closest
-            h3 = waitbar(0,'Initializing ...');
-            count = 0;
+            h3 = waitbar(0,'Initializing ...'); 
             
             clear MatchupRealFilt tempMatchupReal tempMatchupReal2
             
@@ -651,57 +651,67 @@ for idx0 = 1:size(L2ext,2)
                   %%
                   waitbar(n/size(s{:},1),h3,'Filtering MatchupReal...')
                   
-                  ind0 = strcmp({MatchupReal.id_scene}',s{1}{n});
+                  ind0 = strcmp({MatchupReal.id_scene}',s{1}{n}); % all the in situ associated a particular scene
                   if sum(ind0)~=0
                         clear t_temp;
-                        count = count+1;
-                        
-                        %% Initiallization
-                        MatchupRealFilt(count).scene_id = s{1}{n};
-                        
+                        clear tempMatchupReal tempMatchupReal2
+                        count2 = count2+1;
                         tempMatchupReal = MatchupReal(ind0);
                         for idx1 = 1:sum(ind0)
                               t_temp(idx1)=tempMatchupReal(idx1).scenetime-tempMatchupReal(idx1).insitutime;
                         end
                         
+                        MatchupRealFilt(count2).scene_time = tempMatchupReal(1).scenetime;
+                        MatchupRealFilt(count2).scene_ACpar = char(L2ext(idx0));
                         %% Rrs 443
                         if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}'))) &&...
-                                    sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')>0)
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')))% &&...
+                                    %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')>0)
+                              
                               tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
                               [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count).Rrs_443_filt_mean = cell2mat({tempMatchupReal2(I(1)).Rrs_443_filt_mean}');
-                              MatchupRealFilt(count).Rrs_443_insitu = cell2mat({tempMatchupReal2(I(1)).Rrs_443_insitu}');
-                              
+                              MatchupRealFilt(count2).Rrs_443_filt_mean = tempMatchupReal2(I(1)).Rrs_443_filt_mean;
+                              MatchupRealFilt(count2).Rrs_443_insitu = tempMatchupReal2(I(1)).Rrs_443_insitu;
+                              MatchupRealFilt(count2).Rrs_443_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                              MatchupRealFilt(count2).Rrs_443_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
                         end
                         %% Rrs 482
                         if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) &&...
-                                    sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}')>0)
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) %&&...
+                                    %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}')>0)
+                              
                               tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
                               [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count).Rrs_482_filt_mean = cell2mat({tempMatchupReal2(I(1)).Rrs_482_filt_mean}');
-                              MatchupRealFilt(count).Rrs_486_insitu = cell2mat({tempMatchupReal2(I(1)).Rrs_486_insitu}');
+                              MatchupRealFilt(count2).Rrs_482_filt_mean = tempMatchupReal2(I(1)).Rrs_482_filt_mean;
+                              MatchupRealFilt(count2).Rrs_486_insitu = tempMatchupReal2(I(1)).Rrs_486_insitu;
+                              MatchupRealFilt(count2).Rrs_486_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                              MatchupRealFilt(count2).Rrs_486_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
                               
                         end
                         %% Rrs 561
                         if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) &&...
-                                    sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}')>0)
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) %&&...
+                                    %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}')>0)
+                              
                               tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
                               [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count).Rrs_561_filt_mean = cell2mat({tempMatchupReal2(I(1)).Rrs_561_filt_mean}');
-                              MatchupRealFilt(count).Rrs_555_insitu = cell2mat({tempMatchupReal2(I(1)).Rrs_555_insitu}');
+                              MatchupRealFilt(count2).Rrs_561_filt_mean = tempMatchupReal2(I(1)).Rrs_561_filt_mean;
+                              MatchupRealFilt(count2).Rrs_555_insitu = tempMatchupReal2(I(1)).Rrs_555_insitu;
+                              MatchupRealFilt(count2).Rrs_555_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                              MatchupRealFilt(count2).Rrs_555_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
                               
                         end
                         %% Rrs 655
                         if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) &&...
-                                    sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}')>0)
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) %&&...
+                                    %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}')>0)
+                              
                               tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
                               [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count).Rrs_655_filt_mean = cell2mat({tempMatchupReal2(I(1)).Rrs_655_filt_mean}');
-                              MatchupRealFilt(count).Rrs_665_insitu = cell2mat({tempMatchupReal2(I(1)).Rrs_665_insitu}');
+                              MatchupRealFilt(count2).Rrs_655_filt_mean = tempMatchupReal2(I(1)).Rrs_655_filt_mean;
+                              MatchupRealFilt(count2).Rrs_665_insitu = tempMatchupReal2(I(1)).Rrs_665_insitu;
+                              MatchupRealFilt(count2).Rrs_665_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                              MatchupRealFilt(count2).Rrs_665_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
                               
                         end
                         
@@ -780,3 +790,5 @@ end
 % latex table
 fprintf(FID,'\n \\end{tabular} \n');
 fclose(FID);
+save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupRealFilt')
+%%

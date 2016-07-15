@@ -5,15 +5,16 @@ function [h,ax,leg] = plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal,which_time_ra
 eval(sprintf('Matchup_sat = [MatchupReal.Rrs_%s_filt_mean];',wl_sat)); % from satellite
 eval(sprintf('Matchup_ins = [MatchupReal.Rrs_%s_insitu];',wl_ins)); % in situ
 
-cond0 =  ~isnan(Matchup_sat); % valid values
+cond0 =  ~isnan(Matchup_sat)&~isnan(Matchup_ins)&...
+      isfinite(Matchup_sat)&isfinite(Matchup_ins); % valid values
 % 
 % t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
 % cond1 = abs(t_diff) <= years(1); % days(1) !!! Switched to comply with modification
 % cond2 = abs(t_diff) <= years(1); % hours(3) !!! Switched to comply with modification
 
-cond3 = cond0 & cond0; % valid and less than 1 day
-cond4 = cond0 & cond0; % valid and less than 3 hours
-cond5 = Matchup_sat>0;
+cond3 = cond0 & cond0; % valid and less than 1 day !!! Switched to comply with modification
+cond4 = cond0 & cond0; % valid and less than 3 hours !!! Switched to comply with modification
+% cond5 = Matchup_sat>0;
 
 
 
@@ -33,10 +34,10 @@ switch which_time_range
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
             
-            eval(['Rrs_sat_min = min(cell2mat({MatchupReal(cond0).Rrs_' wl_sat '_filt_mean}))*0.95;'])
-            eval(['Rrs_sat_max = max(cell2mat({MatchupReal(cond0).Rrs_' wl_sat '_filt_mean}))*1.05;'])
-            eval(['Rrs_ins_min = min(cell2mat({MatchupReal(cond0).Rrs_' wl_ins '_insitu}))*0.95;'])
-            eval(['Rrs_ins_max = max(cell2mat({MatchupReal(cond0).Rrs_' wl_ins '_insitu}))*1.05;'])
+            eval(['Rrs_sat_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*0.95;'])
+            eval(['Rrs_sat_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*1.05;'])
+            eval(['Rrs_ins_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*0.95;'])
+            eval(['Rrs_ins_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*1.05;'])
             
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
@@ -55,24 +56,24 @@ switch which_time_range
             
       case '3 days'
             %%
-            Matchup_ins_used = Matchup_ins(cond0&cond5); % for regression
-            Matchup_sat_used = Matchup_sat(cond0&cond5); % for regression
+            Matchup_ins_used = Matchup_ins(cond0); % for regression
+            Matchup_sat_used = Matchup_sat(cond0); % for regression
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
-            hp1 = plot(Matchup_ins(cond0),Matchup_sat(cond0),'ok');
+            hp1 = plot(Matchup_ins_used,Matchup_sat_used,'ok');
             
-            set(hp1,'XDataSource','Matchup_ins(cond0)') 
-            set(hp1,'YDataSource','Matchup_sat(cond0)') 
+            set(hp1,'XDataSource','Matchup_ins_used') 
+            set(hp1,'YDataSource','Matchup_sat_used') 
             
             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
             
-            eval(['Rrs_sat_min = min(cell2mat({MatchupReal(cond0).Rrs_' wl_sat '_filt_mean}))*0.95;'])
-            eval(['Rrs_sat_max = max(cell2mat({MatchupReal(cond0).Rrs_' wl_sat '_filt_mean}))*1.05;'])
-            eval(['Rrs_ins_min = min(cell2mat({MatchupReal(cond0).Rrs_' wl_ins '_insitu}))*0.95;'])
-            eval(['Rrs_ins_max = max(cell2mat({MatchupReal(cond0).Rrs_' wl_ins '_insitu}))*1.05;'])
+            Rrs_sat_min = min(Matchup_sat_used);
+            Rrs_sat_max = max(Matchup_sat_used);
+            Rrs_ins_min = min(Matchup_ins_used);
+            Rrs_ins_max = max(Matchup_ins_used);
             
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
@@ -92,8 +93,8 @@ switch which_time_range
             
       case '1 day'
             %%
-            Matchup_ins_used = Matchup_ins(cond3&cond5); % for regression
-            Matchup_sat_used = Matchup_sat(cond3&cond5); % for regression
+            Matchup_ins_used = Matchup_ins; % for regression
+            Matchup_sat_used = Matchup_sat; % for regression
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -102,10 +103,10 @@ switch which_time_range
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
             
-            eval(['Rrs_sat_min = min(cell2mat({MatchupReal(cond3).Rrs_' wl_sat '_filt_mean}))*0.95;'])
-            eval(['Rrs_sat_max = max(cell2mat({MatchupReal(cond3).Rrs_' wl_sat '_filt_mean}))*1.05;'])
-            eval(['Rrs_ins_min = min(cell2mat({MatchupReal(cond3).Rrs_' wl_ins '_insitu}))*0.95;'])
-            eval(['Rrs_ins_max = max(cell2mat({MatchupReal(cond3).Rrs_' wl_ins '_insitu}))*1.05;'])
+            Rrs_sat_min = min(Matchup_sat_used)*0.95;
+            Rrs_sat_max = max(Matchup_sat_used)*1.05;
+            Rrs_ins_min = min(Matchup_ins_used)*0.95;
+            Rrs_ins_max = max(Matchup_ins_used)*1.05;
             
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
@@ -124,8 +125,8 @@ switch which_time_range
             
       case '3 hours'
             %%
-            Matchup_ins_used = Matchup_ins(cond4&cond5);
-            Matchup_sat_used = Matchup_sat(cond4&cond5);
+            Matchup_ins_used = Matchup_ins;
+            Matchup_sat_used = Matchup_sat;
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -134,10 +135,10 @@ switch which_time_range
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
             
-            eval(['Rrs_sat_min = min(cell2mat({MatchupReal(cond4).Rrs_' wl_sat '_filt_mean}))*0.95;'])
-            eval(['Rrs_sat_max = max(cell2mat({MatchupReal(cond4).Rrs_' wl_sat '_filt_mean}))*1.05;'])
-            eval(['Rrs_ins_min = min(cell2mat({MatchupReal(cond4).Rrs_' wl_ins '_insitu}))*0.95;'])
-            eval(['Rrs_ins_max = max(cell2mat({MatchupReal(cond4).Rrs_' wl_ins '_insitu}))*1.05;'])
+            Rrs_sat_min = min(Matchup_sat_used)*0.95;
+            Rrs_sat_max = max(Matchup_sat_used)*1.05;
+            Rrs_ins_min = min(Matchup_ins_used)*0.95;
+            Rrs_ins_max = max(Matchup_ins_used)*1.05;
             
             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
@@ -158,8 +159,17 @@ end
 if sum(isfinite(Matchup_ins_used))
       %% Statistics
       C_insitu = Matchup_ins_used(isfinite(Matchup_ins_used));
+      
       C_alg = Matchup_sat_used(isfinite(Matchup_ins_used));
-      N = size(C_insitu,2);
+      
+      C_insitu = C_insitu(C_alg>0);
+      C_alg = C_alg(C_alg>0);
+      
+      if size(C_insitu,2) == size(C_alg,2)
+            N = size(C_insitu,2);
+      else
+            error('Number of in situ and satellite point are different!')
+      end
       
       PD = abs(C_alg-C_insitu)./C_insitu; % percent difference
       
@@ -197,7 +207,7 @@ if sum(isfinite(Matchup_ins_used))
                   a(1) = abs(a(1));
             end
             
-            a(2) = mean(C_alg)-mean(C_insitu)*a(1); % y intercept
+            a(2) = nanmean(C_alg)-nanmean(C_insitu)*a(1); % y intercept
             
       end
       
@@ -210,7 +220,7 @@ if sum(isfinite(Matchup_ins_used))
       plot(x1,y1,'r-','LineWidth',1.2)
       
       
-      SStot = sum((C_alg-mean(C_alg)).^2);
+      SStot = sum((C_alg-nanmean(C_alg)).^2);
       SSres = sum((C_alg-polyval(a,C_insitu)).^2);
       rsq_SS = 1-(SSres/SStot);
       rsq_corr = corr(C_insitu',C_alg')^2; % when OLS rsq_SS and rsq_corr are equal
