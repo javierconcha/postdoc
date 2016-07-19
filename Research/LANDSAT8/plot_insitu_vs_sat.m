@@ -125,12 +125,12 @@ switch which_time_range
             
       case '3 hours'
             %%
-            Matchup_ins_used = Matchup_ins;
-            Matchup_sat_used = Matchup_sat;
+            Matchup_ins_used = Matchup_ins(cond0);
+            Matchup_sat_used = Matchup_sat(cond0);
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins(cond4),Matchup_sat(cond4),'*b')
+            plot(Matchup_ins_used,Matchup_sat_used,'*b')
             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
@@ -151,16 +151,16 @@ switch which_time_range
             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
             grid on
-            leg = legend(['3 h; N: ' num2str(sum(cond4)) ]);
+            leg = legend(['3 h; N: ' num2str(sum(cond0)) ]);
             ax = gca;
             ax.XTick =ax.YTick;
 end
 
 if sum(isfinite(Matchup_ins_used))
       %% Statistics
-      C_insitu = Matchup_ins_used(isfinite(Matchup_ins_used));
+      C_insitu = Matchup_ins_used;
       
-      C_alg = Matchup_sat_used(isfinite(Matchup_ins_used));
+      C_alg = Matchup_sat_used;
       
       C_insitu = C_insitu(C_alg>0);
       C_alg = C_alg(C_alg>0);
