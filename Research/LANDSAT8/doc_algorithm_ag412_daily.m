@@ -16,17 +16,27 @@ function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs_b,Rrs_g,doy,wl_g)
 % cf=0 for sigmmoidal function, cf=1 for linear function
 cf=1;
 %% A. Mannino DOC algorithm
+Rrs_b(Rrs_b<0)=NaN; % Mask neg values for Rrs_b
+Rrs_g(Rrs_g<0)=NaN; % Mask neg values for Rrs_g
+
+Rrs_g = conv_rrs_to_555(Rrs_g,str2double(wl_g)); % to follow l2gen
+
 % Y=-3.070-1.285.*log(Rrs_b)+1.107.*log(Rrs_g); % original (for MODIS (Mannino et al., 2014))
 
 % from ocssw/build/src/l2gen/cdom_mannino.c:   case CAT_ag_412_mlrc:
 % static float b_ag412[] = {-2.784,-1.146,1.008};
 
-Rrs_b(Rrs_b<0)=NaN; % Mask neg values for Rrs_b
-Rrs_g(Rrs_g<0)=NaN; % Mask neg values for Rrs_g
+% original from l2gen (for SeaWiFS (Mannino et al., 2014))
+% CONSTANT= -2.784;
+% LN_RRS443 = -1.146;
+% LN_RRS560 = 1.008;
 
-Rrs_g = conv_rrs_to_555(Rrs_g,str2double(wl_g));
+%  From Antonio, coefficients for the MLRC algorithm for Landsat 8's band center bands:
+CONSTANT= -2.6156;
+LN_RRS443 = -1.0670;
+LN_RRS560 = 0.9542;
 
-Y=-2.784-1.146.*log(Rrs_b)+1.008.*log(Rrs_g); % original from l2gen (for SeaWiFS (Mannino et al., 2014))
+Y=CONSTANT+LN_RRS443.*log(Rrs_b)+LN_RRS560.*log(Rrs_g); 
 ag412=exp(Y);
 
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
