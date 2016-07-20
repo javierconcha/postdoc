@@ -5,7 +5,7 @@ function output_txt = NewCallback(obj,event_obj)
 % output_txt   Data cursor text string (string or cell array of strings).
 
 pos = get(event_obj,'Position');
-I = get(event_obj,'DataIndex')
+I = get(event_obj,'DataIndex');
 output_txt = {['X: ',num2str(pos(1),4)],...
     ['Y: ',num2str(pos(2),4)],...
     ['I: ',num2str(I)]};
