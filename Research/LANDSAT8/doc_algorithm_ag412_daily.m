@@ -4,6 +4,7 @@ function [DOC,ag412] = doc_algorithm_ag412_daily( Rrs_b,Rrs_g,doy,wl_g)
 % - Rrs_b: remote-sensing reflectance @ 443nm
 % - Rrs_g: remote-sensing reflectance @ 561nm
 % - doy: day of the year
+% - wl_g: green wavelength as char
 % Outputs:
 % - DOC: Dissolved Organic Carbon concentration
 % - ag412: absorption of Gelbstoff or CDOM absorption @ 412 nm
@@ -102,6 +103,8 @@ end % fi
 %%
 DOC=real(DOC);
 DOC=DOC*12.01; % umol/L to mg/m3
+
+% filtering for values with a range
 id=DOC<0 | DOC>3000;
 %id=DOC<0;
 DOC(id)=NaN;
