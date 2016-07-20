@@ -626,7 +626,7 @@ for idx0 = 1:size(L2ext,2)
       
 end
 
-%       save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
+save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
 %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
 %       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
 %       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
@@ -796,6 +796,8 @@ for idx0 = 1:size(L2ext,2)
             fprintf(FID,'\\hline \n');
             
             figure(f1)
+            set(gcf, 'Position', get(0, 'Screensize'));
+            
             copies = copyobj([ax1,leg1],f1);
             ax1_copy = copies(1);
             subplot(2,2,1,ax1_copy)

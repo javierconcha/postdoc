@@ -31,7 +31,11 @@ switch which_time_range
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
             
-            Rrs_sat_min = min(Matchup_sat_used)*0.95;
+            if min(Matchup_sat_used) <0
+                  Rrs_sat_min = min(Matchup_sat_used)*1.1;
+            else
+                  Rrs_sat_min = 0;
+            end
             Rrs_sat_max = max(Matchup_sat_used)*1.05;
             Rrs_ins_min = min(Matchup_ins_used)*0.95;
             Rrs_ins_max = max(Matchup_ins_used)*1.05;
@@ -47,7 +51,7 @@ switch which_time_range
             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
             grid on
-            leg = legend(['3 h; Total: ' num2str(sum(cond0)) ]);
+            leg = legend(['3 h; Total: ' num2str(sum(cond0)) ],'Location','SouthEast');
             ax = gca;
             ax.XTick =ax.YTick;      
       
