@@ -830,41 +830,5 @@ end
 fprintf(FID,'\n \\end{tabular} \n');
 fclose(FID);
 save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal','MatchupRealFilt')
-%%
 
-cond6 = strcmp({MatchupRealFilt.scene_ACpar}','_L2n2.nc');
-Rrs_443_sat = [MatchupRealFilt(cond6).Rrs_443_filt_mean];
-Rrs_443_ins = [MatchupRealFilt(cond6).Rrs_443_insitu];
 
-cond0 =  ~isnan(Rrs_443_sat)&~isnan(Rrs_443_ins)&...
-      isfinite(Rrs_443_sat)&isfinite(Rrs_443_ins); % valid values
-
-wl_sat = '443';
-wl_ins = '443';
-
-fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs);
-plot(Rrs_443_ins,Rrs_443_sat,'o')
-ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
-xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
-axis equal
-
-Rrs_sat_min = min(Rrs_443_sat)*0.95;
-Rrs_sat_max = max(Rrs_443_sat)*1.05;
-Rrs_ins_min = min(Rrs_443_ins)*0.95;
-Rrs_ins_max = max(Rrs_443_ins)*1.05;
-
-Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
-Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
-
-xlim([Rrs_min Rrs_max])
-ylim([Rrs_min Rrs_max])
-
-hold on
-plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
-% plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
-% plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
-grid on
-leg = legend(['1 d; N: ' num2str(sum(cond0)) ]);
-ax = gca;
-ax.XTick =ax.YTick;
