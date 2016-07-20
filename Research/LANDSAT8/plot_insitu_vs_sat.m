@@ -12,117 +12,13 @@ cond0 =  ~isnan(Matchup_sat)&~isnan(Matchup_ins)&...
 % cond1 = abs(t_diff) <= years(1); % days(1) !!! Switched to comply with modification
 % cond2 = abs(t_diff) <= years(1); % hours(3) !!! Switched to comply with modification
 
-cond3 = cond0 & cond0; % valid and less than 1 day !!! Switched to comply with modification
-cond4 = cond0 & cond0; % valid and less than 3 hours !!! Switched to comply with modification
+% cond3 = cond0 & cond0; % valid and less than 1 day !!! Switched to comply with modification
+% cond4 = cond0 & cond0; % valid and less than 3 hours !!! Switched to comply with modification
 % cond5 = Matchup_sat>0;
 
 
 
 switch which_time_range
-      case 'all'
-            %%
-            Matchup_ins_used = nan; % for regression
-            Matchup_sat_used = nan; % for regression
-            
-            fs = 16;
-            h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins(cond0),Matchup_sat(cond0),'ok')
-            hold on
-            plot(Matchup_ins(cond3),Matchup_sat(cond3),'sr')
-            plot(Matchup_ins(cond4),Matchup_sat(cond4),'*b')
-            ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
-            xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
-            axis equal
-            
-            eval(['Rrs_sat_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*0.95;'])
-            eval(['Rrs_sat_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*1.05;'])
-            eval(['Rrs_ins_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*0.95;'])
-            eval(['Rrs_ins_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*1.05;'])
-            
-            Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
-            Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
-            
-            xlim([Rrs_min Rrs_max])
-            ylim([Rrs_min Rrs_max])
-            
-            hold on
-            plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
-            % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
-            % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
-            grid on
-            leg = legend(['3 d; N: ' num2str(sum(cond0)) ],['1 d; N: ' num2str(sum(cond3)) ],['3 h; N: ' num2str(sum(cond4)) ]);
-            ax = gca;
-            ax.XTick =ax.YTick;
-            
-      case '3 days'
-            %%
-            Matchup_ins_used = Matchup_ins(cond0); % for regression
-            Matchup_sat_used = Matchup_sat(cond0); % for regression
-            
-            fs = 16;
-            h = figure('Color','white','DefaultAxesFontSize',fs);
-            hp1 = plot(Matchup_ins_used,Matchup_sat_used,'ok');
-            
-            set(hp1,'XDataSource','Matchup_ins_used') 
-            set(hp1,'YDataSource','Matchup_sat_used') 
-            
-            ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
-            xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
-            axis equal
-            
-            Rrs_sat_min = min(Matchup_sat_used);
-            Rrs_sat_max = max(Matchup_sat_used);
-            Rrs_ins_min = min(Matchup_ins_used);
-            Rrs_ins_max = max(Matchup_ins_used);
-            
-            Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
-            Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
-            
-            xlim([Rrs_min Rrs_max])
-            ylim([Rrs_min Rrs_max])
-            
-            hold on
-            plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
-            % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
-            % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
-            grid on
-            leg = legend(['3 d; N: ' num2str(sum(cond0))]);
-            ax = gca;
-            ax.XTick =ax.YTick;
-            
-            
-      case '1 day'
-            %%
-            Matchup_ins_used = Matchup_ins; % for regression
-            Matchup_sat_used = Matchup_sat; % for regression
-            
-            fs = 16;
-            h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins(cond3),Matchup_sat(cond3),'sr')
-            ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
-            xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
-            axis equal
-            
-            Rrs_sat_min = min(Matchup_sat_used)*0.95;
-            Rrs_sat_max = max(Matchup_sat_used)*1.05;
-            Rrs_ins_min = min(Matchup_ins_used)*0.95;
-            Rrs_ins_max = max(Matchup_ins_used)*1.05;
-            
-            Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
-            Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
-            
-            xlim([Rrs_min Rrs_max])
-            ylim([Rrs_min Rrs_max])
-            
-            hold on
-            plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
-            % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
-            % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
-            grid on
-            leg = legend(['1 d; N: ' num2str(sum(cond3)) ]);
-            ax = gca;
-            ax.XTick =ax.YTick;
-            
       case '3 hours'
             %%
             Matchup_ins_used = Matchup_ins(cond0);
@@ -130,7 +26,7 @@ switch which_time_range
             
             fs = 16;
             h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins_used,Matchup_sat_used,'*b')
+            plot(Matchup_ins_used,Matchup_sat_used,'ob')
             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
             axis equal
@@ -151,24 +47,131 @@ switch which_time_range
             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
             grid on
-            leg = legend(['3 h; N: ' num2str(sum(cond0)) ]);
+            leg = legend(['3 h; Total: ' num2str(sum(cond0)) ]);
             ax = gca;
-            ax.XTick =ax.YTick;
+            ax.XTick =ax.YTick;      
+      
+      
+      
+%       case 'all'
+%             %%
+%             Matchup_ins_used = nan; % for regression
+%             Matchup_sat_used = nan; % for regression
+%             
+%             fs = 16;
+%             h = figure('Color','white','DefaultAxesFontSize',fs);
+%             plot(Matchup_ins(cond0),Matchup_sat(cond0),'ok')
+%             hold on
+%             plot(Matchup_ins(cond3),Matchup_sat(cond3),'sr')
+%             plot(Matchup_ins(cond4),Matchup_sat(cond4),'*b')
+%             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
+%             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
+%             axis equal
+%             
+%             eval(['Rrs_sat_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*0.95;'])
+%             eval(['Rrs_sat_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_sat '_filt_mean}))*1.05;'])
+%             eval(['Rrs_ins_min = nanmin(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*0.95;'])
+%             eval(['Rrs_ins_max = nanmax(cell2mat({MatchupReal.Rrs_' wl_ins '_insitu}))*1.05;'])
+%             
+%             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
+%             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
+%             
+%             xlim([Rrs_min Rrs_max])
+%             ylim([Rrs_min Rrs_max])
+%             
+%             hold on
+%             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
+%             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
+%             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
+%             grid on
+%             leg = legend(['3 d; N: ' num2str(sum(cond0)) ],['1 d; N: ' num2str(sum(cond3)) ],['3 h; N: ' num2str(sum(cond4)) ]);
+%             ax = gca;
+%             ax.XTick =ax.YTick;
+%             
+%       case '3 days'
+%             %%
+%             Matchup_ins_used = Matchup_ins(cond0); % for regression
+%             Matchup_sat_used = Matchup_sat(cond0); % for regression
+%             
+%             fs = 16;
+%             h = figure('Color','white','DefaultAxesFontSize',fs);
+%             hp1 = plot(Matchup_ins_used,Matchup_sat_used,'ok');
+%             
+%             set(hp1,'XDataSource','Matchup_ins_used') 
+%             set(hp1,'YDataSource','Matchup_sat_used') 
+%             
+%             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
+%             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
+%             axis equal
+%             
+%             Rrs_sat_min = min(Matchup_sat_used);
+%             Rrs_sat_max = max(Matchup_sat_used);
+%             Rrs_ins_min = min(Matchup_ins_used);
+%             Rrs_ins_max = max(Matchup_ins_used);
+%             
+%             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
+%             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
+%             
+%             xlim([Rrs_min Rrs_max])
+%             ylim([Rrs_min Rrs_max])
+%             
+%             hold on
+%             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
+%             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
+%             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
+%             grid on
+%             leg = legend(['3 d; N: ' num2str(sum(cond0))]);
+%             ax = gca;
+%             ax.XTick =ax.YTick;
+%             
+%             
+%       case '1 day'
+%             %%
+%             Matchup_ins_used = Matchup_ins; % for regression
+%             Matchup_sat_used = Matchup_sat; % for regression
+%             
+%             fs = 16;
+%             h = figure('Color','white','DefaultAxesFontSize',fs);
+%             plot(Matchup_ins(cond3),Matchup_sat(cond3),'sr')
+%             ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
+%             xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
+%             axis equal
+%             
+%             Rrs_sat_min = min(Matchup_sat_used)*0.95;
+%             Rrs_sat_max = max(Matchup_sat_used)*1.05;
+%             Rrs_ins_min = min(Matchup_ins_used)*0.95;
+%             Rrs_ins_max = max(Matchup_ins_used)*1.05;
+%             
+%             Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
+%             Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
+%             
+%             xlim([Rrs_min Rrs_max])
+%             ylim([Rrs_min Rrs_max])
+%             
+%             hold on
+%             plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
+%             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
+%             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
+%             grid on
+%             leg = legend(['1 d; N: ' num2str(sum(cond3)) ]);
+%             ax = gca;
+%             ax.XTick =ax.YTick;
+            
 end
 
 if sum(isfinite(Matchup_ins_used))
       %% Statistics
-      C_insitu = Matchup_ins_used;
+      C_insitu_temp = Matchup_ins_used;
       
-      C_alg = Matchup_sat_used;
+      C_alg_temp = Matchup_sat_used;
       
-      C_insitu = C_insitu(C_alg>0);
-      C_alg = C_alg(C_alg>0);
+      C_insitu = C_insitu_temp(C_alg_temp>0);
+      C_alg = C_alg_temp(C_alg_temp>0);
       
       if size(C_insitu,2) == size(C_alg,2)
             N = size(C_insitu,2);
       else
-            error('Number of in situ and satellite point are different!')
+            error('Number of in situ and satellite points are different!')
       end
       
       PD = abs(C_alg-C_insitu)./C_insitu; % percent difference

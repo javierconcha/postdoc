@@ -7,41 +7,41 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % clear InSitu
 % dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
 % % dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
-% 
+%
 % count = 0;
-% 
+%
 % % filename = 'val1464210174176624_Rrs_original.csv';
 % filename = 'aeronet_oc_env_data.txt';
-% 
+%
 % filepath = [dirname filename];
-% 
+%
 % [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true,...
 %       'NewTextFields',{'cruise_name','data_id','date','time',});
 % % [data, sbHeader, headerArray] = readsb(filepath,'MakeStructure',true,'NewTextFields',{'date_time','cruise_name','file_name'});
-% 
+%
 % % Preallocation
 % InSitu(size(data.date,1)).station = '';
-% 
+%
 % h1 = waitbar(0,'Initializing ...');
 % for idx=1:size(data.date,1)
 %       waitbar(idx/size(data.date,1),h1,'Creating In Situ cells...')
 %       %% Rrs
-%       
+%
 %       %       Rrs = [data.insitu_rrs412(idx),data.insitu_rrs443(idx),data.insitu_rrs488(idx),...
 %       %             data.insitu_rrs531(idx),data.insitu_rrs547(idx),data.insitu_rrs667(idx),data.insitu_rrs678(idx)];
 %       %       wavelength = [412,443,488,531,547,667,678];
-%       
+%
 %       Rrs = [data.rrs410(idx),data.rrs412(idx),data.rrs413(idx),data.rrs443(idx),data.rrs486(idx),data.rrs488(idx),data.rrs490(idx),data.rrs531(idx),data.rrs547(idx),data.rrs551(idx),data.rrs555(idx),data.rrs665(idx),data.rrs667(idx),data.rrs670(idx),data.rrs671(idx),data.rrs678(idx),data.rrs681(idx)];
 %       wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
-%       
+%
 %       count = count+1;
-%       
+%
 %       time_acquired = datestr(data.time(idx),'HH:MM:ss');
 %       t_date = datetime(data.date(idx),'Format','yyyy-MM-dd');
 %       t = char(t_date);
 %       t = [t(:,1:10) ' ' time_acquired];
 %       t = datetime(t,'ConvertFrom','yyyymmdd');
-%       
+%
 %       InSitu(count).station = data.cruise_name(idx);
 %       InSitu(count).data_id = data.data_id(idx);
 %       %       InSitu(count).start_date = t_date;
@@ -54,15 +54,15 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %       InSitu(count).lat = data.latitude(idx);
 %       InSitu(count).lon = data.longitude(idx);
 %       InSitu(count).t = t;
-%       
+%
 %       %       fprintf('%i %s\n',idx,char(data.date_time(idx)))
 % end
 % close(h1)
-% 
+%
 % %% figure for plottig the data
 % Rrs = cell2mat({InSitu.Rrs});
 % wavelength = cell2mat({InSitu.wavelength});
-% 
+%
 % figure('Color','white')
 % ylabel('Rrs (1/sr)')
 % xlabel('wavelength (nm)')
@@ -79,8 +79,8 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 % geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 % plotm(cell2mat({InSitu.lat}'),cell2mat({InSitu.lon}'),'*r')
-% 
-% 
+%
+%
 % %% Find path and row for in situ data and select the image
 % % Create structure DB (database) with the potential scene path and row based on the lat and lon of the
 % % in situ data obtained from OpenSeaBASSfile_Main.m. Note: some paths and
@@ -91,7 +91,7 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % clc
 % load('WRS2_pathrow_struct.mat');
 % h1 = waitbar(0,'Initializing ...');
-% 
+%
 % tic
 % firsttime = true;
 % days_offset = 3;
@@ -107,13 +107,13 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %                   WRS_struct(u).LAT_UR WRS_struct(u).LAT_UL WRS_struct(u).LAT_LL];
 %             x =InSitu(d).lon; y = InSitu(d).lat;
 %             cond_in(u) = inpolygon(x,y,xv,yv);
-%             
+%
 %       end
 %       cond_in = logical(cond_in);
 %       aux_pr = [WRS_struct(cond_in).PATH;WRS_struct(cond_in).ROW];
-%       
+%
 %       %% Only save when it is not in the database (DB)
-%       
+%
 %       for i=1:sum(cond_in) % index for aux_pr: potential combinations of pairs of paths and rows
 %             % Initialize DB (database)
 %             %             i
@@ -138,7 +138,7 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %                                     DB(j).DAY  == InSitu(d).t.Day &&...
 %                                     datenum(datetime([DB(db_idx).YEAR DB(db_idx).MONTH DB(db_idx).DAY]))+datenum(days_offset)...
 %                                     >datenum(datetime([InSitu(d).t.Year InSitu(d).t.Month InSitu(d).t.Day]))
-%                               
+%
 %                               %                               disp('Duplicate found...')
 %                               DB(j).insituidx(size(DB(j).insituidx,2)+1) = d;
 %                               break
@@ -151,7 +151,7 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %                               DB(db_idx).DAY  = InSitu(d).t.Day;
 %                               DB(db_idx).insituidx  = d;
 %                         end
-%                         
+%
 %                   end
 %             end
 %             if firsttime
@@ -164,12 +164,13 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % T=toc;
 % disp(['Seconds: ' num2str(T/60) ' minutes.'])
 % clear T
-% 
+%
 % % [C,IA,IC] = unique([DB(:).PATH;DB(:).ROW]','rows');
 % % unique([DB(:).PATH;DB(:).ROW;DB(:).YEAR;DB(:).MONTH;DB(:).DAY]','rows')
 % %
 % %% To search for the available Landsat 8 scene and make sure the path and
-% % row is acquired by the sensor. Note: this process takes a long time
+% % row is acquired by the sensor. For each in situ point, there is one element in Matchup.
+% % Therefore, there could be multiple elements for one single scene. Note: this process takes a long time
 % clear Matchup
 % tic
 % h2 = waitbar(0,'Initializing ...');
@@ -185,13 +186,13 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %                   'nomap',days_offset);
 %             if ~isempty(ImageDate)
 %                   if ImageDate >= datenum(datetime([DB(n).YEAR DB(n).MONTH DB(n).DAY]))-datenum(days_offset)
-%                         
+%
 %                         for idx1 = 1:length(DB(n).insituidx(:))
 %                               disp('--------------------------------------------')
 %                               disp(['In situ taken: ',datestr(InSitu(DB(n).insituidx(idx1)).t)])
-%                               
+%
 %                               disp(['Image taken:   ',datestr(ImageDate)])
-%                               
+%
 %                               fprintf('path:%i , row:%i, d:%i\n',DB(n).PATH,DB(n).ROW,DB(n).insituidx(idx1))
 %                               fprintf('ID: %s\n',scene_id)
 %                               % Save it in a structure
@@ -209,44 +210,45 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 % disp(['Seconds: ' num2str(T/60) ' minutes.'])
 % clear T
 % save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB')
-% 
+%
 % %% Create idlatlon_list.txt to process images only around the ROI
 % A = {Matchup.id_scene}';
 % B = {InSitu(cell2mat({Matchup.number_d})).lat}';
 % C = {InSitu(cell2mat({Matchup.number_d})).lon}';
 % D = [A B C];
-% 
+%
 % fileID = fopen('idlatlon_list.txt','w');
-% 
+%
 % formatSpec = '%s %4.6f %4.6f\n';
-% 
+%
 % [nrows,ncols] = size(D);
 % for row = 1:nrows
 %       fprintf(fileID,formatSpec,D{row,:});
 % end
-% 
+%
 % fclose(fileID);
-% 
+%
 % type idlatlon_list.txt
-% 
+%
 % clear A B C D
-% 
+%
 % %% Look in the Matchup structure the best images previously selected by visual inspection
-% % using landsat.m and plot the jpg image and the in situ data location
-% 
+% % using landsat.m and plot the jpg image and the in situ data location.
+% % It extracts info from MTL files and fills Matchup.
+%
 % % dirname = '/Volumes/Data/OLI/L8_Rrs_Matchups_AERONET/';
 dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/L8_Rrs_Matchups_AERONET_L2/';
 
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
 fclose(fileID);
-% 
+%
 % h2 = waitbar(0,'Initializing ...');
-% 
+%
 % for n = 1:size(s{:},1)
 %       %%
 %       waitbar(n/size(s{:},1),h2,'Extracting MTL info...')
-%       
+%
 %       disp('----------------------------------')
 %       disp(s{1}{n})
 %       for i=1:size(Matchup,2)
@@ -257,16 +259,16 @@ fclose(fileID);
 %                   filepath00 = [dirname id(1:16) 'LGN00_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
 %                   filepath01 = [dirname id(1:16) 'LGN01_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
 %                   filepath02 = [dirname id(1:16) 'LGN02_MTL.txt']; % '_L2n1.nc' or '_L2n2.nc' or '_L2n2SWIR5x5.nc']
-%                   
+%
 %                   if exist(filepath00, 'file');
 %                         filepath = filepath00;
-%                         
+%
 %                   elseif exist(filepath01, 'file');
 %                         filepath = filepath01;
-%                         
+%
 %                   elseif exist(filepath02, 'file');
 %                         filepath = filepath02;
-%                         
+%
 %                   else % File does not exist.
 %                         warning('Warning: file does not exist:\n%s\n', filepath);
 %                         fid = fopen('file_not_found.txt','a');
@@ -274,7 +276,7 @@ fclose(fileID);
 %                         fclose(fid);
 %                         continue
 %                   end
-%                   
+%
 %                   parval_DATE = GetParMTL(filepath,'DATE_ACQUIRED');
 %                   parval_TIME = GetParMTL(filepath,'SCENE_CENTER_TIME');
 %                   if parval_TIME(1) == '"'
@@ -286,7 +288,7 @@ fclose(fileID);
 %                         tc = tc{:}{1};
 %                         tc = tc(1:8);
 %                   end
-%                   
+%
 %                   taux = datetime(parval_DATE,'ConvertFrom','yyyy-mm-dd');
 %                   taux = datetime([char(taux) ' ' tc],'ConvertFrom','yyyymmdd');
 %                   %% Assign scene time from MTL
@@ -295,7 +297,7 @@ fclose(fileID);
 %                   disp('Found it!')
 %                   disp(Matchup(i))
 %                   %                   break
-%                   
+%
 %                   path = str2double(s{1}{n}(4:6));
 %                   row  = str2double(s{1}{n}(7:9));
 %                   year = str2double(s{1}{n}(10:13));
@@ -304,39 +306,48 @@ fclose(fileID);
 %                   str= datestr(datenum([yy mm dd]),'yyyy-mm-dd');
 %                   t_acq = datetime(str,'InputFormat','yyyy-MM-dd');
 %                   %       str2 = datestr(t_acq);
-%                   
+%
 %                   %       h1 = figure(1000);
 %                   % lansat.m to check the USGS server for jpg images as proxy to scenes available
 %                   %       [~,~,~,h] = landsat(path,row,str);
-%                   
+%
 %                   %       figure(gcf)
 %                   %       set(gcf,'Color','white','Name',s{1}{n})
 %                   %       plotm([InSitu(Matchup(i).number_d).lat],[InSitu(Matchup(i).number_d).lon],'*-r')
-%                   
+%
 %                   t_diff = [InSitu(Matchup(i).number_d).t] - t_acq;
-%                   
+%
 %                   [Y,I] = min(abs(t_diff));
-%                   
+%
 %                   str2 = datestr(Matchup(i).scenetime);
 %                   str3 = sprintf('Taken: %s, Closest in Situ: %s, Diff: %s',str2,datestr(InSitu(Matchup(i).number_d(I)).t),char(t_diff(I)));
-%                   
+%
 %                   %       title(str3)
-%                   
+%
 %                   disp(['Acquired Date:' str2])
 %                   disp('In situ:')
 %                   InSitu(Matchup(i).number_d).t
 %                   [InSitu(Matchup(i).number_d).lat,InSitu(Matchup(i).number_d).lon]
-%                   
+%
 %                   %       close(h1)
 %             end
 %       end
 % end
-% 
+%
 % close(h2)
 % save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB')
 
-%% Find valid matchups
-clear MatchupReal MatchupRealFit
+%% Find valid matchups. 
+% It creates MatchupReal extracting the values from the L2 products.
+% For each in situ point, there is one element associated. % Therefore, 
+% for one image, there could be multiple elements in MatchupReal.
+% Some of the elements in Matchup could be invalid, so MatchupReal will
+% have less elements. However, it includes the different AC schemes, and
+% therefor, for each in situ point could/should be the number of AC schemes
+% elements in MatchupReal
+
+
+clear MatchupReal
 % L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
 L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
 
@@ -344,18 +355,16 @@ ws = 9; % window size:3, 5, or 7
 
 debug = 0;
 
-count = 0; % for MatchupReal
-count2 = 0; % for creating the MatchupRealFilt
-
 % Pre-allocation
 % global MatchupReal
 MatchupReal(size(Matchup,2)).Rrs_insitu = '';
+count = 0; % for MatchupReal
 
 for idx0 = 1:size(L2ext,2)
       
       h2 = waitbar(0,'Initializing ...');
       for idx = 1:size(Matchup,2)
-            waitbar(idx/size(Matchup,2),h2,'Looking for Real Matchups')
+            waitbar(idx/size(Matchup,2),h2,['Looking for Real Matchups for' char(L2ext(idx0))])
             if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id
                   %% Open ag_412 product and plot
                   id = Matchup(idx).id_scene;
@@ -600,8 +609,8 @@ for idx0 = 1:size(L2ext,2)
                               MatchupReal(count).Rrs_655_window = window;
                               MatchupReal(count).Rrs_655_CV = CV;
                               %%
-                        else
-                              Matchup(idx).Rrs_443(idx2) = NaN;
+                        else % to indicate invalid product
+                              Matchup(idx).Rrs_443(idx2) = NaN; 
                               Matchup(idx).Rrs_482(idx2) = NaN;
                               Matchup(idx).Rrs_561(idx2) = NaN;
                               Matchup(idx).Rrs_655(idx2) = NaN;
@@ -615,32 +624,43 @@ for idx0 = 1:size(L2ext,2)
       
       close(h2)
       
-      %       save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
-      %       %% Plot retrieved vs in situ for all and less than 3 hours or 1 day
-      %       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
-      %       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
-      %       cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
-      %       cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
-      %
-      %       fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
-      %       fprintf('Matchups less than 1 day: %i\n',sum(cond1))
-      %       fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
-      %
-      %       fs = 16;
-      %       figure('Color','white','DefaultAxesFontSize',fs)
-      %       plot(t_diff,'*-k')
-      %       hold on
-      %       plot(find(cond1),t_diff(cond1),'*r')
-      %       plot(find(cond2),t_diff(cond2),'*b')
-      %       grid on
-      %       legend('3 days','1 day','3 hours')
+end
+
+%       save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
+%% Plot retrieved vs in situ for all and less than 3 hours or 1 day
+%       % load('L8Matchups_Arctics.mat','Matchup','MatchupReal')
+%       t_diff = [MatchupReal(:).scenetime]-[MatchupReal(:).insitutime];
+%       cond1 = abs(t_diff) <= days(1); % days(1) or hours(3)
+%       cond2 = abs(t_diff) <= hours(3); % days(1) or hours(3)
+%
+%       fprintf('Matchups less than 3 days: %i\n',size(t_diff,2))
+%       fprintf('Matchups less than 1 day: %i\n',sum(cond1))
+%       fprintf('Matchups less than 3 hours: %i\n',sum(cond2))
+%
+%       fs = 16;
+%       figure('Color','white','DefaultAxesFontSize',fs)
+%       plot(t_diff,'*-k')
+%       hold on
+%       plot(find(cond1),t_diff(cond1),'*r')
+%       plot(find(cond2),t_diff(cond2),'*b')
+%       grid on
+%       legend('3 days','1 day','3 hours')
+
+%% filtered
+clear MatchupRealFilt
+count2 = 0; % for creating the MatchupRealFilt
+
+%       which_time_range = {'3 days','1 day','3 hours'};
+for idx0 = 1:size(L2ext,2)
       
-      %% filtered
-      %       which_time_range = {'3 days','1 day','3 hours'};
+      cond6 = strcmp({MatchupReal.scene_ACpar}',char(L2ext(idx0)));
+      
+      Matchup_used = MatchupReal(cond6);
+      
       which_time_range = {'3 hours'};
       for idx3 = 1:size(which_time_range,2)
             %% filtering to the closest
-            h3 = waitbar(0,'Initializing ...'); 
+            h3 = waitbar(0,'Initializing ...');
             
             clear tempMatchupReal tempMatchupReal2
             
@@ -652,68 +672,82 @@ for idx0 = 1:size(L2ext,2)
                   %%
                   waitbar(n/size(s{:},1),h3,'Filtering MatchupReal...')
                   
-                  ind0 = strcmp({MatchupReal.id_scene}',s{1}{n}); % all the in situ associated a particular scene
+                  ind0 = strcmp({Matchup_used.id_scene}',s{1}{n}); % all the in situ associated a particular scene
                   if sum(ind0)~=0
+                        
                         clear t_temp;
                         clear tempMatchupReal tempMatchupReal2
-                        count2 = count2+1;
-                        tempMatchupReal = MatchupReal(ind0);
+                        
+                        tempMatchupReal = Matchup_used(ind0);
                         for idx1 = 1:sum(ind0)
                               t_temp(idx1)=abs(tempMatchupReal(idx1).scenetime-tempMatchupReal(idx1).insitutime);
                         end
                         
-                        MatchupRealFilt(count2).scene_time = tempMatchupReal(1).scenetime;
-                        MatchupRealFilt(count2).scene_ACpar = char(L2ext(idx0));
-                        %% Rrs 443
-                        if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')))% &&...
+                        if (sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}'))) &&... % if there is valid value for at least one band
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')))) ||...
+                                    (sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) &&...
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}')))) ||...
+                                    (sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) &&...
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}')))) ||...
+                                    (sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) &&...
+                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))))
+                              
+                              count2 = count2+1;
+                              
+                              MatchupRealFilt(count2).scene_id = tempMatchupReal(1).id_scene;
+                              MatchupRealFilt(count2).scene_time = tempMatchupReal(1).scenetime;
+                              MatchupRealFilt(count2).scene_ACpar = char(L2ext(idx0));
+                              %% Rrs 443
+                              if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}'))) &&...
+                                          sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')))% &&...
                                     %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_443_filt_mean}')>0)
-                              
-                              tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
-                              [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count2).Rrs_443_filt_mean = tempMatchupReal2(I(1)).Rrs_443_filt_mean;
-                              MatchupRealFilt(count2).Rrs_443_insitu = tempMatchupReal2(I(1)).Rrs_443_insitu;
-                              MatchupRealFilt(count2).Rrs_443_insitu_time = tempMatchupReal2(I(1)).insitutime;
-                              MatchupRealFilt(count2).Rrs_443_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
-                        end
-                        %% Rrs 482
-                        if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) %&&...
+                                    
+                                    tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
+                                    [~,I] =sort(t_temp(t_temp <= t_lim));
+                                    MatchupRealFilt(count2).Rrs_443_filt_mean = tempMatchupReal2(I(1)).Rrs_443_filt_mean;
+                                    MatchupRealFilt(count2).Rrs_443_insitu = tempMatchupReal2(I(1)).Rrs_443_insitu;
+                                    MatchupRealFilt(count2).Rrs_443_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                                    MatchupRealFilt(count2).Rrs_443_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
+                              end
+                              %% Rrs 482
+                              if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) &&...
+                                          sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}'))) %&&...
                                     %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_482_filt_mean}')>0)
-                              
-                              tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
-                              [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count2).Rrs_482_filt_mean = tempMatchupReal2(I(1)).Rrs_482_filt_mean;
-                              MatchupRealFilt(count2).Rrs_486_insitu = tempMatchupReal2(I(1)).Rrs_486_insitu;
-                              MatchupRealFilt(count2).Rrs_486_insitu_time = tempMatchupReal2(I(1)).insitutime;
-                              MatchupRealFilt(count2).Rrs_486_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
-                              
-                        end
-                        %% Rrs 561
-                        if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) %&&...
+                                    
+                                    tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
+                                    [~,I] =sort(t_temp(t_temp <= t_lim));
+                                    MatchupRealFilt(count2).Rrs_482_filt_mean = tempMatchupReal2(I(1)).Rrs_482_filt_mean;
+                                    MatchupRealFilt(count2).Rrs_486_insitu = tempMatchupReal2(I(1)).Rrs_486_insitu;
+                                    MatchupRealFilt(count2).Rrs_486_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                                    MatchupRealFilt(count2).Rrs_486_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
+                                    
+                              end
+                              %% Rrs 561
+                              if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) &&...
+                                          sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}'))) %&&...
                                     %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_561_filt_mean}')>0)
-                              
-                              tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
-                              [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count2).Rrs_561_filt_mean = tempMatchupReal2(I(1)).Rrs_561_filt_mean;
-                              MatchupRealFilt(count2).Rrs_555_insitu = tempMatchupReal2(I(1)).Rrs_555_insitu;
-                              MatchupRealFilt(count2).Rrs_555_insitu_time = tempMatchupReal2(I(1)).insitutime;
-                              MatchupRealFilt(count2).Rrs_555_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
-                              
-                        end
-                        %% Rrs 655
-                        if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) &&...
-                                    sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) %&&...
+                                    
+                                    tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
+                                    [~,I] =sort(t_temp(t_temp <= t_lim));
+                                    MatchupRealFilt(count2).Rrs_561_filt_mean = tempMatchupReal2(I(1)).Rrs_561_filt_mean;
+                                    MatchupRealFilt(count2).Rrs_555_insitu = tempMatchupReal2(I(1)).Rrs_555_insitu;
+                                    MatchupRealFilt(count2).Rrs_555_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                                    MatchupRealFilt(count2).Rrs_555_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
+                                    
+                              end
+                              %% Rrs 655
+                              if sum(~isnan(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) &&...
+                                          sum(~isempty(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}'))) %&&...
                                     %sum(cell2mat({tempMatchupReal(t_temp <= t_lim).Rrs_655_filt_mean}')>0)
-                              
-                              tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
-                              [~,I] =sort(t_temp(t_temp <= t_lim));
-                              MatchupRealFilt(count2).Rrs_655_filt_mean = tempMatchupReal2(I(1)).Rrs_655_filt_mean;
-                              MatchupRealFilt(count2).Rrs_665_insitu = tempMatchupReal2(I(1)).Rrs_665_insitu;
-                              MatchupRealFilt(count2).Rrs_665_insitu_time = tempMatchupReal2(I(1)).insitutime;
-                              MatchupRealFilt(count2).Rrs_665_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
-                              
+                                    
+                                    tempMatchupReal2 = tempMatchupReal(t_temp <= t_lim);
+                                    [~,I] =sort(t_temp(t_temp <= t_lim));
+                                    MatchupRealFilt(count2).Rrs_655_filt_mean = tempMatchupReal2(I(1)).Rrs_655_filt_mean;
+                                    MatchupRealFilt(count2).Rrs_665_insitu = tempMatchupReal2(I(1)).Rrs_665_insitu;
+                                    MatchupRealFilt(count2).Rrs_665_insitu_time = tempMatchupReal2(I(1)).insitutime;
+                                    MatchupRealFilt(count2).Rrs_665_insitu_index = tempMatchupReal2(I(1)).insitu_idx;
+                                    
+                              end
                         end
                         
                   end
@@ -751,10 +785,12 @@ for idx0 = 1:size(L2ext,2)
             fs = 16;
             f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx3)) char(L2ext(idx0))]);
             
-            [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupRealFilt,char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h2,ax2,leg2] = plot_insitu_vs_sat('482','486',MatchupRealFilt,char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h3,ax3,leg3] = plot_insitu_vs_sat('561','555',MatchupRealFilt,char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
-            [h4,ax4,leg4] = plot_insitu_vs_sat('655','665',MatchupRealFilt,char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            cond7 =  strcmp({MatchupRealFilt.scene_ACpar}',char(L2ext(idx0)));
+            
+            [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h2,ax2,leg2] = plot_insitu_vs_sat('482','486',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h3,ax3,leg3] = plot_insitu_vs_sat('561','555',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            [h4,ax4,leg4] = plot_insitu_vs_sat('655','665',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
             
             % latex table
             fprintf(FID,'\\hline \n');
