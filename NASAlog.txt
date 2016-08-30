@@ -1793,4 +1793,313 @@ aoc_usc_l20
 aoc_venise_l20
 aoc_wavecis_l20
 aoc_zeebrugge_l20
+--------------------------------------------------
+2016-07-21 Thu
+from the CDOM plot for AERONET-OC:
+>> cursor_info1
+
+cursor_info1 = 
+
+       Target: [1x1 Line]
+     Position: [0.7787 0.2282]
+    DataIndex: 31
+
+>> cursor_info2
+
+cursor_info2 = 
+
+       Target: [1x1 Line]
+     Position: [0.7380 0.1831]
+    DataIndex: 23
+
+>> cursor_info3
+
+cursor_info3 = 
+
+       Target: [1x1 Line]
+     Position: [0.6328 0.0915]
+    DataIndex: 24
+
+>> cursor_info4
+
+cursor_info4 = 
+
+       Target: [1x1 Line]
+     Position: [0.4819 0.1539]
+    DataIndex: 22
+
+>> cursor_info5
+
+cursor_info5 = 
+
+       Target: [1x1 Line]
+     Position: [0.4911 0.2561]
+    DataIndex: 30
+
+
+>> InSitu(Matchup_l2prod(22).Rrs_443_insitu_index)
+
+ans = 
+
+       station: {'aoc_helsinki_l20_201305'}
+       data_id: {'304839'}
+    wavelength: [1x17 double]
+           Rrs: [1x17 double]
+           lat: 59.9490
+           lon: 24.9264
+             t: 28-May-2013 09:51:12
+
+>> InSitu(Matchup_l2prod(23).Rrs_443_insitu_index)
+
+ans = 
+
+       station: {'aoc_helsinki_l20_201308'}
+       data_id: {'305102'}
+    wavelength: [1x17 double]
+           Rrs: [1x17 double]
+           lat: 59.9490
+           lon: 24.9264
+             t: 16-Aug-2013 09:58:33
+
+>> InSitu(Matchup_l2prod(24).Rrs_443_insitu_index)
+
+ans = 
+
+       station: {'aoc_helsinki_l20_201409'}
+       data_id: {'326191'}
+    wavelength: [1x17 double]
+           Rrs: [1x17 double]
+           lat: 59.9490
+           lon: 24.9264
+             t: 02-Sep-2014 09:33:06
+
+>> InSitu(Matchup_l2prod(31).Rrs_443_insitu_index)
+
+ans = 
+
+       station: {'aoc_palgrunden_l20_201505'}
+       data_id: {'327287'}
+    wavelength: [1x17 double]
+           Rrs: [1x17 double]
+           lat: 58.7553
+           lon: 13.1515
+             t: 26-May-2015 09:38:29
+
+>> InSitu(Matchup_l2prod(32).Rrs_443_insitu_index)
+
+ans = 
+
+       station: {'aoc_palgrunden_l20_201508'}
+       data_id: {'327606'}
+    wavelength: [1x17 double]
+           Rrs: [1x17 double]
+           lat: 58.7553
+           lon: 13.1515
+             t: 21-Aug-2015 10:24:13
+
+>> Matchup_l2prod(22)
+
+ans = 
+
+                scene_id: 'LC81870182013148LGN00'
+              scene_time: 28-May-2013 09:25:32
+             scene_ACpar: '_L2n2.nc'
+       Rrs_443_filt_mean: 0.0026
+          Rrs_443_insitu: 6.4301e-04
+     Rrs_443_insitu_time: 28-May-2013 09:51:12
+    Rrs_443_insitu_index: 4768
+       Rrs_482_filt_mean: 0.0029
+          Rrs_486_insitu: 0.0010
+     Rrs_486_insitu_time: 28-May-2013 09:51:12
+    Rrs_486_insitu_index: 4768
+       Rrs_561_filt_mean: 0.0028
+          Rrs_555_insitu: 0.0019
+     Rrs_555_insitu_time: 28-May-2013 09:51:12
+    Rrs_555_insitu_index: 4768
+       Rrs_655_filt_mean: []
+          Rrs_665_insitu: []
+     Rrs_665_insitu_time: []
+    Rrs_665_insitu_index: []
+                 DOC_ins: 1.9217e+03
+                 DOC_sat: 1.1548e+03
+               ag412_ins: 0.4819
+               ag412_sat: 0.1539
+
+>> Matchup_l2prod(23)
+
+ans = 
+
+                scene_id: 'LC81870182013228LGN00'
+              scene_time: 16-Aug-2013 09:25:29
+             scene_ACpar: '_L2n2.nc'
+       Rrs_443_filt_mean: 0.0021
+          Rrs_443_insitu: 5.0777e-04
+     Rrs_443_insitu_time: 16-Aug-2013 09:58:33
+    Rrs_443_insitu_index: 5031
+       Rrs_482_filt_mean: 0.0026
+          Rrs_486_insitu: 0.0013
+     Rrs_486_insitu_time: 16-Aug-2013 09:58:33
+    Rrs_486_insitu_index: 5031
+       Rrs_561_filt_mean: 0.0026
+          Rrs_555_insitu: 0.0023
+     Rrs_555_insitu_time: 16-Aug-2013 09:58:33
+    Rrs_555_insitu_index: 5031
+       Rrs_655_filt_mean: 9.2929e-04
+          Rrs_665_insitu: 7.4822e-04
+     Rrs_665_insitu_time: 16-Aug-2013 09:58:33
+    Rrs_665_insitu_index: 5031
+                 DOC_ins: 2.6311e+03
+                 DOC_sat: 1.4636e+03
+               ag412_ins: 0.7380
+               ag412_sat: 0.1831
+
+>> Matchup_l2prod(24)
+
+ans = 
+
+                scene_id: 'LC81890182014245LGN00'
+              scene_time: 02-Sep-2014 09:35:57
+             scene_ACpar: '_L2n2.nc'
+       Rrs_443_filt_mean: 0.0041
+          Rrs_443_insitu: 5.1104e-04
+     Rrs_443_insitu_time: 02-Sep-2014 09:33:06
+    Rrs_443_insitu_index: 16057
+       Rrs_482_filt_mean: 0.0034
+          Rrs_486_insitu: 0.0012
+     Rrs_486_insitu_time: 02-Sep-2014 09:33:06
+    Rrs_486_insitu_index: 16057
+       Rrs_561_filt_mean: 0.0026
+          Rrs_555_insitu: 0.0020
+     Rrs_555_insitu_time: 02-Sep-2014 09:33:06
+    Rrs_555_insitu_index: 16057
+       Rrs_655_filt_mean: []
+          Rrs_665_insitu: []
+     Rrs_665_insitu_time: []
+    Rrs_665_insitu_index: []
+                 DOC_ins: 2.4182e+03
+                 DOC_sat: 1.1987e+03
+               ag412_ins: 0.6328
+               ag412_sat: 0.0915
+
+>> Matchup_l2prod(31)
+
+ans = 
+
+                scene_id: 'LC81950192015146LGN00'
+              scene_time: 26-May-2015 10:12:23
+             scene_ACpar: '_L2n2.nc'
+       Rrs_443_filt_mean: 0.0022
+          Rrs_443_insitu: 0.0012
+     Rrs_443_insitu_time: 26-May-2015 09:38:29
+    Rrs_443_insitu_index: 17153
+       Rrs_482_filt_mean: 0.0027
+          Rrs_486_insitu: 0.0023
+     Rrs_486_insitu_time: 26-May-2015 09:38:29
+    Rrs_486_insitu_index: 17153
+       Rrs_561_filt_mean: 0.0040
+          Rrs_555_insitu: 0.0040
+     Rrs_555_insitu_time: 26-May-2015 09:38:29
+    Rrs_555_insitu_index: 17153
+       Rrs_655_filt_mean: 0.0020
+          Rrs_665_insitu: 0.0018
+     Rrs_665_insitu_time: 26-May-2015 09:38:29
+    Rrs_665_insitu_index: 17153
+                 DOC_ins: 1.9223e+03
+                 DOC_sat: 1.3770e+03
+               ag412_ins: 0.4911
+               ag412_sat: 0.2561
+
+>> Matchup_l2prod(32)
+
+ans = 
+
+                scene_id: 'LC81960192015233LGN00'
+              scene_time: 21-Aug-2015 10:19:15
+             scene_ACpar: '_L2n2.nc'
+       Rrs_443_filt_mean: 0.0021
+          Rrs_443_insitu: 6.5858e-04
+     Rrs_443_insitu_time: 21-Aug-2015 10:24:13
+    Rrs_443_insitu_index: 17472
+       Rrs_482_filt_mean: 0.0021
+          Rrs_486_insitu: 0.0017
+     Rrs_486_insitu_time: 21-Aug-2015 10:24:13
+    Rrs_486_insitu_index: 17472
+       Rrs_561_filt_mean: 0.0033
+          Rrs_555_insitu: 0.0033
+     Rrs_555_insitu_time: 21-Aug-2015 10:24:13
+    Rrs_555_insitu_index: 17472
+       Rrs_655_filt_mean: 0.0017
+          Rrs_665_insitu: 0.0015
+     Rrs_665_insitu_time: 21-Aug-2015 10:24:13
+    Rrs_665_insitu_index: 17472
+                 DOC_ins: 2.7145e+03
+                 DOC_sat: 1.5738e+03
+               ag412_ins: 0.7787
+               ag412_sat: 0.2282
+
+
+
+--------------------------------------------------
+2016-07-28 Thu
+Gageocho_Station (33N,124E)	Ieodo_Station (32N,125E)	Socheongcho (37N,124E)
+
+jconchas@gs616-tidal-128154165007:L8_Rrs_Matchups_AERONET$ grep aoc_gageocho aeronet_oc_env_data.txt |wc -l
+      39
+jconchas@gs616-tidal-128154165007:L8_Rrs_Matchups_AERONET$ grep ieodo aeronet_oc_env_data.txt |wc -l
+      39
+jconchas@gs616-tidal-128154165007:L8_Rrs_Matchups_AERONET$ grep socheongcho aeronet_oc_env_data.txt |wc -l
+       0
+--------------------------------------------------
+2016-07-29 Fri
+to update a folder from the trunk
+jconchas@anly104:~/ocssw/run/bin$ pwd
+/home/jconchas/ocssw/run/bin
+jconchas@anly104:~/ocssw/run/bin$ svn co svn://svn101/OCSSW/trunk/run/bin/linux_64
+
+--------------------------------------------------
+2016-07-30 Sat
+image not available for AERONET for GOCI:
+./20131201/COMS_GOCI_L1B_GA_20131201021641.he5
+
+
+to use val_extract to calculate stats:
+$ lonlat2pixline -x 1000 -y 1000 COMS_GOCI_L1B_GA_20111017001642.he5 125.182447 32.122953
+
+$ l2gen ifile=COMS_GOCI_L1B_GA_20111017001642.he5 ofile=COMS_GOCI_L1B_GA_20111017001642.he5_
+L2n2.nc sline=2539 eline=4539 spixl=878 epixl=2878 aer_opt=-2
+
+$ val_extract ifile=COMS_GOCI_L1B_GA_20111017001642.he5_L2n2.nc ofile=COMS_GOCI_L1B_GA_20111
+017001642.he5_L2n2_val.o
+
+to kill and create a tmux again:
+jconchas@anly104:~$ tmux kill-session -t 0
+jconchas@anly104:~$ tmux new-session -s 0 -n var0 -d
+jconchas@anly104:~$ tmux a -t 0
+
+For AC and BRDF analysis:
+Center of ROI coordinates
+X: 4167.5
+Y: 4642.5
+
+LAT: 27.0
+LON: 137.0
+
+jconchas@anly104:~/data2/GOCI/20111017$ lonlat2pixline -x 999 -y 499 -v COMS_GOCI_L1B_GA_20111017001642.he5 137 27
+
+lonlat2pixl output:
+#Lon=136.998611
+#Lat=27.001310
+sline=4144
+eline=5142
+spixl=3169
+epixl=5167
+
+--------------------------------------------------
+2016-08-09 Tue
+for GOCI default atmospheric correction:
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_20160107021643$ ncdump -h COMS_GOCI_L1B_GA_20160107021643_L2.nc|grep aer_wave
+    		:aer_wave_short = "745" ;
+    		:aer_wave_long = "865" ;
+jconchas@gs616-tidal:COMS_GOCI_L1B_GA_20160107021643$ ncdump -h COMS_GOCI_L1B_GA_20160107021643_L2.nc|grep aer_opt
+    		:aer_opt = "-2" ;
 (END)
