@@ -2102,4 +2102,8 @@ jconchas@gs616-tidal:COMS_GOCI_L1B_GA_20160107021643$ ncdump -h COMS_GOCI_L1B_GA
     		:aer_wave_long = "865" ;
 jconchas@gs616-tidal:COMS_GOCI_L1B_GA_20160107021643$ ncdump -h COMS_GOCI_L1B_GA_20160107021643_L2.nc|grep aer_opt
     		:aer_opt = "-2" ;
+
+For unwanted symbols (ex: ?) at the end of a dir created with mkdir:
+sed -i -e 's/\r$//' /path/to/file
+
 (END)

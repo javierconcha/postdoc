@@ -24,11 +24,11 @@ switch which_time_range
             Matchup_ins_used = Matchup_ins(cond0);
             Matchup_sat_used = Matchup_sat(cond0);
             
-            fs = 16;
+            fs = 20;
             h = figure('Color','white','DefaultAxesFontSize',fs);
-            plot(Matchup_ins_used,Matchup_sat_used,'ob')
-            ylabel(['Satellite Rrs\_' wl_sat '(sr^{-1})'],'FontSize',fs)
-            xlabel(['in situ Rrs\_' wl_ins '(sr^{-1})'],'FontSize',fs)
+            plot(Matchup_ins_used,Matchup_sat_used,'ob','MarkerSize',12)
+            ylabel(['Satellite Rrs\_' wl_sat ' (sr^{-1})'],'FontSize',fs)
+            xlabel(['In situ Rrs\_' wl_ins ' (sr^{-1})'],'FontSize',fs)
             axis equal
             
             if min(Matchup_sat_used) <0
@@ -47,7 +47,7 @@ switch which_time_range
             ylim([Rrs_min Rrs_max])
             
             hold on
-            plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k')
+            plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k','LineWidth',1.5)
             % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
             % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
             grid on
@@ -224,7 +224,7 @@ if sum(isfinite(Matchup_ins_used))
       y1=a(1).*x1+a(2);
       
       figure(h)
-      plot(x1,y1,'r-','LineWidth',1.2)
+      plot(x1,y1,'r-','LineWidth',1.5)
       
       
       SStot = sum((C_alg-nanmean(C_alg)).^2);
@@ -251,7 +251,7 @@ if sum(isfinite(Matchup_ins_used))
       yLoc = yLimits(1)+0.85*(yLimits(2)-yLimits(1));
       figure(h)
       hold on
-      text(xLoc,yLoc,str1,'FontSize',fs,'FontWeight','normal');
+      text(xLoc,yLoc,str1,'FontSize',fs-1,'FontWeight','normal');
       
       
       % display

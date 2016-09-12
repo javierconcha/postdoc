@@ -783,13 +783,18 @@ for idx0 = 1:size(L2ext,2)
             end
             %% Plot
             fs = 16;
+            imext = '.png';
+            
             f1 = figure('Color','white','DefaultAxesFontSize',fs,'Name',[char(which_time_range(idx3)) char(L2ext(idx0))]);
             
             cond7 =  strcmp({MatchupRealFilt.scene_ACpar}',char(L2ext(idx0)));
             
             [h1,ax1,leg1] = plot_insitu_vs_sat('443','443',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            
             [h2,ax2,leg2] = plot_insitu_vs_sat('482','486',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            
             [h3,ax3,leg3] = plot_insitu_vs_sat('561','555',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
+            
             [h4,ax4,leg4] = plot_insitu_vs_sat('655','665',MatchupRealFilt(cond7),char(which_time_range(idx3)),char(L2ext(idx0)),FID); % plot_insitu_vs_sat(wl_sat,wl_ins,MatchupReal)
             
             % latex table
@@ -815,13 +820,29 @@ for idx0 = 1:size(L2ext,2)
             subplot(2,2,4,ax4_copy)
             
             figure(h1)
-            close
+            legend off
+            saveas(h1,['./Figures/' char(which_time_range(idx3)) char(L2ext(idx0)) '443' imext])
+            
             figure(h2)
-            close
+            legend off
+            saveas(h2,['./Figures/' char(which_time_range(idx3)) char(L2ext(idx0)) '482' imext])
+            
             figure(h3)
-            close
+            legend off
+            saveas(h3,['./Figures/' char(which_time_range(idx3)) char(L2ext(idx0)) '561' imext])
+            
             figure(h4)
-            close
+            legend off
+            saveas(h4,['./Figures/' char(which_time_range(idx3)) char(L2ext(idx0)) '655' imext])
+            
+%             figure(h1)
+%             close
+%             figure(h2)
+%             close
+%             figure(h3)
+%             close
+%             figure(h4)
+%             close
             
       end
 end
