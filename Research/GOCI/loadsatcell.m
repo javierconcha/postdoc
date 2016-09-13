@@ -27,7 +27,10 @@ satcell.unflagged_pixel_count =  str2double(s{1}{idx1+1});
 idx1 = find(strncmp(s{1},'flagged',7));
 satcell.flagged_pixel_count =  str2double(s{1}{idx1+1});
 
+%% Solar Azimuthal and Zenith angle
+ [Az,El] = SolarAzEl('1991/05/19 13:00:00',50,10,0)
 
+%% Product
 % Rrs_412
 filepathaux = [filepath '.Rrs_412'];
 

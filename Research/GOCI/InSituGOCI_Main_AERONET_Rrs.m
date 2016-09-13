@@ -1,8 +1,11 @@
 % Script to find Landsat 8 matchups for Rrs based on in situ data from
+cd '/Users/jconchas/Documents/Research/GOCI/';
+
 % AERONET-OC from SeaDAS Matchups
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
-cd '/Users/jconchas/Documents/Research/GOCI';
+addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
+
 %% Load in situ data: Extract AERONET Rrs data from SeaBASS file
 clear InSitu
 dirname = '/Users/jconchas/Documents/Research/LANDSAT8/Images/L8_Rrs_Matchups_AERONET/';
@@ -50,14 +53,16 @@ for idx=1:size(data.date,1)
       end
 end
 close(h1)
+
+save('GOCI_AERONET_Rrs.mat','InSitu')
 %%
 unique([InSitu(:).scene_date]','rows') % to have only one date per day
 % this list is used to search for the GOCI scene in the in house server
 % from the list goci_l1.txt provided by John Wildings
-%%
-[InSitu(:).scene_date]' 
-[InSitu(:).lat]'
-[InSitu(:).lon]'
+%% to process images in anly104
+% [InSitu(:).scene_date]' 
+% [InSitu(:).lat]'
+% [InSitu(:).lon]'
 %% figure for plottig the data
 Rrs = cell2mat({InSitu.Rrs});
 wavelength = cell2mat({InSitu.wavelength});
@@ -103,3 +108,4 @@ cond1 = [SatData.Rrs_412_valid_pixel_count]>=9/2+1; % enough valid pixels for a 
 figure,hist([SatData(cond1).Rrs_490_filtered_mean],20)
 
 figure,hist([SatData(cond1).angstrom_filtered_mean],20)
+
