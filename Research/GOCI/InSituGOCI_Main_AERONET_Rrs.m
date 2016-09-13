@@ -79,4 +79,27 @@ geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 geoshow(ax,'worldrivers.shp', 'Color', 'blue')
 plotm(cell2mat({InSitu.lat}'),cell2mat({InSitu.lon}'),'*r')
 
-%% 
+%% Load sat data
+clear SatData
+fileID = fopen('./GOCI_AERONET/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+% InSitu(size(data.date,1)).station = '';
+% SatData(size(s{1},1)).time = '';
+
+for idx0=1:size(s{1},1)
+      
+      filepath = ['./GOCI_AERONET/' s{1}{idx0}];
+      SatData(idx0) = loadsatcell(filepath);
+      
+end
+
+%%
+
+cond1 = [SatData.Rrs_412_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?
+
+%% Histograms
+figure,hist([SatData(cond1).Rrs_490_filtered_mean],20)
+
+figure,hist([SatData(cond1).angstrom_filtered_mean],20)
