@@ -5,9 +5,12 @@ fileID = fopen(filepath);
 s = textscan(fileID,'%s','Delimiter','=');
 fclose(fileID);
 
-% time
+% time and Solar Azimuthal and Zenith angle
 idx1 = find(strncmp(s{1},'time',4));
 parval = s{1}{idx1+1};
+timechar = parval;
+
+
 taux = datetime(parval,'InputFormat','yyyy-MM-dd HH:mm:ss.SSS');
 satcell.datetime = taux;
 
@@ -28,8 +31,9 @@ idx1 = find(strncmp(s{1},'flagged',7));
 satcell.flagged_pixel_count =  str2double(s{1}{idx1+1});
 
 %% Solar Azimuthal and Zenith angle
- [Az,El] = SolarAzEl('1991/05/19 13:00:00',50,10,0)
-
+[Az,El] = SolarAzEl(timechar,satcell.center_lat,satcell.center_lon,0);
+satcell.center_az = Az;
+satcell.center_el = El;
 %% Product
 % Rrs_412
 filepathaux = [filepath '.Rrs_412'];

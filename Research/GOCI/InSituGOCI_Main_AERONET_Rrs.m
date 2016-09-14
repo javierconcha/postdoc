@@ -29,7 +29,7 @@ for idx=1:size(data.date,1)
             
             Rrs = [data.rrs410(idx),data.rrs412(idx),data.rrs413(idx),data.rrs443(idx),data.rrs486(idx),data.rrs488(idx),data.rrs490(idx),data.rrs531(idx),data.rrs547(idx),data.rrs551(idx),data.rrs555(idx),data.rrs665(idx),data.rrs667(idx),data.rrs670(idx),data.rrs671(idx),data.rrs678(idx),data.rrs681(idx)];
             wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
-            
+                  
             count = count+1;
             
             time_acquired = datestr(data.time(idx),'HH:MM:ss');
@@ -100,12 +100,125 @@ for idx0=1:size(s{1},1)
       
 end
 
+%% InSitu vs Sat
+% InSituBands =[412,443,490,555,665,681];
+% GOCIbands =  [412,443,490,555,660,680,745,865];
+%               2   4   7   11  12  17  N/A N/A
+%               1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17 
+% wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
+          
+clear Matchup
+
+for idx1=1:size(InSitu,2)
+      
+      Matchup(idx1).datetime_ins = InSitu(idx1).t;
+      Matchup(idx1).station_ins = InSitu(idx1).station;
+      
+      % Rrs_412
+      
+      Matchup(idx1).Rrs_412_ins = InSitu(idx1).Rrs(2 );
+      cond1 = [SatData.Rrs_412_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_412_sat = SatData(IdxOrig(idx_aux)).Rrs_412_filtered_mean;
+      else
+            Matchup(idx1).Rrs_412_sat = NaN;
+      end   
+      Matchup(idx1).Rrs_412_sat_datetime = SatData(IdxOrig(idx_aux)).datetime;        
+      Matchup(idx1).Rrs_412_t_diff = t_diff;
+
+      % Rrs_443
+      
+      Matchup(idx1).Rrs_443_ins = InSitu(idx1).Rrs(4 );
+      cond1 = [SatData.Rrs_443_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_443_sat = SatData(IdxOrig(idx_aux)).Rrs_443_filtered_mean;
+      else
+            Matchup(idx1).Rrs_443_sat = NaN;
+      end   
+      Matchup(idx1).Rrs_443_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
+      Matchup(idx1).Rrs_443_t_diff = t_diff;
+
+       % Rrs_490
+
+      Matchup(idx1).Rrs_490_ins = InSitu(idx1).Rrs(7 );
+      cond1 = [SatData.Rrs_490_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_490_sat = SatData(IdxOrig(idx_aux)).Rrs_490_filtered_mean;
+      else
+            Matchup(idx1).Rrs_490_sat = NaN;
+      end   
+      Matchup(idx1).Rrs_490_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
+      Matchup(idx1).Rrs_490_t_diff = t_diff;
+
+      % Rrs_555
+      
+      Matchup(idx1).Rrs_555_ins = InSitu(idx1).Rrs(11);
+      cond1 = [SatData.Rrs_555_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_555_sat = SatData(IdxOrig(idx_aux)).Rrs_555_filtered_mean;
+      else
+            Matchup(idx1).Rrs_555_sat = NaN;
+      end   
+      Matchup(idx1).Rrs_555_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
+      Matchup(idx1).Rrs_555_t_diff = t_diff;
+
+      % Rrs_660
+      
+      Matchup(idx1).Rrs_665_ins = InSitu(idx1).Rrs(12);
+      cond1 = [SatData.Rrs_660_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_660_sat = SatData(IdxOrig(idx_aux)).Rrs_660_filtered_mean;
+      else
+            Matchup(idx1).Rrs_660_sat = NaN;
+      end   
+      Matchup(idx1).Rrs_660_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
+      Matchup(idx1).Rrs_660_t_diff = t_diff;
+
+      % Rrs_680
+      
+      Matchup(idx1).Rrs_681_ins = InSitu(idx1).Rrs(17);
+      cond1 = [SatData.Rrs_680_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond1); % to convert to the original matrix
+      
+      if t_diff<=hours(3)
+            Matchup(idx1).Rrs_680_sat = SatData(IdxOrig(idx_aux)).Rrs_680_filtered_mean;
+      else
+            Matchup(idx1).Rrs_680_sat = NaN;
+      end         
+      Matchup(idx1).Rrs_680_sat_datetime = SatData(IdxOrig(idx_aux)).datetime;        
+      Matchup(idx1).Rrs_680_t_diff = t_diff;
+
+end
 %%
 
-cond1 = [SatData.Rrs_412_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat]);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat]);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat]);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat]);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat]);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('681','680',[Matchup.Rrs_681_ins],[Matchup.Rrs_680_sat]);
+%%
 
 %% Histograms
 figure,hist([SatData(cond1).Rrs_490_filtered_mean],20)
 
 figure,hist([SatData(cond1).angstrom_filtered_mean],20)
 
+figure,hist([SatData(cond1).center_az],20)
+figure,hist([SatData(cond1).center_el],20)

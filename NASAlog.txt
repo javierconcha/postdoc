@@ -2105,5 +2105,10 @@ jconchas@gs616-tidal:COMS_GOCI_L1B_GA_20160107021643$ ncdump -h COMS_GOCI_L1B_GA
 
 For unwanted symbols (ex: ?) at the end of a dir created with mkdir:
 sed -i -e 's/\r$//' /path/to/file
+--------------------------------------------------
+2016-09-13 Tue
+C code for solar azimuth and zenith angle calculation:
+
+http://rredc.nrel.gov/solar/codesandalgorithms/spa/
 
 (END)

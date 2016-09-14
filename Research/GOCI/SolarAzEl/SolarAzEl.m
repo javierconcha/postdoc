@@ -43,7 +43,7 @@ function [Az,El] = SolarAzEl(UTC,Lat,Lon,Alt)
 
 %compute JD from UTC or datevec
 if ischar(UTC)
-    jd = juliandate(UTC,'yyyy/mm/dd HH:MM:SS');
+    jd = juliandate(UTC,'yyyy-MM-dd HH:mm:ss');
 else
     [y,mo,d,h,mi,s] = datevec(UTC);
     jd = juliandate(datestr([y,mo,d,h,mi,s],'yyyy/mm/dd HH:MM:SS'),'yyyy/mm/dd HH:MM:SS');
