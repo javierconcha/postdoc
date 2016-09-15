@@ -34,7 +34,18 @@ satcell.flagged_pixel_count =  str2double(s{1}{idx1+1});
 [Az,El] = SolarAzEl(timechar,satcell.center_lat,satcell.center_lon,0);
 satcell.center_az = Az;
 satcell.center_el = El;
-%% Product
+%%
+% Parameters
+filepathaux = [filepath '.param'];
+
+fileID = fopen(filepathaux);
+s = textscan(fileID,'%s','Delimiter','=');
+fclose(fileID);
+
+satcell.ifile           = s{1}{2};
+satcell.ofile 		= s{1}{4};
+
+%% Products
 % Rrs_412
 filepathaux = [filepath '.Rrs_412'];
 
@@ -215,35 +226,35 @@ satcell.Rrs_680_iqr_median 					= str2double(s{1}{42});
 satcell.Rrs_680_iqr_stddev 					= str2double(s{1}{44});
 satcell.Rrs_680_iqr_rms 					= str2double(s{1}{46});
 
-% ag_412_mlrc
-filepathaux = [filepath '.ag_412_mlrc'];
-
-fileID = fopen(filepathaux);
-s = textscan(fileID,'%s','Delimiter','=');
-fclose(fileID);
-
-satcell.ag_412_mlrc_center_value 				= str2double(s{1}{4});
-satcell.ag_412_mlrc_valid_pixel_count 			= str2double(s{1}{6});
-satcell.ag_412_mlrc_max 						= str2double(s{1}{8});
-satcell.ag_412_mlrc_min 						= str2double(s{1}{10});
-satcell.ag_412_mlrc_mean 						= str2double(s{1}{12});
-satcell.ag_412_mlrc_median 						= str2double(s{1}{14});
-satcell.ag_412_mlrc_stddev 						= str2double(s{1}{16});
-satcell.ag_412_mlrc_rms 						= str2double(s{1}{18});
-satcell.ag_412_mlrc_filtered_valid_pixel_count 	= str2double(s{1}{20});
-satcell.ag_412_mlrc_filtered_max 				= str2double(s{1}{22});
-satcell.ag_412_mlrc_filtered_min 				= str2double(s{1}{24});
-satcell.ag_412_mlrc_filtered_mean 				= str2double(s{1}{26});
-satcell.ag_412_mlrc_filtered_median 			= str2double(s{1}{28});
-satcell.ag_412_mlrc_filtered_stddev 			= str2double(s{1}{30});
-satcell.ag_412_mlrc_filtered_rms 				= str2double(s{1}{32});
-satcell.ag_412_mlrc_iqr_valid_pixel_count 		= str2double(s{1}{34});
-satcell.ag_412_mlrc_iqr_max 					= str2double(s{1}{36});
-satcell.ag_412_mlrc_iqr_min 					= str2double(s{1}{38});
-satcell.ag_412_mlrc_iqr_mean 					= str2double(s{1}{40});
-satcell.ag_412_mlrc_iqr_median 					= str2double(s{1}{42});
-satcell.ag_412_mlrc_iqr_stddev 					= str2double(s{1}{44});
-satcell.ag_412_mlrc_iqr_rms 					= str2double(s{1}{46});
+% % ag_412_mlrc
+% filepathaux = [filepath '.ag_412_mlrc'];
+% 
+% fileID = fopen(filepathaux);
+% s = textscan(fileID,'%s','Delimiter','=');
+% fclose(fileID);
+% 
+% satcell.ag_412_mlrc_center_value 				= str2double(s{1}{4});
+% satcell.ag_412_mlrc_valid_pixel_count 			= str2double(s{1}{6});
+% satcell.ag_412_mlrc_max 						= str2double(s{1}{8});
+% satcell.ag_412_mlrc_min 						= str2double(s{1}{10});
+% satcell.ag_412_mlrc_mean 						= str2double(s{1}{12});
+% satcell.ag_412_mlrc_median 						= str2double(s{1}{14});
+% satcell.ag_412_mlrc_stddev 						= str2double(s{1}{16});
+% satcell.ag_412_mlrc_rms 						= str2double(s{1}{18});
+% satcell.ag_412_mlrc_filtered_valid_pixel_count 	= str2double(s{1}{20});
+% satcell.ag_412_mlrc_filtered_max 				= str2double(s{1}{22});
+% satcell.ag_412_mlrc_filtered_min 				= str2double(s{1}{24});
+% satcell.ag_412_mlrc_filtered_mean 				= str2double(s{1}{26});
+% satcell.ag_412_mlrc_filtered_median 			= str2double(s{1}{28});
+% satcell.ag_412_mlrc_filtered_stddev 			= str2double(s{1}{30});
+% satcell.ag_412_mlrc_filtered_rms 				= str2double(s{1}{32});
+% satcell.ag_412_mlrc_iqr_valid_pixel_count 		= str2double(s{1}{34});
+% satcell.ag_412_mlrc_iqr_max 					= str2double(s{1}{36});
+% satcell.ag_412_mlrc_iqr_min 					= str2double(s{1}{38});
+% satcell.ag_412_mlrc_iqr_mean 					= str2double(s{1}{40});
+% satcell.ag_412_mlrc_iqr_median 					= str2double(s{1}{42});
+% satcell.ag_412_mlrc_iqr_stddev 					= str2double(s{1}{44});
+% satcell.ag_412_mlrc_iqr_rms 					= str2double(s{1}{46});
 
 % angstrom
 filepathaux = [filepath '.angstrom'];
