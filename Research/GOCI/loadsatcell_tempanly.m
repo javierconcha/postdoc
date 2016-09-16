@@ -31,9 +31,23 @@ idx1 = find(strncmp(s{1},'flagged',7));
 satcell.flagged_pixel_count =  str2double(s{1}{idx1+1});
 
 %% Solar Azimuthal and Zenith angle
-[Az,El] = SolarAzEl(timechar,satcell.center_lat,satcell.center_lon,0);
-satcell.center_az = Az;
-satcell.center_el = El;
+
+DC  = timechar;
+DV  = datevec(DC);  % [N x 6] array
+DV  = DV(:, 1:3);   % [N x 3] array, no time
+DV2 = DV;
+DV2(:, 2:3) = 0;    % [N x 3], day before 01.Jan
+
+Result = cat(2, DV(:, 1), datenum(DV) - datenum(DV2));
+
+[~,~,~,hour,min,sec] = datevec(taux);
+
+[zen,azm] = sunzen( satcell.center_lat,satcell.center_lon, Result(2), hour, min, sec);
+
+% 
+% [Az,El] = SolarAzEl(timechar,satcell.center_lat,satcell.center_lon,0);
+satcell.center_az = azm;
+satcell.center_ze = zen;
 %%
 % Parameters
 filepathaux = [filepath '.param'];

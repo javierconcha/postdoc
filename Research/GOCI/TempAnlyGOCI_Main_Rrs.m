@@ -7,6 +7,7 @@ addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 %% Load sat data
 clear SatData
+tic
 fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
@@ -19,9 +20,11 @@ for idx0=1:size(s{1},1)
 end
 
 save('GOCI_TempAnly.mat','SatData')
+toc
 %%
 load('GOCI_TempAnly.mat','SatData')
 
+fs = 20;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
 xrange = 0.02;
@@ -29,9 +32,11 @@ xrange = 0.02;
 % Rrs_412
 cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
 cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond3 = [SatData.center_ze] <= 60;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_412_filtered_mean];
+
 
 figure(h1)
 subplot(6,1,1)
@@ -240,22 +245,130 @@ text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 
 grid on
 
-%% Plot one day
+%% Plot vs time
 
-cond_used = 1:32;
+% cond_used = 11064-7:11064+23;
+cond_used = 1:size(SatData,2);
+% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
+cond_used = [SatData.center_ze] <= 65&cond2;
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData(cond_used).datetime],[SatData(cond_used).Rrs_412_filtered_mean],'bo')
+plot([SatData(cond_used).datetime],[SatData(cond_used).Rrs_490_filtered_mean],'.','MarkerSize',12)
 ylabel('R_{rs}(490)','FontSize',fs)
+grid on
 
 subplot(2,1,2)
-plot([SatData(cond_used).datetime],90-[SatData(cond_used).center_el],'bo')
+plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
+grid on
+
+%% Chlr_a
+
+% cond_used = 11064-7:11064+23;
+cond_used = 1:size(SatData,2);
+% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([SatData(cond_used).datetime],[SatData(cond_used).chlor_a_filtered_mean],'.','MarkerSize',20)
+ylabel('Chlor\_a','FontSize',fs)
+grid on
+
+subplot(2,1,2)
+plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+xlabel('Time','FontSize',fs)
+grid on
+
+%% mean rrs vs zenith
+
+% cond_used = 11064-7:11064+23;
+cond_used = 1:size(SatData,2);
+% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,3,1)
+plot([SatData(cond_used).Rrs_412_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(412)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+subplot(2,3,2)
+plot([SatData(cond_used).Rrs_443_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(443)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+subplot(2,3,3)
+plot([SatData(cond_used).Rrs_490_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(490)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+subplot(2,3,4)
+plot([SatData(cond_used).Rrs_555_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(555)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+subplot(2,3,5)
+plot([SatData(cond_used).Rrs_660_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(660)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+subplot(2,3,6)
+plot([SatData(cond_used).Rrs_680_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+xlabel('R_{rs}(680)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
 
 
+%% chl vs zenith
+
+% cond_used = 11064-7:11064+23;
+cond_used = 1:size(SatData,2);
+% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+plot([SatData(cond_used).chlor_a_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',12)
+xlabel('Chlor_a','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
 
 
+%% Capture time analysis
+D= datevec([SatData.datetime]);
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([SatData.datetime],D(:,4),'.-')
+ylabel('Hour of the day (GMT)','FontSize',fs)
+grid on
 
+subplot(2,1,2)
+plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.-')
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+xlabel('Time','FontSize',fs)
+grid on
+%%
+
+[Year,Month,Day] = datevec([SatData.datetime]);
+
+first_day = datetime(SatData(1).datetime.Year,SatData(1).datetime.Month,SatData(1).datetime.Day);
+last_day = datetime(SatData(end).datetime.Year,SatData(end).datetime.Month,SatData(end).datetime.Day);
+
+date_idx = first_day:last_day;
+for idx=1:size(date_idx,2)
+
+cond_1t = date_idx(idx).Year==Year...
+      & date_idx.Month(idx)==Month...
+      & date_idx.Day(idx)==Day;
+aux(idx) = sum(cond_1t);
+end
