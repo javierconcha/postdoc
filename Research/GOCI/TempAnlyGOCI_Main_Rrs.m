@@ -27,12 +27,14 @@ load('GOCI_TempAnly.mat','SatData')
 fs = 20;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
+total_px = SatData(1).pixel_count; % FOR THIS ROI!!!
+zenith_lim = 75;
 xrange = 0.02;
 
 % Rrs_412
 cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
-cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond3 = [SatData.center_ze] <= 60;
+cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_412_filtered_mean];
@@ -51,7 +53,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -64,13 +66,13 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 % Rrs_443
 cond1 = ~isnan([SatData.Rrs_443_filtered_mean]);
-cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_443_filtered_mean];
 
@@ -87,7 +89,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -99,13 +101,13 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 % Rrs_490
 cond1 = ~isnan([SatData.Rrs_490_filtered_mean]);
-cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_490_filtered_mean];
 
@@ -122,7 +124,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -134,13 +136,13 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 % Rrs_555
 cond1 = ~isnan([SatData.Rrs_555_filtered_mean]);
-cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_555_filtered_mean];
 
@@ -157,7 +159,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(555) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -169,13 +171,13 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 % Rrs_660
 cond1 = ~isnan([SatData.Rrs_660_filtered_mean]);
-cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_660_filtered_mean];
 
@@ -193,7 +195,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -205,13 +207,13 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 % Rrs_680
 cond1 = ~isnan([SatData.Rrs_680_filtered_mean]);
-cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = cond1&cond2;
+cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 data_used = [SatData(cond_used).Rrs_680_filtered_mean];
 
@@ -230,7 +232,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
-xlim([-1*xrange xrange])
+% xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
@@ -242,35 +244,60 @@ yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-
 grid on
 
 %% Plot vs time
 
 % cond_used = 11064-7:11064+23;
-cond_used = 1:size(SatData,2);
+% cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
-cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+size(cond1,2)/2;
-cond_used = [SatData.center_ze] <= 65&cond2;
+
+wl = '680'; % 412 443 490 555 660 680
+eval(sprintf('cond1 = ~isnan([SatData.Rrs_%s_filtered_mean]);',wl));
+eval(sprintf('cond2 = [SatData.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px/2;',wl));
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1 & cond2 & cond3;
+
+eval(sprintf('data_used_y = [SatData(cond_used).Rrs_%s_filtered_mean];',wl));
+data_used_x = [SatData(cond_used).datetime];
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData(cond_used).datetime],[SatData(cond_used).Rrs_490_filtered_mean],'.','MarkerSize',12)
-ylabel('R_{rs}(490)','FontSize',fs)
+hold on
+plot(data_used_x,data_used_y,'.','MarkerSize',12)
+eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
 grid on
 
 subplot(2,1,2)
+hold on
 plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 grid on
 
+%% show high solar zenith angle and no valid data
+subplot(2,1,1)
+hold on
+plot([SatData(~cond2).datetime],[SatData(~cond2).Rrs_412_filtered_mean],'.r','MarkerSize',12)
+subplot(2,1,1)
+hold on
+plot([SatData(~cond3).datetime],[SatData(~cond3).Rrs_412_filtered_mean],'.g','MarkerSize',12)
+
+subplot(2,1,2)
+hold on
+plot([SatData(~cond2).datetime],[SatData(~cond2).center_ze],'.r','MarkerSize',12)
+subplot(2,1,2)
+hold on
+plot([SatData(~cond3).datetime],[SatData(~cond3).center_ze],'.g','MarkerSize',12)
 %% Chlr_a
 
 % cond_used = 11064-7:11064+23;
-cond_used = 1:size(SatData,2);
+% cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+cond2 = [SatData.chlor_a_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -288,41 +315,68 @@ grid on
 %% mean rrs vs zenith
 
 % cond_used = 11064-7:11064+23;
-cond_used = 1:size(SatData,2);
+% cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% Rrs 412
+cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
+
 subplot(2,3,1)
 plot([SatData(cond_used).Rrs_412_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(412)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+% Rrs 443
+cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 subplot(2,3,2)
 plot([SatData(cond_used).Rrs_443_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(443)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+% Rrs 490
+cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 subplot(2,3,3)
 plot([SatData(cond_used).Rrs_490_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(490)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+% Rrs 555
+cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 subplot(2,3,4)
 plot([SatData(cond_used).Rrs_555_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(555)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+% Rrs 660
+cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 subplot(2,3,5)
 plot([SatData(cond_used).Rrs_660_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(660)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+% Rrs 680
+cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond3 & cond2;
 subplot(2,3,6)
 plot([SatData(cond_used).Rrs_680_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(680)','FontSize',fs)
@@ -348,16 +402,20 @@ grid on
 D= datevec([SatData.datetime]);
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData.datetime],D(:,4),'.-')
+plot([SatData.datetime],D(:,4),'.')
 ylabel('Hour of the day (GMT)','FontSize',fs)
 grid on
 
 subplot(2,1,2)
-plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.-')
+plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 grid on
-%%
+%% 
+
+% cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+% cond3 = [SatData.center_ze] <= 65;
+% cond_used = cond3 & cond2;
 
 [Year,Month,Day] = datevec([SatData.datetime]);
 
@@ -366,9 +424,20 @@ last_day = datetime(SatData(end).datetime.Year,SatData(end).datetime.Month,SatDa
 
 date_idx = first_day:last_day;
 for idx=1:size(date_idx,2)
+      % identify all the images for a specific day
+      cond_1t = date_idx(idx).Year==Year...
+            & date_idx.Month(idx)==Month...
+            & date_idx.Day(idx)==Day;
+      
+%       %% to see how many images per day
+%       if sum(cond_1t)> 8 % or sum(cond_1t)~=8
+%             disp([num2str(sum(cond_1t)) ' ' datestr(date_idx(idx))])
+%       end
 
-cond_1t = date_idx(idx).Year==Year...
-      & date_idx.Month(idx)==Month...
-      & date_idx.Day(idx)==Day;
-aux(idx) = sum(cond_1t);
+      DailyStatMatrix(idx).datetime =  date_idx(idx);
+      DailyStatMatrix(idx).images_per_day = sum(cond_1t);
+      
+      % Rrs 412
+      if [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+      
 end

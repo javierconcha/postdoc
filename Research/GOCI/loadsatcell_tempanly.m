@@ -1,6 +1,18 @@
 function satcell = loadsatcell_tempanly(filepath)
 %%
 
+%%
+% Parameters
+filepathaux = [filepath '.param'];
+
+fileID = fopen(filepathaux);
+s = textscan(fileID,'%s','Delimiter','=');
+fclose(fileID);
+
+satcell.ifile           = s{1}{2};
+satcell.ofile 		= s{1}{4};
+
+%% .output
 fileID = fopen(filepath);
 s = textscan(fileID,'%s','Delimiter','=');
 fclose(fileID);
@@ -8,9 +20,31 @@ fclose(fileID);
 % time and Solar Azimuthal and Zenith angle
 idx1 = find(strncmp(s{1},'time',4));
 parval = s{1}{idx1+1};
+
+%% temporal fix for time recording
+ifile_char = satcell.ifile;
+
+if strcmp(ifile_char(26:27),'00')
+      parval(12:end) = '00:28:46.887';
+elseif strcmp(ifile_char(26:27),'01')
+      parval(12:end) = '01:28:46.887';
+elseif strcmp(ifile_char(26:27),'02')
+      parval(12:end) = '02:28:46.887';
+elseif strcmp(ifile_char(26:27),'03')
+      parval(12:end) = '03:28:46.887';
+elseif strcmp(ifile_char(26:27),'04')
+      parval(12:end) = '04:28:46.887';
+elseif strcmp(ifile_char(26:27),'05')
+      parval(12:end) = '05:28:46.887';
+elseif strcmp(ifile_char(26:27),'06')
+      parval(12:end) = '06:28:46.887';
+elseif strcmp(ifile_char(26:27),'07')
+      parval(12:end) = '07:28:46.887';
+end
+    
 timechar = parval;
 
-
+%%
 taux = datetime(parval,'InputFormat','yyyy-MM-dd HH:mm:ss.SSS');
 satcell.datetime = taux;
 
@@ -21,6 +55,18 @@ satcell.center_lat = str2double(s{1}{idx1+1});
 % center_lon
 idx1 = find(strncmp(s{1},'center_lon',10));
 satcell.center_lon = str2double(s{1}{idx1+1});
+
+% center_line
+idx1 = find(strncmp(s{1},'center_line',11));
+satcell.center_line =  str2double(s{1}{idx1+1});
+
+% center_pixel
+idx1 = find(strncmp(s{1},'center_pixel',12));
+satcell.center_pixel =  str2double(s{1}{idx1+1});
+
+% pixel_count
+idx1 = find(strncmp(s{1},'pixel_count',11));
+satcell.pixel_count =  str2double(s{1}{idx1+1});
 
 % unflagged_pixel_count
 idx1 = find(strncmp(s{1},'unflagged',9));
@@ -48,16 +94,6 @@ Result = cat(2, DV(:, 1), datenum(DV) - datenum(DV2));
 % [Az,El] = SolarAzEl(timechar,satcell.center_lat,satcell.center_lon,0);
 satcell.center_az = azm;
 satcell.center_ze = zen;
-%%
-% Parameters
-filepathaux = [filepath '.param'];
-
-fileID = fopen(filepathaux);
-s = textscan(fileID,'%s','Delimiter','=');
-fclose(fileID);
-
-satcell.ifile           = s{1}{2};
-satcell.ofile 		= s{1}{4};
 
 %% Products
 % Rrs_412
