@@ -295,9 +295,10 @@ plot([SatData(~cond3).datetime],[SatData(~cond3).center_ze],'.g','MarkerSize',12
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
-cond2 = [SatData.chlor_a_valid_pixel_count]>= 1+total_px/2;
+cond1 = ~isnan([SatData.chlor_a_filtered_mean]);
+cond2 = [SatData.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -312,20 +313,29 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 grid on
 
+
+N = sum(cond_used);
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist([SatData(cond_used).chlor_a_filtered_mean],50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('Chlor\_a','FontSize',fs)
+grid on
 %% mean rrs vs zenith
 
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
 
-
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs 412
+cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
 cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 
 subplot(2,3,1)
 plot([SatData(cond_used).Rrs_412_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
@@ -334,9 +344,10 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 443
+cond1 = ~isnan([SatData.Rrs_443_filtered_mean]);
 cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 subplot(2,3,2)
 plot([SatData(cond_used).Rrs_443_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(443)','FontSize',fs)
@@ -344,9 +355,10 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 490
+cond1 = ~isnan([SatData.Rrs_490_filtered_mean]);
 cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 subplot(2,3,3)
 plot([SatData(cond_used).Rrs_490_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(490)','FontSize',fs)
@@ -354,9 +366,10 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 555
+cond1 = ~isnan([SatData.Rrs_555_filtered_mean]);
 cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 subplot(2,3,4)
 plot([SatData(cond_used).Rrs_555_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(555)','FontSize',fs)
@@ -364,9 +377,10 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 660
+cond1 = ~isnan([SatData.Rrs_660_filtered_mean]);
 cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 subplot(2,3,5)
 plot([SatData(cond_used).Rrs_660_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(660)','FontSize',fs)
@@ -374,9 +388,10 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 680
+cond1 = ~isnan([SatData.Rrs_680_filtered_mean]);
 cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
 cond3 = [SatData.center_ze] <= zenith_lim;
-cond_used = cond3 & cond2;
+cond_used = cond1&cond2&cond3;
 subplot(2,3,6)
 plot([SatData(cond_used).Rrs_680_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
 xlabel('R_{rs}(680)','FontSize',fs)
@@ -387,8 +402,14 @@ grid on
 %% chl vs zenith
 
 % cond_used = 11064-7:11064+23;
-cond_used = 1:size(SatData,2);
+% cond_used = 1:size(SatData,2);
 % cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+
+
+cond1 = ~isnan([SatData.chlor_a_filtered_mean]);
+cond2 = [SatData.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [SatData.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -411,11 +432,13 @@ plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 grid on
-%% 
+%% Global statistics
 
 % cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
 % cond3 = [SatData.center_ze] <= 65;
 % cond_used = cond3 & cond2;
+clear DailyStatMatrix
+clear cond_1t
 
 [Year,Month,Day] = datevec([SatData.datetime]);
 
@@ -423,21 +446,332 @@ first_day = datetime(SatData(1).datetime.Year,SatData(1).datetime.Month,SatData(
 last_day = datetime(SatData(end).datetime.Year,SatData(end).datetime.Month,SatData(end).datetime.Day);
 
 date_idx = first_day:last_day;
+count_neg_cases = 0;
+%%
 for idx=1:size(date_idx,2)
       % identify all the images for a specific day
       cond_1t = date_idx(idx).Year==Year...
             & date_idx.Month(idx)==Month...
             & date_idx.Day(idx)==Day;
       
-%       %% to see how many images per day
-%       if sum(cond_1t)> 8 % or sum(cond_1t)~=8
-%             disp([num2str(sum(cond_1t)) ' ' datestr(date_idx(idx))])
-%       end
-
+      %       %% to see how many images per day
+      %       if sum(cond_1t)> 8 % or sum(cond_1t)~=8
+      %             disp([num2str(sum(cond_1t)) ' ' datestr(date_idx(idx))])
+      %       end
+      
       DailyStatMatrix(idx).datetime =  date_idx(idx);
       DailyStatMatrix(idx).images_per_day = sum(cond_1t);
       
-      % Rrs 412
-      if [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+      % check if there are more than one image per hour. It does not check
+      % if the values are valid or not, but there are only a bunch of cases
+      time_aux = [SatData(cond_1t).datetime];
+      [~,IA,~] = unique([time_aux.Hour]);     
+      cond_aux = zeros(size(time_aux));
+      cond_aux(IA) = 1;     
+      cond_1t(cond_1t) = cond_aux;      
+      clear time_aux IA cond_aux
+      %% Rrs 412
       
+      data_used = [SatData(cond_1t).Rrs_412_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count];      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_412_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_412_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_412_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_412_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_412_min_mean = nanmin(data_used(cond_used));
+      
+      % RMSE with respect to the mean
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_412_RMSE_mean = RMSE;
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      idx
+      data_used_filtered = data_used(cond_used);      
+      time_used_filtered = time_used(cond_used);  
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_412_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_412_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_412_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_412_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end  
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_412_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end 
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_412_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end  
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_412_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_412_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_412_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                  end
+            end              
+      end
+
+      %% Rrs 443
+      
+      data_used = [SatData(cond_1t).Rrs_443_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_443_filtered_valid_pixel_count];
+      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_443_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_443_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_443_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_443_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_443_min_mean = nanmin(data_used(cond_used));
+
+
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_443_RMSE_mean = RMSE;
+
+      %% Rrs 490
+      
+      data_used = [SatData(cond_1t).Rrs_490_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_490_filtered_valid_pixel_count];
+      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_490_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_490_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_490_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_490_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_490_min_mean = nanmin(data_used(cond_used));
+
+
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_490_RMSE_mean = RMSE;  
+
+      %% Rrs 555
+      
+      data_used = [SatData(cond_1t).Rrs_555_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_555_filtered_valid_pixel_count];
+      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_555_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_555_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_555_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_555_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_555_min_mean = nanmin(data_used(cond_used));
+
+
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_555_RMSE_mean = RMSE;       
+
+      %% Rrs 660
+      
+      data_used = [SatData(cond_1t).Rrs_660_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_660_filtered_valid_pixel_count];
+      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_660_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_660_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_660_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_660_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_660_min_mean = nanmin(data_used(cond_used));
+
+
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_660_RMSE_mean = RMSE; 
+
+      %% Rrs 680
+      
+      data_used = [SatData(cond_1t).Rrs_680_filtered_mean];
+      valid_px_count_used = [SatData(cond_1t).Rrs_680_filtered_valid_pixel_count];
+      
+      cond1 = data_used >= 0; % only positive values
+      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond_used = cond1&cond2;
+      
+      DailyStatMatrix(idx).Rrs_680_mean_mean = nanmean(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_680_stdv_mean = nanstd(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_680_N_mean = sum(cond_used);
+      DailyStatMatrix(idx).Rrs_680_max_mean = nanmax(data_used(cond_used));
+      DailyStatMatrix(idx).Rrs_680_min_mean = nanmin(data_used(cond_used));
+
+
+      sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
+      RMSE = sqrt(sum(sq_err)/sum(cond_used));
+      DailyStatMatrix(idx).Rrs_680_RMSE_mean = RMSE;       
 end
+
+%% Plot global stats
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,3,1)
+hist([DailyStatMatrix.Rrs_412_stdv_mean])
+xlabel('R_{rs}(412): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,2)
+hist([DailyStatMatrix.Rrs_443_stdv_mean])
+xlabel('R_{rs}(443): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,3)
+hist([DailyStatMatrix.Rrs_490_stdv_mean])
+xlabel('R_{rs}(490): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,4)
+hist([DailyStatMatrix.Rrs_555_stdv_mean])
+xlabel('R_{rs}(555): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,5)
+hist([DailyStatMatrix.Rrs_660_stdv_mean])
+xlabel('R_{rs}(660): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,6)
+hist([DailyStatMatrix.Rrs_680_stdv_mean])
+xlabel('R_{rs}(680): stdv of the daily','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,3,1)
+hist([DailyStatMatrix.Rrs_412_RMSE_mean])
+xlabel('R_{rs}(412): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,2)
+hist([DailyStatMatrix.Rrs_443_RMSE_mean])
+xlabel('R_{rs}(443): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,3)
+hist([DailyStatMatrix.Rrs_490_RMSE_mean])
+xlabel('R_{rs}(490): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,4)
+hist([DailyStatMatrix.Rrs_555_RMSE_mean])
+xlabel('R_{rs}(555): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,5)
+hist([DailyStatMatrix.Rrs_660_RMSE_mean])
+xlabel('R_{rs}(660): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,6)
+hist([DailyStatMatrix.Rrs_680_RMSE_mean])
+xlabel('R_{rs}(680): RMSE of the daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,3,1)
+hist([DailyStatMatrix.Rrs_412_mean_mean])
+xlabel('R_{rs}(412): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,2)
+hist([DailyStatMatrix.Rrs_443_mean_mean])
+xlabel('R_{rs}(443): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,3)
+hist([DailyStatMatrix.Rrs_490_mean_mean])
+xlabel('R_{rs}(490): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,4)
+hist([DailyStatMatrix.Rrs_555_mean_mean])
+xlabel('R_{rs}(555): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,5)
+hist([DailyStatMatrix.Rrs_660_mean_mean])
+xlabel('R_{rs}(660): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+subplot(2,3,6)
+hist([DailyStatMatrix.Rrs_680_mean_mean])
+xlabel('R_{rs}(680): daily mean','FontSize',fs)
+ylabel('Frequency','FontSize',fs)
+
+nanmean([DailyStatMatrix.Rrs_412_stdv_mean])
+nanmean([DailyStatMatrix.Rrs_443_stdv_mean])
+nanmean([DailyStatMatrix.Rrs_490_stdv_mean])
+nanmean([DailyStatMatrix.Rrs_555_stdv_mean])
+nanmean([DailyStatMatrix.Rrs_660_stdv_mean])
+nanmean([DailyStatMatrix.Rrs_680_stdv_mean])
+
+
