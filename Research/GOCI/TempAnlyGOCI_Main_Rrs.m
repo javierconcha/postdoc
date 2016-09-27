@@ -447,7 +447,7 @@ last_day = datetime(SatData(end).datetime.Year,SatData(end).datetime.Month,SatDa
 
 date_idx = first_day:last_day;
 count_neg_cases = 0;
-%%
+
 for idx=1:size(date_idx,2)
       % identify all the images for a specific day
       cond_1t = date_idx(idx).Year==Year...
@@ -465,15 +465,15 @@ for idx=1:size(date_idx,2)
       % check if there are more than one image per hour. It does not check
       % if the values are valid or not, but there are only a bunch of cases
       time_aux = [SatData(cond_1t).datetime];
-      [~,IA,~] = unique([time_aux.Hour]);     
+      [~,IA,~] = unique([time_aux.Hour]);
       cond_aux = zeros(size(time_aux));
-      cond_aux(IA) = 1;     
-      cond_1t(cond_1t) = cond_aux;      
+      cond_aux(IA) = 1;
+      cond_1t(cond_1t) = cond_aux;
       clear time_aux IA cond_aux
       %% Rrs 412
       
       data_used = [SatData(cond_1t).Rrs_412_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count];      
+      valid_px_count_used = [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count];
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
@@ -491,84 +491,110 @@ for idx=1:size(date_idx,2)
       
       time_used = [SatData(cond_1t).datetime];
       
-      idx
-      data_used_filtered = data_used(cond_used);      
-      time_used_filtered = time_used(cond_used);  
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_412_00 = nan;
+      DailyStatMatrix(idx).Rrs_412_01 = nan;
+      DailyStatMatrix(idx).Rrs_412_02 = nan;
+      DailyStatMatrix(idx).Rrs_412_03 = nan;
+      DailyStatMatrix(idx).Rrs_412_04 = nan;
+      DailyStatMatrix(idx).Rrs_412_05 = nan;
+      DailyStatMatrix(idx).Rrs_412_06 = nan;
+      DailyStatMatrix(idx).Rrs_412_07 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_412_error_w_r_noon_07 = nan;
+      
       for idx2 =1:size(data_used_filtered,2)
             if time_used_filtered.Hour(idx2) == 0
                   DailyStatMatrix(idx).Rrs_412_00 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_00 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_00 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
             end
             if time_used_filtered.Hour(idx2) == 1
                   DailyStatMatrix(idx).Rrs_412_01 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_01 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_01 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
             end
             if time_used_filtered.Hour(idx2) == 2
                   DailyStatMatrix(idx).Rrs_412_02 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_02 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_02 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
             end
             if time_used_filtered.Hour(idx2) == 3
                   DailyStatMatrix(idx).Rrs_412_03 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_03 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_03 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
-            end  
+            end
             if time_used_filtered.Hour(idx2) == 4
                   DailyStatMatrix(idx).Rrs_412_04 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_04 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_04 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
-            end 
+            end
             if time_used_filtered.Hour(idx2) == 5
                   DailyStatMatrix(idx).Rrs_412_05 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_05 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_05 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
-            end  
+            end
             if time_used_filtered.Hour(idx2) == 6
                   DailyStatMatrix(idx).Rrs_412_06 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_06 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_06 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
             end
             if time_used_filtered.Hour(idx2) == 7
                   DailyStatMatrix(idx).Rrs_412_07 = data_used_filtered(idx2);
                   DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_07 = ...
                         DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
-                  if sum(time_used_filtered.Hour == 4)~=0 % the noon value exist
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                         DailyStatMatrix(idx).Rrs_412_error_w_r_noon_07 = ...
-                              data_used_filtered(time_used_filtered.Hour == 4) - data_used_filtered(idx2);
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
                   end
-            end              
+            end
       end
-
+      
       %% Rrs 443
       
       data_used = [SatData(cond_1t).Rrs_443_filtered_mean];
@@ -583,12 +609,119 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_443_N_mean = sum(cond_used);
       DailyStatMatrix(idx).Rrs_443_max_mean = nanmax(data_used(cond_used));
       DailyStatMatrix(idx).Rrs_443_min_mean = nanmin(data_used(cond_used));
-
-
+      
+      
+      % RMSE with respect to the mean
       sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_443_RMSE_mean = RMSE;
-
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_443_00 = nan;
+      DailyStatMatrix(idx).Rrs_443_01 = nan;
+      DailyStatMatrix(idx).Rrs_443_02 = nan;
+      DailyStatMatrix(idx).Rrs_443_03 = nan;
+      DailyStatMatrix(idx).Rrs_443_04 = nan;
+      DailyStatMatrix(idx).Rrs_443_05 = nan;
+      DailyStatMatrix(idx).Rrs_443_06 = nan;
+      DailyStatMatrix(idx).Rrs_443_07 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_443_error_w_r_noon_07 = nan;
+      
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_443_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_443_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_443_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_443_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_443_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_443_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_443_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_443_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_443_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+      end
+      
       %% Rrs 490
       
       data_used = [SatData(cond_1t).Rrs_490_filtered_mean];
@@ -603,12 +736,119 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_490_N_mean = sum(cond_used);
       DailyStatMatrix(idx).Rrs_490_max_mean = nanmax(data_used(cond_used));
       DailyStatMatrix(idx).Rrs_490_min_mean = nanmin(data_used(cond_used));
-
-
+      
+      
+      % RMSE with respect to the mean
       sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
-      DailyStatMatrix(idx).Rrs_490_RMSE_mean = RMSE;  
-
+      DailyStatMatrix(idx).Rrs_490_RMSE_mean = RMSE;
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_490_00 = nan;
+      DailyStatMatrix(idx).Rrs_490_01 = nan;
+      DailyStatMatrix(idx).Rrs_490_02 = nan;
+      DailyStatMatrix(idx).Rrs_490_03 = nan;
+      DailyStatMatrix(idx).Rrs_490_04 = nan;
+      DailyStatMatrix(idx).Rrs_490_05 = nan;
+      DailyStatMatrix(idx).Rrs_490_06 = nan;
+      DailyStatMatrix(idx).Rrs_490_07 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_490_error_w_r_noon_07 = nan;
+      
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_490_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_490_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_490_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_490_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_490_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_490_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_490_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_490_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_490_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+      end
+      
       %% Rrs 555
       
       data_used = [SatData(cond_1t).Rrs_555_filtered_mean];
@@ -623,12 +863,119 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_555_N_mean = sum(cond_used);
       DailyStatMatrix(idx).Rrs_555_max_mean = nanmax(data_used(cond_used));
       DailyStatMatrix(idx).Rrs_555_min_mean = nanmin(data_used(cond_used));
-
-
+      
+      
+      % RMSE with respect to the mean
       sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
-      DailyStatMatrix(idx).Rrs_555_RMSE_mean = RMSE;       
-
+      DailyStatMatrix(idx).Rrs_555_RMSE_mean = RMSE;
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_555_00 = nan;
+      DailyStatMatrix(idx).Rrs_555_01 = nan;
+      DailyStatMatrix(idx).Rrs_555_02 = nan;
+      DailyStatMatrix(idx).Rrs_555_03 = nan;
+      DailyStatMatrix(idx).Rrs_555_04 = nan;
+      DailyStatMatrix(idx).Rrs_555_05 = nan;
+      DailyStatMatrix(idx).Rrs_555_06 = nan;
+      DailyStatMatrix(idx).Rrs_555_07 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_555_error_w_r_noon_07 = nan;
+      
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_555_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_555_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_555_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_555_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_555_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_555_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_555_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_555_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_555_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+      end
+      
       %% Rrs 660
       
       data_used = [SatData(cond_1t).Rrs_660_filtered_mean];
@@ -643,12 +990,119 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_660_N_mean = sum(cond_used);
       DailyStatMatrix(idx).Rrs_660_max_mean = nanmax(data_used(cond_used));
       DailyStatMatrix(idx).Rrs_660_min_mean = nanmin(data_used(cond_used));
-
-
+      
+      
+      % RMSE with respect to the mean
       sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
-      DailyStatMatrix(idx).Rrs_660_RMSE_mean = RMSE; 
-
+      DailyStatMatrix(idx).Rrs_660_RMSE_mean = RMSE;
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_660_00 = nan;
+      DailyStatMatrix(idx).Rrs_660_01 = nan;
+      DailyStatMatrix(idx).Rrs_660_02 = nan;
+      DailyStatMatrix(idx).Rrs_660_03 = nan;
+      DailyStatMatrix(idx).Rrs_660_04 = nan;
+      DailyStatMatrix(idx).Rrs_660_05 = nan;
+      DailyStatMatrix(idx).Rrs_660_06 = nan;
+      DailyStatMatrix(idx).Rrs_660_07 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_660_error_w_r_noon_07 = nan;
+      
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_660_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_660_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_660_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_660_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_660_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_660_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_660_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_660_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_660_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+      end
+      
       %% Rrs 680
       
       data_used = [SatData(cond_1t).Rrs_680_filtered_mean];
@@ -663,12 +1117,208 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_680_N_mean = sum(cond_used);
       DailyStatMatrix(idx).Rrs_680_max_mean = nanmax(data_used(cond_used));
       DailyStatMatrix(idx).Rrs_680_min_mean = nanmin(data_used(cond_used));
-
-
+      
+      
+      % RMSE with respect to the mean
       sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
-      DailyStatMatrix(idx).Rrs_680_RMSE_mean = RMSE;       
+      DailyStatMatrix(idx).Rrs_680_RMSE_mean = RMSE;
+      
+      time_used = [SatData(cond_1t).datetime];
+      
+      data_used_filtered = data_used(cond_used);
+      time_used_filtered = time_used(cond_used);
+      
+      % initialization
+      DailyStatMatrix(idx).Rrs_680_00 = nan;
+      DailyStatMatrix(idx).Rrs_680_01 = nan;
+      DailyStatMatrix(idx).Rrs_680_02 = nan;
+      DailyStatMatrix(idx).Rrs_680_03 = nan;
+      DailyStatMatrix(idx).Rrs_680_04 = nan;
+      DailyStatMatrix(idx).Rrs_680_05 = nan;
+      DailyStatMatrix(idx).Rrs_680_06 = nan;
+      DailyStatMatrix(idx).Rrs_680_07 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_00 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_01 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_02 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_03 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_04 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_05 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_06 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_07 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_00 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_01 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_02 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_03 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_04 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_05 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_06 = nan;
+      DailyStatMatrix(idx).Rrs_680_error_w_r_noon_07 = nan;
+      
+      for idx2 =1:size(data_used_filtered,2)
+            if time_used_filtered.Hour(idx2) == 0
+                  DailyStatMatrix(idx).Rrs_680_00 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_00 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_00 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 1
+                  DailyStatMatrix(idx).Rrs_680_01 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_01 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_01 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 2
+                  DailyStatMatrix(idx).Rrs_680_02 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_02 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_02 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 3
+                  DailyStatMatrix(idx).Rrs_680_03 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_03 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_03 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 4
+                  DailyStatMatrix(idx).Rrs_680_04 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_04 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_04 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 5
+                  DailyStatMatrix(idx).Rrs_680_05 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_05 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_05 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 6
+                  DailyStatMatrix(idx).Rrs_680_06 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_06 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_06 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+            if time_used_filtered.Hour(idx2) == 7
+                  DailyStatMatrix(idx).Rrs_680_07 = data_used_filtered(idx2);
+                  DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_07 = ...
+                        DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                  if sum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                        DailyStatMatrix(idx).Rrs_680_error_w_r_noon_07 = ...
+                              data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
+                  end
+            end
+      end
 end
+%%
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_00],'.','MarkerSize',20)
+ylabel('1st')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_01],'.','MarkerSize',20)
+ylabel('2nd')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_02],'.','MarkerSize',20)
+ylabel('3rd')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_03],'.','MarkerSize',20)
+ylabel('4th')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_04],'.','MarkerSize',20)
+ylabel('5th')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_05],'.','MarkerSize',20)
+ylabel('6th')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_06],'.','MarkerSize',20)
+ylabel('7th')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_07],'.','MarkerSize',20)
+ylabel('8th')
+grid on
+
+%%
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_00],'.','MarkerSize',20)
+ylabel('1st')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_01],'.','MarkerSize',20)
+ylabel('2nd')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_02],'.','MarkerSize',20)
+ylabel('3rd')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_03],'.','MarkerSize',20)
+ylabel('4th')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_04],'.','MarkerSize',20)
+ylabel('5th')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_05],'.','MarkerSize',20)
+ylabel('6th')
+grid on
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_06],'.','MarkerSize',20)
+ylabel('7th')
+grid on
+subplot(2,1,2)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_07],'.','MarkerSize',20)
+ylabel('8th')
+grid on
 
 %% Plot global stats
 fs = 20;
