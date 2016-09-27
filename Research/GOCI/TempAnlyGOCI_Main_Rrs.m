@@ -30,6 +30,9 @@ h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 total_px = SatData(1).pixel_count; % FOR THIS ROI!!!
 zenith_lim = 75;
 xrange = 0.02;
+startDate = datenum('01-01-2011');
+endDate = datenum('01-01-2017');
+xData = startDate:datenum(years(1)):endDate;
 
 % Rrs_412
 cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
@@ -43,8 +46,12 @@ data_used = [SatData(cond_used).Rrs_412_filtered_mean];
 figure(h1)
 subplot(6,1,1)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(412)','FontSize',fs)
+
 
 N = sum(cond_used);
 fs = 20;
@@ -79,6 +86,9 @@ data_used = [SatData(cond_used).Rrs_443_filtered_mean];
 figure(h1)
 subplot(6,1,2)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(443)','FontSize',fs)
 
@@ -114,6 +124,9 @@ data_used = [SatData(cond_used).Rrs_490_filtered_mean];
 figure(h1)
 subplot(6,1,3)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(490)','FontSize',fs)
 
@@ -149,6 +162,9 @@ data_used = [SatData(cond_used).Rrs_555_filtered_mean];
 figure(h1)
 subplot(6,1,4)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(555)','FontSize',fs)
 
@@ -184,6 +200,9 @@ data_used = [SatData(cond_used).Rrs_660_filtered_mean];
 figure(h1)
 subplot(6,1,5)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(660)','FontSize',fs)
 
@@ -221,6 +240,9 @@ data_used = [SatData(cond_used).Rrs_680_filtered_mean];
 figure(h1)
 subplot(6,1,6)
 plot([SatData(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')% 
 % set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(680)','FontSize',fs)
 xlabel('Time','FontSize',fs)
@@ -267,6 +289,10 @@ subplot(2,1,1)
 hold on
 plot(data_used_x,data_used_y,'.','MarkerSize',12)
 eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')% 
+% set(gca,'XTickLabel',{' '})
 grid on
 
 subplot(2,1,2)
@@ -274,6 +300,10 @@ hold on
 plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')% 
+% set(gca,'XTickLabel',{' '})
 grid on
 
 %% show high solar zenith angle and no valid data
@@ -305,12 +335,20 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([SatData(cond_used).datetime],[SatData(cond_used).chlor_a_filtered_mean],'.','MarkerSize',20)
 ylabel('Chlor\_a','FontSize',fs)
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')% 
+% set(gca,'XTickLabel',{' '})
 grid on
 
 subplot(2,1,2)
 plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')% 
+% set(gca,'XTickLabel',{' '})
 grid on
 
 
@@ -1236,10 +1274,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_00],'.','MarkerSize',20)
 ylabel('1st')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_01],'.','MarkerSize',20)
 ylabel('2nd')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1247,10 +1291,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_02],'.','MarkerSize',20)
 ylabel('3rd')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_03],'.','MarkerSize',20)
 ylabel('4th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1258,10 +1308,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_04],'.','MarkerSize',20)
 ylabel('5th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_05],'.','MarkerSize',20)
 ylabel('6th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1269,10 +1325,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_06],'.','MarkerSize',20)
 ylabel('7th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_07],'.','MarkerSize',20)
 ylabel('8th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 %%
@@ -1281,10 +1343,17 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_00],'.','MarkerSize',20)
 ylabel('1st')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
+
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_01],'.','MarkerSize',20)
 ylabel('2nd')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1292,10 +1361,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_02],'.','MarkerSize',20)
 ylabel('3rd')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_03],'.','MarkerSize',20)
 ylabel('4th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1303,10 +1378,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_04],'.','MarkerSize',20)
 ylabel('5th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_05],'.','MarkerSize',20)
 ylabel('6th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 fs = 20;
@@ -1314,10 +1395,16 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_06],'.','MarkerSize',20)
 ylabel('7th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 subplot(2,1,2)
 plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_07],'.','MarkerSize',20)
 ylabel('8th')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
 grid on
 
 %% Plot global stats
