@@ -1268,7 +1268,7 @@ for idx=1:size(date_idx,2)
             end
       end
 end
-%%
+%% Plot error with respect to the noon value vs time
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
@@ -1337,7 +1337,7 @@ ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 
-%%
+%% Plot error with respect to the daily mean value vs time
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
@@ -1405,6 +1405,116 @@ ylabel('8th')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+grid on
+
+%% Plot RMSE (error from the daily mean)
+
+wl = '680';
+
+eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00].^2;',wl))
+RMSE_00 = sqrt(nanmean(sq_error_00));
+eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00]);',wl))
+
+eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01].^2;',wl))
+RMSE_01 = sqrt(nanmean(sq_error_01));
+eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01]);',wl))
+
+eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02].^2;',wl))
+RMSE_02 = sqrt(nanmean(sq_error_02));
+eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02]);',wl))
+
+eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03].^2;',wl))
+RMSE_03 = sqrt(nanmean(sq_error_03));
+eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03]);',wl))
+
+eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04].^2;',wl))
+RMSE_04 = sqrt(nanmean(sq_error_04));
+eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04]);',wl))
+
+eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05].^2;',wl))
+RMSE_05 = sqrt(nanmean(sq_error_05));
+eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05]);',wl))
+
+eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06].^2;',wl))
+RMSE_06 = sqrt(nanmean(sq_error_06));
+eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06]);',wl))
+
+eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07].^2;',wl))
+RMSE_07 = sqrt(nanmean(sq_error_07));
+eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07]);',wl))
+
+stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
+
+RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+% plot(1:8,stdv_all,'or','MarkerSize',12)
+errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+ax = gca;
+ax.XTick = 1:8;
+ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+xlim([0 9])
+% ylim([0 4e-3])
+
+str1 = sprintf('Rrs(%s), RMSE (error from the daily mean)',wl);
+
+ylabel(str1,'FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+grid on
+
+% Plot RMSE (error from the noon value)
+
+eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_00].^2;',wl))
+RMSE_00 = sqrt(nanmean(sq_error_00));
+eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_00]);',wl))
+
+eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_01].^2;',wl))
+RMSE_01 = sqrt(nanmean(sq_error_01));
+eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_01]);',wl))
+
+eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_02].^2;',wl))
+RMSE_02 = sqrt(nanmean(sq_error_02));
+eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_02]);',wl))
+
+eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_03].^2;',wl))
+RMSE_03 = sqrt(nanmean(sq_error_03));
+eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_03]);',wl))
+
+eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_04].^2;',wl))
+RMSE_04 = sqrt(nanmean(sq_error_04));
+eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_04]);',wl))
+
+eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_05].^2;',wl))
+RMSE_05 = sqrt(nanmean(sq_error_05));
+eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_05]);',wl))
+
+eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_06].^2;',wl))
+RMSE_06 = sqrt(nanmean(sq_error_06));
+eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_06]);',wl))
+
+eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_07].^2;',wl))
+RMSE_07 = sqrt(nanmean(sq_error_07));
+eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_07]);',wl))
+
+stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
+
+RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+% plot(1:8,stdv_all,'or','MarkerSize',12)
+errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+ax = gca;
+ax.XTick = 1:8;
+ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+xlim([0 9])
+% ylim([-1e-3 5e-3])
+str2 = sprintf('Rrs(%s), RMSE (error from the noon)',wl);
+ylabel(str2,'FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
 grid on
 
 %% Plot global stats
