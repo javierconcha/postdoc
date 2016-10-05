@@ -2111,4 +2111,137 @@ C code for solar azimuth and zenith angle calculation:
 
 http://rredc.nrel.gov/solar/codesandalgorithms/spa/
 
+
+GOCI special cases:
+7 26-May-2011
+7 04-Jun-2011
+7 08-Jun-2011
+7 09-Jun-2011
+10 18-Jul-2011
+7 08-Oct-2011
+7 11-Oct-2011
+7 25-Oct-2011
+7 01-Nov-2011
+7 08-Nov-2011
+7 15-Nov-2011
+7 29-Nov-2011
+7 13-Dec-2011
+7 14-Dec-2011
+7 27-Dec-2011
+7 10-Jan-2012
+7 12-Jan-2012
+7 24-Jan-2012
+7 31-Jan-2012
+7 04-Mar-2012
+7 05-Mar-2012
+7 06-Mar-2012
+7 09-Oct-2012
+7 16-Oct-2012
+7 23-Oct-2012
+7 30-Oct-2012
+7 13-Nov-2012
+7 27-Nov-2012
+7 11-Dec-2012
+7 25-Dec-2012
+7 01-Jan-2013
+7 08-Jan-2013
+7 15-Jan-2013
+7 29-Jan-2013
+7 15-Oct-2013
+7 22-Oct-2013
+7 29-Oct-2013
+7 12-Nov-2013
+7 26-Nov-2013
+7 03-Dec-2013
+7 17-Dec-2013
+7 31-Dec-2013
+7 14-Jan-2014
+7 28-Jan-2014
+7 14-Oct-2014
+7 21-Oct-2014
+7 04-Nov-2014
+7 18-Nov-2014
+7 02-Dec-2014
+9 08-Dec-2014
+7 16-Dec-2014
+7 23-Dec-2014
+7 06-Jan-2015
+7 20-Jan-2015
+7 03-Feb-2015
+10 01-Sep-2015
+9 22-Sep-2015
+9 06-Oct-2015
+7 20-Oct-2015
+7 03-Nov-2015
+7 10-Nov-2015
+7 17-Nov-2015
+7 24-Nov-2015
+7 08-Dec-2015
+7 22-Dec-2015
+7 19-Jan-2016
+7 26-Jan-2016
+7 02-Feb-2016
+7 09-Feb-2016
+7 25-Jul-2016
+7 06-Aug-2016
+7 19-Aug-2016
+7 27-Aug-2016
+7 07-Sep-2016
+
+--------------------------------------------------
+2016-09-29 Thu
+fsol and t_indx_sh not working for GOCI
+
+l2gen ifile=COMS_GOCI_L1B_GA_20160809001643.he5 ofile1=COMS_GOCI_L1B_GA_20160809001643.he5_valregion sline=4144 eline=5142 spixl=3169 epixl=5167 l2prod="Rrs_unc_vvv, Rrs_vvv, angstrom, aot_865, chlor_a, humidity, no2_frac, no2_strat, no2_tropo, ozone, pressure, relaz, scattang, sena, senz, sola, solz, water_vapor,brdf,epsilon,dpol_vvv,glint_coef,aerindex,aer_model_max,aer_model_min,aer_model_ratio,aer_num_iter,num_iter,cloud_albedo,ms_epsilon,polcor_vvv,tg_sen_vvv,tg_sol_vvv,t_h2o_vvv,tindx_morel,t_o2_vvv,t_sen_vvv,t_sol_vvv,v_soa,w0_sma,w0_soa"
+
+
+for COMS_GOCI_L1B_GA_20141130071642.he5:
+
+jconchas@anly104:~/data2/GOCI/GOCI_AERONET/20141130$ cat COMS_GOCI_L1B_GA_20141130071642.he5_MTL.txt|grep -5 Sun
+
+   ATTRIBUTE "Sun azimuth angle at scene center" {
+      DATATYPE  H5T_IEEE_F32LE
+      DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
+      DATA {
+      (0): 237.889
+      }
+   }
+   ATTRIBUTE "Sun elevation angle at scene center" {
+      DATATYPE  H5T_IEEE_F32LE
+      DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
+      DATA {
+      (0): 5.76739
+      }
+
+
+jconchas@anly104:~/data2/GOCI/GOCI_AERONET/20141130$ ncdump -h COMS_GOCI_L1B_GA_20141130071642.he5_L2n2.nc|grep sunzen
+                :sunzen = "70.000" ;
+                :masksunzen = "0" ;
+
+
+--------------------------------------------------
+2016-10-04 Tue
+
+error in l2gen in anly104:
+jconchas@anly104:~/ocssw/run/data$ svn up
+Updating '.':
+Skipped 'modis' -- Node remains in conflict
+At revision 13563.
+Summary of conflicts:
+  Skipped paths: 1
+jconchas@anly104:~/ocssw/r
+
+running l2gen for MODIS Aqua:
+jconchas@anly104:~/data2/MODIS/test$ l2gen ifile=A2016210041500.L1B_LAC geofile=A2016210041500.GEO l2prod="default,ag_412_mlrc,rhos_vvv,Rrs_unc_vvv, angstrom, aot_869, humidity, no2_frac, no2_strat, no2_tropo, ozone, pressure, relaz, scattang, sena, senz, sola, solz, water_vapor,brdf,epsilon,dpol_vvv,glint_coef,aerindex,aer_model_max,aer_model_min,aer_model_ratio,aer_num_iter,num_iter,cloud_albedo,ms_epsilon,polcor_vvv,tg_sen_vvv,tg_sol_vvv,t_h2o_vvv,tindx_morel,t_o2_vvv,t_sen_vvv,t_sol_vvv,v_soa,w0_sma,w0_soa"
+
+
+to process VIIRS:
+calibrate_viirs ifile=V2016246152400.L1A_SNPP.nc l1bfile_mod=V2016246152400.L1B-M_SNPP.nc
+geolocate_viirs ifile=V2016246152400.L1A_SNPP.nc geofile_mod=V2016246152400.GEO-M_SNPP.nc 
+l2gen ifile=V2016246152400.L1B-M_SNPP.nc geofile=V2016246152400.GEO-M_SNPP.nc ofile=V2016246152400.L2.nc
+
+to install ocssw in anly104:
+./install_ocssw.py --git-branch=v7.3 --viirsn
+
+
 (END)
