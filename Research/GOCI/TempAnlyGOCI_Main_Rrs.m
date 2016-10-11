@@ -461,8 +461,9 @@ grid on
 D= datevec([SatData.datetime]);
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData.datetime],D(:,4),'.')
+plot([SatData.datetime],datetime(2016,1,1,D(:,4),D(:,5),D(:,6)),'.')
 ylabel('Hour of the day (GMT)','FontSize',fs)
+datetick('y','hh:MM:ss')% 
 grid on
 
 subplot(2,1,2)
@@ -1409,7 +1410,7 @@ grid on
 
 %% Plot RMSE (error from the daily mean)
 
-wl = '680';
+wl = '4';
 
 eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00].^2;',wl))
 RMSE_00 = sqrt(nanmean(sq_error_00));
