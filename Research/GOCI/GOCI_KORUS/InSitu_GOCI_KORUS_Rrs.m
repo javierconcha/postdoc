@@ -1,3 +1,6 @@
+%% 
+cd '/Users/jconchas/Documents/Research/GOCI/GOCI_KORUS';
+
 %%
 
 L2sdata = load('1614106_L2s.mat');
@@ -30,11 +33,13 @@ grid on
 subplot(2,2,3)
 plot(WL(cond1),LI(cond1,:))
 title('LI')
+xlabel('Wavelength (nm)')
 grid on
 
 subplot(2,2,4)
 plot(WL(cond1),Rrs(cond1,:))
 title('Rrs')
+xlabel('Wavelength (nm)')
 grid on
 %%
 % Plot GOCI footprint
