@@ -2243,5 +2243,13 @@ l2gen ifile=V2016246152400.L1B-M_SNPP.nc geofile=V2016246152400.GEO-M_SNPP.nc of
 to install ocssw in anly104:
 ./install_ocssw.py --git-branch=v7.3 --viirsn
 
+to process MODIS:
+modis_GEO.py A2016210041500.L1A_LAC
+modis_L1B.py A2016210041500.L1A_LAC 
+
+--------------------------------------------------
+2016-10-11 Tue
+to avoid scp to transfer file already transfered:
+find ./ -name "*valregion*"|xargs chmod a-w
 
 (END)

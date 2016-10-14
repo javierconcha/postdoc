@@ -5,8 +5,9 @@ cd '/Users/jconchas/Documents/Research/GOCI/';
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
-%% Load sat data
-clear SatData
+addpath('/Users/jconchas/Documents/MATLAB')
+%% Load GOCI data
+clear GOCI_Data
 tic
 fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
@@ -15,19 +16,20 @@ fclose(fileID);
 for idx0=1:size(s{1},1)
       
       filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
-      SatData(idx0) = loadsatcell_tempanly(filepath);
+      GOCI_Data(idx0) = loadsatcell_tempanly(filepath);
       
 end
 
-save('GOCI_TempAnly.mat','SatData')
+save('GOCI_TempAnly.mat','GOCI_Data')
 toc
-%%
-load('GOCI_TempAnly.mat','SatData')
 
-fs = 20;
+%%
+load('GOCI_TempAnly.mat','GOCI_Data')
+
+fs = 24;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
-total_px = SatData(1).pixel_count; % FOR THIS ROI!!!
+total_px = GOCI_Data(1).pixel_count; % FOR THIS ROI!!!
 zenith_lim = 75;
 xrange = 0.02;
 startDate = datenum('01-01-2011');
@@ -35,26 +37,27 @@ endDate = datenum('01-01-2017');
 xData = startDate:datenum(years(1)):endDate;
 
 % Rrs_412
-cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
-cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_412_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
 
 
 figure(h1)
 subplot(6,1,1)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(412)','FontSize',fs)
-
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -69,31 +72,33 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
 % Rrs_443
-cond1 = ~isnan([SatData.Rrs_443_filtered_mean]);
-cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_443_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
 
 figure(h1)
 subplot(6,1,2)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(443)','FontSize',fs)
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -107,31 +112,33 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
 % Rrs_490
-cond1 = ~isnan([SatData.Rrs_490_filtered_mean]);
-cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_490_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
 
 figure(h1)
 subplot(6,1,3)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(490)','FontSize',fs)
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -145,31 +152,33 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
 % Rrs_555
-cond1 = ~isnan([SatData.Rrs_555_filtered_mean]);
-cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_555_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
 
 figure(h1)
 subplot(6,1,4)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(555)','FontSize',fs)
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -183,32 +192,33 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
 % Rrs_660
-cond1 = ~isnan([SatData.Rrs_660_filtered_mean]);
-cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_660_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
 
 figure(h1)
 subplot(6,1,5)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(660)','FontSize',fs)
-
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -222,33 +232,35 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
 % Rrs_680
-cond1 = ~isnan([SatData.Rrs_680_filtered_mean]);
-cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [SatData(cond_used).Rrs_680_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
 
 
 figure(h1)
 subplot(6,1,6)
-plot([SatData(cond_used).datetime],data_used,'.')
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
 ax = gca;
 ax.XTick = xData;
-datetick('x','yyyy')% 
+datetick('x','yyyy')%
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 % set(gca,'XTickLabel',{' '})
 ylabel('R_{rs}(680)','FontSize',fs)
 xlabel('Time','FontSize',fs)
+grid on
 
 N = sum(cond_used);
-fs = 20;
+% fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
@@ -262,7 +274,7 @@ str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (
 xLimits = get(gca,'XLim');
 yLimits = get(gca,'YLim');
 xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-yLoc = yLimits(1)+0.80*(yLimits(2)-yLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
 figure(h)
 hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
@@ -271,19 +283,19 @@ grid on
 %% Plot vs time
 
 % cond_used = 11064-7:11064+23;
-% cond_used = 1:size(SatData,2);
-% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
 wl = '680'; % 412 443 490 555 660 680
-eval(sprintf('cond1 = ~isnan([SatData.Rrs_%s_filtered_mean]);',wl));
-eval(sprintf('cond2 = [SatData.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px/2;',wl));
-cond3 = [SatData.center_ze] <= zenith_lim;
+eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
+eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px/2;',wl));
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1 & cond2 & cond3;
 
-eval(sprintf('data_used_y = [SatData(cond_used).Rrs_%s_filtered_mean];',wl));
-data_used_x = [SatData(cond_used).datetime];
+eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl));
+data_used_x = [GOCI_Data(cond_used).datetime];
 
-fs = 20;
+fs = 25;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 hold on
@@ -291,63 +303,63 @@ plot(data_used_x,data_used_y,'.','MarkerSize',12)
 eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
 ax = gca;
 ax.XTick = xData;
-datetick('x','yyyy')% 
+datetick('x','yyyy')%
 % set(gca,'XTickLabel',{' '})
 grid on
 
 subplot(2,1,2)
 hold on
-plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 ax = gca;
 ax.XTick = xData;
-datetick('x','yyyy')% 
+datetick('x','yyyy')%
 % set(gca,'XTickLabel',{' '})
 grid on
 
 %% show high solar zenith angle and no valid data
 subplot(2,1,1)
 hold on
-plot([SatData(~cond2).datetime],[SatData(~cond2).Rrs_412_filtered_mean],'.r','MarkerSize',12)
+plot([GOCI_Data(~cond2).datetime],[GOCI_Data(~cond2).Rrs_412_filtered_mean],'.r','MarkerSize',12)
 subplot(2,1,1)
 hold on
-plot([SatData(~cond3).datetime],[SatData(~cond3).Rrs_412_filtered_mean],'.g','MarkerSize',12)
+plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).Rrs_412_filtered_mean],'.g','MarkerSize',12)
 
 subplot(2,1,2)
 hold on
-plot([SatData(~cond2).datetime],[SatData(~cond2).center_ze],'.r','MarkerSize',12)
+plot([GOCI_Data(~cond2).datetime],[GOCI_Data(~cond2).center_ze],'.r','MarkerSize',12)
 subplot(2,1,2)
 hold on
-plot([SatData(~cond3).datetime],[SatData(~cond3).center_ze],'.g','MarkerSize',12)
+plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).center_ze],'.g','MarkerSize',12)
 %% Chlr_a
 
 % cond_used = 11064-7:11064+23;
-% cond_used = 1:size(SatData,2);
-% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
-cond1 = ~isnan([SatData.chlor_a_filtered_mean]);
-cond2 = [SatData.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
+cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
-fs = 20;
+fs = 25;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData(cond_used).datetime],[SatData(cond_used).chlor_a_filtered_mean],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).chlor_a_filtered_mean],'.','MarkerSize',20)
 ylabel('Chlor\_a','FontSize',fs)
 ax = gca;
 ax.XTick = xData;
-datetick('x','yyyy')% 
+datetick('x','yyyy')%
 % set(gca,'XTickLabel',{' '})
 grid on
 
 subplot(2,1,2)
-plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 ax = gca;
 ax.XTick = xData;
-datetick('x','yyyy')% 
+datetick('x','yyyy')%
 % set(gca,'XTickLabel',{' '})
 grid on
 
@@ -355,83 +367,84 @@ grid on
 N = sum(cond_used);
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
-[counts,centers] = hist([SatData(cond_used).chlor_a_filtered_mean],50);
+[counts,centers] = hist([GOCI_Data(cond_used).chlor_a_filtered_mean],50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
 xlabel('Chlor\_a','FontSize',fs)
 grid on
+
 %% mean rrs vs zenith
-
 % cond_used = 11064-7:11064+23;
-% cond_used = 1:size(SatData,2);
-% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
-fs = 20;
+fs = 25;
+ms = 14;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs 412
-cond1 = ~isnan([SatData.Rrs_412_filtered_mean]);
-cond2 = [SatData.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
 subplot(2,3,1)
-plot([SatData(cond_used).Rrs_412_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(412)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 443
-cond1 = ~isnan([SatData.Rrs_443_filtered_mean]);
-cond2 = [SatData.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,2)
-plot([SatData(cond_used).Rrs_443_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(443)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 490
-cond1 = ~isnan([SatData.Rrs_490_filtered_mean]);
-cond2 = [SatData.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,3)
-plot([SatData(cond_used).Rrs_490_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(490)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 555
-cond1 = ~isnan([SatData.Rrs_555_filtered_mean]);
-cond2 = [SatData.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,4)
-plot([SatData(cond_used).Rrs_555_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(555)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 660
-cond1 = ~isnan([SatData.Rrs_660_filtered_mean]);
-cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,5)
-plot([SatData(cond_used).Rrs_660_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(660)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs 680
-cond1 = ~isnan([SatData.Rrs_680_filtered_mean]);
-cond2 = [SatData.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,6)
-plot([SatData(cond_used).Rrs_680_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',20)
+plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
 xlabel('R_{rs}(680)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -440,49 +453,49 @@ grid on
 %% chl vs zenith
 
 % cond_used = 11064-7:11064+23;
-% cond_used = 1:size(SatData,2);
-% cond_used = [SatData.datetime]>datetime(2013,1,1) & [SatData.datetime]<datetime(2014,1,1);
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
 
-cond1 = ~isnan([SatData.chlor_a_filtered_mean]);
-cond2 = [SatData.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
-cond3 = [SatData.center_ze] <= zenith_lim;
+cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
-plot([SatData(cond_used).chlor_a_filtered_mean],[SatData(cond_used).center_ze],'.','MarkerSize',12)
-xlabel('Chlor_a','FontSize',fs)
+plot([GOCI_Data(cond_used).chlor_a_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('Chlor-\it{a}','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 
 %% Capture time analysis
-D= datevec([SatData.datetime]);
+D= datevec([GOCI_Data.datetime]);
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([SatData.datetime],datetime(2016,1,1,D(:,4),D(:,5),D(:,6)),'.')
+plot([GOCI_Data.datetime],datetime(2016,1,1,D(:,4),D(:,5),D(:,6)),'.')
 ylabel('Hour of the day (GMT)','FontSize',fs)
-datetick('y','hh:MM:ss')% 
+datetick('y','hh:MM')%
 grid on
 
 subplot(2,1,2)
-plot([SatData(cond_used).datetime],[SatData(cond_used).center_ze],'.')
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.')
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 xlabel('Time','FontSize',fs)
 grid on
 %% Global statistics
 
-% cond2 = [SatData.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
-% cond3 = [SatData.center_ze] <= 65;
+% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+% cond3 = [GOCI_Data.center_ze] <= 65;
 % cond_used = cond3 & cond2;
 clear DailyStatMatrix
 clear cond_1t
 
-[Year,Month,Day] = datevec([SatData.datetime]);
+[Year,Month,Day] = datevec([GOCI_Data.datetime]);
 
-first_day = datetime(SatData(1).datetime.Year,SatData(1).datetime.Month,SatData(1).datetime.Day);
-last_day = datetime(SatData(end).datetime.Year,SatData(end).datetime.Month,SatData(end).datetime.Day);
+first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
 
 date_idx = first_day:last_day;
 count_neg_cases = 0;
@@ -503,7 +516,7 @@ for idx=1:size(date_idx,2)
       
       % check if there are more than one image per hour. It does not check
       % if the values are valid or not, but there are only a bunch of cases
-      time_aux = [SatData(cond_1t).datetime];
+      time_aux = [GOCI_Data(cond_1t).datetime];
       [~,IA,~] = unique([time_aux.Hour]);
       cond_aux = zeros(size(time_aux));
       cond_aux(IA) = 1;
@@ -511,8 +524,8 @@ for idx=1:size(date_idx,2)
       clear time_aux IA cond_aux
       %% Rrs 412
       
-      data_used = [SatData(cond_1t).Rrs_412_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_412_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_412_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
@@ -528,7 +541,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_412_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -636,8 +649,8 @@ for idx=1:size(date_idx,2)
       
       %% Rrs 443
       
-      data_used = [SatData(cond_1t).Rrs_443_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_443_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_443_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
@@ -655,7 +668,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_443_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -763,8 +776,8 @@ for idx=1:size(date_idx,2)
       
       %% Rrs 490
       
-      data_used = [SatData(cond_1t).Rrs_490_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_490_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_490_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_490_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
@@ -782,7 +795,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_490_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -890,8 +903,8 @@ for idx=1:size(date_idx,2)
       
       %% Rrs 555
       
-      data_used = [SatData(cond_1t).Rrs_555_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_555_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_555_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_555_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
@@ -909,7 +922,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_555_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -1017,8 +1030,8 @@ for idx=1:size(date_idx,2)
       
       %% Rrs 660
       
-      data_used = [SatData(cond_1t).Rrs_660_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_660_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_660_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_660_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
@@ -1036,7 +1049,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_660_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -1144,8 +1157,8 @@ for idx=1:size(date_idx,2)
       
       %% Rrs 680
       
-      data_used = [SatData(cond_1t).Rrs_680_filtered_mean];
-      valid_px_count_used = [SatData(cond_1t).Rrs_680_filtered_valid_pixel_count];
+      data_used = [GOCI_Data(cond_1t).Rrs_680_filtered_mean];
+      valid_px_count_used = [GOCI_Data(cond_1t).Rrs_680_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
       cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
@@ -1163,7 +1176,7 @@ for idx=1:size(date_idx,2)
       RMSE = sqrt(sum(sq_err)/sum(cond_used));
       DailyStatMatrix(idx).Rrs_680_RMSE_mean = RMSE;
       
-      time_used = [SatData(cond_1t).datetime];
+      time_used = [GOCI_Data(cond_1t).datetime];
       
       data_used_filtered = data_used(cond_used);
       time_used_filtered = time_used(cond_used);
@@ -1269,18 +1282,20 @@ for idx=1:size(date_idx,2)
             end
       end
 end
+
 %% Plot error with respect to the noon value vs time
-fs = 20;
+fs = 25;
+ms = 14;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_00],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_00],'.','MarkerSize',ms)
 ylabel('1st')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_01],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_01],'.','MarkerSize',ms)
 ylabel('2nd')
 ax = gca;
 ax.XTick = xData;
@@ -1290,14 +1305,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_02],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_02],'.','MarkerSize',ms)
 ylabel('3rd')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_03],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_03],'.','MarkerSize',ms)
 ylabel('4th')
 ax = gca;
 ax.XTick = xData;
@@ -1307,14 +1322,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_04],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_04],'.','MarkerSize',ms)
 ylabel('5th')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_05],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_05],'.','MarkerSize',ms)
 ylabel('6th')
 ax = gca;
 ax.XTick = xData;
@@ -1324,14 +1339,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_06],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_06],'.','MarkerSize',ms)
 ylabel('7th')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_07],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_noon_07],'.','MarkerSize',ms)
 ylabel('8th')
 ax = gca;
 ax.XTick = xData;
@@ -1342,7 +1357,7 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_00],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_00],'.','MarkerSize',ms)
 ylabel('1st')
 ax = gca;
 ax.XTick = xData;
@@ -1350,7 +1365,7 @@ datetick('x','yyyy')
 grid on
 
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_01],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_01],'.','MarkerSize',ms)
 ylabel('2nd')
 ax = gca;
 ax.XTick = xData;
@@ -1360,14 +1375,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_02],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_02],'.','MarkerSize',ms)
 ylabel('3rd')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_03],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_03],'.','MarkerSize',ms)
 ylabel('4th')
 ax = gca;
 ax.XTick = xData;
@@ -1377,14 +1392,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_04],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_04],'.','MarkerSize',ms)
 ylabel('5th')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_05],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_05],'.','MarkerSize',ms)
 ylabel('6th')
 ax = gca;
 ax.XTick = xData;
@@ -1394,14 +1409,14 @@ grid on
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_06],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_06],'.','MarkerSize',ms)
 ylabel('7th')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 subplot(2,1,2)
-plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_07],'.','MarkerSize',20)
+plot([DailyStatMatrix.datetime],[DailyStatMatrix.Rrs_412_error_w_r_daily_mean_07],'.','MarkerSize',ms)
 ylabel('8th')
 ax = gca;
 ax.XTick = xData;
@@ -1410,114 +1425,116 @@ grid on
 
 %% Plot RMSE (error from the daily mean)
 
-wl = '4';
+wl = {'412','443','490','555','660','680'};
 
-eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00].^2;',wl))
-RMSE_00 = sqrt(nanmean(sq_error_00));
-eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00]);',wl))
-
-eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01].^2;',wl))
-RMSE_01 = sqrt(nanmean(sq_error_01));
-eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01]);',wl))
-
-eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02].^2;',wl))
-RMSE_02 = sqrt(nanmean(sq_error_02));
-eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02]);',wl))
-
-eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03].^2;',wl))
-RMSE_03 = sqrt(nanmean(sq_error_03));
-eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03]);',wl))
-
-eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04].^2;',wl))
-RMSE_04 = sqrt(nanmean(sq_error_04));
-eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04]);',wl))
-
-eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05].^2;',wl))
-RMSE_05 = sqrt(nanmean(sq_error_05));
-eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05]);',wl))
-
-eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06].^2;',wl))
-RMSE_06 = sqrt(nanmean(sq_error_06));
-eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06]);',wl))
-
-eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07].^2;',wl))
-RMSE_07 = sqrt(nanmean(sq_error_07));
-eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07]);',wl))
-
-stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
-
-RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
-
-fs = 20;
-h = figure('Color','white','DefaultAxesFontSize',fs);
-% plot(1:8,stdv_all,'or','MarkerSize',12)
-errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-ax = gca;
-ax.XTick = 1:8;
-ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
-xlim([0 9])
-% ylim([0 4e-3])
-
-str1 = sprintf('Rrs(%s), RMSE (error from the daily mean)',wl);
-
-ylabel(str1,'FontSize',fs)
-xlabel('Local Time','FontSize',fs)
-
-grid on
-
-% Plot RMSE (error from the noon value)
-
-eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_00].^2;',wl))
-RMSE_00 = sqrt(nanmean(sq_error_00));
-eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_00]);',wl))
-
-eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_01].^2;',wl))
-RMSE_01 = sqrt(nanmean(sq_error_01));
-eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_01]);',wl))
-
-eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_02].^2;',wl))
-RMSE_02 = sqrt(nanmean(sq_error_02));
-eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_02]);',wl))
-
-eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_03].^2;',wl))
-RMSE_03 = sqrt(nanmean(sq_error_03));
-eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_03]);',wl))
-
-eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_04].^2;',wl))
-RMSE_04 = sqrt(nanmean(sq_error_04));
-eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_04]);',wl))
-
-eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_05].^2;',wl))
-RMSE_05 = sqrt(nanmean(sq_error_05));
-eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_05]);',wl))
-
-eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_06].^2;',wl))
-RMSE_06 = sqrt(nanmean(sq_error_06));
-eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_06]);',wl))
-
-eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_07].^2;',wl))
-RMSE_07 = sqrt(nanmean(sq_error_07));
-eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_07]);',wl))
-
-stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
-
-RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
-
-fs = 20;
-h = figure('Color','white','DefaultAxesFontSize',fs);
-% plot(1:8,stdv_all,'or','MarkerSize',12)
-errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-ax = gca;
-ax.XTick = 1:8;
-ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
-xlim([0 9])
-% ylim([-1e-3 5e-3])
-str2 = sprintf('Rrs(%s), RMSE (error from the noon)',wl);
-ylabel(str2,'FontSize',fs)
-xlabel('Local Time','FontSize',fs)
-
-grid on
-
+for idx = 1:size(wl,2)
+      
+      eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00].^2;',wl{idx}))
+      RMSE_00 = sqrt(nanmean(sq_error_00));
+      eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_00]);',wl{idx}))
+      
+      eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01].^2;',wl{idx}))
+      RMSE_01 = sqrt(nanmean(sq_error_01));
+      eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_01]);',wl{idx}))
+      
+      eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02].^2;',wl{idx}))
+      RMSE_02 = sqrt(nanmean(sq_error_02));
+      eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_02]);',wl{idx}))
+      
+      eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03].^2;',wl{idx}))
+      RMSE_03 = sqrt(nanmean(sq_error_03));
+      eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_03]);',wl{idx}))
+      
+      eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04].^2;',wl{idx}))
+      RMSE_04 = sqrt(nanmean(sq_error_04));
+      eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_04]);',wl{idx}))
+      
+      eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05].^2;',wl{idx}))
+      RMSE_05 = sqrt(nanmean(sq_error_05));
+      eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_05]);',wl{idx}))
+      
+      eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06].^2;',wl{idx}))
+      RMSE_06 = sqrt(nanmean(sq_error_06));
+      eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_06]);',wl{idx}))
+      
+      eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07].^2;',wl{idx}))
+      RMSE_07 = sqrt(nanmean(sq_error_07));
+      eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_daily_mean_07]);',wl{idx}))
+      
+      stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
+      
+      RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      xlim([0 9])
+      ylim([0 4e-3])
+      
+      str1 = sprintf('RMSE of the Diurnal Difference\n w/r to the daily mean\n for Rrs(%s) (1/sr)',wl{idx});
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
+      
+      grid on
+end      
+%% Plot RMSE (error from the noon value)
+for idx = 1:size(wl,2)      
+      eval(sprintf('sq_error_00 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_00].^2;',wl{idx}))
+      RMSE_00 = sqrt(nanmean(sq_error_00));
+      eval(sprintf('stdv_00= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_00]);',wl{idx}))
+      
+      eval(sprintf('sq_error_01 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_01].^2;',wl{idx}))
+      RMSE_01 = sqrt(nanmean(sq_error_01));
+      eval(sprintf('stdv_01= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_01]);',wl{idx}))
+      
+      eval(sprintf('sq_error_02 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_02].^2;',wl{idx}))
+      RMSE_02 = sqrt(nanmean(sq_error_02));
+      eval(sprintf('stdv_02= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_02]);',wl{idx}))
+      
+      eval(sprintf('sq_error_03 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_03].^2;',wl{idx}))
+      RMSE_03 = sqrt(nanmean(sq_error_03));
+      eval(sprintf('stdv_03= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_03]);',wl{idx}))
+      
+      eval(sprintf('sq_error_04 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_04].^2;',wl{idx}))
+      RMSE_04 = sqrt(nanmean(sq_error_04));
+      eval(sprintf('stdv_04= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_04]);',wl{idx}))
+      
+      eval(sprintf('sq_error_05 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_05].^2;',wl{idx}))
+      RMSE_05 = sqrt(nanmean(sq_error_05));
+      eval(sprintf('stdv_05= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_05]);',wl{idx}))
+      
+      eval(sprintf('sq_error_06 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_06].^2;',wl{idx}))
+      RMSE_06 = sqrt(nanmean(sq_error_06));
+      eval(sprintf('stdv_06= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_06]);',wl{idx}))
+      
+      eval(sprintf('sq_error_07 = [DailyStatMatrix.Rrs_%s_error_w_r_noon_07].^2;',wl{idx}))
+      RMSE_07 = sqrt(nanmean(sq_error_07));
+      eval(sprintf('stdv_07= nanstd([DailyStatMatrix.Rrs_%s_error_w_r_noon_07]);',wl{idx}))
+      
+      stdv_all = [stdv_00,stdv_01,stdv_02,stdv_03,stdv_04,stdv_05,stdv_06,stdv_07];
+      
+      RMSE_all = [RMSE_00,RMSE_01,RMSE_02,RMSE_03,RMSE_04,RMSE_05,RMSE_06,RMSE_07];
+      
+      % fs = 20;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,RMSE_all,stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      xlim([0 9])
+      % ylim([-1e-3 5e-3])
+      str2 = sprintf('Rrs(%s), RMSE (error from the noon)',wl{idx});
+      ylabel(str2,'FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
+      
+      grid on
+end
 %% Plot global stats
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
