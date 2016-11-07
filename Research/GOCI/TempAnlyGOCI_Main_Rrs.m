@@ -22,14 +22,46 @@ end
 
 save('GOCI_TempAnly.mat','GOCI_Data')
 toc
+%% Load Aqua data
+clear AQUA_Data
+tic
+fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
 
+for idx0=1:size(s{1},1)
+      
+      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
+      AQUA_Data(idx0) = loadsatcell_tempanly(filepath);
+      
+end
+
+save('GOCI_TempAnly.mat','GOCI_Data','-append')
+toc
+
+%% Load VIIRS data
+clear VIIRS_Data
+tic
+fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+for idx0=1:size(s{1},1)
+      
+      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
+      VIIRS_Data(idx0) = loadsatcell_tempanly(filepath);
+      
+end
+
+save('GOCI_TempAnly.mat','VIIRS_Data','-append')
+toc
 %%
 load('GOCI_TempAnly.mat','GOCI_Data')
 
 fs = 24;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
-total_px = GOCI_Data(1).pixel_count; % FOR THIS ROI!!!
+total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!!
 zenith_lim = 75;
 xrange = 0.02;
 startDate = datenum('01-01-2011');
@@ -38,7 +70,7 @@ xData = startDate:datenum(years(1)):endDate;
 
 % Rrs_412
 cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -80,7 +112,7 @@ grid on
 
 % Rrs_443
 cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -120,7 +152,7 @@ grid on
 
 % Rrs_490
 cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -160,7 +192,7 @@ grid on
 
 % Rrs_555
 cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -200,7 +232,7 @@ grid on
 
 % Rrs_660
 cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -240,7 +272,7 @@ grid on
 
 % Rrs_680
 cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -280,15 +312,15 @@ hold on
 text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 grid on
 
-%% Plot vs time
+%% Plot vs time for GOCI
 
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
-wl = '680'; % 412 443 490 555 660 680
+wl = '443'; % 412 443 490 555 660 680
 eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
-eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px/2;',wl));
+eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;',wl));
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1 & cond2 & cond3;
 
@@ -296,7 +328,7 @@ eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl));
 data_used_x = [GOCI_Data(cond_used).datetime];
 
 fs = 25;
-h = figure('Color','white','DefaultAxesFontSize',fs);
+h1 = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 hold on
 plot(data_used_x,data_used_y,'.','MarkerSize',12)
@@ -317,7 +349,6 @@ ax.XTick = xData;
 datetick('x','yyyy')%
 % set(gca,'XTickLabel',{' '})
 grid on
-
 %% show high solar zenith angle and no valid data
 subplot(2,1,1)
 hold on
@@ -338,7 +369,7 @@ plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).center_ze],'.g','MarkerSize
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -384,7 +415,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs 412
 cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -396,7 +427,7 @@ grid on
 
 % Rrs 443
 cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,2)
@@ -407,7 +438,7 @@ grid on
 
 % Rrs 490
 cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,3)
@@ -418,7 +449,7 @@ grid on
 
 % Rrs 555
 cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,4)
@@ -429,7 +460,7 @@ grid on
 
 % Rrs 660
 cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,5)
@@ -440,7 +471,7 @@ grid on
 
 % Rrs 680
 cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,6)
@@ -458,7 +489,7 @@ grid on
 
 
 cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px/2;
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -486,7 +517,7 @@ xlabel('Time','FontSize',fs)
 grid on
 %% Global statistics
 
-% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px/2;
+% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
 % cond3 = [GOCI_Data.center_ze] <= 65;
 % cond_used = cond3 & cond2;
 clear DailyStatMatrix
@@ -527,7 +558,7 @@ for idx=1:size(date_idx,2)
       data_used = [GOCI_Data(cond_1t).Rrs_412_filtered_mean];
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_412_mean_mean = nanmean(data_used(cond_used));
@@ -647,13 +678,16 @@ for idx=1:size(date_idx,2)
             end
       end
       
+      DailyStatMatrix(idx).Rrs_412_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_412_00,DailyStatMatrix(idx).Rrs_412_01,DailyStatMatrix(idx).Rrs_412_02,...
+      DailyStatMatrix(idx).Rrs_412_03,DailyStatMatrix(idx).Rrs_412_04,DailyStatMatrix(idx).Rrs_412_05]);
       %% Rrs 443
       
       data_used = [GOCI_Data(cond_1t).Rrs_443_filtered_mean];
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_443_mean_mean = nanmean(data_used(cond_used));
@@ -773,6 +807,10 @@ for idx=1:size(date_idx,2)
                   end
             end
       end
+
+      DailyStatMatrix(idx).Rrs_443_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_443_00,DailyStatMatrix(idx).Rrs_443_01,DailyStatMatrix(idx).Rrs_443_02,...
+      DailyStatMatrix(idx).Rrs_443_03,DailyStatMatrix(idx).Rrs_443_04,DailyStatMatrix(idx).Rrs_443_05]);
       
       %% Rrs 490
       
@@ -780,7 +818,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_490_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_490_mean_mean = nanmean(data_used(cond_used));
@@ -900,6 +938,10 @@ for idx=1:size(date_idx,2)
                   end
             end
       end
+
+      DailyStatMatrix(idx).Rrs_490_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_490_00,DailyStatMatrix(idx).Rrs_490_01,DailyStatMatrix(idx).Rrs_490_02,...
+      DailyStatMatrix(idx).Rrs_490_03,DailyStatMatrix(idx).Rrs_490_04,DailyStatMatrix(idx).Rrs_490_05]);
       
       %% Rrs 555
       
@@ -907,7 +949,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_555_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_555_mean_mean = nanmean(data_used(cond_used));
@@ -1027,6 +1069,10 @@ for idx=1:size(date_idx,2)
                   end
             end
       end
+
+      DailyStatMatrix(idx).Rrs_555_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_555_00,DailyStatMatrix(idx).Rrs_555_01,DailyStatMatrix(idx).Rrs_555_02,...
+      DailyStatMatrix(idx).Rrs_555_03,DailyStatMatrix(idx).Rrs_555_04,DailyStatMatrix(idx).Rrs_555_05]);
       
       %% Rrs 660
       
@@ -1034,7 +1080,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_660_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_660_mean_mean = nanmean(data_used(cond_used));
@@ -1154,6 +1200,10 @@ for idx=1:size(date_idx,2)
                   end
             end
       end
+
+      DailyStatMatrix(idx).Rrs_660_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_660_00,DailyStatMatrix(idx).Rrs_660_01,DailyStatMatrix(idx).Rrs_660_02,...
+      DailyStatMatrix(idx).Rrs_660_03,DailyStatMatrix(idx).Rrs_660_04,DailyStatMatrix(idx).Rrs_660_05]);
       
       %% Rrs 680
       
@@ -1161,7 +1211,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_680_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= 1 + total_px/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= 1 + total_px_GOCI/2; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       DailyStatMatrix(idx).Rrs_680_mean_mean = nanmean(data_used(cond_used));
@@ -1281,6 +1331,10 @@ for idx=1:size(date_idx,2)
                   end
             end
       end
+      
+      DailyStatMatrix(idx).Rrs_680_mean_first_six = ...
+      nanmean([DailyStatMatrix(idx).Rrs_680_00,DailyStatMatrix(idx).Rrs_680_01,DailyStatMatrix(idx).Rrs_680_02,...
+      DailyStatMatrix(idx).Rrs_680_03,DailyStatMatrix(idx).Rrs_680_04,DailyStatMatrix(idx).Rrs_680_05]);      
 end
 
 %% Plot error with respect to the noon value vs time
@@ -1640,3 +1694,76 @@ nanmean([DailyStatMatrix.Rrs_660_stdv_mean])
 nanmean([DailyStatMatrix.Rrs_680_stdv_mean])
 
 
+%% Time Series for Rrs for GOCI, Aqua and VIIRS
+wl = '412'; % 412 443 490 555 660 680
+eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
+eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/2;',wl));
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1 & cond2 & cond3;
+
+eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl));
+data_used_x = [GOCI_Data(cond_used).datetime];
+
+fs = 25;
+h1 = figure('Color','white','DefaultAxesFontSize',fs);
+plot(data_used_x,data_used_y,'.','MarkerSize',12)
+eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+% set(gca,'XTickLabel',{' '})
+grid on
+
+%% Plot vs time for Aqua
+
+total_px_AQUA = [AQUA_Data.pixel_count]; 
+      
+eval(sprintf('cond1 = ~isnan([AQUA_Data.Rrs_%s_filtered_mean]);',wl));
+eval(sprintf('cond2 = [AQUA_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_AQUA./2;',wl));
+cond3 = [AQUA_Data.center_ze] <= zenith_lim;
+cond4 = [AQUA_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [AQUA_Data.datetime] <= nanmax([GOCI_Data.datetime]);
+cond_used = cond1 & cond2 & cond3 & cond4;
+
+eval(sprintf('data_used_y = [AQUA_Data(cond_used).Rrs_%s_filtered_mean];',wl));
+data_used_x = [AQUA_Data(cond_used).datetime];
+
+fs = 25;
+figure
+hold on
+plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+% set(gca,'XTickLabel',{' '})
+grid on
+
+%% Plot vs time for VIIRS
+
+total_px_VIIRS = [VIIRS_Data.pixel_count]; 
+
+if strcmp(wl,'412')
+      wl_VIIRS = '410';
+end
+
+eval(sprintf('cond1 = ~isnan([VIIRS_Data.Rrs_%s_filtered_mean]);',wl_VIIRS));
+eval(sprintf('cond2 = [VIIRS_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_VIIRS./2;',wl_VIIRS));
+cond3 = [VIIRS_Data.center_ze] <= zenith_lim;
+cond4 = [VIIRS_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [VIIRS_Data.datetime] <= nanmax([GOCI_Data.datetime]);
+cond_used = cond1 & cond2 & cond3 & cond4;
+
+eval(sprintf('data_used_y = [VIIRS_Data(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
+data_used_x = [VIIRS_Data(cond_used).datetime];
+
+fs = 25;
+figure(h1)
+hold on
+plot(data_used_x,data_used_y,'.k','MarkerSize',12)
+eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+% set(gca,'XTickLabel',{' '})
+grid on
+
+legend('GOCI','MODISA','VIIRS')

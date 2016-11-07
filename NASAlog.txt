@@ -2252,4 +2252,37 @@ modis_L1B.py A2016210041500.L1A_LAC
 to avoid scp to transfer file already transfered:
 find ./ -name "*valregion*"|xargs chmod a-w
 
+--------------------------------------------------
+2016-11-02 Wed
+for jconchas@anly104:~/data2/GOCI/GOCI_ROI/GOCI_ROI_STATS/G2016273071640$:
+- from matlab script:
+	center_ze: 77.0748
+- from G2016273071640.L2_COMS.nc_valregion.global_attrs -- from val_extract
+	processing_control/input_parameters/sunzen=70.000
+- from G2016273071640.L2_COMS.nc_valregion.solz -- from val_extract
+	center_value=76.408323
+	valid_pixel_count=1997001
+	max=81.336104
+	min=71.827764
+	mean=76.581278
+- from MATLAB:
+	>> GOCI_Data(end).ifile
+		COMS_GOCI_L1B_GA_20160929071640.he5
+
+	>> GOCI_Data(end).solz_mean
+	   	76.5813
+
+	>> GOCI_Data(end).solz_mean
+   		76.5813
+
+	>> GOCI_Data(end).solz_max
+   		81.3361
+
+	>> GOCI_Data(end).solz_min
+   		71.8278
+
+	>> GOCI_Data(end).solz_center_value
+   		76.4083
+
 (END)
+

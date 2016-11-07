@@ -110,6 +110,40 @@ if exist(fullFileName, 'file')
 end
 
 %% Products
+% Rrs_410
+fullFileName = [filepath '.Rrs_410'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.Rrs_410_center_value 				= str2double(s{1}{6});
+      satcell.Rrs_410_valid_pixel_count 			= str2double(s{1}{8});
+      satcell.Rrs_410_max 						= str2double(s{1}{10});
+      satcell.Rrs_410_min 						= str2double(s{1}{12});
+      satcell.Rrs_410_mean 						= str2double(s{1}{14});
+      satcell.Rrs_410_median 						= str2double(s{1}{16});
+      satcell.Rrs_410_stddev 						= str2double(s{1}{18});
+      satcell.Rrs_410_rms 						= str2double(s{1}{20});
+      satcell.Rrs_410_filtered_valid_pixel_count 	= str2double(s{1}{22});
+      satcell.Rrs_410_filtered_max 				= str2double(s{1}{24});
+      satcell.Rrs_410_filtered_min 				= str2double(s{1}{26});
+      satcell.Rrs_410_filtered_mean 				= str2double(s{1}{28});
+      satcell.Rrs_410_filtered_median 			= str2double(s{1}{30});
+      satcell.Rrs_410_filtered_stddev 			= str2double(s{1}{32});
+      satcell.Rrs_410_filtered_rms 				= str2double(s{1}{34});
+      satcell.Rrs_410_iqr_valid_pixel_count 		= str2double(s{1}{36});
+      satcell.Rrs_410_iqr_max 					= str2double(s{1}{38});
+      satcell.Rrs_410_iqr_min 					= str2double(s{1}{40});
+      satcell.Rrs_410_iqr_mean 					= str2double(s{1}{42});
+      satcell.Rrs_410_iqr_median 					= str2double(s{1}{44});
+      satcell.Rrs_410_iqr_stddev 					= str2double(s{1}{46});
+      satcell.Rrs_410_iqr_rms 					= str2double(s{1}{48});
+end
+
+%% Products
 % Rrs_412
 fullFileName = [filepath '.Rrs_412'];
 
@@ -209,6 +243,40 @@ if exist(fullFileName, 'file')
       satcell.Rrs_469_iqr_rms 					= str2double(s{1}{48});
 end
 
+
+%% Products
+% Rrs_486
+fullFileName = [filepath '.Rrs_486'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.Rrs_486_center_value 				= str2double(s{1}{6});
+      satcell.Rrs_486_valid_pixel_count 			= str2double(s{1}{8});
+      satcell.Rrs_486_max 						= str2double(s{1}{10});
+      satcell.Rrs_486_min 						= str2double(s{1}{12});
+      satcell.Rrs_486_mean 						= str2double(s{1}{14});
+      satcell.Rrs_486_median 						= str2double(s{1}{16});
+      satcell.Rrs_486_stddev 						= str2double(s{1}{18});
+      satcell.Rrs_486_rms 						= str2double(s{1}{20});
+      satcell.Rrs_486_filtered_valid_pixel_count 	= str2double(s{1}{22});
+      satcell.Rrs_486_filtered_max 				= str2double(s{1}{24});
+      satcell.Rrs_486_filtered_min 				= str2double(s{1}{26});
+      satcell.Rrs_486_filtered_mean 				= str2double(s{1}{28});
+      satcell.Rrs_486_filtered_median 			= str2double(s{1}{30});
+      satcell.Rrs_486_filtered_stddev 			= str2double(s{1}{32});
+      satcell.Rrs_486_filtered_rms 				= str2double(s{1}{34});
+      satcell.Rrs_486_iqr_valid_pixel_count 		= str2double(s{1}{36});
+      satcell.Rrs_486_iqr_max 					= str2double(s{1}{38});
+      satcell.Rrs_486_iqr_min 					= str2double(s{1}{40});
+      satcell.Rrs_486_iqr_mean 					= str2double(s{1}{42});
+      satcell.Rrs_486_iqr_median 					= str2double(s{1}{44});
+      satcell.Rrs_486_iqr_stddev 					= str2double(s{1}{46});
+      satcell.Rrs_486_iqr_rms 					= str2double(s{1}{48});
+end
 % Rrs_488
 fullFileName = [filepath '.Rrs_488'];
 
@@ -341,6 +409,40 @@ if exist(fullFileName, 'file')
       satcell.Rrs_547_iqr_rms 					= str2double(s{1}{48});
 end
 
+%% Products
+% Rrs_551
+fullFileName = [filepath '.Rrs_551'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.Rrs_551_center_value 				= str2double(s{1}{6});
+      satcell.Rrs_551_valid_pixel_count 			= str2double(s{1}{8});
+      satcell.Rrs_551_max 						= str2double(s{1}{10});
+      satcell.Rrs_551_min 						= str2double(s{1}{12});
+      satcell.Rrs_551_mean 						= str2double(s{1}{14});
+      satcell.Rrs_551_median 						= str2double(s{1}{16});
+      satcell.Rrs_551_stddev 						= str2double(s{1}{18});
+      satcell.Rrs_551_rms 						= str2double(s{1}{20});
+      satcell.Rrs_551_filtered_valid_pixel_count 	= str2double(s{1}{22});
+      satcell.Rrs_551_filtered_max 				= str2double(s{1}{24});
+      satcell.Rrs_551_filtered_min 				= str2double(s{1}{26});
+      satcell.Rrs_551_filtered_mean 				= str2double(s{1}{28});
+      satcell.Rrs_551_filtered_median 			= str2double(s{1}{30});
+      satcell.Rrs_551_filtered_stddev 			= str2double(s{1}{32});
+      satcell.Rrs_551_filtered_rms 				= str2double(s{1}{34});
+      satcell.Rrs_551_iqr_valid_pixel_count 		= str2double(s{1}{36});
+      satcell.Rrs_551_iqr_max 					= str2double(s{1}{38});
+      satcell.Rrs_551_iqr_min 					= str2double(s{1}{40});
+      satcell.Rrs_551_iqr_mean 					= str2double(s{1}{42});
+      satcell.Rrs_551_iqr_median 					= str2double(s{1}{44});
+      satcell.Rrs_551_iqr_stddev 					= str2double(s{1}{46});
+      satcell.Rrs_551_iqr_rms 					= str2double(s{1}{48});
+end
+
 % Rrs_555
 fullFileName = [filepath '.Rrs_555'];
 
@@ -471,6 +573,40 @@ if exist(fullFileName, 'file')
       satcell.Rrs_667_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_667_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_667_iqr_rms 					= str2double(s{1}{48});
+end
+
+%% Products
+% Rrs_671
+fullFileName = [filepath '.Rrs_671'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.Rrs_671_center_value 				= str2double(s{1}{6});
+      satcell.Rrs_671_valid_pixel_count 			= str2double(s{1}{8});
+      satcell.Rrs_671_max 						= str2double(s{1}{10});
+      satcell.Rrs_671_min 						= str2double(s{1}{12});
+      satcell.Rrs_671_mean 						= str2double(s{1}{14});
+      satcell.Rrs_671_median 						= str2double(s{1}{16});
+      satcell.Rrs_671_stddev 						= str2double(s{1}{18});
+      satcell.Rrs_671_rms 						= str2double(s{1}{20});
+      satcell.Rrs_671_filtered_valid_pixel_count 	= str2double(s{1}{22});
+      satcell.Rrs_671_filtered_max 				= str2double(s{1}{24});
+      satcell.Rrs_671_filtered_min 				= str2double(s{1}{26});
+      satcell.Rrs_671_filtered_mean 				= str2double(s{1}{28});
+      satcell.Rrs_671_filtered_median 			= str2double(s{1}{30});
+      satcell.Rrs_671_filtered_stddev 			= str2double(s{1}{32});
+      satcell.Rrs_671_filtered_rms 				= str2double(s{1}{34});
+      satcell.Rrs_671_iqr_valid_pixel_count 		= str2double(s{1}{36});
+      satcell.Rrs_671_iqr_max 					= str2double(s{1}{38});
+      satcell.Rrs_671_iqr_min 					= str2double(s{1}{40});
+      satcell.Rrs_671_iqr_mean 					= str2double(s{1}{42});
+      satcell.Rrs_671_iqr_median 					= str2double(s{1}{44});
+      satcell.Rrs_671_iqr_stddev 					= str2double(s{1}{46});
+      satcell.Rrs_671_iqr_rms 					= str2double(s{1}{48});
 end
 
 % Rrs_678
@@ -1328,35 +1464,35 @@ if exist(fullFileName, 'file')
       satcell.sola_iqr_rms 					= str2double(s{1}{48});
 end
 
-% sola
-fullFileName = [filepath '.sola'];
+% solz
+fullFileName = [filepath '.solz'];
 
 if exist(fullFileName, 'file')
       fileID = fopen(fullFileName);
       s = textscan(fileID,'%s','Delimiter','=');
       fclose(fileID);
-      satcell.sola_center_value 				= str2double(s{1}{6});
-      satcell.sola_valid_pixel_count 			= str2double(s{1}{8});
-      satcell.sola_max 						= str2double(s{1}{10});
-      satcell.sola_min 						= str2double(s{1}{12});
-      satcell.sola_mean 						= str2double(s{1}{14});
-      satcell.sola_median 						= str2double(s{1}{16});
-      satcell.sola_stddev 						= str2double(s{1}{18});
-      satcell.sola_rms 						= str2double(s{1}{20});
-      satcell.sola_filtered_valid_pixel_count  = str2double(s{1}{22});
-      satcell.sola_filtered_max 				= str2double(s{1}{24});
-      satcell.sola_filtered_min 				= str2double(s{1}{26});
-      satcell.sola_filtered_mean 				= str2double(s{1}{28});
-      satcell.sola_filtered_median 			= str2double(s{1}{30});
-      satcell.sola_filtered_stddev 			= str2double(s{1}{32});
-      satcell.sola_filtered_rms 				= str2double(s{1}{34});
-      satcell.sola_iqr_valid_pixel_count 		= str2double(s{1}{36});
-      satcell.sola_iqr_max 					= str2double(s{1}{38});
-      satcell.sola_iqr_min 					= str2double(s{1}{40});
-      satcell.sola_iqr_mean 					= str2double(s{1}{42});
-      satcell.sola_iqr_median 					= str2double(s{1}{44});
-      satcell.sola_iqr_stddev 					= str2double(s{1}{46});
-      satcell.sola_iqr_rms 					= str2double(s{1}{48});
+      satcell.solz_center_value 				= str2double(s{1}{6});
+      satcell.solz_valid_pixel_count 			= str2double(s{1}{8});
+      satcell.solz_max 						= str2double(s{1}{10});
+      satcell.solz_min 						= str2double(s{1}{12});
+      satcell.solz_mean 						= str2double(s{1}{14});
+      satcell.solz_median 						= str2double(s{1}{16});
+      satcell.solz_stddev 						= str2double(s{1}{18});
+      satcell.solz_rms 						= str2double(s{1}{20});
+      satcell.solz_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.solz_filtered_max 				= str2double(s{1}{24});
+      satcell.solz_filtered_min 				= str2double(s{1}{26});
+      satcell.solz_filtered_mean 				= str2double(s{1}{28});
+      satcell.solz_filtered_median 			= str2double(s{1}{30});
+      satcell.solz_filtered_stddev 			= str2double(s{1}{32});
+      satcell.solz_filtered_rms 				= str2double(s{1}{34});
+      satcell.solz_iqr_valid_pixel_count 		= str2double(s{1}{36});
+      satcell.solz_iqr_max 					= str2double(s{1}{38});
+      satcell.solz_iqr_min 					= str2double(s{1}{40});
+      satcell.solz_iqr_mean 					= str2double(s{1}{42});
+      satcell.solz_iqr_median 					= str2double(s{1}{44});
+      satcell.solz_iqr_stddev 					= str2double(s{1}{46});
+      satcell.solz_iqr_rms 					= str2double(s{1}{48});
 end
 
 % glint_coef
