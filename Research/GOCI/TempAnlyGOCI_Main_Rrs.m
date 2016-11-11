@@ -1695,75 +1695,155 @@ nanmean([DailyStatMatrix.Rrs_680_stdv_mean])
 
 
 %% Time Series for Rrs for GOCI, Aqua and VIIRS
-wl = '412'; % 412 443 490 555 660 680
-eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
-eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/2;',wl));
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1 & cond2 & cond3;
+wl = {'412','443','490','555','660','680'};
 
-eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl));
-data_used_x = [GOCI_Data(cond_used).datetime];
-
-fs = 25;
-h1 = figure('Color','white','DefaultAxesFontSize',fs);
-plot(data_used_x,data_used_y,'.','MarkerSize',12)
-eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
-ax = gca;
-ax.XTick = xData;
-datetick('x','yyyy')%
-% set(gca,'XTickLabel',{' '})
-grid on
-
-%% Plot vs time for Aqua
-
-total_px_AQUA = [AQUA_Data.pixel_count]; 
+for idx = 1:size(wl,2)
+      eval(sprintf('cond1 = ~isnan([DailyStatMatrix.Rrs_%s_mean_first_six]);',wl{idx}));
+      cond_used = cond1;
       
-eval(sprintf('cond1 = ~isnan([AQUA_Data.Rrs_%s_filtered_mean]);',wl));
-eval(sprintf('cond2 = [AQUA_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_AQUA./2;',wl));
-cond3 = [AQUA_Data.center_ze] <= zenith_lim;
-cond4 = [AQUA_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [AQUA_Data.datetime] <= nanmax([GOCI_Data.datetime]);
-cond_used = cond1 & cond2 & cond3 & cond4;
-
-eval(sprintf('data_used_y = [AQUA_Data(cond_used).Rrs_%s_filtered_mean];',wl));
-data_used_x = [AQUA_Data(cond_used).datetime];
-
-fs = 25;
-figure
-hold on
-plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
-eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
-ax = gca;
-ax.XTick = xData;
-datetick('x','yyyy')%
-% set(gca,'XTickLabel',{' '})
-grid on
-
-%% Plot vs time for VIIRS
-
-total_px_VIIRS = [VIIRS_Data.pixel_count]; 
-
-if strcmp(wl,'412')
-      wl_VIIRS = '410';
+      eval(sprintf('data_used_y = [DailyStatMatrix(cond_used).Rrs_%s_mean_first_six];',wl{idx}));
+      data_used_x = [DailyStatMatrix(cond_used).datetime];
+      
+      fs = 25;
+      h1 = figure('Color','white','DefaultAxesFontSize',fs);
+      plot(data_used_x,data_used_y,'.-','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      ax = gca;
+      ax.XTick = xData;
+      datetick('x','yyyy')
+      grid on
+      
+      %% Plot vs time for Aqua
+      
+      total_px_AQUA = [AQUA_Data.pixel_count];
+      
+      if strcmp(wl{idx},'412')
+            wl_AQUA = '412';
+      elseif strcmp(wl{idx},'443')
+            wl_AQUA = '443';
+      elseif strcmp(wl{idx},'490')
+            wl_AQUA = '488';
+      elseif strcmp(wl{idx},'555')
+            wl_AQUA = '555';      
+      elseif strcmp(wl{idx},'660')
+            wl_AQUA = '667';
+      elseif strcmp(wl{idx},'680')
+            wl_AQUA = '678';        
+      end      
+      
+      eval(sprintf('cond1 = ~isnan([AQUA_Data.Rrs_%s_filtered_mean]);',wl_AQUA));
+      eval(sprintf('cond2 = [AQUA_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_AQUA./2;',wl_AQUA));
+      cond3 = [AQUA_Data.center_ze] <= zenith_lim;
+      cond4 = [AQUA_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [AQUA_Data.datetime] <= nanmax([GOCI_Data.datetime]);
+      cond5 = total_px_AQUA>= max(total_px_AQUA)/4; % more than half pixels of largest granulate
+      cond_used = cond1 & cond2 & cond3 & cond4 & cond5;
+      
+      eval(sprintf('data_used_y = [AQUA_Data(cond_used).Rrs_%s_filtered_mean];',wl_AQUA));
+      data_used_x = [AQUA_Data(cond_used).datetime];
+      
+      fs = 25;
+      figure(h1)
+      hold on
+      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      ax = gca;
+      ax.XTick = xData;
+      datetick('x','yyyy')
+      grid on
+      
+      %% Plot vs time for VIIRS
+      
+      total_px_VIIRS = [VIIRS_Data.pixel_count];
+      
+      if strcmp(wl{idx},'412')
+            wl_VIIRS = '410';
+      elseif strcmp(wl{idx},'443')
+            wl_VIIRS = '443';
+      elseif strcmp(wl{idx},'490')
+            wl_VIIRS = '486';
+      elseif strcmp(wl{idx},'555')
+            wl_VIIRS = '551';
+      elseif strcmp(wl{idx},'660')
+            wl_VIIRS = '671'; 
+      elseif strcmp(wl{idx},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            wl_VIIRS = '671';        
+      end
+      
+      %       if ~strcmp(wl{idx},'680') % VIIRS does not have 680-like band
+      eval(sprintf('cond1 = ~isnan([VIIRS_Data.Rrs_%s_filtered_mean]);',wl_VIIRS));
+      eval(sprintf('cond2 = [VIIRS_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_VIIRS./2;',wl_VIIRS));
+      cond3 = [VIIRS_Data.center_ze] <= zenith_lim;
+      cond4 = [VIIRS_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [VIIRS_Data.datetime] <= nanmax([GOCI_Data.datetime]);
+      cond5 = total_px_VIIRS>= max(total_px_VIIRS)/4; % more than half pixels of largest granulate
+      cond_used = cond1 & cond2 & cond3 & cond4 & cond5;
+      
+      eval(sprintf('data_used_y = [VIIRS_Data(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
+      data_used_x = [VIIRS_Data(cond_used).datetime];
+      
+      fs = 25;
+      figure(h1)
+      hold on
+      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      ax = gca;
+      ax.XTick = xData;
+      datetick('x','yyyy')
+      grid on
+      %       end
+      
+      if strcmp(wl{idx},'412')
+            legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
+      elseif strcmp(wl{idx},'443')
+            legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
+      elseif strcmp(wl{idx},'490')
+            legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
+      elseif strcmp(wl{idx},'555')
+            legend('GOCI: 555 nm','MODISA: 555 nm','VIIRS: 551 nm')
+      elseif strcmp(wl{idx},'660')
+            legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm') 
+      elseif strcmp(wl{idx},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
+      end
+      
+      
 end
 
-eval(sprintf('cond1 = ~isnan([VIIRS_Data.Rrs_%s_filtered_mean]);',wl_VIIRS));
-eval(sprintf('cond2 = [VIIRS_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_VIIRS./2;',wl_VIIRS));
-cond3 = [VIIRS_Data.center_ze] <= zenith_lim;
-cond4 = [VIIRS_Data.datetime] >= nanmin([GOCI_Data.datetime]) & [VIIRS_Data.datetime] <= nanmax([GOCI_Data.datetime]);
-cond_used = cond1 & cond2 & cond3 & cond4;
+%%
+clear MonthlyStatMatrix_GOCI
+[Year,Month,Day] = datevec([DailyStatMatrix.datetime]);
 
-eval(sprintf('data_used_y = [VIIRS_Data(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
-data_used_x = [VIIRS_Data(cond_used).datetime];
+Year_min = min(Year);
+Year_max = max(Year);
 
-fs = 25;
-figure(h1)
-hold on
-plot(data_used_x,data_used_y,'.k','MarkerSize',12)
-eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
-ax = gca;
-ax.XTick = xData;
-datetick('x','yyyy')%
-% set(gca,'XTickLabel',{' '})
-grid on
+Year_idx = Year_min:Year_max;
 
-legend('GOCI','MODISA','VIIRS')
+count = 0;
+
+for idx = 1:size(Year_idx,2)
+      for idx2 = 1:12
+            count = count+1;
+            cond_1t = Year_idx(idx)==Year...
+                  & idx2==Month ...
+                  & ~isnan([DailyStatMatrix.Rrs_412_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_412_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_443_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_490_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_555_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_660_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_680_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
+            
+            MonthlyStatMatrix_GOCI(count).Month = idx2;
+            MonthlyStatMatrix_GOCI(count).Year  = Year_idx(idx);
+            MonthlyStatMatrix_GOCI(count).datetime = datetime(Year_idx(idx),idx2,1);
+      end
+      
+end
+% plot
+wl = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl,2)
+      h1 = figure('Color','white','DefaultAxesFontSize',fs);
+      eval(sprintf('plot([MonthlyStatMatrix_GOCI.datetime],[MonthlyStatMatrix_GOCI.Rrs_%s_monthly_mean]);',wl{idx0}))
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+%       grid on
+      
+end
