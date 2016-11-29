@@ -20,7 +20,7 @@ for idx0=1:size(s{1},1)
       
 end
 
-save('GOCI_TempAnly.mat','GOCI_Data')
+save('GOCI_TempAnly.mat','GOCI_Data','-append')
 toc
 %% Load Aqua data
 clear AQUA_Data
@@ -36,10 +36,10 @@ for idx0=1:size(s{1},1)
       
 end
 
-save('GOCI_TempAnly.mat','GOCI_Data','-append')
+save('GOCI_TempAnly.mat','AQUA_Data','-append')
 toc
 
-%% Load VIIRS data
+% Load VIIRS data
 clear VIIRS_Data
 tic
 fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
@@ -681,6 +681,10 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_412_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_412_00,DailyStatMatrix(idx).Rrs_412_01,DailyStatMatrix(idx).Rrs_412_02,...
       DailyStatMatrix(idx).Rrs_412_03,DailyStatMatrix(idx).Rrs_412_04,DailyStatMatrix(idx).Rrs_412_05]);
+
+      DailyStatMatrix(idx).Rrs_412_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_412_02,DailyStatMatrix(idx).Rrs_412_03,DailyStatMatrix(idx).Rrs_412_04]);
+
       %% Rrs 443
       
       data_used = [GOCI_Data(cond_1t).Rrs_443_filtered_mean];
@@ -811,7 +815,10 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_443_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_443_00,DailyStatMatrix(idx).Rrs_443_01,DailyStatMatrix(idx).Rrs_443_02,...
       DailyStatMatrix(idx).Rrs_443_03,DailyStatMatrix(idx).Rrs_443_04,DailyStatMatrix(idx).Rrs_443_05]);
-      
+
+      DailyStatMatrix(idx).Rrs_443_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_443_02,DailyStatMatrix(idx).Rrs_443_03,DailyStatMatrix(idx).Rrs_443_04]);
+
       %% Rrs 490
       
       data_used = [GOCI_Data(cond_1t).Rrs_490_filtered_mean];
@@ -942,7 +949,10 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_490_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_490_00,DailyStatMatrix(idx).Rrs_490_01,DailyStatMatrix(idx).Rrs_490_02,...
       DailyStatMatrix(idx).Rrs_490_03,DailyStatMatrix(idx).Rrs_490_04,DailyStatMatrix(idx).Rrs_490_05]);
-      
+
+      DailyStatMatrix(idx).Rrs_490_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_490_02,DailyStatMatrix(idx).Rrs_490_03,DailyStatMatrix(idx).Rrs_490_04]);
+
       %% Rrs 555
       
       data_used = [GOCI_Data(cond_1t).Rrs_555_filtered_mean];
@@ -1073,6 +1083,10 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_555_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_555_00,DailyStatMatrix(idx).Rrs_555_01,DailyStatMatrix(idx).Rrs_555_02,...
       DailyStatMatrix(idx).Rrs_555_03,DailyStatMatrix(idx).Rrs_555_04,DailyStatMatrix(idx).Rrs_555_05]);
+
+      DailyStatMatrix(idx).Rrs_555_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_555_02,DailyStatMatrix(idx).Rrs_555_03,DailyStatMatrix(idx).Rrs_555_04]);
+
       
       %% Rrs 660
       
@@ -1204,6 +1218,10 @@ for idx=1:size(date_idx,2)
       DailyStatMatrix(idx).Rrs_660_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_660_00,DailyStatMatrix(idx).Rrs_660_01,DailyStatMatrix(idx).Rrs_660_02,...
       DailyStatMatrix(idx).Rrs_660_03,DailyStatMatrix(idx).Rrs_660_04,DailyStatMatrix(idx).Rrs_660_05]);
+
+      DailyStatMatrix(idx).Rrs_660_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_660_02,DailyStatMatrix(idx).Rrs_660_03,DailyStatMatrix(idx).Rrs_660_04]);
+
       
       %% Rrs 680
       
@@ -1334,9 +1352,14 @@ for idx=1:size(date_idx,2)
       
       DailyStatMatrix(idx).Rrs_680_mean_first_six = ...
       nanmean([DailyStatMatrix(idx).Rrs_680_00,DailyStatMatrix(idx).Rrs_680_01,DailyStatMatrix(idx).Rrs_680_02,...
-      DailyStatMatrix(idx).Rrs_680_03,DailyStatMatrix(idx).Rrs_680_04,DailyStatMatrix(idx).Rrs_680_05]);      
+      DailyStatMatrix(idx).Rrs_680_03,DailyStatMatrix(idx).Rrs_680_04,DailyStatMatrix(idx).Rrs_680_05]);
+
+      DailyStatMatrix(idx).Rrs_680_mean_mid_three = ...
+      nanmean([DailyStatMatrix(idx).Rrs_680_02,DailyStatMatrix(idx).Rrs_680_03,DailyStatMatrix(idx).Rrs_680_04]);
+
 end
 
+save('GOCI_TempAnly.mat','DailyStatMatrix','-append')
 %% Plot error with respect to the noon value vs time
 fs = 25;
 ms = 14;
@@ -1808,7 +1831,7 @@ for idx = 1:size(wl,2)
       
 end
 
-%%
+%% Mon
 clear MonthlyStatMatrix_GOCI
 [Year,Month,Day] = datevec([DailyStatMatrix.datetime]);
 
@@ -1825,12 +1848,19 @@ for idx = 1:size(Year_idx,2)
             cond_1t = Year_idx(idx)==Year...
                   & idx2==Month ...
                   & ~isnan([DailyStatMatrix.Rrs_412_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_412_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_443_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_490_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_555_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_660_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
-            MonthlyStatMatrix_GOCI(count).Rrs_680_monthly_mean = nanmean([DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_412_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_443_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_490_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_555_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_660_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
+            MonthlyStatMatrix_GOCI(count).Rrs_680_monthly_mean_first_six = nanmean([DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
+
+            MonthlyStatMatrix_GOCI(count).Rrs_412_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
+            MonthlyStatMatrix_GOCI(count).Rrs_443_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
+            MonthlyStatMatrix_GOCI(count).Rrs_490_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
+            MonthlyStatMatrix_GOCI(count).Rrs_555_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
+            MonthlyStatMatrix_GOCI(count).Rrs_660_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
+            MonthlyStatMatrix_GOCI(count).Rrs_680_monthly_mean_mid_three = nanmean([DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
             
             MonthlyStatMatrix_GOCI(count).Month = idx2;
             MonthlyStatMatrix_GOCI(count).Year  = Year_idx(idx);
@@ -1842,8 +1872,15 @@ end
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-      eval(sprintf('plot([MonthlyStatMatrix_GOCI.datetime],[MonthlyStatMatrix_GOCI.Rrs_%s_monthly_mean]);',wl{idx0}))
+      eval(sprintf('plot([MonthlyStatMatrix_GOCI.datetime],[MonthlyStatMatrix_GOCI.Rrs_%s_monthly_mean_first_six]);',wl{idx0}))
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-%       grid on
+      grid on
+
+      h2 = figure('Color','white','DefaultAxesFontSize',fs);
+      eval(sprintf('plot([MonthlyStatMatrix_GOCI.datetime],[MonthlyStatMatrix_GOCI.Rrs_%s_monthly_mean_mid_three]);',wl{idx0}))
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+      grid on
       
 end
+
+save('GOCI_TempAnly.mat','MonthlyStatMatrix_GOCI','-append')
