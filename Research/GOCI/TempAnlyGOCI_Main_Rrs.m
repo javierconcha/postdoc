@@ -1387,6 +1387,12 @@ for idx=1:size(date_idx,2)
       valid_temp = [AQUA_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
       AQUA_DailyStatMatrix(idx).Rrs_412_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_412_N_mean = sum(valid_temp);
+      
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_412_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_412_filtered_mean = nan;
+      end
 
       %% Rrs 443
       
@@ -1394,6 +1400,12 @@ for idx=1:size(date_idx,2)
       valid_temp = [AQUA_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
       AQUA_DailyStatMatrix(idx).Rrs_443_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_443_N_mean = sum(valid_temp);
+      
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_443_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_443_filtered_mean = nan;
+      end
 
       %% Rrs 488
       
@@ -1402,12 +1414,24 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_488_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_488_N_mean = sum(valid_temp);
 
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_488_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_488_filtered_mean = nan;
+      end
+
       %% Rrs 555
       
       mean_temp = [AQUA_Data(cond_1t).Rrs_555_filtered_mean];
       valid_temp = [AQUA_Data(cond_1t).Rrs_555_filtered_valid_pixel_count];
       AQUA_DailyStatMatrix(idx).Rrs_555_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_555_N_mean = sum(valid_temp);
+
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_555_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_555_filtered_mean = nan;
+      end      
 
       %% Rrs 667
       
@@ -1416,12 +1440,24 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_667_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_667_N_mean = sum(valid_temp);
 
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_667_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_667_filtered_mean = nan;
+      end      
+
       %% Rrs 678
       
       mean_temp = [AQUA_Data(cond_1t).Rrs_678_filtered_mean];
       valid_temp = [AQUA_Data(cond_1t).Rrs_678_filtered_valid_pixel_count];
       AQUA_DailyStatMatrix(idx).Rrs_678_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_678_N_mean = sum(valid_temp);
+
+      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+            AQUA_DailyStatMatrix(idx).Rrs_678_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            AQUA_DailyStatMatrix(idx).Rrs_678_filtered_mean = nan;
+      end     
 
 end
 
@@ -1454,12 +1490,24 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_410_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_410_N_mean = sum(valid_temp);
 
+      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+            VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = nan;
+      end      
+
       %% Rrs 443
       
       mean_temp = [VIIRS_Data(cond_1t).Rrs_443_filtered_mean];
       valid_temp = [VIIRS_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
       VIIRS_DailyStatMatrix(idx).Rrs_443_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_443_N_mean = sum(valid_temp);
+
+      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+            VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = nan;
+      end    
 
       %% Rrs 486
       
@@ -1468,6 +1516,12 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_486_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_486_N_mean = sum(valid_temp);
 
+      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+            VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = nan;
+      end    
+
       %% Rrs 551
       
       mean_temp = [VIIRS_Data(cond_1t).Rrs_551_filtered_mean];
@@ -1475,12 +1529,24 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_551_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_551_N_mean = sum(valid_temp);
 
+      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+            VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = nan;
+      end    
+
       %% Rrs 671
       
       mean_temp = [VIIRS_Data(cond_1t).Rrs_671_filtered_mean];
       valid_temp = [VIIRS_Data(cond_1t).Rrs_671_filtered_valid_pixel_count];
       VIIRS_DailyStatMatrix(idx).Rrs_671_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_671_N_mean = sum(valid_temp);
+
+      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+            VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
+      else
+            VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = nan;
+      end    
 
 end
 
@@ -1879,15 +1945,13 @@ for idx = 1:size(wl,2)
             wl_AQUA = '678';        
       end      
       
-      eval(sprintf('cond1 = ~isnan([AQUA_DailyStatMatrix.Rrs_%s_mean]);',wl_AQUA));
-      eval(sprintf('cond2 = [AQUA_DailyStatMatrix.Rrs_%s_N_mean]>= total_px_GOCI/4/2;',wl_AQUA));
+      eval(sprintf('cond1 = ~isnan([AQUA_DailyStatMatrix.Rrs_%s_filtered_mean]);',wl_AQUA));
       % cond3 = [AQUA_Data.center_ze] <= zenith_lim;
       cond4 = [AQUA_DailyStatMatrix.datetime] >= nanmin([GOCI_Data.datetime]) &...
             [AQUA_DailyStatMatrix.datetime] <= nanmax([GOCI_Data.datetime]);
-      % cond5 = total_px_AQUA>= max(total_px_AQUA)/4; % more than half pixels of largest granulate
-      cond_used = cond1 & cond2 &cond4;
+      cond_used = cond1 &cond4;
       
-      eval(sprintf('data_used_y = [AQUA_DailyStatMatrix(cond_used).Rrs_%s_mean];',wl_AQUA));
+      eval(sprintf('data_used_y = [AQUA_DailyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_AQUA));
       data_used_x = [AQUA_DailyStatMatrix(cond_used).datetime];
       
       fs = 25;
@@ -1918,15 +1982,13 @@ for idx = 1:size(wl,2)
             wl_VIIRS = '671';        
       end
       
-      eval(sprintf('cond1 = ~isnan([VIIRS_DailyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
-      eval(sprintf('cond2 = [VIIRS_DailyStatMatrix.Rrs_%s_N_mean]>= total_px_GOCI/2.25/2;',wl_VIIRS));
+      eval(sprintf('cond1 = ~isnan([VIIRS_DailyStatMatrix.Rrs_%s_filtered_mean]);',wl_VIIRS));
       % cond3 = [VIIRS_Data.center_ze] <= zenith_lim;
       cond4 = [VIIRS_DailyStatMatrix.datetime] >= nanmin([GOCI_Data.datetime]) &...
             [VIIRS_DailyStatMatrix.datetime] <= nanmax([GOCI_Data.datetime]);
-      % cond5 = total_px_VIIRS>= max(total_px_VIIRS)/4; % more than half pixels of largest granulate
-      cond_used = cond1 & cond2 &cond4;
+      cond_used = cond1 & cond4;
       
-      eval(sprintf('data_used_y = [VIIRS_DailyStatMatrix(cond_used).Rrs_%s_mean];',wl_VIIRS));
+      eval(sprintf('data_used_y = [VIIRS_DailyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
       data_used_x = [VIIRS_DailyStatMatrix(cond_used).datetime];
       
       fs = 25;
@@ -1959,7 +2021,7 @@ end
 
 %% Monthly statistics for GOCI
 clear GOCI_MonthlyStatMatrix
-[Year,Month,Day] = datevec([GOCI_DailyStatMatrix.datetime]);
+[Year,Month,~] = datevec([GOCI_DailyStatMatrix.datetime]);
 
 Year_min = min(Year);
 Year_max = max(Year);
@@ -1972,8 +2034,7 @@ for idx = 1:size(Year_idx,2)
       for idx2 = 1:12
             count = count+1;
             cond_1t = Year_idx(idx)==Year...
-                  & idx2==Month ...
-                  & ~isnan([GOCI_DailyStatMatrix.Rrs_412_mean_first_six]);
+                  & idx2==Month;
             GOCI_MonthlyStatMatrix(count).Rrs_412_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
             GOCI_MonthlyStatMatrix(count).Rrs_443_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
             GOCI_MonthlyStatMatrix(count).Rrs_490_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
@@ -1994,7 +2055,67 @@ for idx = 1:size(Year_idx,2)
       end
       
 end
-% plot
+
+%% Monthly statistics for AQUA
+clear AQUA_MonthlyStatMatrix
+[Year,Month,~] = datevec([AQUA_DailyStatMatrix.datetime]);
+
+Year_min = min(Year);
+Year_max = max(Year);
+
+Year_idx = Year_min:Year_max;
+
+count = 0;
+
+for idx = 1:size(Year_idx,2)
+      for idx2 = 1:12
+            count = count+1;
+            cond_1t = Year_idx(idx)==Year...
+                  & idx2==Month;
+            AQUA_MonthlyStatMatrix(count).Rrs_412_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_443_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_488_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_555_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_555_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_667_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_678_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
+            
+            AQUA_MonthlyStatMatrix(count).Month = idx2;
+            AQUA_MonthlyStatMatrix(count).Year  = Year_idx(idx);
+            AQUA_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+      end
+      
+end
+
+%% Monthly statistics for VIIRS
+clear VIIRS_MonthlyStatMatrix
+[Year,Month,~] = datevec([VIIRS_DailyStatMatrix.datetime]);
+
+Year_min = min(Year);
+Year_max = max(Year);
+
+Year_idx = Year_min:Year_max;
+
+count = 0;
+
+for idx = 1:size(Year_idx,2)
+      for idx2 = 1:12
+            count = count+1;
+            cond_1t = Year_idx(idx)==Year...
+                  & idx2==Month;
+            VIIRS_MonthlyStatMatrix(count).Rrs_410_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_443_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_486_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_551_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_671_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
+            
+            VIIRS_MonthlyStatMatrix(count).Month = idx2;
+            VIIRS_MonthlyStatMatrix(count).Year  = Year_idx(idx);
+            VIIRS_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+      end
+      
+end
+
+%% PLot GOCI vs AQUA and VIIRS
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
       h1 = figure('Color','white','DefaultAxesFontSize',fs);
@@ -2006,7 +2127,106 @@ for idx0 = 1:size(wl,2)
       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_mid_three]);',wl{idx0}))
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
+
+      %% Plot AQUA
+      if strcmp(wl{idx0},'412')
+            wl_AQUA = '412';
+      elseif strcmp(wl{idx0},'443')
+            wl_AQUA = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_AQUA = '488';
+      elseif strcmp(wl{idx0},'555')
+            wl_AQUA = '555';      
+      elseif strcmp(wl{idx0},'660')
+            wl_AQUA = '667';
+      elseif strcmp(wl{idx0},'680')
+            wl_AQUA = '678';        
+      end      
+
+      eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_filtered_mean]);',wl_AQUA));
+      cond_used = cond1;
+
+      eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_AQUA));
+      data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
+
+      fs = 25;
+      figure(h1)
+      hold on
+      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      grid on
+
+      figure(h2)
+      hold on
+      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      grid on
+
+      %% Plot VIIRS
+      if strcmp(wl{idx0},'412')
+            wl_VIIRS = '410';
+      elseif strcmp(wl{idx0},'443')
+            wl_VIIRS = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_VIIRS = '486';
+      elseif strcmp(wl{idx0},'555')
+            wl_VIIRS = '551';
+      elseif strcmp(wl{idx0},'660')
+            wl_VIIRS = '671'; 
+      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            wl_VIIRS = '671';        
+      end
+
+      eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_filtered_mean]);',wl_VIIRS));
+      cond_used = cond1;
+
+      eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
+      data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
+
+      fs = 25;
+      figure(h1)
+      hold on
+      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+      grid on
+
+      figure(h2)
+      hold on
+      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+      grid on
       
+      figure(h1)      
+      if strcmp(wl{idx0},'412')
+            legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
+      elseif strcmp(wl{idx0},'443')
+            legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
+      elseif strcmp(wl{idx0},'490')
+            legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
+      elseif strcmp(wl{idx0},'555')
+            legend('GOCI: 555 nm','MODISA: 555 nm','VIIRS: 551 nm')
+      elseif strcmp(wl{idx0},'660')
+            legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm') 
+      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
+      end
+      
+      figure(h2)      
+      if strcmp(wl{idx0},'412')
+            legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
+      elseif strcmp(wl{idx0},'443')
+            legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
+      elseif strcmp(wl{idx0},'490')
+            legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
+      elseif strcmp(wl{idx0},'555')
+            legend('GOCI: 555 nm','MODISA: 555 nm','VIIRS: 551 nm')
+      elseif strcmp(wl{idx0},'660')
+            legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm') 
+      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
+      end
+      
+
 end
 
-save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','-append')
+save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
