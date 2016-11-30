@@ -2284,5 +2284,41 @@ for jconchas@anly104:~/data2/GOCI/GOCI_ROI/GOCI_ROI_STATS/G2016273071640$:
 	>> GOCI_Data(end).solz_center_value
    		76.4083
 
+--------------------------------------------------
+2016-11-29 Tue
+
+for the same day
+
+>> VIIRS_Data(554:556).datetime
+
+ans = 
+
+   24-Sep-2012 03:14:16
+
+
+ans = 
+
+   24-Sep-2012 04:53:59
+
+
+ans = 
+
+   24-Sep-2012 04:54:47
+>> VIIRS_Data(554:556).Rrs_410_filtered_valid_pixel_count
+
+ans =
+
+      401444
+
+
+ans =
+
+   418
+
+
+ans =
+
+      124229
+
 (END)
 
