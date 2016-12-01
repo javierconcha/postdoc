@@ -1,0 +1,175 @@
+% \documentclass[twocolumn,3p]{elsarticle}
+\documentclass[onecolumn,3p,letterpaper,11pt,draft]{elsarticle}
+\usepackage{setspace} % added by JC 
+\doublespacing % added by JC
+
+
+\usepackage{lineno} % uncomment \linenumbers after \begin{document}
+\modulolinenumbers[1]
+
+\usepackage{hyperref}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+% Select what to do with todonotes: 
+% \usepackage[disable]{todonotes} % notes not showed
+% % \usepackage[draft]{todonotes}   % notes showed
+% \setlength{\marginparwidth}{2cm}
+% \usepackage[textwidth=3.7cm]{todonotes}
+
+% \usepackage{tikz} % for flow charts
+%   \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+%   \usetikzlibrary{external}
+%   \tikzexternalize
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\renewcommand*{\bibfont}{\normalsize}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\journal{Remote Sensing of Environment}
+
+\begin{document}
+
+\linenumbers
+
+\begin{frontmatter}
+
+\title{Diurnal Variability of Biogeochemestry processes using GOCI}
+
+% %% Group authors per affiliation:
+% \author{Javier A. Concha\fnref{myfootnote}}
+% \address{Radarweg 29, Amsterdam}
+% \fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+\author[mymainaddress]{Javier A. Concha\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author at: Ocean Ecology Lab,
+NASA Goddard Space Flight Center,
+8800 Greenbelt Rd, Greenbelt, MD 20771, USA. Tel.: +1 585 290 3145.}
+\ead{javier.concha@nasa.gov}
+
+\author[mymainaddress]{Antonio Mannino}
+\address[mymainaddress]{NASA Goddard Space Flight Center, MD 20771, USA}
+% ===============================================================
+\begin{abstract}
+
+% Background/motivation/context
+
+%
+
+% Aim/objectives(s)/problem statement
+
+%
+ 
+% Methods
+
+%
+
+%
+
+%
+
+% Results
+
+%
+ 
+%
+
+% Conclusions
+
+%
+
+\end{abstract}
+
+\begin{keyword}
+GOCI\sep color producing agents\sep CPAs \sep Case 2 Waters \sep retrieval
+\end{keyword}
+
+\end{frontmatter}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+% ============================================================
+\subsection{Retrieval Process Overview}
+
+% ---------------------------------------------------------------
+\subsection{The MoB-ELM Atmospheric Correction}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results and Discussion}
+\label{sec:Results}
+
+
+% %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Discussion}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+% Practical applications  
+% Disadvantages and Advantages
+% Limitations
+% Challenges
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \vspace{-.4cm}
+\section*{Acknowledgments}
+\vspace{-.2cm}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \vspace{-.4cm}
+\section*{References}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+% \bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+% \bibliographystyle{elsarticle-num}
+% \bibliographystyle{apalike}
+\bibliography{javier_bib}
+
+% \listoffigures
+
+% \listoftables
+
+\end{document}
