@@ -7,54 +7,53 @@ addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 addpath('/Users/jconchas/Documents/MATLAB')
 %% Load GOCI data
-clear GOCI_Data
-tic
-fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
-s = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
-
-for idx0=1:size(s{1},1)
-      
-      filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
-      GOCI_Data(idx0) = loadsatcell_tempanly(filepath);
-      
-end
-
-save('GOCI_TempAnly.mat','GOCI_Data','-append')
-toc
-%% Load Aqua data
-clear AQUA_Data
-tic
-fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
-s = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
-
-for idx0=1:size(s{1},1)
-      
-      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
-      AQUA_Data(idx0) = loadsatcell_tempanly(filepath);
-      
-end
-
-save('GOCI_TempAnly.mat','AQUA_Data','-append')
-toc
-
-% Load VIIRS data
-clear VIIRS_Data
-tic
-fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
-s = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
-
-for idx0=1:size(s{1},1)
-      
-      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
-      VIIRS_Data(idx0) = loadsatcell_tempanly(filepath);
-      
-end
-
-save('GOCI_TempAnly.mat','VIIRS_Data','-append')
-toc
+% clear GOCI_Data
+% tic
+% fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
+% s = textscan(fileID,'%s','Delimiter','\n');
+% fclose(fileID);
+% 
+% for idx0=1:size(s{1},1)
+%       
+%       filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
+%       GOCI_Data(idx0) = loadsatcell_tempanly(filepath);
+%       
+% end
+% 
+% save('GOCI_TempAnly.mat','GOCI_Data','-append')
+% toc
+% %% Load Aqua data
+% clear AQUA_Data
+% tic
+% fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
+% s = textscan(fileID,'%s','Delimiter','\n');
+% fclose(fileID);
+% 
+% for idx0=1:size(s{1},1)
+%       
+%       filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
+%       AQUA_Data(idx0) = loadsatcell_tempanly(filepath);
+%       
+% end
+% 
+% save('GOCI_TempAnly.mat','AQUA_Data','-append')
+% toc
+% %% Load VIIRS data
+% clear VIIRS_Data
+% tic
+% fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
+% s = textscan(fileID,'%s','Delimiter','\n');
+% fclose(fileID);
+% 
+% for idx0=1:size(s{1},1)
+%       
+%       filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
+%       VIIRS_Data(idx0) = loadsatcell_tempanly(filepath);
+%       
+% end
+% 
+% save('GOCI_TempAnly.mat','VIIRS_Data','-append')
+% toc
 %%
 load('GOCI_TempAnly.mat','GOCI_Data')
 
@@ -62,6 +61,7 @@ fs = 24;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!!
+ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 zenith_lim = 75;
 xrange = 0.02;
 startDate = datenum('01-01-2011');
@@ -70,7 +70,7 @@ xData = startDate:datenum(years(1)):endDate;
 
 % Rrs_412
 cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -112,7 +112,7 @@ grid on
 
 % Rrs_443
 cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -152,7 +152,7 @@ grid on
 
 % Rrs_490
 cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -192,7 +192,7 @@ grid on
 
 % Rrs_555
 cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -232,7 +232,7 @@ grid on
 
 % Rrs_660
 cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -272,7 +272,7 @@ grid on
 
 % Rrs_680
 cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -320,7 +320,7 @@ grid on
 
 wl = '443'; % 412 443 490 555 660 680
 eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
-eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;',wl));
+eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl));
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1 & cond2 & cond3;
 
@@ -369,7 +369,7 @@ plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).center_ze],'.g','MarkerSize
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -415,7 +415,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs 412
 cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -427,7 +427,7 @@ grid on
 
 % Rrs 443
 cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,2)
@@ -438,7 +438,7 @@ grid on
 
 % Rrs 490
 cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,3)
@@ -449,7 +449,7 @@ grid on
 
 % Rrs 555
 cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,4)
@@ -460,7 +460,7 @@ grid on
 
 % Rrs 660
 cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,5)
@@ -471,7 +471,7 @@ grid on
 
 % Rrs 680
 cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 subplot(2,3,6)
@@ -489,7 +489,7 @@ grid on
 
 
 cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
 cond_used = cond1&cond2&cond3;
 
@@ -517,7 +517,7 @@ xlabel('Time','FontSize',fs)
 grid on
 %% Daily statistics for GOCI
 
-% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= 1+total_px_GOCI/2;
+% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 % cond3 = [GOCI_Data.center_ze] <= 65;
 % cond_used = cond3 & cond2;
 clear GOCI_DailyStatMatrix
@@ -558,7 +558,7 @@ for idx=1:size(date_idx,2)
       data_used = [GOCI_Data(cond_1t).Rrs_412_filtered_mean];
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean = nanmean(data_used(cond_used));
@@ -691,7 +691,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean = nanmean(data_used(cond_used));
@@ -825,7 +825,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_490_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean = nanmean(data_used(cond_used));
@@ -959,7 +959,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_555_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean = nanmean(data_used(cond_used));
@@ -1094,7 +1094,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_660_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean = nanmean(data_used(cond_used));
@@ -1229,7 +1229,7 @@ for idx=1:size(date_idx,2)
       valid_px_count_used = [GOCI_Data(cond_1t).Rrs_680_filtered_valid_pixel_count];
       
       cond1 = data_used >= 0; % only positive values
-      cond2 = valid_px_count_used >= total_px_GOCI/2; % more than half valid pixel criteria
+      cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
       cond_used = cond1&cond2;
       
       GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean = nanmean(data_used(cond_used));
@@ -1388,7 +1388,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_412_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_412_N_mean = sum(valid_temp);
       
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_412_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_412_filtered_mean = nan;
@@ -1401,7 +1401,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_443_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_443_N_mean = sum(valid_temp);
       
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_443_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_443_filtered_mean = nan;
@@ -1414,7 +1414,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_488_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_488_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_488_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_488_filtered_mean = nan;
@@ -1427,7 +1427,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_555_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_555_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_555_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_555_filtered_mean = nan;
@@ -1440,7 +1440,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_667_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_667_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_667_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_667_filtered_mean = nan;
@@ -1453,7 +1453,7 @@ for idx=1:size(date_idx,2)
       AQUA_DailyStatMatrix(idx).Rrs_678_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       AQUA_DailyStatMatrix(idx).Rrs_678_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/4/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             AQUA_DailyStatMatrix(idx).Rrs_678_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             AQUA_DailyStatMatrix(idx).Rrs_678_filtered_mean = nan;
@@ -1490,7 +1490,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_410_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_410_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = nan;
@@ -1503,7 +1503,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_443_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_443_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = nan;
@@ -1516,7 +1516,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_486_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_486_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = nan;
@@ -1529,7 +1529,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_551_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_551_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = nan;
@@ -1542,7 +1542,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_671_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_671_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/2; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
             VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = nan;
