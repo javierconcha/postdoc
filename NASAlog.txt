@@ -2320,5 +2320,22 @@ ans =
 
       124229
 
+
+
+jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS/A2015283030000$ less A2015283030000.L2_LAC.nc_valregion.global_attrs 
+spatialResolution=1 km
+
+--------------------------------------------------
+2016-12-06 Tue
+Matlab scripts for matchups:
+jconchas:~$ find . -name "*InSitu*.m"|xargs ls -lht
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   2.1K Oct  6 17:25 ./Documents/Research/GOCI/GOCI_KORUS/InSitu_GOCI_KORUS_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   9.0K Sep 14 12:49 ./Documents/Research/GOCI/InSituGOCI_Main_AERONET_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    45K Aug 30 12:11 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONETOC_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    14K Aug  1 12:35 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONET_CDOM.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   8.7K Jul 11 12:44 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Jul 11 12:38 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_VIIRS2014.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Apr 20  2016 ./Documents/Research/GOCI/InSitu/InSituGOCI_Main.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    29K Mar 31  2016 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara.m
 (END)
 

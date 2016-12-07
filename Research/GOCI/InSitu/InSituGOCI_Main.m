@@ -1,3 +1,9 @@
+% Matchups for aCDOM(412) for:
+% GEOCAPE_GOCI_Dec2010
+% GEOCAPE_GOCI_Apr2011
+% GEOCAPE_GOCI_Aug2011
+% GOCI_2013
+
 addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR')
 addpath('/Users/jconchas/Documents/Research/GOCI')
@@ -139,7 +145,7 @@ end
 
 %%
 % load('GOCI_InSitu.mat')
-load('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/MTLGOCI_struct.mat')
+load('/Users/jconchas/Documents/Research/GOCI/Images/MTLDIR/MTLGOCI_struct.mat') % from ~/Documents/Research/GOCI/Images/MTLDIR/CreateMTL.m
 whos InSitu MTLGOCI
 unique([InSitu(:).start_date]','rows') % to have only one date per day
 % this list is used to search for the GOCI scene in the in house server
@@ -198,8 +204,8 @@ end
 % clear idx t A t_dif t_dif2 I2 I count count2
 
 %% See if there is valid value in the product and plot the images
-% pathname = '/Volumes/Data/GOCI/L2Product/'; % for the default aer_opt=-2
-pathname = '/Volumes/Data/GOCI/L2n1Product/';% for aer_opt=-1
+pathname = '/Volumes/Data/GOCI/L2Product/'; % for the default aer_opt=-2
+% pathname = '/Volumes/Data/GOCI/L2n1Product/';% for aer_opt=-1
 clear MatchupMat
 % MatchupMat = MatchupsGOCI;
 MatchupMat = [MatchupsGOCI MatchupsGOCI2];
@@ -211,7 +217,7 @@ for idx = 1:size(image_list,1)
       waitbar(idx/size(image_list,1),h1,'Searching for matchups...')
       %%
       firsttime = true;
-      filepath = [pathname image_list{idx} '_L2n1.nc']; % '_L2n1.nc' or '_L2.nc']
+      filepath = [pathname image_list{idx} '_L2.nc']; % '_L2n1.nc' or '_L2.nc']
       if exist(filepath, 'file');
             %% Extract info
             longitude   = ncread(filepath,'/navigation_data/longitude');

@@ -1,9 +1,9 @@
-%% 
+%% In Situ data from the KORUS-OC 2016
 cd '/Users/jconchas/Documents/Research/GOCI/GOCI_KORUS';
 
 %%
 
-L2sdata = load('1614106_L2s.mat');
+L2sdata = load('1614106_L2s.mat'); % file from Ivona
 
 ES = L2sdata.L2sdata.ES_hyperspectral_data';
 LT = L2sdata.L2sdata.LT_hyperspectral_data';
