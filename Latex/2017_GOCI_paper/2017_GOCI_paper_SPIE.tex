@@ -1,4 +1,4 @@
-\documentclass[12pt,draft]{spieman}  % 12pt font required by SPIE;
+\documentclass[12pt]{spieman}  % 12pt font required by SPIE;
 %\documentclass[a4paper,12pt]{spieman}  % use this instead for A4 paper
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
@@ -79,17 +79,23 @@
 GOCI as a precursor to GEO-CAPE. 
 Name GOCI-II and the ESA geostacionary satellite.
 
+Example of citations\cite{ConchaThesis2015,Franz:2015}.
+
 
 %%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data and Methodology} % \section{Data and Sensor Characteristics}
+% \section{Data and Methodology}
+\section{Data and Sensor Characteristics}
 % ============================================================
 \subsection{GOCI Data}
+%%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Processing Approach}
+% ---------------------------------------------------------------
+\subsection{Atmospheric Correction Algorithm}
 
 % ---------------------------------------------------------------
-\subsection{Atmospheric Correction}
-
+\subsection{Bio-Optical Algorithm}
 % ---------------------------------------------------------------
-\subsection{Biogeochemical retrieval algorithms}
+\subsection{Vicarious Calibration?}
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
@@ -110,6 +116,9 @@ Name GOCI-II and the ESA geostacionary satellite.
 \subsection{Diurnal Differences and Uncertainties}
 
 % ---------------------------------------------------------------
+\subsection{Sensor Cross-comparison}
+
+% ---------------------------------------------------------------
 \subsection{Products versus solar zenith angle}
 
 
@@ -128,22 +137,22 @@ Name GOCI-II and the ESA geostacionary satellite.
 % Conflicts of interest should be declared under a separate header. If the authors have no relevant financial interests in the manuscript and no other potential conflicts of interest to disclose, a statement to this effect should also be included in the manuscript.
 
 \acknowledgments 
-blahblah.  
-
+We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI), the AERONET-OC, the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. 
+ 
 %%%%% References %%%%%
 
-\bibliography{report}   % bibliography data in report.bib
+\bibliography{/Users/jconchas/Documents/Latex/javier_bibPhD.bib}   % bibliography data in report.bib
 \bibliographystyle{spiejour}   % makes bibtex use spiejour.bst
 
 %%%%% Biographies of authors %%%%%
 
-\vspace{2ex}\noindent\textbf{Javier Concha} blahblah.
+% \vspace{2ex}\noindent\textbf{Javier Concha} blahblah.
 
-\vspace{1ex}
-\noindent Biographies and photographs of the other authors are not available.
+% \vspace{1ex}
+% \noindent Biographies and photographs of the other authors are not available.
 
-\listoffigures
-\listoftables
+% \listoffigures
+% \listoftables
 
 \end{spacing}
 \end{document}
