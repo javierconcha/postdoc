@@ -5,6 +5,31 @@
 \usepackage{setspace}
 \usepackage{tocloft}
 
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{epsfig}
+
+% Select what to do with todonotes: 
+% \usepackage[disable]{todonotes} % notes not showed
+% % \usepackage[draft]{todonotes}   % notes showed
+% \setlength{\marginparwidth}{2cm}
+% \usepackage[textwidth=3.7cm]{todonotes}
+
+% \usepackage{tikz} % for flow charts
+%   \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+%   \usetikzlibrary{external}
+%   \tikzexternalize
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
 \title{Assesing Diurnal Variability of Biogeochical Processes using the Geostationary Ocean Color Imager (GOCI)}
 
 % \author[a]{First Author}
@@ -106,20 +131,253 @@ Example of citations\cite{ConchaThesis2015,Franz:2015}.
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{AERONET-OC}
 
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_412.eps}
+    \centerline{(a)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_443.eps}
+      \centerline{(b)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_490.eps}
+    \centerline{(c)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_555.eps}
+      \centerline{(d)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_660.png}
+      \centerline{(e)}\medskip
+    \end{minipage}   
+
+    \caption{Comparison between GOCI and AERONET-OC data. \label{fig:GOCI_AERO} } 
+\end{figure}
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{Cruises}
+\subsubsection{Cruises Matchups}
 
 % ---------------------------------------------------------------
 \subsection{Time Series}
 
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs412.eps} \put (50,23) {(a)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (79,60) {(b)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs443.eps} \put (50,23) {(c)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (79,60) {(d)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs490.eps} \put (50,23) {(e)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (79,60) {(f)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs555.eps} \put (50,23) {(g)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (79,60) {(h)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs660.eps} \put (50,23) {(i)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (79,60) {(j)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(k)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Time Series. \label{fig:GOCI_TimeSeries} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(l)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (75,60) {(m)}
+      \end{overpic} 
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Chla.eps} \put (50,23) {(n)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Chla.eps} \put (75,60) {(o)}
+      \end{overpic} 
+    \end{minipage}        
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(p)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Time Series (con't). \label{fig:GOCI_TimeSeries2} } 
+\end{figure}
+% ---------------------------------------------------------------
+\subsection{Products versus solar zenith angle}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=10cm]{./Figures/Rrs_vs_Zenith.eps}
+      \end{overpic}
+	\end{minipage}  
+
+    \caption{Rrs versus solar zenith angle. \label{fig:Rrs_vs_zenith} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Chl_vs_Zenith.eps}
+      \end{overpic}
+	\end{minipage}  
+
+    \caption{Rrs versus solar zenith angle. \label{fig:Chl_vs_zenith} } 
+\end{figure}
+
 % ---------------------------------------------------------------
 \subsection{Diurnal Differences and Uncertainties}
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs412.eps}
+    \centerline{(a)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs443.eps}
+      \centerline{(b)}\medskip
+    \end{minipage}  
 
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs490.eps}
+    \centerline{(c)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs555.eps}
+      \centerline{(d)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs660.eps}
+      \centerline{(e)}\medskip
+    \end{minipage}   
+        \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs680.eps}
+      \centerline{(f)}\medskip
+    \end{minipage} 
+    \caption{Difference with respect to the daily mean value. \label{fig:DiffDailyMean} } 
+\end{figure}
 % ---------------------------------------------------------------
 \subsection{Sensor Cross-comparison}
 
-% ---------------------------------------------------------------
-\subsection{Products versus solar zenith angle}
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs412.eps} \put (83,10) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    \hfill
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs443.eps} \put (83,10) {(b)}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs490.eps} \put (83,10) {(c)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs555.eps} \put (83,10) {(d)}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs660.eps} \put (83,10) {(e)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.5\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/InterComp_Rrs680.eps} \put (83,10) {(f)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Cross-comparison. \label{fig:CrossComp} } 
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
