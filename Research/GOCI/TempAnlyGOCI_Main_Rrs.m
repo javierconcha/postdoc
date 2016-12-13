@@ -318,7 +318,7 @@ grid on
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
-wl = '443'; % 412 443 490 555 660 680
+wl = '680'; % 412 443 490 555 660 680
 eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
 eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl));
 cond3 = [GOCI_Data.center_ze] <= zenith_lim;
@@ -2118,10 +2118,10 @@ end
 %% PLot GOCI vs AQUA and VIIRS
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
-      h1 = figure('Color','white','DefaultAxesFontSize',fs);
-      eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_first_six]);',wl{idx0}))
-      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-      grid on
+%       h1 = figure('Color','white','DefaultAxesFontSize',fs);
+%       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_first_six]);',wl{idx0}))
+%       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+%       grid on
 
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_mid_three]);',wl{idx0}))
@@ -2150,11 +2150,11 @@ for idx0 = 1:size(wl,2)
       data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
 
       fs = 25;
-      figure(h1)
-      hold on
-      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
-      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
-      grid on
+%       figure(h1)
+%       hold on
+%       plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+%       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+%       grid on
 
       figure(h2)
       hold on
@@ -2184,11 +2184,11 @@ for idx0 = 1:size(wl,2)
       data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
 
       fs = 25;
-      figure(h1)
-      hold on
-      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
-      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-      grid on
+%       figure(h1)
+%       hold on
+%       plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+%       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+%       grid on
 
       figure(h2)
       hold on
@@ -2196,20 +2196,20 @@ for idx0 = 1:size(wl,2)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
       
-      figure(h1)      
-      if strcmp(wl{idx0},'412')
-            legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
-      elseif strcmp(wl{idx0},'443')
-            legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
-      elseif strcmp(wl{idx0},'490')
-            legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
-      elseif strcmp(wl{idx0},'555')
-            legend('GOCI: 555 nm','MODISA: 555 nm','VIIRS: 551 nm')
-      elseif strcmp(wl{idx0},'660')
-            legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm') 
-      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
-      end
+%       figure(h1)      
+%       if strcmp(wl{idx0},'412')
+%             legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
+%       elseif strcmp(wl{idx0},'443')
+%             legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
+%       elseif strcmp(wl{idx0},'490')
+%             legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
+%       elseif strcmp(wl{idx0},'555')
+%             legend('GOCI: 555 nm','MODISA: 555 nm','VIIRS: 551 nm')
+%       elseif strcmp(wl{idx0},'660')
+%             legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm') 
+%       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%             legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
+%       end
       
       figure(h2)      
       if strcmp(wl{idx0},'412')
@@ -2230,3 +2230,33 @@ for idx0 = 1:size(wl,2)
 end
 
 save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
+%%
+
+GOCI_date = [GOCI_DailyStatMatrix.datetime];
+VIIRS_date = [VIIRS_DailyStatMatrix.datetime];
+AQUA_date = [AQUA_DailyStatMatrix.datetime];
+
+
+% lower boundary
+a = find(VIIRS_date == GOCI_date(1));
+b = find(VIIRS_date(1) == GOCI_date);
+
+if ~isempty(b)
+      V_low_index = 1;
+      G_low_index = b;
+end
+
+% upper boundary
+c = find(VIIRS_date == GOCI_date(end));
+d = find(VIIRS_date(end) == GOCI_date);
+
+if ~isempty(d)
+      V_upp_index = size(VIIRS_date,2);
+      G_upp_index = d;
+end
+
+h3 = figure('Color','white','DefaultAxesFontSize',fs);
+plot([GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_660_mean_mid_three]...
+      ,[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_671_filtered_mean],'.','MarkerSize',12)
+axis equal
+grid on
