@@ -1,14 +1,13 @@
-% Script to compare a_CDOM(412) from in situ data vs satellite data
+% Script to compare a_CDOM(412) processed from in situ data vs satellite Rrs data
 addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %% First load data generated from InSituLANDSAT_Main_AERONETOC_Rrs.m
 clear
-load('L8Matchups_AERONET_Rrs.mat','MatchupRealFilt','InSitu')
+load('L8Matchups_AERONET_Rrs.mat','MatchupRealFilt')
 
-L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
-
-% L2ext = {'_L2n2.nc'};
+% L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
+L2ext = {'_L2n2.nc'};
 
 count0 = 0;
 for idx0 = 1:size(L2ext,2)

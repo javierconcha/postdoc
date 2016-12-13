@@ -1,4 +1,5 @@
-% Script to find Landsat 8 matchups for Rrs based on in situ data from
+% Script to find GOCI matchups for Rrs based on in situ data from
+% AERONET-OC
 cd '/Users/jconchas/Documents/Research/GOCI/';
 
 % AERONET-OC from SeaDAS Matchups
@@ -101,7 +102,7 @@ for idx0=1:size(s{1},1)
 end
 
 %% InSitu vs Sat
-% InSituBands =[412,443,490,555,665,681];
+% InSituBands =[412,443,490,555,665,681]; or 678
 % GOCIbands =  [412,443,490,555,660,680,745,865];
 %               2   4   7   11  12  17  N/A N/A
 %               1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17 
@@ -190,11 +191,17 @@ for idx1=1:size(InSitu,2)
       Matchup(idx1).Rrs_660_t_diff = t_diff;
 
       % Rrs_680
-      
-      Matchup(idx1).Rrs_681_ins = InSitu(idx1).Rrs(17);
+      % For in situ @ 678 nm
+      Matchup(idx1).Rrs_678_ins = InSitu(idx1).Rrs(16);
       cond1 = [SatData.Rrs_680_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
       [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
       IdxOrig = find(cond1); % to convert to the original matrix
+
+      % % For in situ @ 681 nm
+      % Matchup(idx1).Rrs_681_ins = InSitu(idx1).Rrs(17);
+      % cond1 = [SatData.Rrs_680_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
+      % [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      % IdxOrig = find(cond1); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_680_sat = SatData(IdxOrig(idx_aux)).Rrs_680_filtered_mean;
@@ -212,7 +219,10 @@ end
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat]);
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat]);
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat]);
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('681','680',[Matchup.Rrs_681_ins],[Matchup.Rrs_680_sat]);
+
+% no data for in situ 678 or 681
+% [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('678','680',[Matchup.Rrs_678_ins],[Matchup.Rrs_680_sat]);
+% [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('681','680',[Matchup.Rrs_681_ins],[Matchup.Rrs_680_sat]);
 %%
 
 %% Histograms

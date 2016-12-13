@@ -259,7 +259,8 @@ save('L8Matchups_Arctics.mat','Matchup','DB')
 % using landsat.m and plot the jpg image and the in situ data location
 load('L8Matchups_Arctics.mat')
 
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';
+% dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';
+dirname = '/Volumes/Data/OLI/L8images/Bulk Order 618966/L8 OLI_TIRS/';
 
 fileID = fopen([dirname 'file_list.txt']);
 s = textscan(fileID,'%s','Delimiter','\n'); % list with all the Landsat 8 scenes
@@ -336,7 +337,8 @@ end
 save('L8Matchups_Arctics.mat','Matchup')
 %% Find valid matchups
 load('L8Matchups_Arctics.mat','Matchup')
-dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
+% dirname = '/Users/jconchas/Documents/Research/Arctic_Data/L8images/Bulk Order 618966/L8 OLI_TIRS/';% where the L2 products are
+dirname = '/Volumes/Data/OLI/L8images/Bulk Order 618966/L8 OLI_TIRS/';
 count = 0;
 for idx = 1:size(Matchup,2)   
       if ~isempty(Matchup(idx).scenetime) % only the paths and rows that are valid have a scene id

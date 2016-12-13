@@ -232,7 +232,7 @@ cd '/Users/jconchas/Documents/Research/LANDSAT8';
 %
 % clear A B C D
 %
-% %% Look in the Matchup structure the best images previously selected by visual inspection
+%% Look in the Matchup structure the best images previously selected by visual inspection
 % % using landsat.m and plot the jpg image and the in situ data location.
 % % It extracts info from MTL files and fills Matchup.
 %
@@ -345,11 +345,12 @@ fclose(fileID);
 % have less elements. However, it includes the different AC schemes, and
 % therefor, for each in situ point could/should be the number of AC schemes
 % elements in MatchupReal
-
+load('L8Matchups_AERONET_Rrs.mat','Matchup','InSitu')
 
 clear MatchupReal
 % L2ext = {'_L2n1.nc','_L2n2.nc','_L2n1SWIR5x5.nc','_L2n2SWIR5x5.nc'};
-L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
+% L2ext = {'_L2n1.nc','_L2n2.nc','_L2n2SWIR5x5.nc'};
+L2ext = {'_L2n2.nc'};
 
 ws = 9; % window size:3, 5, or 7
 
@@ -647,6 +648,8 @@ save('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
 %       legend('3 days','1 day','3 hours')
 
 %% filtered
+load('L8Matchups_AERONET_Rrs.mat','InSitu','Matchup','DB','MatchupReal')
+
 clear MatchupRealFilt
 count2 = 0; % for creating the MatchupRealFilt
 
