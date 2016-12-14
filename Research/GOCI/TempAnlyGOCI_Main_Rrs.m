@@ -2230,33 +2230,146 @@ for idx0 = 1:size(wl,2)
 end
 
 save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
-%%
+%% Scatter plots
 
 GOCI_date = [GOCI_DailyStatMatrix.datetime];
 VIIRS_date = [VIIRS_DailyStatMatrix.datetime];
 AQUA_date = [AQUA_DailyStatMatrix.datetime];
 
-
-% lower boundary
-a = find(VIIRS_date == GOCI_date(1));
-b = find(VIIRS_date(1) == GOCI_date);
-
-if ~isempty(b)
-      V_low_index = 1;
-      G_low_index = b;
+wl = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl,2)
+      %% For AQUA
+      if strcmp(wl{idx0},'412')
+            wl_AQUA = '412';
+      elseif strcmp(wl{idx0},'443')
+            wl_AQUA = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_AQUA = '488';
+      elseif strcmp(wl{idx0},'555')
+            wl_AQUA = '555';
+      elseif strcmp(wl{idx0},'660')
+            wl_AQUA = '667';
+      elseif strcmp(wl{idx0},'680')
+            wl_AQUA = '678';
+      end
+      
+      %% For VIIRS
+      if strcmp(wl{idx0},'412')
+            wl_VIIRS = '410';
+      elseif strcmp(wl{idx0},'443')
+            wl_VIIRS = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_VIIRS = '486';
+      elseif strcmp(wl{idx0},'555')
+            wl_VIIRS = '551';
+      elseif strcmp(wl{idx0},'660')
+            wl_VIIRS = '671';
+      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            wl_VIIRS = '671';
+      end
+      
+      
+      %% GOCI Comparison with VIIRS
+      % lower boundary
+      a = find(VIIRS_date == GOCI_date(1)); % if VIIRS is older
+      
+      if ~isempty(a)
+            V_low_index = a;
+            G_low_index = 1;
+      end
+      
+      b = find(VIIRS_date(1) == GOCI_date); % if GOCI is older
+      
+      if ~isempty(b)
+            V_low_index = 1;
+            G_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(VIIRS_date == GOCI_date(end));
+      
+      if ~isempty(c)
+            V_upp_index = c;
+            G_upp_index = size(GOCI_date,2);
+      end
+      
+      d = find(VIIRS_date(end) == GOCI_date);
+      
+      if ~isempty(d)
+            V_upp_index = size(VIIRS_date,2);
+            G_upp_index = d;
+      end
+      
+      [h1,ax1,leg1] = plot_sat_vs_sat(wl{idx0},wl_VIIRS,'GOCI','VIIRS',...
+            eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_%s_mean_mid_three]',wl{idx0})),...
+            eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_%s_filtered_mean]',wl_VIIRS)));
+      
+      %% GOCI Comparison with AQUA
+      % lower boundary
+      a = find(AQUA_date == GOCI_date(1)); % if AQUA is older
+      
+      if ~isempty(a)
+            A_low_index = a;
+            G_low_index = 1;
+      end
+      
+      b = find(AQUA_date(1) == GOCI_date); % if GOCI is older
+      
+      if ~isempty(b)
+            A_low_index = 1;
+            G_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(AQUA_date == GOCI_date(end));
+      
+      if ~isempty(c)
+            A_upp_index = c;
+            G_upp_index = size(GOCI_date,2);
+      end
+      
+      d = find(AQUA_date(end) == GOCI_date);
+      
+      if ~isempty(d)
+            A_upp_index = size(AQUA_date,2);
+            G_upp_index = d;
+      end
+      
+      [h2,ax2,leg2] = plot_sat_vs_sat(wl{idx0},wl_AQUA,'GOCI','AQUA',...
+            eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_%s_mean_mid_three]',wl{idx0})),...
+            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).Rrs_%s_filtered_mean]',wl_AQUA)));
+      %% VIIRS Comparison with AQUA
+      % lower boundary
+      a = find(AQUA_date == VIIRS_date(1)); % if AQUA is older
+      
+      if ~isempty(a)
+            A_low_index = a;
+            V_low_index = 1;
+      end
+      
+      b = find(AQUA_date(1) == VIIRS_date); % if VIIRS is older
+      
+      if ~isempty(b)
+            A_low_index = 1;
+            V_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(AQUA_date == VIIRS_date(end));
+      
+      if ~isempty(c)
+            A_upp_index = c;
+            V_upp_index = size(VIIRS_date,2);
+      end
+      
+      d = find(AQUA_date(end) == VIIRS_date);
+      
+      if ~isempty(d)
+            A_upp_index = size(AQUA_date,2);
+            V_upp_index = d;
+      end
+      
+      [h3,ax3,leg3] = plot_sat_vs_sat(wl_VIIRS,wl_AQUA,'VIIRS','AQUA',...
+            eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_%s_filtered_mean]',wl_VIIRS)),...
+            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).Rrs_%s_filtered_mean]',wl_AQUA)));            
 end
-
-% upper boundary
-c = find(VIIRS_date == GOCI_date(end));
-d = find(VIIRS_date(end) == GOCI_date);
-
-if ~isempty(d)
-      V_upp_index = size(VIIRS_date,2);
-      G_upp_index = d;
-end
-
-h3 = figure('Color','white','DefaultAxesFontSize',fs);
-plot([GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_660_mean_mid_three]...
-      ,[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_671_filtered_mean],'.','MarkerSize',12)
-axis equal
-grid on
