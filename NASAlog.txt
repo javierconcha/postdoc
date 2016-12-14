@@ -2337,5 +2337,16 @@ jconchas:~$ find . -name "*InSitu*.m"|xargs ls -lht
 -rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Jul 11 12:38 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_VIIRS2014.m
 -rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Apr 20  2016 ./Documents/Research/GOCI/InSitu/InSituGOCI_Main.m
 -rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    29K Mar 31  2016 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara.m
+
+
+to improve plot axis in MATLAB:
+ax = gca;
+ax.XAxis.TickLabelFormat = '%,.1f';
+ax.XAxis.Exponent = -3;
+ax.YTick =ax.XTick;
+ax.YAxis.TickLabelFormat = '%,.1f';
+ax.YAxis.Exponent = -3;
+
+
 (END)
 

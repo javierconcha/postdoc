@@ -1490,7 +1490,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_410_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_410_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
             VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_410_filtered_mean = nan;
@@ -1503,7 +1503,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_443_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_443_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
             VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_443_filtered_mean = nan;
@@ -1516,7 +1516,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_486_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_486_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
             VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_486_filtered_mean = nan;
@@ -1529,7 +1529,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_551_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_551_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
             VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_551_filtered_mean = nan;
@@ -1542,7 +1542,7 @@ for idx=1:size(date_idx,2)
       VIIRS_DailyStatMatrix(idx).Rrs_671_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       VIIRS_DailyStatMatrix(idx).Rrs_671_N_mean = sum(valid_temp);
 
-      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
+      if sum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
             VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = sum(mean_temp.*valid_temp)./sum(valid_temp);
       else
             VIIRS_DailyStatMatrix(idx).Rrs_671_filtered_mean = nan;
@@ -2231,6 +2231,7 @@ end
 
 save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
 %% Scatter plots
+savedirname = '/Users/jconchas/Documents/Research/GOCI/Figures/';
 
 GOCI_date = [GOCI_DailyStatMatrix.datetime];
 VIIRS_date = [VIIRS_DailyStatMatrix.datetime];
@@ -2303,7 +2304,9 @@ for idx0 = 1:size(wl,2)
       [h1,ax1,leg1] = plot_sat_vs_sat(wl{idx0},wl_VIIRS,'GOCI','VIIRS',...
             eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_%s_mean_mid_three]',wl{idx0})),...
             eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_%s_filtered_mean]',wl_VIIRS)));
+      set(gcf, 'renderer','painters')
       
+      saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' wl{idx0}],'epsc')
       %% GOCI Comparison with AQUA
       % lower boundary
       a = find(AQUA_date == GOCI_date(1)); % if AQUA is older
@@ -2338,6 +2341,9 @@ for idx0 = 1:size(wl,2)
       [h2,ax2,leg2] = plot_sat_vs_sat(wl{idx0},wl_AQUA,'GOCI','AQUA',...
             eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).Rrs_%s_mean_mid_three]',wl{idx0})),...
             eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).Rrs_%s_filtered_mean]',wl_AQUA)));
+      set(gcf, 'renderer','painters')
+      
+      saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' wl{idx0}],'epsc')
       %% VIIRS Comparison with AQUA
       % lower boundary
       a = find(AQUA_date == VIIRS_date(1)); % if AQUA is older
@@ -2371,5 +2377,8 @@ for idx0 = 1:size(wl,2)
       
       [h3,ax3,leg3] = plot_sat_vs_sat(wl_VIIRS,wl_AQUA,'VIIRS','AQUA',...
             eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).Rrs_%s_filtered_mean]',wl_VIIRS)),...
-            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).Rrs_%s_filtered_mean]',wl_AQUA)));            
+            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).Rrs_%s_filtered_mean]',wl_AQUA))); 
+      set(gcf, 'renderer','painters')
+      
+      saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
 end
