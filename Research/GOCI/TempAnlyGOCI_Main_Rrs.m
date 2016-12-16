@@ -331,7 +331,7 @@ fs = 25;
 h1 = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
 hold on
-plot(data_used_x,data_used_y,'.','MarkerSize',12)
+plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.','MarkerSize',12)
 eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
 ax = gca;
 ax.XTick = xData;
@@ -2234,7 +2234,7 @@ nanmean([GOCI_DailyStatMatrix.Rrs_660_stdv_mean])
 nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])
 
 
-%% Time Series for Rrs_for GOCI, Aqua and VIIRS
+%% Plot Time Series Daily for Rrs_for GOCI, Aqua and VIIRS
 wl = {'412','443','490','555','660','680'};
 
 for idx = 1:size(wl,2)
@@ -2246,7 +2246,7 @@ for idx = 1:size(wl,2)
       
       fs = 25;
       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-      plot(data_used_x,data_used_y,'.-','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
 %       ax = gca;
 %       ax.XTick = xData;
@@ -2283,7 +2283,7 @@ for idx = 1:size(wl,2)
       fs = 25;
       figure(h1)
       hold on
-      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'r','MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
 %       ax = gca;
 %       ax.XTick = xData;
@@ -2320,12 +2320,13 @@ for idx = 1:size(wl,2)
       fs = 25;
       figure(h1)
       hold on
-      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
 %       ax = gca;
 %       ax.XTick = xData;
 %       datetick('x','yyyy')
       grid on
+      set(gcf, 'renderer','painters')
       %       end
       
       if strcmp(wl{idx},'412')
@@ -2447,7 +2448,9 @@ for idx = 1:size(Year_idx,2)
       
 end
 
-%% PLot GOCI vs AQUA and VIIRS
+%% PLot Monthly GOCI vs AQUA and VIIRS
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
 %       h1 = figure('Color','white','DefaultAxesFontSize',fs);
@@ -2456,7 +2459,9 @@ for idx0 = 1:size(wl,2)
 %       grid on
 
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
-      eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_mid_three]);',wl{idx0}))
+      data_used_x = [GOCI_MonthlyStatMatrix.datetime];
+      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_mid_three];',wl{idx0}))
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
 
@@ -2484,13 +2489,13 @@ for idx0 = 1:size(wl,2)
       fs = 25;
 %       figure(h1)
 %       hold on
-%       plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+%       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.-r','MarkerSize',12)
 %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
 %       grid on
 
       figure(h2)
       hold on
-      plot(data_used_x,data_used_y,'.-r','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'r','MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
       grid on
 
@@ -2513,20 +2518,21 @@ for idx0 = 1:size(wl,2)
       cond_used = cond1;
 
       eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
-      data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
+      data_used_x = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 
       fs = 25;
 %       figure(h1)
 %       hold on
-%       plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+%       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.-k','MarkerSize',12)
 %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
 %       grid on
 
       figure(h2)
       hold on
-      plot(data_used_x,data_used_y,'.-k','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
+      set(gcf, 'renderer','painters')
       
 %       figure(h1)      
 %       if strcmp(wl{idx0},'412')
@@ -2557,7 +2563,13 @@ for idx0 = 1:size(wl,2)
       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')        
       end
-      
+     
+      %       legend boxoff
+      screen_size = get(0, 'ScreenSize');
+      origSize = get(gcf, 'Position'); % grab original on screen size
+      set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+      set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+      saveas(gcf,[savedirname 'CrossComp_Rrs' wl{idx0}],'epsc')
 
 end
 %% Scatter plots
@@ -2718,17 +2730,17 @@ fs = 25;
 h1 = figure('Color','white','DefaultAxesFontSize',fs);
 xdata = [GOCI_DailyStatMatrix.datetime];
 ydata = [GOCI_DailyStatMatrix.aot_865_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)))
 
 hold on
 xdata = [AQUA_DailyStatMatrix.datetime];
 ydata = [AQUA_DailyStatMatrix.aot_869_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r')
 
 hold on
 xdata = [VIIRS_DailyStatMatrix.datetime];
 ydata = [VIIRS_DailyStatMatrix.aot_862_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k')
 grid on
 set(gcf, 'renderer','painters')
 legend('GOCI','MODISA','VIIRS')
@@ -2738,17 +2750,17 @@ legend('GOCI','MODISA','VIIRS')
 h2 = figure('Color','white','DefaultAxesFontSize',fs);
 xdata = [GOCI_DailyStatMatrix.datetime];
 ydata = [GOCI_DailyStatMatrix.angstrom_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)))
 
 hold on
 xdata = [AQUA_DailyStatMatrix.datetime];
 ydata = [AQUA_DailyStatMatrix.angstrom_filtered_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r')
 
 hold on
 xdata = [VIIRS_DailyStatMatrix.datetime];
 ydata = [VIIRS_DailyStatMatrix.angstrom_filtered_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k-')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k')
 grid on
 set(gcf, 'renderer','painters')
 legend('GOCI','MODISA','VIIRS')
