@@ -708,38 +708,6 @@ if exist(fullFileName, 'file')
       satcell.ag_412_mlrc_iqr_rms 					= str2double(s{1}{48});
 end
 
-% angstrom
-fullFileName = [filepath '.angstrom'];
-
-if exist(fullFileName, 'file')
-      
-      fileID = fopen(fullFileName);
-      s = textscan(fileID,'%s','Delimiter','=');
-      fclose(fileID);
-      
-      satcell.angstrom_center_value 				= str2double(s{1}{6});
-      satcell.angstrom_valid_pixel_count 			= str2double(s{1}{8});
-      satcell.angstrom_max 						= str2double(s{1}{10});
-      satcell.angstrom_min 						= str2double(s{1}{12});
-      satcell.angstrom_mean 						= str2double(s{1}{14});
-      satcell.angstrom_median 					= str2double(s{1}{16});
-      satcell.angstrom_stddev 					= str2double(s{1}{18});
-      satcell.angstrom_rms 						= str2double(s{1}{20});
-      satcell.angstrom_filtered_valid_pixel_count = str2double(s{1}{22});
-      satcell.angstrom_filtered_max 				= str2double(s{1}{24});
-      satcell.angstrom_filtered_min 				= str2double(s{1}{26});
-      satcell.angstrom_filtered_mean 				= str2double(s{1}{28});
-      satcell.angstrom_filtered_median 			= str2double(s{1}{30});
-      satcell.angstrom_filtered_stddev 			= str2double(s{1}{32});
-      satcell.angstrom_filtered_rms 				= str2double(s{1}{34});
-      satcell.angstrom_iqr_valid_pixel_count 		= str2double(s{1}{36});
-      satcell.angstrom_iqr_max 					= str2double(s{1}{38});
-      satcell.angstrom_iqr_min 					= str2double(s{1}{40});
-      satcell.angstrom_iqr_mean 					= str2double(s{1}{42});
-      satcell.angstrom_iqr_median 				= str2double(s{1}{44});
-      satcell.angstrom_iqr_stddev 				= str2double(s{1}{46});
-      satcell.angstrom_iqr_rms 					= str2double(s{1}{48});
-end
 
 % chl_ocx
 fullFileName = [filepath '.chl_ocx'];
@@ -1309,6 +1277,37 @@ if exist(fullFileName, 'file')
       satcell.aot_680_iqr_rms 					= str2double(s{1}{48});
 end
 
+% aot_862
+fullFileName = [filepath '.aot_862'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.aot_862_center_value                    = str2double(s{1}{6});
+      satcell.aot_862_valid_pixel_count               = str2double(s{1}{8});
+      satcell.aot_862_max                                   = str2double(s{1}{10});
+      satcell.aot_862_min                                   = str2double(s{1}{12});
+      satcell.aot_862_mean                                  = str2double(s{1}{14});
+      satcell.aot_862_median                                = str2double(s{1}{16});
+      satcell.aot_862_stddev                                = str2double(s{1}{18});
+      satcell.aot_862_rms                                   = str2double(s{1}{20});
+      satcell.aot_862_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.aot_862_filtered_max                    = str2double(s{1}{24});
+      satcell.aot_862_filtered_min                    = str2double(s{1}{26});
+      satcell.aot_862_filtered_mean                         = str2double(s{1}{28});
+      satcell.aot_862_filtered_median                 = str2double(s{1}{30});
+      satcell.aot_862_filtered_stddev                 = str2double(s{1}{32});
+      satcell.aot_862_filtered_rms                    = str2double(s{1}{34});
+      satcell.aot_862_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.aot_862_iqr_max                               = str2double(s{1}{38});
+      satcell.aot_862_iqr_min                               = str2double(s{1}{40});
+      satcell.aot_862_iqr_mean                              = str2double(s{1}{42});
+      satcell.aot_862_iqr_median                            = str2double(s{1}{44});
+      satcell.aot_862_iqr_stddev                            = str2double(s{1}{46});
+      satcell.aot_862_iqr_rms                               = str2double(s{1}{48});
+end
+
 % aot_865
 fullFileName = [filepath '.aot_865'];
 
@@ -1338,6 +1337,37 @@ if exist(fullFileName, 'file')
       satcell.aot_865_iqr_median 					= str2double(s{1}{44});
       satcell.aot_865_iqr_stddev 					= str2double(s{1}{46});
       satcell.aot_865_iqr_rms 					= str2double(s{1}{48});
+end
+
+% aot_869
+fullFileName = [filepath '.aot_869'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.aot_869_center_value                    = str2double(s{1}{6});
+      satcell.aot_869_valid_pixel_count               = str2double(s{1}{8});
+      satcell.aot_869_max                                   = str2double(s{1}{10});
+      satcell.aot_869_min                                   = str2double(s{1}{12});
+      satcell.aot_869_mean                                  = str2double(s{1}{14});
+      satcell.aot_869_median                                = str2double(s{1}{16});
+      satcell.aot_869_stddev                                = str2double(s{1}{18});
+      satcell.aot_869_rms                                   = str2double(s{1}{20});
+      satcell.aot_869_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.aot_869_filtered_max                    = str2double(s{1}{24});
+      satcell.aot_869_filtered_min                    = str2double(s{1}{26});
+      satcell.aot_869_filtered_mean                         = str2double(s{1}{28});
+      satcell.aot_869_filtered_median                 = str2double(s{1}{30});
+      satcell.aot_869_filtered_stddev                 = str2double(s{1}{32});
+      satcell.aot_869_filtered_rms                    = str2double(s{1}{34});
+      satcell.aot_869_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.aot_869_iqr_max                               = str2double(s{1}{38});
+      satcell.aot_869_iqr_min                               = str2double(s{1}{40});
+      satcell.aot_869_iqr_mean                              = str2double(s{1}{42});
+      satcell.aot_869_iqr_median                            = str2double(s{1}{44});
+      satcell.aot_869_iqr_stddev                            = str2double(s{1}{46});
+      satcell.aot_869_iqr_rms                               = str2double(s{1}{48});
 end
 
 % epsilon
