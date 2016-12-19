@@ -215,10 +215,20 @@ end
 %%
 
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat]);
+legend off
+set(gcf, 'renderer','painters')
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat]);
+legend off
+set(gcf, 'renderer','painters')
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat]);
+legend off
+set(gcf, 'renderer','painters')
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat]);
+legend off
+set(gcf, 'renderer','painters')
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat]);
+legend off
+set(gcf, 'renderer','painters')
 
 % no data for in situ 678 or 681
 % [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('678','680',[Matchup.Rrs_678_ins],[Matchup.Rrs_680_sat]);

@@ -40,6 +40,7 @@ plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k','LineWidth',1.5)
 % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
 grid on
 leg = legend(['N: ' num2str(sum(cond0)) ],'Location','SouthEast');
+% to show scientific notation in axes
 ax = gca;
 ax.XAxis.TickLabelFormat = '%,.1f';
 ax.XAxis.Exponent = -3;

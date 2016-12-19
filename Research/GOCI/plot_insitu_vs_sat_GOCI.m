@@ -15,8 +15,8 @@ Matchup_sat_used = Matchup_sat(cond0);
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(Matchup_ins_used,Matchup_sat_used,'ob','MarkerSize',12)
-ylabel(['Satellite Rrs\_' wl_sat ' (sr^{-1})'],'FontSize',fs)
-xlabel(['In situ Rrs\_' wl_ins ' (sr^{-1})'],'FontSize',fs)
+xlabel(['In situ R_{rs}(' wl_ins ') (sr^{-1})'],'FontSize',fs)
+ylabel(['Satellite R_{rs}(' wl_sat ') (sr^{-1})'],'FontSize',fs)
 axis equal
 
 if min(Matchup_sat_used) <0
@@ -40,8 +40,13 @@ plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k','LineWidth',1.5)
 % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
 grid on
 leg = legend(['3 h; Total: ' num2str(sum(cond0)) ],'Location','SouthEast');
+% to show scientific notation in axes
 ax = gca;
-ax.XTick =ax.YTick;
+ax.XAxis.TickLabelFormat = '%,.1f';
+ax.XAxis.Exponent = -3;
+ax.YTick =ax.XTick;
+ax.YAxis.TickLabelFormat = '%,.1f';
+ax.YAxis.Exponent = -3;
 
 
 if sum(isfinite(Matchup_ins_used))

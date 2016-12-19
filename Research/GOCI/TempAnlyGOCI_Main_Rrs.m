@@ -2364,19 +2364,21 @@ for idx = 1:size(Year_idx,2)
             count = count+1;
             cond_1t = Year_idx(idx)==Year...
                   & idx2==Month;
-            GOCI_MonthlyStatMatrix(count).Rrs_412_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
-            GOCI_MonthlyStatMatrix(count).Rrs_443_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
-            GOCI_MonthlyStatMatrix(count).Rrs_490_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
-            GOCI_MonthlyStatMatrix(count).Rrs_555_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
-            GOCI_MonthlyStatMatrix(count).Rrs_660_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
-            GOCI_MonthlyStatMatrix(count).Rrs_680_monthly_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
+            GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
 
-            GOCI_MonthlyStatMatrix(count).Rrs_412_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
-            GOCI_MonthlyStatMatrix(count).Rrs_443_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
-            GOCI_MonthlyStatMatrix(count).Rrs_490_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
-            GOCI_MonthlyStatMatrix(count).Rrs_555_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
-            GOCI_MonthlyStatMatrix(count).Rrs_660_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
-            GOCI_MonthlyStatMatrix(count).Rrs_680_monthly_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).aot_865_mean_mid_three]);
+            GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).angstrom_mean_mid_three]);
             
             GOCI_MonthlyStatMatrix(count).Month = idx2;
             GOCI_MonthlyStatMatrix(count).Year  = Year_idx(idx);
@@ -2403,12 +2405,14 @@ for idx = 1:size(Year_idx,2)
             count = count+1;
             cond_1t = Year_idx(idx)==Year...
                   & idx2==Month;
-            AQUA_MonthlyStatMatrix(count).Rrs_412_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
-            AQUA_MonthlyStatMatrix(count).Rrs_443_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-            AQUA_MonthlyStatMatrix(count).Rrs_488_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
-            AQUA_MonthlyStatMatrix(count).Rrs_547_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]);
-            AQUA_MonthlyStatMatrix(count).Rrs_667_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
-            AQUA_MonthlyStatMatrix(count).Rrs_678_filtered_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_412_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_488_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_547_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_667_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).Rrs_678_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).aot_869_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).aot_869_filtered_mean]);
+            AQUA_MonthlyStatMatrix(count).angstrom_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
             
             AQUA_MonthlyStatMatrix(count).Month = idx2;
             AQUA_MonthlyStatMatrix(count).Year  = Year_idx(idx);
@@ -2435,11 +2439,14 @@ for idx = 1:size(Year_idx,2)
             count = count+1;
             cond_1t = Year_idx(idx)==Year...
                   & idx2==Month;
-            VIIRS_MonthlyStatMatrix(count).Rrs_410_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
-            VIIRS_MonthlyStatMatrix(count).Rrs_443_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-            VIIRS_MonthlyStatMatrix(count).Rrs_486_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
-            VIIRS_MonthlyStatMatrix(count).Rrs_551_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
-            VIIRS_MonthlyStatMatrix(count).Rrs_671_filtered_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_410_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_486_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_551_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).Rrs_671_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).aot_862_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).aot_862_filtered_mean]);
+            VIIRS_MonthlyStatMatrix(count).angstrom_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
+
             
             VIIRS_MonthlyStatMatrix(count).Month = idx2;
             VIIRS_MonthlyStatMatrix(count).Year  = Year_idx(idx);
@@ -2448,20 +2455,21 @@ for idx = 1:size(Year_idx,2)
       
 end
 
-%% PLot Monthly GOCI vs AQUA and VIIRS
+save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
+%% Plot Monthly Rrs GOCI vs AQUA and VIIRS
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
 %       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-%       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_first_six]);',wl{idx0}))
+%       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_mean_first_six]);',wl{idx0}))
 %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
 %       grid on
 
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
       data_used_x = [GOCI_MonthlyStatMatrix.datetime];
-      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_monthly_mean_mid_three];',wl{idx0}))
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12)
+      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_mean_mid_three];',wl{idx0}))
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12,'LineWidth',lw)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
 
@@ -2480,10 +2488,10 @@ for idx0 = 1:size(wl,2)
             wl_AQUA = '678';        
       end      
 
-      eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_filtered_mean]);',wl_AQUA));
+      eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_mean]);',wl_AQUA));
       cond_used = cond1;
 
-      eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_AQUA));
+      eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_AQUA));
       data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
 
       fs = 25;
@@ -2495,8 +2503,8 @@ for idx0 = 1:size(wl,2)
 
       figure(h2)
       hold on
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'r','MarkerSize',12)
-      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'r','MarkerSize',12,'LineWidth',lw)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
 
       %% Plot VIIRS
@@ -2514,10 +2522,10 @@ for idx0 = 1:size(wl,2)
             wl_VIIRS = '671';        
       end
 
-      eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_filtered_mean]);',wl_VIIRS));
+      eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
       cond_used = cond1;
 
-      eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_filtered_mean];',wl_VIIRS));
+      eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_VIIRS));
       data_used_x = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 
       fs = 25;
@@ -2529,7 +2537,7 @@ for idx0 = 1:size(wl,2)
 
       figure(h2)
       hold on
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12)
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12,'LineWidth',lw)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
       set(gcf, 'renderer','painters')
@@ -2725,42 +2733,98 @@ for idx0 = 1:size(wl,2)
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
 end
 
-%% AOT(865) and Angstrong
+%% Daily AOT(865) and Angstrong
+lw = 1.5;
 fs = 25;
-h1 = figure('Color','white','DefaultAxesFontSize',fs);
+h1 = figure('Color','white','DefaultAxesFontSize',fs,'Name','AOT(865)');
 xdata = [GOCI_DailyStatMatrix.datetime];
 ydata = [GOCI_DailyStatMatrix.aot_865_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)))
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
 
 hold on
 xdata = [AQUA_DailyStatMatrix.datetime];
 ydata = [AQUA_DailyStatMatrix.aot_869_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
 
 hold on
 xdata = [VIIRS_DailyStatMatrix.datetime];
 ydata = [VIIRS_DailyStatMatrix.aot_862_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
+ylabel('AOT(865)')
 grid on
 set(gcf, 'renderer','painters')
 legend('GOCI','MODISA','VIIRS')
 
 
 
-h2 = figure('Color','white','DefaultAxesFontSize',fs);
+h2 = figure('Color','white','DefaultAxesFontSize',fs,'Name','Angstrom');
 xdata = [GOCI_DailyStatMatrix.datetime];
 ydata = [GOCI_DailyStatMatrix.angstrom_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)))
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
 
 hold on
 xdata = [AQUA_DailyStatMatrix.datetime];
 ydata = [AQUA_DailyStatMatrix.angstrom_filtered_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
 
 hold on
 xdata = [VIIRS_DailyStatMatrix.datetime];
 ydata = [VIIRS_DailyStatMatrix.angstrom_filtered_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
+xlabel('Time')
+ylabel('Angstrom')
 grid on
 set(gcf, 'renderer','painters')
 legend('GOCI','MODISA','VIIRS')
+
+%% Monthly AOT(865) and Angstrong
+fs = 25;
+h1 = figure('Color','white','DefaultAxesFontSize',fs,'Name','AOT(865)');
+xdata = [GOCI_MonthlyStatMatrix.datetime];
+ydata = [GOCI_MonthlyStatMatrix.aot_865_mean_mid_three];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
+
+hold on
+xdata = [AQUA_MonthlyStatMatrix.datetime];
+ydata = [AQUA_MonthlyStatMatrix.aot_869_mean];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
+
+hold on
+xdata = [VIIRS_MonthlyStatMatrix.datetime];
+ydata = [VIIRS_MonthlyStatMatrix.aot_862_mean];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
+ylabel('AOT(865)')
+grid on
+legend('GOCI','MODISA','VIIRS')
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'TimeSerie_AOT_865'],'epsc')
+
+
+h2 = figure('Color','white','DefaultAxesFontSize',fs,'Name','Angstrom');
+xdata = [GOCI_MonthlyStatMatrix.datetime];
+ydata = [GOCI_MonthlyStatMatrix.angstrom_mean_mid_three];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
+
+hold on
+xdata = [AQUA_MonthlyStatMatrix.datetime];
+ydata = [AQUA_MonthlyStatMatrix.angstrom_mean];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
+
+hold on
+xdata = [VIIRS_MonthlyStatMatrix.datetime];
+ydata = [VIIRS_MonthlyStatMatrix.angstrom_mean];
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
+xlabel('Time')
+ylabel('Angstrom')
+grid on
+legend('GOCI','MODISA','VIIRS')
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'TimeSerie_Angstrom'],'epsc')

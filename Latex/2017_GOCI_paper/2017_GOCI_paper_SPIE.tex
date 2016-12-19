@@ -158,7 +158,7 @@ Example of citations\cite{ConchaThesis2015,Franz:2015}.
 
   \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_660.png}
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_660.eps}
       \centerline{(e)}\medskip
     \end{minipage}   
 
@@ -272,6 +272,22 @@ Example of citations\cite{ConchaThesis2015,Franz:2015}.
     \end{minipage}   
 
     \caption{Time Series (con't). \label{fig:GOCI_TimeSeries2} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {(b)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Time Series for Angstrom and AOT(865). \label{fig:GOCI_TimeSeries_Angstrom_and_AOT_865} } 
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Products versus solar zenith angle}
