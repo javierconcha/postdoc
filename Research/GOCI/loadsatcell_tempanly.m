@@ -1556,6 +1556,37 @@ if exist(fullFileName, 'file')
       satcell.glint_coef_iqr_rms 					= str2double(s{1}{48});
 end
 
+% poc
+fullFileName = [filepath '.poc'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.poc_center_value                       = str2double(s{1}{6});
+      satcell.poc_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.poc_max                                = str2double(s{1}{10});
+      satcell.poc_min                                = str2double(s{1}{12});
+      satcell.poc_mean                                     = str2double(s{1}{14});
+      satcell.poc_median                                   = str2double(s{1}{16});
+      satcell.poc_stddev                                   = str2double(s{1}{18});
+      satcell.poc_rms                                = str2double(s{1}{20});
+      satcell.poc_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.poc_filtered_max                       = str2double(s{1}{24});
+      satcell.poc_filtered_min                       = str2double(s{1}{26});
+      satcell.poc_filtered_mean                      = str2double(s{1}{28});
+      satcell.poc_filtered_median              = str2double(s{1}{30});
+      satcell.poc_filtered_stddev              = str2double(s{1}{32});
+      satcell.poc_filtered_rms                       = str2double(s{1}{34});
+      satcell.poc_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.poc_iqr_max                            = str2double(s{1}{38});
+      satcell.poc_iqr_min                            = str2double(s{1}{40});
+      satcell.poc_iqr_mean                           = str2double(s{1}{42});
+      satcell.poc_iqr_median                               = str2double(s{1}{44});
+      satcell.poc_iqr_stddev                               = str2double(s{1}{46});
+      satcell.poc_iqr_rms                            = str2double(s{1}{48});
+end
+
 % % satcell = get_product(filepath,'ozone',satcell);
 % satcell = get_product(filepath,'ozone',satcell);
 
