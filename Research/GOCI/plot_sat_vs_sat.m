@@ -12,13 +12,54 @@ fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(x_data_used,y_data_used,'ob','MarkerSize',12)
 
+% set label for plot
 switch parname
       case 'Rrs'
             xlabel([sat_name_x ' R_{rs}(' wl_x ') (sr^{-1})'],'FontSize',fs)
             ylabel([sat_name_y ' R_{rs}(' wl_y ') (sr^{-1})'],'FontSize',fs)
-      case 'Angstom'
+      case 'chlor_a'
+            xlabel([sat_name_x ' Chl-{\ita}'],'FontSize',fs)
+            ylabel([sat_name_y ' Chl-{\ita}'],'FontSize',fs)
+      case 'ag_412_mlrc'
+            switch sat_name_x
+                  case {'GOCI','AQUA'}
+                        xlabel([sat_name_x ' a_{g:mlrc}(412)'],'FontSize',fs)
+                  case 'VIIRS'
+                        xlabel([sat_name_x ' a_{g:mlrc}(410)'],'FontSize',fs)  
+            end
+            switch sat_name_y
+                  case {'GOCI','AQUA'}
+                        ylabel([sat_name_y ' a_{g:mlrc}(412)'],'FontSize',fs)
+                  case 'VIIRS'
+                        ylabel([sat_name_y ' a_{g:mlrc}(410)'],'FontSize',fs)  
+            end
+      case 'poc'
+            xlabel([sat_name_x ' POC'],'FontSize',fs)
+            ylabel([sat_name_y ' POC'],'FontSize',fs)                   
+      case 'angstrom'
             xlabel([sat_name_x ' Angstrom'],'FontSize',fs)
             ylabel([sat_name_y ' Angstrom'],'FontSize',fs)
+      case 'aot_865'
+            switch sat_name_x
+                  case 'GOCI'
+                        xlabel([sat_name_x ' AOT(865)'],'FontSize',fs)
+                  case 'VIIRS'
+                        xlabel([sat_name_x ' AOT(862)'],'FontSize',fs)
+                  case 'AQUA'
+                        xlabel([sat_name_x ' AOT(869)'],'FontSize',fs)      
+            end
+            switch sat_name_y
+                  case 'GOCI'
+                        ylabel([sat_name_y ' AOT(865)'],'FontSize',fs)
+                  case 'VIIRS'
+                        ylabel([sat_name_y ' AOT(862)'],'FontSize',fs)
+                  case 'AQUA'
+                        ylabel([sat_name_y ' AOT(869)'],'FontSize',fs)      
+            end
+      case 'brdf'
+            xlabel([sat_name_x ' BRDF'],'FontSize',fs)
+            ylabel([sat_name_y ' BRDF'],'FontSize',fs)                
+
 end
 axis equal
 

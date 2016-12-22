@@ -3387,6 +3387,143 @@ for idx0 = 1:size(wl,2)
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
 end
 
+%% Scatter plots for par
+savedirname = '/Users/jconchas/Documents/Research/GOCI/Figures/';
+
+GOCI_date = [GOCI_DailyStatMatrix.datetime];
+VIIRS_date = [VIIRS_DailyStatMatrix.datetime];
+AQUA_date = [AQUA_DailyStatMatrix.datetime];
+
+par = {'chlor_a','ag_412_mlrc','poc','angstrom','aot_865','brdf'};
+
+for idx0 = 1:size(par,2)
+
+      %% GOCI Comparison with VIIRS
+      
+      par = {'chlor_a','ag_412_mlrc','poc','angstrom','aot_865','brdf'};
+
+      if strcmp(par{idx0},'aot_865')
+            par_GOCI = par{idx0}
+            par_AQUA = 'aot_869';
+            par_VIIRS = 'aot_862';
+      else
+            par_GOCI = par{idx0}
+            par_AQUA = par{idx0}
+            par_VIIRS = par{idx0};
+      end
+      
+      % lower boundary
+      a = find(VIIRS_date == GOCI_date(1)); % if VIIRS is older
+      
+      if ~isempty(a)
+            V_low_index = a;
+            G_low_index = 1;
+      end
+      
+      b = find(VIIRS_date(1) == GOCI_date); % if GOCI is older
+      
+      if ~isempty(b)
+            V_low_index = 1;
+            G_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(VIIRS_date == GOCI_date(end));
+      
+      if ~isempty(c)
+            V_upp_index = c;
+            G_upp_index = size(GOCI_date,2);
+      end
+      
+      d = find(VIIRS_date(end) == GOCI_date);
+      
+      if ~isempty(d)
+            V_upp_index = size(VIIRS_date,2);
+            G_upp_index = d;
+      end
+      
+      [h1,ax1,leg1] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','VIIRS',...
+            eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).%s_mean_mid_three]',par_GOCI)),...
+            eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).%s_filtered_mean]',par_VIIRS)));
+      set(gcf, 'renderer','painters')
+      
+      saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' par{idx0}],'epsc')
+      %% GOCI Comparison with AQUA
+      % lower boundary
+      a = find(AQUA_date == GOCI_date(1)); % if AQUA is older
+      
+      if ~isempty(a)
+            A_low_index = a;
+            G_low_index = 1;
+      end
+      
+      b = find(AQUA_date(1) == GOCI_date); % if GOCI is older
+      
+      if ~isempty(b)
+            A_low_index = 1;
+            G_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(AQUA_date == GOCI_date(end));
+      
+      if ~isempty(c)
+            A_upp_index = c;
+            G_upp_index = size(GOCI_date,2);
+      end
+      
+      d = find(AQUA_date(end) == GOCI_date);
+      
+      if ~isempty(d)
+            A_upp_index = size(AQUA_date,2);
+            G_upp_index = d;
+      end
+      
+      [h2,ax2,leg2] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','AQUA',...
+            eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).%s_mean_mid_three]',par_GOCI)),...
+            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).%s_filtered_mean]',par_AQUA)));
+      set(gcf, 'renderer','painters')
+      
+      saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' par{idx0}],'epsc')
+      %% VIIRS Comparison with AQUA
+      % lower boundary
+      a = find(AQUA_date == VIIRS_date(1)); % if AQUA is older
+      
+      if ~isempty(a)
+            A_low_index = a;
+            V_low_index = 1;
+      end
+      
+      b = find(AQUA_date(1) == VIIRS_date); % if VIIRS is older
+      
+      if ~isempty(b)
+            A_low_index = 1;
+            V_low_index = b;
+      end
+      
+      % upper boundary
+      c = find(AQUA_date == VIIRS_date(end));
+      
+      if ~isempty(c)
+            A_upp_index = c;
+            V_upp_index = size(VIIRS_date,2);
+      end
+      
+      d = find(AQUA_date(end) == VIIRS_date);
+      
+      if ~isempty(d)
+            A_upp_index = size(AQUA_date,2);
+            V_upp_index = d;
+      end
+      
+      [h3,ax3,leg3] = plot_sat_vs_sat(par{idx0},'NA','NA','VIIRS','AQUA',...
+            eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).%s_filtered_mean]',par_VIIRS)),...
+            eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).%s_filtered_mean]',par_AQUA))); 
+      set(gcf, 'renderer','painters')
+      
+      saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' par{idx0}],'epsc')
+end
+
 %% Daily AOT(865) and Angstrong
 lw = 1.5;
 fs = 25;
