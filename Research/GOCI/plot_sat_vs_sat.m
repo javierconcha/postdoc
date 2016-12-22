@@ -1,43 +1,46 @@
-function [h,ax,leg] = plot_sat_vs_sat(wl_x,wl_y,sat_name_x,sat_name_y,x_data,y_data,varargin)
+function [h,ax,leg] = plot_sat_vs_sat(parname,wl_x,wl_y,sat_name_x,sat_name_y,x_data,y_data,varargin)
 
 %% filtered
-
-Matchup_ins = x_data;
-Matchup_sat = y_data;
-
-cond0 =  ~isnan(Matchup_sat)&~isnan(Matchup_ins)&...
-      isfinite(Matchup_sat)&isfinite(Matchup_ins); % valid values
+cond0 =  ~isnan(y_data)&~isnan(x_data)&...
+      isfinite(y_data)&isfinite(x_data); % valid values
 
 %% plot
-Matchup_ins_used = Matchup_ins(cond0);
-Matchup_sat_used = Matchup_sat(cond0);
+x_data_used = x_data(cond0);
+y_data_used = y_data(cond0);
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
-plot(Matchup_ins_used,Matchup_sat_used,'ob','MarkerSize',12)
-xlabel([sat_name_x ' R_{rs}(' wl_x ') (sr^{-1})'],'FontSize',fs)
-ylabel([sat_name_y ' R_{rs}(' wl_y ') (sr^{-1})'],'FontSize',fs)
+plot(x_data_used,y_data_used,'ob','MarkerSize',12)
+
+switch parname
+      case 'Rrs'
+            xlabel([sat_name_x ' R_{rs}(' wl_x ') (sr^{-1})'],'FontSize',fs)
+            ylabel([sat_name_y ' R_{rs}(' wl_y ') (sr^{-1})'],'FontSize',fs)
+      case 'Angstom'
+            xlabel([sat_name_x ' Angstrom'],'FontSize',fs)
+            ylabel([sat_name_y ' Angstrom'],'FontSize',fs)
+end
 axis equal
 
-if min(Matchup_sat_used) <0
-      Rrs_sat_min = min(Matchup_sat_used)*1.1;
+if min(y_data_used) <0
+      par_y_data_min = min(y_data_used)*1.1;
 else
-      Rrs_sat_min = 0;
+      par_y_data_min = 0;
 end
-Rrs_sat_max = max(Matchup_sat_used)*1.05;
-Rrs_ins_min = min(Matchup_ins_used)*0.95;
-Rrs_ins_max = max(Matchup_ins_used)*1.05;
+par_y_data_max = max(y_data_used)*1.05;
+par_x_data_min = min(x_data_used)*0.95;
+par_x_data_max = max(x_data_used)*1.05;
 
-Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
-Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
+par_min = min([par_y_data_min par_x_data_min]);
+par_max = max([par_y_data_max par_x_data_max]);
 
-xlim([Rrs_min Rrs_max])
-ylim([Rrs_min Rrs_max])
+xlim([par_min par_max])
+ylim([par_min par_max])
 
 hold on
-plot([Rrs_min Rrs_max],[Rrs_min Rrs_max],'--k','LineWidth',1.5)
-% plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
-% plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
+plot([par_min par_max],[par_min par_max],'--k','LineWidth',1.5)
+% plot([0 par_max],[0.1*par_max 1.1*par_max],':k')
+% plot([0 par_max],[-0.1*par_max 0.9*par_max],':k')
 grid on
 leg = legend(['N: ' num2str(sum(cond0)) ],'Location','SouthEast');
 % to show scientific notation in axes
@@ -50,11 +53,11 @@ ax.YAxis.Exponent = -3;
 
 
 
-if sum(isfinite(Matchup_ins_used))
+if sum(isfinite(x_data_used))
       %% Statistics
-      C_insitu_temp = Matchup_ins_used;
+      C_insitu_temp = x_data_used;
       
-      C_alg_temp = Matchup_sat_used;
+      C_alg_temp = y_data_used;
       
       C_insitu = C_insitu_temp(C_alg_temp>0);
       C_alg = C_alg_temp(C_alg_temp>0);
@@ -105,7 +108,7 @@ if sum(isfinite(Matchup_ins_used))
             
       end
       
-      maxref = Rrs_max;
+      maxref = par_max;
       
       x1=[0 maxref];
       y1=a(1).*x1+a(2);
@@ -162,7 +165,7 @@ if sum(isfinite(Matchup_ins_used))
       
       % latex table
       
-      if nargin == 7
+      if nargin == 8
             fprintf(FID,'%s & ',which_time_range);
             fprintf(FID,'$%s$ & ',L2ext);
             fprintf(FID,'%s & ',wl_y);
