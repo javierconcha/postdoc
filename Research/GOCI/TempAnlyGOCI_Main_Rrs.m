@@ -3399,16 +3399,13 @@ par = {'chlor_a','ag_412_mlrc','poc','angstrom','aot_865','brdf'};
 for idx0 = 1:size(par,2)
 
       %% GOCI Comparison with VIIRS
-      
-      par = {'chlor_a','ag_412_mlrc','poc','angstrom','aot_865','brdf'};
-
       if strcmp(par{idx0},'aot_865')
-            par_GOCI = par{idx0}
+            par_GOCI = par{idx0};
             par_AQUA = 'aot_869';
             par_VIIRS = 'aot_862';
       else
-            par_GOCI = par{idx0}
-            par_AQUA = par{idx0}
+            par_GOCI = par{idx0};
+            par_AQUA = par{idx0};
             par_VIIRS = par{idx0};
       end
       
@@ -3445,6 +3442,7 @@ for idx0 = 1:size(par,2)
       [h1,ax1,leg1] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','VIIRS',...
             eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).%s_mean_mid_three]',par_GOCI)),...
             eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).%s_filtered_mean]',par_VIIRS)));
+      legend off
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' par{idx0}],'epsc')
@@ -3482,6 +3480,7 @@ for idx0 = 1:size(par,2)
       [h2,ax2,leg2] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','AQUA',...
             eval(sprintf('[GOCI_DailyStatMatrix(G_low_index:G_upp_index).%s_mean_mid_three]',par_GOCI)),...
             eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).%s_filtered_mean]',par_AQUA)));
+      legend off
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' par{idx0}],'epsc')
@@ -3519,6 +3518,7 @@ for idx0 = 1:size(par,2)
       [h3,ax3,leg3] = plot_sat_vs_sat(par{idx0},'NA','NA','VIIRS','AQUA',...
             eval(sprintf('[VIIRS_DailyStatMatrix(V_low_index:V_upp_index).%s_filtered_mean]',par_VIIRS)),...
             eval(sprintf('[AQUA_DailyStatMatrix(A_low_index:A_upp_index).%s_filtered_mean]',par_AQUA))); 
+      legend off
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' par{idx0}],'epsc')

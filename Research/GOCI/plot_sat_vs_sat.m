@@ -25,17 +25,17 @@ switch parname
                   case {'GOCI','AQUA'}
                         xlabel([sat_name_x ' a_{g:mlrc}(412)'],'FontSize',fs)
                   case 'VIIRS'
-                        xlabel([sat_name_x ' a_{g:mlrc}(410)'],'FontSize',fs)  
+                        xlabel([sat_name_x ' a_{g:mlrc}(410)'],'FontSize',fs)
             end
             switch sat_name_y
                   case {'GOCI','AQUA'}
                         ylabel([sat_name_y ' a_{g:mlrc}(412)'],'FontSize',fs)
                   case 'VIIRS'
-                        ylabel([sat_name_y ' a_{g:mlrc}(410)'],'FontSize',fs)  
+                        ylabel([sat_name_y ' a_{g:mlrc}(410)'],'FontSize',fs)
             end
       case 'poc'
             xlabel([sat_name_x ' POC'],'FontSize',fs)
-            ylabel([sat_name_y ' POC'],'FontSize',fs)                   
+            ylabel([sat_name_y ' POC'],'FontSize',fs)
       case 'angstrom'
             xlabel([sat_name_x ' Angstrom'],'FontSize',fs)
             ylabel([sat_name_y ' Angstrom'],'FontSize',fs)
@@ -46,7 +46,7 @@ switch parname
                   case 'VIIRS'
                         xlabel([sat_name_x ' AOT(862)'],'FontSize',fs)
                   case 'AQUA'
-                        xlabel([sat_name_x ' AOT(869)'],'FontSize',fs)      
+                        xlabel([sat_name_x ' AOT(869)'],'FontSize',fs)
             end
             switch sat_name_y
                   case 'GOCI'
@@ -54,22 +54,31 @@ switch parname
                   case 'VIIRS'
                         ylabel([sat_name_y ' AOT(862)'],'FontSize',fs)
                   case 'AQUA'
-                        ylabel([sat_name_y ' AOT(869)'],'FontSize',fs)      
+                        ylabel([sat_name_y ' AOT(869)'],'FontSize',fs)
             end
       case 'brdf'
             xlabel([sat_name_x ' BRDF'],'FontSize',fs)
-            ylabel([sat_name_y ' BRDF'],'FontSize',fs)                
-
+            ylabel([sat_name_y ' BRDF'],'FontSize',fs)
+            
 end
 axis equal
 
 if min(y_data_used) <0
       par_y_data_min = min(y_data_used)*1.1;
 else
-      par_y_data_min = 0;
+%       par_y_data_min = 0;
+      par_y_data_min = min(y_data_used)*0.95;
 end
+
+if min(x_data_used) <0
+      par_x_data_min = min(x_data_used)*1.1;
+else
+%       par_x_data_min = 0;
+      par_x_data_min = min(x_data_used)*0.95;
+end
+
 par_y_data_max = max(y_data_used)*1.05;
-par_x_data_min = min(x_data_used)*0.95;
+% par_x_data_min = min(x_data_used)*0.95;
 par_x_data_max = max(x_data_used)*1.05;
 
 par_min = min([par_y_data_min par_x_data_min]);
@@ -85,15 +94,29 @@ plot([par_min par_max],[par_min par_max],'--k','LineWidth',1.5)
 grid on
 leg = legend(['N: ' num2str(sum(cond0)) ],'Location','SouthEast');
 % to show scientific notation in axes
+
+% find how many zeros after the decimal point
+x = par_max;
+x = abs(x); %in case of negative numbers
+n = 0;
+while (floor(x*10^n)==0)
+      n = n+1;     
+end
+
+if n==0 || n==1
+      n = 0;
+end
+
 ax = gca;
-ax.XAxis.TickLabelFormat = '%,.1f';
-ax.XAxis.Exponent = -3;
+ax.XAxis.TickLabelFormat = '%,.2f';
 ax.YTick =ax.XTick;
-ax.YAxis.TickLabelFormat = '%,.1f';
-ax.YAxis.Exponent = -3;
+ax.YAxis.TickLabelFormat = '%,.2f';
+
+ax.XAxis.Exponent = -n; 
+ax.YAxis.Exponent = -n;
 
 
-
+%% Stats
 if sum(isfinite(x_data_used))
       %% Statistics
       C_insitu_temp = x_data_used;
@@ -188,8 +211,8 @@ if sum(isfinite(x_data_used))
       % display
       
       disp('-----------------------------------------')
-%       disp(['Data = ' which_time_range])
-%       disp(['ACO scheme = ' L2ext])
+      %       disp(['Data = ' which_time_range])
+      %       disp(['ACO scheme = ' L2ext])
       disp(['Sat (nm) = ' wl_y])
       disp(['InSitu (nm) = ' wl_x])
       disp(['R^2 = ' num2str(rsq_SS)])
