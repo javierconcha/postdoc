@@ -6,7 +6,7 @@ addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 addpath('/Users/jconchas/Documents/MATLAB')
-% % % %% Load GOCI data
+%% Load GOCI data
 % % % clear GOCI_Data
 % % % tic
 % % % fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
@@ -22,7 +22,7 @@ addpath('/Users/jconchas/Documents/MATLAB')
 % % %
 % % % save('GOCI_TempAnly.mat','GOCI_Data','-append')
 % % % toc
-% % % %% Load Aqua data
+%% Load Aqua data
 % % % clear AQUA_Data
 % % % tic
 % % % fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
@@ -38,7 +38,7 @@ addpath('/Users/jconchas/Documents/MATLAB')
 % % %
 % % % save('GOCI_TempAnly.mat','AQUA_Data','-append')
 % % % toc
-% % % %% Load VIIRS data
+%% Load VIIRS data
 % % % clear VIIRS_Data
 % % % tic
 % % % fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
@@ -54,12 +54,12 @@ addpath('/Users/jconchas/Documents/MATLAB')
 % % %
 % % % save('GOCI_TempAnly.mat','VIIRS_Data','-append')
 % % % toc
-% % % %%
-% % % % load('GOCI_TempAnly.mat','GOCI_Data')
-% % %
-% % % fs = 24;
-% % % h1 =  figure('Color','white','DefaultAxesFontSize',fs);
-% % %
+%%
+load('GOCI_TempAnly.mat','GOCI_Data')
+
+fs = 24;
+h1 =  figure('Color','white','DefaultAxesFontSize',fs);
+
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!!
 ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 zenith_lim = 100;
@@ -315,7 +315,7 @@ fs = 25;
 % % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 % % % grid on
 % % %
-% % % %% Plot vs time for GOCI
+%% GOCI Rrs vs time and solar zenith angle vs time
 % % %
 % % % % cond_used = 11064-7:11064+23;
 % % % % cond_used = 1:size(GOCI_Data,2);
@@ -352,7 +352,7 @@ fs = 25;
 % % % datetick('x','yyyy')%
 % % % % set(gca,'XTickLabel',{' '})
 % % % grid on
-% % % %% show high solar zenith angle and no valid data
+%% show high solar zenith angle and no valid data
 % % % subplot(2,1,1)
 % % % hold on
 % % % plot([GOCI_Data(~cond2).datetime],[GOCI_Data(~cond2).Rrs_412_filtered_mean],'.r','MarkerSize',12)
@@ -366,7 +366,7 @@ fs = 25;
 % % % subplot(2,1,2)
 % % % hold on
 % % % plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).center_ze],'.g','MarkerSize',12)
-% % % %% Chlr_a
+%% Chlr_a
 % % %
 % % % % cond_used = 11064-7:11064+23;
 % % % % cond_used = 1:size(GOCI_Data,2);
@@ -407,84 +407,84 @@ fs = 25;
 % % % xlabel('Chlor\_a','FontSize',fs)
 % % % grid on
 % % %
-% % % %% mean rrs vs zenith
-% % % % cond_used = 11064-7:11064+23;
-% % % % cond_used = 1:size(GOCI_Data,2);
-% % % % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-% % %
-% % % fs = 25;
-% % % ms = 14;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % %
-% % % % Rrs_412
-% % % cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % subplot(2,3,1)
-% % % plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(412)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % % % Rrs_443
-% % % cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % % subplot(2,3,2)
-% % % plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(443)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % % % Rrs_490
-% % % cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % % subplot(2,3,3)
-% % % plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(490)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % % % Rrs_555
-% % % cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % % subplot(2,3,4)
-% % % plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(555)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % % % Rrs_660
-% % % cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % % subplot(2,3,5)
-% % % plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(660)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % % % Rrs_680
-% % % cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % % subplot(2,3,6)
-% % % plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('R_{rs}(680)','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
-% % %
-% % %
-% % % %% chl vs zenith
+%% mean rrs vs zenith
+% cond_used = 11064-7:11064+23;
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
+
+fs = 25;
+ms = 14;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% Rrs_412
+cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+
+subplot(2,3,1)
+plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(412)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_443
+cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+subplot(2,3,2)
+plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(443)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_490
+cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+subplot(2,3,3)
+plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(490)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_555
+cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+subplot(2,3,4)
+plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(555)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_660
+cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+subplot(2,3,5)
+plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(660)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_680
+cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= zenith_lim;
+cond_used = cond1&cond2&cond3;
+subplot(2,3,6)
+plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+xlabel('R_{rs}(680)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+
+%% chl vs zenith
 % % %
 % % % % cond_used = 11064-7:11064+23;
 % % % % cond_used = 1:size(GOCI_Data,2);
@@ -504,7 +504,7 @@ fs = 25;
 % % % grid on
 % % %
 % % %
-% % % %% Capture time analysis
+%% Capture time analysis
 % % % D= datevec([GOCI_Data.datetime]);
 % % % h = figure('Color','white','DefaultAxesFontSize',fs);
 % % % subplot(2,1,1)
@@ -574,7 +574,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_412_max_mean = nanmax(data_used(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_412_min_mean = nanmin(data_used(cond_used));
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_412_RMSE_mean = RMSE;
@@ -615,7 +615,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_412_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -624,7 +624,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_412_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -633,7 +633,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_412_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -642,7 +642,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_412_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -651,7 +651,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_412_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -660,7 +660,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_412_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -669,7 +669,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_412_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -678,7 +678,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_412_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_412_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_412_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -709,7 +709,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_443_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_443_RMSE_mean = RMSE;
@@ -750,7 +750,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_443_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -759,7 +759,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_443_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -768,7 +768,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_443_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -777,7 +777,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_443_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -786,7 +786,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_443_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -795,7 +795,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_443_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -804,7 +804,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_443_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -813,7 +813,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_443_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_443_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_443_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -844,7 +844,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_490_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_490_RMSE_mean = RMSE;
@@ -885,7 +885,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_490_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -894,7 +894,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_490_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -903,7 +903,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_490_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -912,7 +912,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_490_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -921,7 +921,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_490_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -930,7 +930,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_490_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -939,7 +939,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_490_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -948,7 +948,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_490_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_490_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_490_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -979,7 +979,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_555_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_555_RMSE_mean = RMSE;
@@ -1020,7 +1020,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_555_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1029,7 +1029,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_555_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1038,7 +1038,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_555_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1047,7 +1047,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_555_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1056,7 +1056,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_555_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1065,7 +1065,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_555_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1074,7 +1074,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_555_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1083,7 +1083,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_555_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_555_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_555_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1115,7 +1115,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_660_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_660_RMSE_mean = RMSE;
@@ -1156,7 +1156,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_660_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1165,7 +1165,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_660_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1174,7 +1174,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_660_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1183,7 +1183,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_660_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1192,7 +1192,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_660_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1201,7 +1201,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_660_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1210,7 +1210,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_660_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1219,7 +1219,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_660_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_660_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_660_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1251,7 +1251,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).Rrs_680_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).Rrs_680_RMSE_mean = RMSE;
@@ -1292,7 +1292,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).Rrs_680_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1301,7 +1301,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).Rrs_680_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1310,7 +1310,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).Rrs_680_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1319,7 +1319,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).Rrs_680_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1328,7 +1328,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).Rrs_680_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1337,7 +1337,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).Rrs_680_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1346,7 +1346,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).Rrs_680_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1355,7 +1355,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).Rrs_680_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).Rrs_680_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).Rrs_680_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1386,7 +1386,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).aot_865_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).aot_865_RMSE_mean = RMSE;
@@ -1427,7 +1427,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).aot_865_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1436,7 +1436,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).aot_865_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1445,7 +1445,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).aot_865_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1454,7 +1454,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).aot_865_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1463,7 +1463,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).aot_865_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1472,7 +1472,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).aot_865_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1481,7 +1481,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).aot_865_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1490,7 +1490,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).aot_865_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).aot_865_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).aot_865_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).aot_865_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).aot_865_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1521,7 +1521,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).angstrom_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).angstrom_RMSE_mean = RMSE;
@@ -1562,7 +1562,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).angstrom_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1571,7 +1571,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).angstrom_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1580,7 +1580,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).angstrom_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1589,7 +1589,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).angstrom_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1598,7 +1598,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).angstrom_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1607,7 +1607,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).angstrom_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1616,7 +1616,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).angstrom_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1625,7 +1625,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).angstrom_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).angstrom_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).angstrom_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).angstrom_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).angstrom_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1656,7 +1656,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).poc_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).poc_RMSE_mean = RMSE;
@@ -1697,7 +1697,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).poc_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1706,7 +1706,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).poc_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1715,7 +1715,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).poc_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1724,7 +1724,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).poc_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1733,7 +1733,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).poc_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1742,7 +1742,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).poc_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1751,7 +1751,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).poc_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1760,7 +1760,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).poc_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).poc_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).poc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).poc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).poc_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1791,7 +1791,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).ag_412_mlrc_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).ag_412_mlrc_RMSE_mean = RMSE;
@@ -1832,7 +1832,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1841,7 +1841,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1850,7 +1850,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1859,7 +1859,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1868,7 +1868,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1877,7 +1877,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1886,7 +1886,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1895,7 +1895,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).ag_412_mlrc_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).ag_412_mlrc_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1926,7 +1926,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).chlor_a_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).chlor_a_RMSE_mean = RMSE;
@@ -1967,7 +1967,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).chlor_a_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1976,7 +1976,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).chlor_a_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1985,7 +1985,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).chlor_a_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -1994,7 +1994,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).chlor_a_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2003,7 +2003,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).chlor_a_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2012,7 +2012,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).chlor_a_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2021,7 +2021,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).chlor_a_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2030,7 +2030,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).chlor_a_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).chlor_a_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).chlor_a_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).chlor_a_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2061,7 +2061,7 @@ if process_data_flag
             GOCI_DailyStatMatrix(idx).brdf_min_mean = nanmin(data_used(cond_used));
             
             
-            % RMSE with respect to the mean
+            % RMSE with respect to the daily mean
             sq_err = (nanmean(data_used(cond_used))- data_used(cond_used)).^2;
             RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
             GOCI_DailyStatMatrix(idx).brdf_RMSE_mean = RMSE;
@@ -2102,7 +2102,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 0
                         GOCI_DailyStatMatrix(idx).brdf_00 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_00 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_00 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2111,7 +2111,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 1
                         GOCI_DailyStatMatrix(idx).brdf_01 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_01 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_01 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2120,7 +2120,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 2
                         GOCI_DailyStatMatrix(idx).brdf_02 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_02 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_02 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2129,7 +2129,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 3
                         GOCI_DailyStatMatrix(idx).brdf_03 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_03 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_03 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2138,7 +2138,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 4
                         GOCI_DailyStatMatrix(idx).brdf_04 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_04 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_04 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2147,7 +2147,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 5
                         GOCI_DailyStatMatrix(idx).brdf_05 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_05 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_05 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2156,7 +2156,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 6
                         GOCI_DailyStatMatrix(idx).brdf_06 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_06 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_06 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -2165,7 +2165,7 @@ if process_data_flag
                   if time_used_filtered.Hour(idx2) == 7
                         GOCI_DailyStatMatrix(idx).brdf_07 = data_used_filtered(idx2);
                         GOCI_DailyStatMatrix(idx).brdf_error_w_r_daily_mean_07 = ...
-                              GOCI_DailyStatMatrix(idx).brdf_mean_mean - data_used_filtered(idx2);% error with respect to the daily mean
+                              data_used_filtered(idx2) - GOCI_DailyStatMatrix(idx).brdf_mean_mean;% error with respect to the daily mean
                         if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
                               GOCI_DailyStatMatrix(idx).brdf_error_w_r_noon_07 = ...
                                     data_used_filtered(time_used_filtered.Hour == 3) - data_used_filtered(idx2);
@@ -3811,3 +3811,25 @@ set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen 
 set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerie_brdf'],'epsc')
+%% Testing VIIRS
+
+figure
+subplot(5,1,1)
+plot([VIIRS_Data.datetime],[VIIRS_Data.Rrs_671_filtered_mean],'o')
+title('Rrs_671')
+
+subplot(5,1,2)
+plot([VIIRS_Data.datetime],[VIIRS_Data.senz_center_value],'o')
+title('senz')
+
+subplot(5,1,3)
+plot([VIIRS_Data.datetime],[VIIRS_Data.sena_center_value],'o')
+title('sena')
+
+subplot(5,1,4)
+plot([VIIRS_Data.datetime],[VIIRS_Data.solz_center_value],'o')
+title('solz')
+
+subplot(5,1,5)
+plot([VIIRS_Data.datetime],[VIIRS_Data.sola_center_value],'o')
+title('sola')
