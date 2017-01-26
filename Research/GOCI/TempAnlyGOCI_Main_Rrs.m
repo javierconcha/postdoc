@@ -2535,7 +2535,7 @@ save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_Da
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Plot error with respect to the noon value vs time
+%% Plot difference with respect to the noon value vs time
 fs = 25;
 ms = 14;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -2605,7 +2605,7 @@ ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 
-%% Plot error with respect to the daily mean value vs time
+%% Plot difference with respect to the daily mean value vs time
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(2,1,1)
@@ -2735,29 +2735,29 @@ wl = {'412','443','490','555','660','680'};
 
 for idx = 1:size(wl,2)
       
-      eval(sprintf('abs_diff_mean_00= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_00]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_00= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_00]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_00= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_00= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_01= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_01]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_01= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_01]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_01= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_01= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_02= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_02]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_02= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_02]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_02= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_02= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_03= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_03]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_03= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_03]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_03= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_03= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_04= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_04]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_04= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_04]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_04= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_04= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_05= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_05]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_05= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_05]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_05= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_05= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_06= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_06]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_06= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_06]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_06= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_06= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
       
-      eval(sprintf('abs_diff_mean_07= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_07]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_07= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_abs_diff_w_r_daily_mean_07]));',wl{idx}))
+      eval(sprintf('abs_diff_mean_07= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
+      eval(sprintf('abs_diff_stdv_07= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
       
       abs_diff_stdv_all = [abs_diff_stdv_00,abs_diff_stdv_01,abs_diff_stdv_02,abs_diff_stdv_03,abs_diff_stdv_04,abs_diff_stdv_05,abs_diff_stdv_06,abs_diff_stdv_07];
       
@@ -2774,6 +2774,112 @@ for idx = 1:size(wl,2)
 %       ylim([-3e-3 1e-3])
       
       str1 = sprintf('Absolute difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
+      
+      grid on
+end
+
+%% Plot relative difference from the daily mean for Rrs
+% The difference of the mean
+
+wl = {'412','443','490','555','660','680'};
+
+for idx = 1:size(wl,2)
+      
+      eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_01= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_01= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_02= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_02= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_03= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_03= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_04= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_04= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_05= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_05= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_06= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_06= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_07= nanmean(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_07= nanstd(100*[GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      xlim([0 9])
+%       ylim([-3e-3 1e-3])
+      
+      str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
+      
+      grid on
+end
+
+%% Plot relative absolute difference from the daily mean for Rrs
+% The difference of the mean
+
+wl = {'412','443','490','555','660','680'};
+
+for idx = 1:size(wl,2)
+      
+      eval(sprintf('rel_diff_mean_00= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_00= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_01= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_01= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_02= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_02= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_03= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_03= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_04= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_04= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_05= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_05= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_06= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_06= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      eval(sprintf('rel_diff_mean_07= nanmean(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      eval(sprintf('rel_diff_stdv_07= nanstd(100*abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07])./abs([GOCI_DailyStatMatrix.Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      xlim([0 9])
+%       ylim([-3e-3 1e-3])
+      
+      str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
       
       ylabel(str1,'FontSize',fs)
       xlabel('Local Time','FontSize',fs)
