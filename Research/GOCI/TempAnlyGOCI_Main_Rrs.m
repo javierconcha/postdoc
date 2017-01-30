@@ -2783,6 +2783,8 @@ end
 
 %% Plot relative difference from the daily mean for Rrs
 % The difference of the mean
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
 
 wl = {'412','443','490','555','660','680'};
 
@@ -2825,13 +2827,21 @@ for idx = 1:size(wl,2)
       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
       xlim([0 9])
 %       ylim([-3e-3 1e-3])
-      
+
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+%       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
       str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
       
       ylabel(str1,'FontSize',fs)
       xlabel('Local Time','FontSize',fs)
       
       grid on
+%       grid minor
+      
+      saveas(gcf,[savedirname 'Rel_Diff_Daily_Mean_Rrs' wl{idx}],'epsc')
 end
 
 %% Plot relative absolute difference from the daily mean for Rrs
