@@ -150,7 +150,12 @@ The area of study is located in low productivity waters (clear waters)\todo{lon 
 The images used in this analysis comprehend from the beginning of the GOCI's mission until September $29^{th}$, 2016\todo{update}, resulting in about 16,000 images. This dataset was processed using SeaDAS/l2gen standard atmospheric correction based on \citet{Gordon1994}, with a near infrared (NIR) iterative correction by \citet{Bailey2010}. GOCI's two NIR bands were used for the aerosol models selection ({\ttfamily aer\_opt=-2} in l2gen). 
 
 % Filtering Criteria
-Statistics were calculated for the filtered pixels in the area of study. The exclusion criteria (filtering) applied was based on the criteria used in the validation of matchups described in \citet{Bailey2006} (\autoref{fig:FilteringCriteria}). A mean and standard deviation of all the valid pixels within the box were calculated, but only the values when half of the pixels in the box ($N=998,501$) are flagged as valid are used. Only values when the solar zenith angle $< 75^o$ were used.
+Statistics were calculated for the filtered pixels in the area of study. The exclusion criteria (filtering) applied was based on the criteria used in the validation of matchups described in \citet{Bailey2006} (\autoref{fig:FilteringCriteria}). A mean and standard deviation of all the valid pixels within the box were calculated, but only the values when half of the pixels in the box ($N=998,501$) are flagged as valid are used. Only values when the solar zenith angle $< 75^o$ were used. 
+
+\begin{equation}\label{eq:filteredmean}
+  \text{Filtered Mean} =\frac{\sum_i(Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)}{N}
+\end{equation}
+where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of the unfiltered data and $N$ is the number of values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimize the influence of outliers.  This is the current standard approach used by the Ocean Ecology Lab at the NASA Goddard Space Flight Center.
 
 % ---------------------------------------------------------------
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +163,7 @@ Statistics were calculated for the filtered pixels in the area of study. The exc
 \vspace{1cm}
   \centering
   % \small
-\resizebox{12cm}{!}{%
+\resizebox{16cm}{!}{%
 % Define block styles
 
 % \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5em, minimum height=2em,text centered, draw=black, fill=white]
@@ -187,79 +192,26 @@ Statistics were calculated for the filtered pixels in the area of study. The exc
 
 \node (L1B) [input] {Crop L1B file to be \\processed to L2};
 \node (MSl12) [process_small, below of=L1B] {Process to L2 \\using MSl12};
-\node (NGP) [process, below of=MSl12] {Exclude flagged pixels: land,\\ cloud, stray light, glint, low\\ Lwn555, high TOA radiance,\\ atmospheric correction failure\\ Number Good Pixels (NGP)};
-\node (enough) [decision, below of=NGP, inner sep=-5pt,yshift=-1.5cm] {Is $NGP > NTP/2$?\\Number Total Pixels (NTP)\\excluding land pixels};
+\node (flag) [process, below of=MSl12, yshift=0.5cm] {Exclude flagged pixels};
+\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{NFP} X_i}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \geq X_i\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (enough) [decision, right of=L1B, inner sep=1pt, xshift=6cm] {Is $NFP > NTP/2$?\\ Number Total Pixels (NTP)};
 
-\node (fail) [output, right of=enough,xshift=4.5cm] {Failed filtering criteria};
+\node (fail) [output, right of=enough, xshift=5cm] {Failed filtering criteria};
 
-\node (zenith) [decision, below of=enough,yshift=-1.5cm] {Solar Zenith $< 75^o$?};
+\node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$?};
 
-\node (pass) [output, below of=zenith,yshift=-0.5cm] {Passed filtering criteria};
-
-
-% \node (CDRImage) [input, left of=L1B, xshift=-1.5cm] {Landsat \\Reflectance \\Product};
-% \node (PIFmask) [process, below of=CDRImage] {PIF \\Mask};
-% \node (brightpx) [input, below of=PIFmask] {Bright\\Pixel};
-
-% \node (AOPs) [inputsmall, right of=L1B, xshift=0.8cm] {{\it in situ} \\AOPs \\($R_{rs}$)};
-
-% \node (samples) [input, right of=AOPs, xshift=1.0cm] {Water \\Samples};
-% \node (labmea) [process, below of=samples] {Lab \\Mea.};
-% \node (IOPs) [inputsmall, below of=labmea, xshift=-1cm] {IOPs};
-% \node (conc) [inputsmall, below of=labmea, xshift=1cm] {Conc.};
-% \node (hydro) [process, below of=IOPs, xshift=1cm] {Hydrolight};
-% \node (darkpx) [inputsmall, below of=hydro, xshift=-1.5cm] {Dark \\Pixel};
-% \node (LUT) [inputsmall, below of=hydro, xshift=2.5cm] {LUT};
-
-% \node (bb_b) [inputsmall, right of=hydro, xshift=1cm] {$b_b/b$};
-
-
-% \node (Comp) [process, right of=CPAmap, xshift=1.5cm] {Comparison};
-% \node (NRMSE) [input, below of=Comp] {NRMSE};
-
-% \node (Comprrs) [process, right of=rrs, xshift=0.8cm, yshift=1.5cm] {Comparison};
-% \node (NRMSE2) [input, right of=Comprrs, xshift=1.4cm] {NRMSE};
-
-% \node[align=left, right=0.0 of prepro] (List1) {\scriptsize - Cloud/Land/Water Mask\\\scriptsize - Radiometric Calibration};
+\node (pass) [output, below of=zenith, yshift=-1cm] {Passed filtering criteria};
 
 \draw [arrow] (L1B) -- (MSl12);
-\draw [arrow] (MSl12) -- (NGP);
-\draw [arrow] (NGP) -- (enough);
+\draw [arrow] (MSl12) -- (flag);
+\draw [arrow] (flag) -- (filtered);
+\draw [arrow] (filtered.east) -|([xshift=-1cm]enough.west) -- (enough.west);
 
 \draw [arrow] (enough) -- node[anchor=south] {NO} (fail);
 \draw [arrow] (zenith) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
 \draw [arrow] (enough) -- node[anchor=east] {YES} (zenith);
 \draw [arrow] (zenith) -- node[anchor=east] {YES} (pass);
 
-% \draw [arrowdashed] (L1B) -- (CDRImage);
-% \draw [arrow] (CDRImage) -- (PIFmask);
-% \draw [arrow] (PIFmask) -- (brightpx);
-% \draw [arrow] (brightpx) |- (AtmCorr);
-
-% \draw [arrow] (samples) -- (labmea);
-% \draw [arrow] (labmea) |- (IOPs);
-% \draw [arrow] (labmea) |- (conc);
-% \draw [arrow] (IOPs) -- (hydro);
-% \draw [arrow] (conc) -- (hydro);
-% \draw [arrow] (hydro) |- (darkpx);
-% \draw [arrow] (hydro) |- (LUT);
-% \draw [arrow] (darkpx) -- (AtmCorr);
-% \draw [arrow] (LUT) |- (RetProc);
-
-% \draw [arrowdashed] (AOPs) |- (hydro);
-% \draw [arrowdashed] (AOPs) -- (Comprrs);
-% \draw [arrowdashed] (rrs.east) -| (Comprrs.south);
-% \draw [arrowdashed] (Comprrs) -- (NRMSE2);
-
-% \draw [arrow] (conc.east) |- ([xshift=2.3cm]conc.east)  |- (Comp);
-% \draw [arrow] (CPAmap) -- (Comp);
-% \draw [arrow] (Comp) -- (NRMSE);
-
-% \draw [arrow] (hydro) -- (bb_b);
-
-% \draw [arrow] (bb_b.south) -- ([yshift=-0.8cm]bb_b.south) -| ([xshift=-0.5cm]hydro.south east);
-
-% \draw [arrow] (hydro) |- (AtmCorr);
 \end{tikzpicture}
 } % resizebox end
 	\caption{Filtering Criteria}
