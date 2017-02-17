@@ -523,7 +523,7 @@ grid on
 % cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 % cond3 = [GOCI_Data.center_ze] <= 65;
 % cond_used = cond3 & cond2;
-process_data_flag = 0;
+process_data_flag = 1;
 if process_data_flag
       
       clear GOCI_DailyStatMatrix
@@ -560,6 +560,8 @@ if process_data_flag
             cond_aux(IA) = 1;
             cond_1t(cond_1t) = cond_aux;
             clear time_aux IA cond_aux
+            
+            cond_1t = cond_1t & [GOCI_Data.center_ze]<= 75;
             %% Rrs_412
             
             data_used = [GOCI_Data(cond_1t).Rrs_412_filtered_mean];
@@ -4152,7 +4154,7 @@ saveas(gcf,[savedirname 'TimeSerie_brdf'],'epsc')
 figure
 subplot(5,1,1)
 plot([VIIRS_Data.datetime],[VIIRS_Data.Rrs_671_filtered_mean],'o')
-title('Rrs_671')
+title('Rrs\_671')
 
 subplot(5,1,2)
 plot([VIIRS_Data.datetime],[VIIRS_Data.senz_center_value],'o')
@@ -4169,3 +4171,94 @@ title('solz')
 subplot(5,1,5)
 plot([VIIRS_Data.datetime],[VIIRS_Data.sola_center_value],'o')
 title('sola')
+
+%%
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Rrs');
+x = [VIIRS_MonthlyStatMatrix.datetime];
+y = [VIIRS_MonthlyStatMatrix.Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [VIIRS_MonthlyStatMatrix.Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [VIIRS_MonthlyStatMatrix.Rrs_486_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [VIIRS_MonthlyStatMatrix.Rrs_551_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [VIIRS_MonthlyStatMatrix.Rrs_671_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0.5],'LineWidth',lw)
+ylim([-0.001 0.017])
+
+grid on
+ax = gca;
+ax.YAxis.Exponent = 0;
+ax.YAxis.MinorTick = 'on';
+ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
+ax.YTick = [0.000 0.005 0.010 0.015];
+ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
+xlim
+xlim(datenum(datetime([2012 2017],[1 1],[1 1])))
+ax.XTickLabel = {'2013','2014','2015','2016',''};
+
+ax.TickLabelInterpreter = 'none';
+
+% set(gcf, 'renderer','painters')
+
+
+%% Aqua
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Rrs');
+x = [AQUA_MonthlyStatMatrix.datetime];
+y = [AQUA_MonthlyStatMatrix.Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [AQUA_MonthlyStatMatrix.Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix.Rrs_488_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix.Rrs_547_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix.Rrs_667_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0.5],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix.Rrs_678_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0.5],'LineWidth',lw)
+
+ylim([-0.001 0.017])
+
+grid on
+ax = gca;
+ax.YAxis.Exponent = 0;
+ax.YAxis.MinorTick = 'on';
+ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
+ax.YTick = [0.000 0.005 0.010 0.015];
+ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
+xlim
+xlim(datenum(datetime([2002 2017],[1 1],[1 1])))
+% ax.XTickLabel = {'2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016',''};
+
+ax.TickLabelInterpreter = 'none';
+
+% set(gcf, 'renderer','painters')
+
+
+%%
+
+figure
+plot([VIIRS_Data.datetime],[VIIRS_Data.senz_center_value],'.')
+title('VIIRS')
+sum([VIIRS_Data.senz_center_value]>=60)
+size(VIIRS_Data)
+
+figure
+plot([AQUA_Data.datetime],[AQUA_Data.senz_center_value],'.')
+title('AQUA')
+sum([AQUA_Data.senz_center_value]>=60)
+size(AQUA_Data)
+
+figure
+plot([GOCI_Data.datetime],[GOCI_Data.senz_center_value],'.')
+title('GOCI')
+sum([GOCI_Data.senz_center_value]>=60)
+size(GOCI_Data)
+
+
