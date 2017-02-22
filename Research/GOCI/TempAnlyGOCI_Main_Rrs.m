@@ -1,4 +1,4 @@
-% Script to find Landsat 8 matchups for Rrs_based on in situ data from
+%% Script to find Landsat 8 matchups for Rrs_based on in situ data from
 cd '/Users/jconchas/Documents/Research/GOCI/';
 
 % AERONET-OC from SeaDAS Matchups
@@ -7,53 +7,53 @@ addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 addpath('/Users/jconchas/Documents/MATLAB')
 %% Load GOCI data
-% % % clear GOCI_Data
-% % % tic
-% % % fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
-% % % s = textscan(fileID,'%s','Delimiter','\n');
-% % % fclose(fileID);
-% % %
-% % % for idx0=1:size(s{1},1)
-% % %
-% % %       filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
-% % %       GOCI_Data(idx0) = loadsatcell_tempanly(filepath);
-% % %
-% % % end
-% % %
-% % % save('GOCI_TempAnly.mat','GOCI_Data','-append')
-% % % toc
+clear GOCI_Data
+tic
+fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+for idx0=1:size(s{1},1)
+
+      filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
+      GOCI_Data(idx0) = loadsatcell_tempanly(filepath);
+
+end
+
+save('GOCI_TempAnly.mat','GOCI_Data','-append')
+toc
 %% Load Aqua data
-% % % clear AQUA_Data
-% % % tic
-% % % fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
-% % % s = textscan(fileID,'%s','Delimiter','\n');
-% % % fclose(fileID);
-% % %
-% % % for idx0=1:size(s{1},1)
-% % %
-% % %       filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
-% % %       AQUA_Data(idx0) = loadsatcell_tempanly(filepath);
-% % %
-% % % end
-% % %
-% % % save('GOCI_TempAnly.mat','AQUA_Data','-append')
-% % % toc
-%% Load VIIRS data
-% % % clear VIIRS_Data
-% % % tic
-% % % fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
-% % % s = textscan(fileID,'%s','Delimiter','\n');
-% % % fclose(fileID);
-% % %
-% % % for idx0=1:size(s{1},1)
-% % %
-% % %       filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
-% % %       VIIRS_Data(idx0) = loadsatcell_tempanly(filepath);
-% % %
-% % % end
-% % %
-% % % save('GOCI_TempAnly.mat','VIIRS_Data','-append')
-% % % toc
+clear AQUA_Data
+tic
+fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+for idx0=1:size(s{1},1)
+
+      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
+      AQUA_Data(idx0) = loadsatcell_tempanly(filepath);
+
+end
+
+save('GOCI_TempAnly.mat','AQUA_Data','-append')
+toc
+% Load VIIRS data
+clear VIIRS_Data
+tic
+fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+for idx0=1:size(s{1},1)
+
+      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
+      VIIRS_Data(idx0) = loadsatcell_tempanly(filepath);
+
+end
+
+save('GOCI_TempAnly.mat','VIIRS_Data','-append')
+toc
 %%
 load('GOCI_TempAnly.mat','GOCI_Data')
 
@@ -2383,6 +2383,10 @@ if process_data_flag
                   & date_idx.Month(idx)==Month...
                   & date_idx.Day(idx)==Day;
             
+            cond_1t = cond_1t & ...
+                  [VIIRS_Data.senz_center_value]<=60 & ... % criteria for the sensor zenith angle
+                  [VIIRS_Data.solz_center_value]<=75; % criteria for the sensor zenith angle
+            
             VIIRS_DailyStatMatrix(idx).datetime =  date_idx(idx);
             VIIRS_DailyStatMatrix(idx).images_per_day = nansum(cond_1t);
             
@@ -4260,5 +4264,182 @@ plot([GOCI_Data.datetime],[GOCI_Data.senz_center_value],'.')
 title('GOCI')
 sum([GOCI_Data.senz_center_value]>=60)
 size(GOCI_Data)
+%% Run A = VIIRS_DailyStatMatrix w/ an w/o senz criteria
+figure
+cond = ~isnan([A.Rrs_551_filtered_mean]);
+plot([A.datetime],[A.Rrs_551_filtered_mean],'-*')
+hold on
+cond = ~isnan([B.Rrs_551_filtered_mean]);
+plot([B.datetime],[B.Rrs_551_filtered_mean],'-or')
+%% VIIRS
+figure
+plot([VIIRS_Data.datetime],[VIIRS_Data.Rrs_551_filtered_mean],'-*')
+hold on
+plot([VIIRS_DailyStatMatrix.datetime],[VIIRS_DailyStatMatrix.Rrs_551_filtered_mean],'-o')
 
 
+%%
+
+VIIRS_Data(1195).Rrs_551_filtered_mean
+VIIRS_Data(1196).Rrs_551_filtered_mean
+
+VIIRS_DailyStatMatrix(562).Rrs_551_filtered_mean
+
+
+VIIRS_Data(1195).center_lon
+VIIRS_Data(1196).center_lon
+VIIRS_DailyStatMatrix(562).datetime
+
+%%
+figure('Color','white')
+hf2 = gcf;
+ax = worldmap([20 50],[115 145]);
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+
+figure(hf2)
+hold on
+
+% GOCI
+UL_LAT = GOCI_Data(1).latitude_max;
+UL_LON = GOCI_Data(1).longitude_min;
+UR_LAT = GOCI_Data(1).latitude_max;
+UR_LON = GOCI_Data(1).longitude_max;
+LL_LAT = GOCI_Data(1).latitude_min;
+LL_LON = GOCI_Data(1).longitude_min;
+LR_LAT = GOCI_Data(1).latitude_min;
+LR_LON = GOCI_Data(1).longitude_max;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'red','FaceAlpha','.3');
+%%
+% idx1=1195;
+% idx2=1196;
+
+idx1=429;
+idx2=430;
+
+% VIIRS idx 1
+UL_LAT = VIIRS_Data(idx1).latitude_max;
+UL_LON = VIIRS_Data(idx1).longitude_min;
+UR_LAT = VIIRS_Data(idx1).latitude_max;
+UR_LON = VIIRS_Data(idx1).longitude_max;
+LL_LAT = VIIRS_Data(idx1).latitude_min;
+LL_LON = VIIRS_Data(idx1).longitude_min;
+LR_LAT = VIIRS_Data(idx1).latitude_min;
+LR_LON = VIIRS_Data(idx1).longitude_max;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'blue','FaceAlpha','.3');
+
+% VIIRS idx 2
+UL_LAT = VIIRS_Data(idx2).latitude_max;
+UL_LON = VIIRS_Data(idx2).longitude_min;
+UR_LAT = VIIRS_Data(idx2).latitude_max;
+UR_LON = VIIRS_Data(idx2).longitude_max;
+LL_LAT = VIIRS_Data(idx2).latitude_min;
+LL_LON = VIIRS_Data(idx2).longitude_min;
+LR_LAT = VIIRS_Data(idx2).latitude_min;
+LR_LON = VIIRS_Data(idx2).longitude_max;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'green','FaceAlpha','.3');
+
+title(sprintf('idx1=%i ; idx2=%i',idx1,idx2))
+
+%% from the ticket
+L2NORTH=29.4736; % lat max
+L2SOUTH=24.2842; % lat min 
+L2WEST=131.9067; % lon min 
+L2EAST=142.3193; % lon max
+
+
+% VIIRS idx 2
+UL_LAT = L2NORTH;
+UL_LON = L2WEST;
+UR_LAT = L2NORTH;
+UR_LON = L2EAST;
+LL_LAT = L2SOUTH;
+LL_LON = L2WEST;
+LR_LAT = L2SOUTH;
+LR_LON = L2EAST;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'blue','FaceAlpha','.3');
+
+title(sprintf('idx1=%i ; idx2=%i',idx1,idx2))
+
+%% AQUA
+figure
+plot([AQUA_Data.datetime],[AQUA_Data.Rrs_547_filtered_mean],'-*')
+hold on
+plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.Rrs_547_filtered_mean],'-o')
+
+%% GOCI
+figure('Color','white')
+hf2 = gcf;
+ax = worldmap([20 50],[115 145]);
+load coastlines
+geoshow(ax, coastlat, coastlon,...
+      'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
+geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
+geoshow(ax,'worldrivers.shp', 'Color', 'blue')
+
+figure(hf2)
+hold on
+
+
+UL_LAT = GOCI_Data(1).latitude_max;
+UL_LON = GOCI_Data(1).longitude_min;
+UR_LAT = GOCI_Data(1).latitude_max;
+UR_LON = GOCI_Data(1).longitude_max;
+LL_LAT = GOCI_Data(1).latitude_min;
+LL_LON = GOCI_Data(1).longitude_min;
+LR_LAT = GOCI_Data(1).latitude_min;
+LR_LON = GOCI_Data(1).longitude_max;  
+
+% From MTL file
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'red','FaceAlpha','.3');
+%%
+
+idx1=1192;
+idx2=1193;
+
+% AQUA idx 1
+UL_LAT = AQUA_Data(idx1).latitude_max;
+UL_LON = AQUA_Data(idx1).longitude_min;
+UR_LAT = AQUA_Data(idx1).latitude_max;
+UR_LON = AQUA_Data(idx1).longitude_max;
+LL_LAT = AQUA_Data(idx1).latitude_min;
+LL_LON = AQUA_Data(idx1).longitude_min;
+LR_LAT = AQUA_Data(idx1).latitude_min;
+LR_LON = AQUA_Data(idx1).longitude_max;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'blue','FaceAlpha','.3');
+
+% AQUA idx 2
+UL_LAT = AQUA_Data(idx2).latitude_max;
+UL_LON = AQUA_Data(idx2).longitude_min;
+UR_LAT = AQUA_Data(idx2).latitude_max;
+UR_LON = AQUA_Data(idx2).longitude_max;
+LL_LAT = AQUA_Data(idx2).latitude_min;
+LL_LON = AQUA_Data(idx2).longitude_min;
+LR_LAT = AQUA_Data(idx2).latitude_min;
+LR_LON = AQUA_Data(idx2).longitude_max;  
+
+geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
+           [UL_LON UR_LON LR_LON LL_LON UL_LON],...
+    'DisplayType','polygon', 'FaceColor', 'green','FaceAlpha','.3');
+
+title(sprintf('idx1=%i ; idx2=%i',idx1,idx2))

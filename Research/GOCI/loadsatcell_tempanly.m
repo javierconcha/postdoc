@@ -110,6 +110,73 @@ if exist(fullFileName, 'file')
 end
 
 %% Products
+
+% latitude
+fullFileName = [filepath '.latitude'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.latitude_center_value                    = str2double(s{1}{6});
+      satcell.latitude_valid_pixel_count               = str2double(s{1}{8});
+      satcell.latitude_max                                   = str2double(s{1}{10});
+      satcell.latitude_min                                   = str2double(s{1}{12});
+      satcell.latitude_mean                                  = str2double(s{1}{14});
+      satcell.latitude_median                                = str2double(s{1}{16});
+      satcell.latitude_stddev                                = str2double(s{1}{18});
+      satcell.latitude_rms                                   = str2double(s{1}{20});
+      satcell.latitude_filtered_valid_pixel_count      = str2double(s{1}{22});
+      satcell.latitude_filtered_max                    = str2double(s{1}{24});
+      satcell.latitude_filtered_min                    = str2double(s{1}{26});
+      satcell.latitude_filtered_mean                         = str2double(s{1}{28});
+      satcell.latitude_filtered_median                 = str2double(s{1}{30});
+      satcell.latitude_filtered_stddev                 = str2double(s{1}{32});
+      satcell.latitude_filtered_rms                    = str2double(s{1}{34});
+      satcell.latitude_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.latitude_iqr_max                               = str2double(s{1}{38});
+      satcell.latitude_iqr_min                               = str2double(s{1}{40});
+      satcell.latitude_iqr_mean                              = str2double(s{1}{42});
+      satcell.latitude_iqr_median                            = str2double(s{1}{44});
+      satcell.latitude_iqr_stddev                            = str2double(s{1}{46});
+      satcell.latitude_iqr_rms                               = str2double(s{1}{48});
+end
+
+% longitude
+fullFileName = [filepath '.longitude'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.longitude_center_value                    = str2double(s{1}{6});
+      satcell.longitude_valid_pixel_count               = str2double(s{1}{8});
+      satcell.longitude_max                                   = str2double(s{1}{10});
+      satcell.longitude_min                                   = str2double(s{1}{12});
+      satcell.longitude_mean                                  = str2double(s{1}{14});
+      satcell.longitude_median                                = str2double(s{1}{16});
+      satcell.longitude_stddev                                = str2double(s{1}{18});
+      satcell.longitude_rms                                   = str2double(s{1}{20});
+      satcell.longitude_filtered_valid_pixel_count      = str2double(s{1}{22});
+      satcell.longitude_filtered_max                    = str2double(s{1}{24});
+      satcell.longitude_filtered_min                    = str2double(s{1}{26});
+      satcell.longitude_filtered_mean                         = str2double(s{1}{28});
+      satcell.longitude_filtered_median                 = str2double(s{1}{30});
+      satcell.longitude_filtered_stddev                 = str2double(s{1}{32});
+      satcell.longitude_filtered_rms                    = str2double(s{1}{34});
+      satcell.longitude_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.longitude_iqr_max                               = str2double(s{1}{38});
+      satcell.longitude_iqr_min                               = str2double(s{1}{40});
+      satcell.longitude_iqr_mean                              = str2double(s{1}{42});
+      satcell.longitude_iqr_median                            = str2double(s{1}{44});
+      satcell.longitude_iqr_stddev                            = str2double(s{1}{46});
+      satcell.longitude_iqr_rms                               = str2double(s{1}{48});
+end
+
 % Rrs_410
 fullFileName = [filepath '.Rrs_410'];
 

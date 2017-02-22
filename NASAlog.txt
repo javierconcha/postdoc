@@ -2347,6 +2347,114 @@ ax.YTick =ax.XTick;
 ax.YAxis.TickLabelFormat = '%,.1f';
 ax.YAxis.Exponent = -3;
 
+--------------------------------------------------
+2017-01-04 Wed
+from the l2gen processing:
+Loading water-vapor correction coefficients.
+chl_hu: using  443.00  555.00  660.00
+rh_ndims=5 rh_dimids=4 3 2 1 0 
+morel f/q file dimensions n_a=13 n_n=17 n_c=6 n_s=6 n_w=7 
 
+Reading foq file /Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/run/data/common/morel_fq.nc ndims=5 nvars=6 sds_id=5 var=foq
+
+
+Closing foq file /Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/run/data/common/morel_fq.nc
+
+
+Morel f/Q table from file /Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork/run/data/common/morel_fq.nc
+
+Applying ocean BRDF including:
+    Reflection/refraction for upwelling radiance.
+    Reflection/refraction for downwelling radiance.
+    Morel f/Q
+--------------------------------------------------
+2017-02-16 Thur
+From Bryan's slides:
+brdf (fresnel + Morel f/Q)
+improved brdf? should we even apply brdf before IOP inversion?
+
+from l2gen:
+   brdf_opt (int) (default=-1) = Bidirectional reflectance correction
+        0: no correction
+        1: Fresnel reflection/refraction correction for sensor path
+        3: Fresnel reflection/refraction correction for sensor + solar path
+        7: Morel f/Q + Fresnel solar + Fresnel sensor
+       15: Gordon DT + Morel f/Q + Fresnel solar + Fresnel sensor
+       19: Morel Q + Fresnel solar + Fresnel sensor
+   fqfile (ifile) (default=$OCDATAROOT/common/morel_fq.nc) = f/Q correction file
+
+
+from Bailey et al. (2006):
+For SeaWiFS, which tilts 20° fore or aft during normal operation, a view angle of 45° corresponds to a sensor zenith angle of approximately 56°.
+
+from val-extract and l2gen:
+jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS$ find . -name "*.nc_valregion.solz" | xargs cat | grep center_value
+
+senz
+solz
+
+Is senz equal to viewing angle?
+
+--------------------------------------------------
+2017-02-21 Tue
+To download VIIRS in anly104:
+jconchas@anly104:~/data2/VIIRS/test$ wget --content-disposition http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/V2012209031800.L1A_SNPP.nc
+
+
+jconchas@anly104:~/data2/VIIRS/test$ wget --content-disposition http://oceandata.sci.gsfc.nasa.gov/cgi/gethiddenfile/V2012209031800.GEO-M_SNPP.nc 
+
+
+running l2gen and val_extract in anly104:
+jconchas@anly104:~/data2/VIIRS/test$ l2gen ifile=V2012209031800.L1A_SNPP.nc geofile=V2012209031800.GEO-M_SNPP.nc ofile=V2012209031800.l2.nc north=29.4736 south=24.2842 west=131.9067 east=142.3193
+
+val_extract ifile=V2012209031800.l2.nc ofile=V2012209031800.L2.nc_valregion
+
+latitude (calling l2gen)
+north=29.4736 (max) 
+south=24.2842 (min)
+
+longitude (calling l2gen)
+east=142.3193 (max)
+west=131.9067 (min) 
+
+latitude (after val_extract):
+max=31.655308
+min=22.178019
+
+longitude (val_extract):
+max=143.768539
+min=129.948700
+
+using lat lon in val_extract:
+val_extract ifile=V2012209031800.L2_valregion.nc ofile=V2012209031800.L2_SNPP.nc_valregion  elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193
+latitude:
+max=29.473595
+min=24.284204
+
+longitude:
+max=142.319290
+min=131.906708
+---------------------
+from l2gen with eline, sline etc:
+latitude:
+min=24.2842
+max=29.4736
+
+longitude:
+min=131.9067
+max=142.3193
+
+bigger box from applying limits to l2gen for GOCI
+latitude:
+min=23.585
+max=30.1352
+
+longitude:
+min=131.8229
+max=142.895
 (END)
+
+
+
+
 
