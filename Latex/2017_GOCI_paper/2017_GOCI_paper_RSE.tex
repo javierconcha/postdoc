@@ -48,7 +48,7 @@
 
 \begin{frontmatter}
 
-\title{Assesing Diurnal Variability of Biogeochical Processes using the Geostationary Ocean Color Imager (GOCI)}
+\title{Assessing Diurnal Variability of Biogeochemical Processes using the Geostationary Ocean Color Imager (GOCI)}
 
 % %% Group authors per affiliation:
 % \author{Javier A. Concha\fnref{myfootnote}}
@@ -70,7 +70,7 @@ NASA Goddard Space Flight Center,
 
 \author[usgsaddress]{Michael Ondrusek}
 
-\address[oeladdress]{Ocean Ecology lab, NASA Goddard Space Flight Center, Greenbelt, MD, USA}
+\address[oeladdress]{Ocean Ecology Lab, NASA Goddard Space Flight Center, Greenbelt, MD, USA}
 \address[usraaddress]{Universities Space Research Association, Columbia, MD, USA}
 \address[kiostaddress]{Korea Institute of Ocean Science and Technology, 787 Haean-ro, Ansan, Republic of Korea}
 
@@ -128,13 +128,13 @@ Biological and biogeochemical processes in the coastal zones and oceans can occu
 \section{Data and Sensor Characteristics}
 % ============================================================
 \subsection{GOCI Data}
-The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. 
+The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day (from 00:15 GMT to 07:45 GMT) with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. It hast eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm). GOCI operates in a 2D staring-frame capture mode in a geostationary orbit on board of the Communication Ocean and Meteorological Satellite (COMS) of South Korea. The acquisition of the observational coverage area of GOCI is done with a step-and-staring method that divides the image in 16 slots acquired in a sequential fashion with a dedicated CMOS detector array ($1400\times1400$ pixels).
 
-The GOCI Level-1B calibrated top-of-atmosphere (TOA) radiance data were obtained from the Ocean Biology Distributed Active Archive Center (OB.DAAC\todo{correct?}) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG). The OB.DAAC acts a mirror site for the GOCI data provided by the Korea Ocean Satellite Center. These data are freely available for direct download from the OB.DAAC. Each file is provided as a  Hierarchical Data Format Release 5 (file extension: .he5) format and corresponds to one of the eight daily images per day. Each file contains eight images corresponding to the eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm).
+The images used in this analysis comprehend from the beginning of the GOCI's mission until September $29^{th}$, 2016\todo{update}, resulting in about 16,000 images. The GOCI Level-1B calibrated top-of-atmosphere (TOA) radiance data were obtained from the Ocean Biology Distributed Active Archive Center (OB.DAAC\todo{correct?}) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG) \todo{or OEL?}. The OB.DAAC acts a mirror site for the GOCI data provided by the Korea Ocean Satellite Center. These data are freely available for direct download from the OB.DAAC. Each file is provided as a  Hierarchical Data Format Release 5 (file extension: .he5) format and corresponds to one of the eight daily images per day. Each file contains eight images corresponding to the eight spectral bands.
 % ---------------------------------------------------------------
 \subsection{Study site}
 
-The area of study is located in low productivity waters (clear waters)\todo{lon and lat for box}(\autoref{fig:AreaOfStudy}). The box covers approximately 2 millions pixels ($N = (499*2+1)*(999*2+1) =  1,997,001$ pixels).
+The area of study is located in low productivity waters (clear waters)\todo{lon and lat for box}(\autoref{fig:AreaOfStudy}). The pixel box covers approximately 2 millions pixels ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels).
 
 % ---------------------------------------------------------------
 \begin{figure}[ht]
@@ -147,15 +147,17 @@ The area of study is located in low productivity waters (clear waters)\todo{lon 
 \section{Processing Approach}
 % ---------------------------------------------------------------
 \subsection{Atmospheric Correction Algorithm}
-The images used in this analysis comprehend from the beginning of the GOCI's mission until September $29^{th}$, 2016\todo{update}, resulting in about 16,000 images. This dataset was processed using SeaDAS/l2gen standard atmospheric correction based on \citet{Gordon1994}, with a near infrared (NIR) iterative correction by \citet{Bailey2010}. GOCI's two NIR bands were used for the aerosol models selection ({\ttfamily aer\_opt=-2} in l2gen). 
-
+GOCI Level 1B data (radiometric calibrations applied, L1B) was processed to Level 2 data (geolocated, geophysical values, L2) using the multisensor level 1 level 2 generator (l2gen) version 8.10.2 distributed with the SeaWiFS Data Analysis System (SeaDAS) (\url{http://seadas.gsfc.nasa.gov/}). The l2gen code reads level 1 observed top-of-atmosphere (TOA) radiances, applies an atmospheric correction scheme, and outputs $R_{rs}(\lambda)$ and various derived geophysical properties. The atmospheric correction scheme is based on \citet{Gordon1994}, with a near infrared (NIR) iterative correction by \citet{Bailey2010} ({\ttfamily aer\_opt=-2} in l2gen). GOCI's two near infrared (NIR) bands were used for the aerosol models selection. The current atmospheric correction algorithm is based on plane-parallel geometry \citep{Gordon1994}. \todo{include BRDF and RH-based model selection plus radiative transfer plane-parallel geometry}
+% ---------------------------------------------------------------
+\subsection{Data screening}
 % Filtering Criteria
-Statistics were calculated for the filtered pixels in the area of study. The exclusion criteria (filtering) applied was based on the criteria used in the validation of matchups described in \citet{Bailey2006} (\autoref{fig:FilteringCriteria}). A mean and standard deviation of all the valid pixels within the box were calculated, but only the values when half of the pixels in the box ($N=998,501$) are flagged as valid are used. Only values when the solar zenith angle $< 75^o$ were used. 
-
+The exclusion criteria (filtering) was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. From the rest of the unflagged pixels (i.e. filtered) in the box, a filtered mean and standard deviation were calculated. The filtered mean was defined as:
 \begin{equation}\label{eq:filteredmean}
-  \text{Filtered Mean} =\frac{\sum_i(Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)}{N}
+  \text{Filtered Mean} =\frac{\sum_i(Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)}{NFP}
 \end{equation}
-where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of the unfiltered data and $N$ is the number of values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimize the influence of outliers.  This is the current standard approach used by the Ocean Ecology Lab at the NASA Goddard Space Flight Center.
+where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of the unfiltered data and $NFP$ is the Number Filtered Pixels, i.e. the number of unflagged values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimize the influence of outliers. This is the current standard approach adopted by the Ocean Ecology Lab at the NASA Goddard Space Flight Center. The statistical values filtered mean and standard deviation, among others, were computed operationally using the val-extract tool included in the SeaDAS/l2gen distribution.
+
+In order to have statistical confidence in the filtered mean value, NFP is required to be at least half the number of total pixels in the box (i.e. $NFP\geq NTP/2 = 998,501$) to be considered into the analysis. Additionally, we excluded data where the solar zenith angle of the center of the pixel box exceed $75^o$ to avoid extreme viewing and solar geometries \citep{Bailey2006} (\autoref{fig:FilteringCriteria}).
 
 % ---------------------------------------------------------------
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,10 +192,10 @@ where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of th
 
 % \node (start) [startstop] {Start};
 
-\node (L1B) [input] {Crop L1B file to be \\processed to L2};
-\node (MSl12) [process_small, below of=L1B] {Process to L2 \\using MSl12};
-\node (flag) [process, below of=MSl12, yshift=0.5cm] {Exclude flagged pixels};
-\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{NFP} X_i}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \geq X_i\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (L1B) [input] {Select L1B file to be \\processed to L2};
+\node (l2gen) [process, below of=L1B] {Process to L2 using l2gen:\\ - Extract ROI\\- Atmospheric Correction};
+\node (flag) [process, below of=l2gen, yshift=0.5cm] {Exclude flagged pixels};
+\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{NFP} X_i}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_i\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
 \node (enough) [decision, right of=L1B, inner sep=1pt, xshift=6cm] {Is $NFP > NTP/2$?\\ Number Total Pixels (NTP)};
 
 \node (fail) [output, right of=enough, xshift=5cm] {Failed filtering criteria};
@@ -202,8 +204,11 @@ where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of th
 
 \node (pass) [output, below of=zenith, yshift=-1cm] {Passed filtering criteria};
 
-\draw [arrow] (L1B) -- (MSl12);
-\draw [arrow] (MSl12) -- (flag);
+\node (out) [input, below of=pass, yshift=0.5cm, inner sep=6pt] {Filtered Mean};
+
+
+\draw [arrow] (L1B) -- (l2gen);
+\draw [arrow] (l2gen) -- (flag);
 \draw [arrow] (flag) -- (filtered);
 \draw [arrow] (filtered.east) -|([xshift=-1cm]enough.west) -- (enough.west);
 
@@ -211,10 +216,11 @@ where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of th
 \draw [arrow] (zenith) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
 \draw [arrow] (enough) -- node[anchor=east] {YES} (zenith);
 \draw [arrow] (zenith) -- node[anchor=east] {YES} (pass);
+\draw [arrow] (pass) -- (out);
 
 \end{tikzpicture}
 } % resizebox end
-	\caption{Filtering Criteria}
+	\caption{Applied exclusion criteria}
 	\label{fig:FilteringCriteria}
 \end{figure}
 % ---------------------------------------------------------------
@@ -606,6 +612,11 @@ where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the d
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
+% ---------------------------------------------------------------
+\subsection{Plane-parallel versus Pseudo-Spherical geometry}
+
+% ---------------------------------------------------------------
+\subsection{BRDF correction sensitivity analysis}
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
