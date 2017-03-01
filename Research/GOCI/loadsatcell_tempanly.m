@@ -21,7 +21,21 @@ if exist(fullFileName, 'file')
       
       satcell.ifile           = s{1}{2};
       satcell.ofile 		= s{1}{4};
+      satcell.filepath        = filepath;
 end
+
+
+
+if ~isempty(strfind(filepath,'BRDF0'))
+      satcell.brdf_opt = 0;
+elseif ~isempty(strfind(filepath,'BRDF3'))
+      satcell.brdf_opt = 3;
+elseif ~isempty(strfind(filepath,'BRDF7'))
+      satcell.brdf_opt = 7;
+else 
+      satcell.brdf_opt = [];
+end
+
 
 %% .output
 fullFileName = filepath;
