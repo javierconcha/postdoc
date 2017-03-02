@@ -566,11 +566,13 @@ if process_data_flag
                   cond_1t(cond_1t) = cond_aux;
                   clear time_aux IA cond_aux
                   
-                  cond_1t = cond_1t & [GOCI_Data.center_ze]<= 75;
+                  cond_1t = cond_1t & ...
+                        [GOCI_Data.senz_center_value]<=60 & ... % criteria for the sensor zenith angle
+                        [GOCI_Data.solz_center_value]<=75; % criteria for the sensor zenith angle
                   %% Rrs_412
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_412_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_412_valid_pixel_count];
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                   cond_used = cond1&cond2;
@@ -703,7 +705,7 @@ if process_data_flag
                   %% Rrs_443
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_443_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_443_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -838,7 +840,7 @@ if process_data_flag
                   %% Rrs_490
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_490_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_490_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_490_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -973,7 +975,7 @@ if process_data_flag
                   %% Rrs_555
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_555_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_555_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_555_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1109,7 +1111,7 @@ if process_data_flag
                   %% Rrs_660
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_660_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_660_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_660_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1245,7 +1247,7 @@ if process_data_flag
                   %% Rrs_680
                   
                   data_used = [GOCI_Data(cond_1t).Rrs_680_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_680_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).Rrs_680_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1380,7 +1382,7 @@ if process_data_flag
                   %% aot_865
                   
                   data_used = [GOCI_Data(cond_1t).aot_865_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).aot_865_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).aot_865_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1515,7 +1517,7 @@ if process_data_flag
                   %% angstrom
                   
                   data_used = [GOCI_Data(cond_1t).angstrom_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).angstrom_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).angstrom_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1650,7 +1652,7 @@ if process_data_flag
                   %% poc
                   
                   data_used = [GOCI_Data(cond_1t).poc_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).poc_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).poc_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1785,7 +1787,7 @@ if process_data_flag
                   %% ag_412_mlrc
                   
                   data_used = [GOCI_Data(cond_1t).ag_412_mlrc_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).ag_412_mlrc_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -1920,7 +1922,7 @@ if process_data_flag
                   %% chlor_a
                   
                   data_used = [GOCI_Data(cond_1t).chlor_a_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).chlor_a_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).chlor_a_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -2055,7 +2057,7 @@ if process_data_flag
                   %% brdf
                   
                   data_used = [GOCI_Data(cond_1t).brdf_filtered_mean];
-                  valid_px_count_used = [GOCI_Data(cond_1t).brdf_filtered_valid_pixel_count];
+                  valid_px_count_used = [GOCI_Data(cond_1t).brdf_valid_pixel_count];
                   
                   cond1 = data_used >= 0; % only positive values
                   cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
@@ -2218,12 +2220,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_412
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_412_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_412_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_412_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_412_filtered_mean = nan;
             end
@@ -2231,12 +2234,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_443
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_443_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_443_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nan;
             end
@@ -2244,12 +2248,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_488
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_488_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_488_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_488_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_488_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_488_filtered_mean = nan;
             end
@@ -2257,12 +2262,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_547
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_547_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_547_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_547_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_547_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_547_filtered_mean = nan;
             end
@@ -2270,12 +2276,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_667
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_667_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_667_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_667_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_667_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_667_filtered_mean = nan;
             end
@@ -2283,12 +2290,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             %% Rrs_678
             
             mean_temp = [AQUA_Data(cond_1t).Rrs_678_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).Rrs_678_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).Rrs_678_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).Rrs_678_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_678_filtered_mean = nan;
             end
@@ -2296,12 +2304,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % aot_869
             
             mean_temp = [AQUA_Data(cond_1t).aot_869_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).aot_869_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).aot_869_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).aot_869_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_869_filtered_mean = nan;
             end
@@ -2309,12 +2318,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % angstrom
             
             mean_temp = [AQUA_Data(cond_1t).angstrom_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).angstrom_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).angstrom_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).angstrom_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nan;
             end
@@ -2322,12 +2332,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % poc
             
             mean_temp = [AQUA_Data(cond_1t).poc_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).poc_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).poc_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).poc_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nan;
             end
@@ -2335,12 +2346,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % ag_412_mlrc
             
             mean_temp = [AQUA_Data(cond_1t).ag_412_mlrc_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).ag_412_mlrc_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nan;
             end
@@ -2348,12 +2360,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % chlor_a
             
             mean_temp = [AQUA_Data(cond_1t).chlor_a_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).chlor_a_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).chlor_a_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).chlor_a_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nan;
             end
@@ -2361,12 +2374,13 @@ for idx_brdf = 1:size(brdf_opt,2)
             % brdf
             
             mean_temp = [AQUA_Data(cond_1t).brdf_filtered_mean];
-            valid_temp = [AQUA_Data(cond_1t).brdf_filtered_valid_pixel_count];
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_N_mean = nansum(valid_temp);
+            filtered_valid_temp = [AQUA_Data(cond_1t).brdf_filtered_valid_pixel_count];
+            valid_temp = [AQUA_Data(cond_1t).brdf_valid_pixel_count];
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+            AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_N_mean = nansum(filtered_valid_temp);
             
             if nansum(valid_temp) >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                  AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
             else
                   AQUA_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nan;
             end
@@ -2406,12 +2420,13 @@ if process_data_flag
                   %% Rrs_410
                   
                   mean_temp = [VIIRS_Data(cond_1t).Rrs_410_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).Rrs_410_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).Rrs_410_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).Rrs_410_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_410_filtered_mean = nan;
                   end
@@ -2419,12 +2434,13 @@ if process_data_flag
                   %% Rrs_443
                   
                   mean_temp = [VIIRS_Data(cond_1t).Rrs_443_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).Rrs_443_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).Rrs_443_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_443_filtered_mean = nan;
                   end
@@ -2432,12 +2448,13 @@ if process_data_flag
                   %% Rrs_486
                   
                   mean_temp = [VIIRS_Data(cond_1t).Rrs_486_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).Rrs_486_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).Rrs_486_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).Rrs_486_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_486_filtered_mean = nan;
                   end
@@ -2445,12 +2462,13 @@ if process_data_flag
                   %% Rrs_551
                   
                   mean_temp = [VIIRS_Data(cond_1t).Rrs_551_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).Rrs_551_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).Rrs_551_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).Rrs_551_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_551_filtered_mean = nan;
                   end
@@ -2458,12 +2476,13 @@ if process_data_flag
                   %% Rrs_671
                   
                   mean_temp = [VIIRS_Data(cond_1t).Rrs_671_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).Rrs_671_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).Rrs_671_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).Rrs_671_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).Rrs_671_filtered_mean = nan;
                   end
@@ -2471,12 +2490,13 @@ if process_data_flag
                   %% aot_862
                   
                   mean_temp = [VIIRS_Data(cond_1t).aot_862_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).aot_862_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).aot_862_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).aot_862_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).aot_862_filtered_mean = nan;
                   end
@@ -2484,12 +2504,13 @@ if process_data_flag
                   %% angstrom
                   
                   mean_temp = [VIIRS_Data(cond_1t).angstrom_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).angstrom_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).angstrom_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).angstrom_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).angstrom_filtered_mean = nan;
                   end
@@ -2497,12 +2518,13 @@ if process_data_flag
                   %% poc
                   
                   mean_temp = [VIIRS_Data(cond_1t).poc_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).poc_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).poc_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).poc_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).poc_filtered_mean = nan;
                   end
@@ -2510,12 +2532,13 @@ if process_data_flag
                   %% ag_412_mlrc
                   
                   mean_temp = [VIIRS_Data(cond_1t).ag_412_mlrc_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).ag_412_mlrc_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).ag_412_mlrc_filtered_mean = nan;
                   end
@@ -2523,12 +2546,13 @@ if process_data_flag
                   %% chlor_a
                   
                   mean_temp = [VIIRS_Data(cond_1t).chlor_a_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).chlor_a_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).chlor_a_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).chlor_a_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).chlor_a_filtered_mean = nan;
                   end
@@ -2536,12 +2560,13 @@ if process_data_flag
                   %% brdf
                   
                   mean_temp = [VIIRS_Data(cond_1t).brdf_filtered_mean];
-                  valid_temp = [VIIRS_Data(cond_1t).brdf_filtered_valid_pixel_count];
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
-                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_N_mean = nansum(valid_temp);
+                  filtered_valid_temp = [VIIRS_Data(cond_1t).brdf_filtered_valid_pixel_count];
+                  valid_temp = [VIIRS_Data(cond_1t).brdf_valid_pixel_count];
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                  VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_N_mean = nansum(filtered_valid_temp);
                   
                   if nansum(valid_temp) >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nansum(mean_temp.*valid_temp)./nansum(valid_temp);
+                        VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
                   else
                         VIIRS_DailyStatMatrix(idx+(idx_brdf-1)*size(date_idx,2)).brdf_filtered_mean = nan;
                   end
@@ -3443,36 +3468,38 @@ if process_data_flag
       
       count = 0;
       
-      for idx = 1:size(Year_idx,2)
-            for idx2 = 1:12
-                  count = count+1;
-                  cond_1t = Year_idx(idx)==Year...
-                        & idx2==Month;
-                  GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
-                  
-                  GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).aot_865_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).angstrom_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).poc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).poc_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).ag_412_mlrc_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).chlor_a_mean_mid_three]);
-                  GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).brdf_mean_mid_three]);
-                  
-                  GOCI_MonthlyStatMatrix(count).Month = idx2;
-                  GOCI_MonthlyStatMatrix(count).Year  = Year_idx(idx);
-                  GOCI_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+      for idx_brdf = 1:size(brdf_opt,2)
+            for idx = 1:size(Year_idx,2)
+                  for idx2 = 1:12
+                        count = count+1;
+                        cond_1t = Year_idx(idx)==Year...
+                              & idx2==Month...
+                              & [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt(idx_brdf);
+                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
+                        
+                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).aot_865_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).angstrom_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).poc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).poc_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).ag_412_mlrc_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).chlor_a_mean_mid_three]);
+                        GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).brdf_mean_mid_three]);
+                        
+                        GOCI_MonthlyStatMatrix(count).Month = idx2;
+                        GOCI_MonthlyStatMatrix(count).Year  = Year_idx(idx);
+                        GOCI_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+                  end
             end
-            
       end
 end
 
@@ -3489,34 +3516,35 @@ if process_data_flag
       Year_idx = Year_min:Year_max;
       
       count = 0;
-      
-      for idx = 1:size(Year_idx,2)
-            for idx2 = 1:12
-                  count = count+1;
-                  cond_1t = Year_idx(idx)==Year...
-                        & idx2==Month;
-                  AQUA_MonthlyStatMatrix(count).Rrs_412_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).Rrs_488_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).Rrs_547_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).Rrs_667_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).Rrs_678_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).aot_869_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).aot_869_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).angstrom_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).poc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).poc_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).chlor_a_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
-                  AQUA_MonthlyStatMatrix(count).brdf_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
-                  
-                  AQUA_MonthlyStatMatrix(count).Month = idx2;
-                  AQUA_MonthlyStatMatrix(count).Year  = Year_idx(idx);
-                  AQUA_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+      for idx_brdf = 1:size(brdf_opt,2)
+            for idx = 1:size(Year_idx,2)
+                  for idx2 = 1:12
+                        count = count+1;
+                        cond_1t = Year_idx(idx)==Year...
+                              & idx2==Month...
+                              & [AQUA_DailyStatMatrix.brdf_opt] == brdf_opt(idx_brdf);
+                        AQUA_MonthlyStatMatrix(count).Rrs_412_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).Rrs_488_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).Rrs_547_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).Rrs_667_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).Rrs_678_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).aot_869_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).aot_869_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).angstrom_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).poc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).poc_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).chlor_a_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
+                        AQUA_MonthlyStatMatrix(count).brdf_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
+                        
+                        AQUA_MonthlyStatMatrix(count).Month = idx2;
+                        AQUA_MonthlyStatMatrix(count).Year  = Year_idx(idx);
+                        AQUA_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+                  end
             end
-            
       end
 end
 
-%% Monthly statistics for VIIRS
+% Monthly statistics for VIIRS
 if process_data_flag
       clear VIIRS_MonthlyStatMatrix
       clear cond_1t count
@@ -3530,28 +3558,30 @@ if process_data_flag
       
       count = 0;
       
-      for idx = 1:size(Year_idx,2)
-            for idx2 = 1:12
-                  count = count+1;
-                  cond_1t = Year_idx(idx)==Year...
-                        & idx2==Month;
-                  VIIRS_MonthlyStatMatrix(count).Rrs_410_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).Rrs_486_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).Rrs_551_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).Rrs_671_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).aot_862_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).aot_862_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).angstrom_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).poc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).poc_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).chlor_a_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
-                  VIIRS_MonthlyStatMatrix(count).brdf_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
-                  
-                  VIIRS_MonthlyStatMatrix(count).Month = idx2;
-                  VIIRS_MonthlyStatMatrix(count).Year  = Year_idx(idx);
-                  VIIRS_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+      for idx_brdf = 1:size(brdf_opt,2)
+            for idx = 1:size(Year_idx,2)
+                  for idx2 = 1:12
+                        count = count+1;
+                        cond_1t = Year_idx(idx)==Year...
+                              & idx2==Month...
+                              & [VIIRS_DailyStatMatrix.brdf_opt] == brdf_opt(idx_brdf);
+                        VIIRS_MonthlyStatMatrix(count).Rrs_410_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).Rrs_486_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).Rrs_551_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).Rrs_671_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).aot_862_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).aot_862_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).angstrom_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).poc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).poc_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).chlor_a_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
+                        VIIRS_MonthlyStatMatrix(count).brdf_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
+                        
+                        VIIRS_MonthlyStatMatrix(count).Month = idx2;
+                        VIIRS_MonthlyStatMatrix(count).Year  = Year_idx(idx);
+                        VIIRS_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
+                  end
             end
-            
       end
 end
 
@@ -4326,7 +4356,7 @@ geoshow(ax, coastlat, coastlon,...
       'DisplayType', 'polygon', 'FaceColor', [.45 .60 .30])
 geoshow(ax,'worldlakes.shp', 'FaceColor', 'cyan')
 geoshow(ax,'worldrivers.shp', 'Color', 'blue')
-
+%%
 figure(hf2)
 hold on
 
@@ -4347,8 +4377,11 @@ geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
 % idx1=1195;
 % idx2=1196;
 
-idx1=429;
-idx2=430;
+cond = [VIIRS_Data.brdf_opt]==7;
+I = find(cond);
+
+idx1=I(1177);
+idx2=I(1178);
 
 % VIIRS idx 1
 UL_LAT = VIIRS_Data(idx1).latitude_max;
@@ -4364,7 +4397,7 @@ geoshow([UL_LAT UR_LAT LR_LAT LL_LAT UL_LAT],...
            [UL_LON UR_LON LR_LON LL_LON UL_LON],...
     'DisplayType','polygon', 'FaceColor', 'blue','FaceAlpha','.3');
 
-% VIIRS idx 2
+%% VIIRS idx 2
 UL_LAT = VIIRS_Data(idx2).latitude_max;
 UL_LON = VIIRS_Data(idx2).longitude_min;
 UR_LAT = VIIRS_Data(idx2).latitude_max;
