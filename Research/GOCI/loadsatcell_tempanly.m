@@ -1,4 +1,4 @@
-function satcell = loadsatcell_tempanly(filepath)
+function satcell = loadsatcell_tempanly(filepath,sensor_id)
 %%
 
 % if exist(fullFileName, 'file')
@@ -222,6 +222,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_410_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_410_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_410_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_410_CV                                    = satcell.Rrs_410_filtered_stddev/satcell.Rrs_410_filtered_mean;
+
 end
 
 %% Products
@@ -256,6 +258,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_412_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_412_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_412_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_412_CV                                    = satcell.Rrs_412_filtered_stddev/satcell.Rrs_412_filtered_mean;
+
 end
 
 % Rrs_443
@@ -289,6 +293,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_443_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_443_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_443_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_443_CV                                    = satcell.Rrs_443_filtered_stddev/satcell.Rrs_443_filtered_mean;
+
 end
 
 % Rrs_469
@@ -322,6 +328,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_469_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_469_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_469_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_469_CV                                    = satcell.Rrs_469_filtered_stddev/satcell.Rrs_469_filtered_mean;
+
 end
 
 
@@ -357,6 +365,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_486_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_486_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_486_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_486_CV                                    = satcell.Rrs_486_filtered_stddev/satcell.Rrs_486_filtered_mean;
+
 end
 % Rrs_488
 fullFileName = [filepath '.Rrs_488'];
@@ -389,6 +399,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_488_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_488_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_488_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_488_CV                                    = satcell.Rrs_488_filtered_stddev/satcell.Rrs_488_filtered_mean;
+
 end
 
 % Rrs_490
@@ -422,6 +434,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_490_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_490_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_490_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_490_CV                                    = satcell.Rrs_490_filtered_stddev/satcell.Rrs_490_filtered_mean;
+
 end
 
 % Rrs_531
@@ -455,6 +469,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_531_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_531_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_531_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_531_CV                                    = satcell.Rrs_531_filtered_stddev/satcell.Rrs_531_filtered_mean;
+
 end
 
 % Rrs_547
@@ -488,6 +504,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_547_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_547_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_547_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_547_CV                                    = satcell.Rrs_547_filtered_stddev/satcell.Rrs_547_filtered_mean;
+
 end
 
 %% Products
@@ -522,6 +540,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_551_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_551_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_551_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_551_CV                                    = satcell.Rrs_551_filtered_stddev/satcell.Rrs_551_filtered_mean;
+
 end
 
 % Rrs_555
@@ -555,6 +575,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_555_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_555_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_555_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_555_CV                                    = satcell.Rrs_555_filtered_stddev/satcell.Rrs_555_filtered_mean;
+
 end
 
 % Rrs_645
@@ -588,6 +610,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_645_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_645_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_645_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_645_CV                                    = satcell.Rrs_645_filtered_stddev/satcell.Rrs_645_filtered_mean;
+
 end
 
 % Rrs_660
@@ -621,6 +645,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_660_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_660_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_660_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_660_CV                                    = satcell.Rrs_660_filtered_stddev/satcell.Rrs_660_filtered_mean;
+
 end
 
 % Rrs_667
@@ -654,6 +680,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_667_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_667_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_667_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_667_CV                                    = satcell.Rrs_667_filtered_stddev/satcell.Rrs_667_filtered_mean;
+
 end
 
 %% Products
@@ -688,6 +716,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_671_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_671_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_671_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_671_CV                                    = satcell.Rrs_671_filtered_stddev/satcell.Rrs_671_filtered_mean;
+
 end
 
 % Rrs_678
@@ -721,6 +751,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_678_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_678_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_678_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_678_CV                                    = satcell.Rrs_678_filtered_stddev/satcell.Rrs_678_filtered_mean;
+
 end
 
 % Rrs_680
@@ -754,6 +786,8 @@ if exist(fullFileName, 'file')
       satcell.Rrs_680_iqr_median 					= str2double(s{1}{44});
       satcell.Rrs_680_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_680_iqr_rms 					= str2double(s{1}{48});
+      satcell.Rrs_680_CV                                    = satcell.Rrs_680_filtered_stddev/satcell.Rrs_680_filtered_mean;
+
 end
 
 % ag_412_mlrc
@@ -1387,6 +1421,7 @@ if exist(fullFileName, 'file')
       satcell.aot_862_iqr_median                            = str2double(s{1}{44});
       satcell.aot_862_iqr_stddev                            = str2double(s{1}{46});
       satcell.aot_862_iqr_rms                               = str2double(s{1}{48});
+      satcell.aot_862_CV                                    = satcell.aot_862_filtered_stddev/satcell.aot_862_filtered_mean;
 end
 
 % aot_865
@@ -1418,6 +1453,7 @@ if exist(fullFileName, 'file')
       satcell.aot_865_iqr_median 					= str2double(s{1}{44});
       satcell.aot_865_iqr_stddev 					= str2double(s{1}{46});
       satcell.aot_865_iqr_rms 					= str2double(s{1}{48});
+      satcell.aot_865_CV                                    = satcell.aot_865_filtered_stddev/satcell.aot_865_filtered_mean;
 end
 
 % aot_869
@@ -1449,6 +1485,7 @@ if exist(fullFileName, 'file')
       satcell.aot_869_iqr_median                            = str2double(s{1}{44});
       satcell.aot_869_iqr_stddev                            = str2double(s{1}{46});
       satcell.aot_869_iqr_rms                               = str2double(s{1}{48});
+      satcell.aot_869_CV                                    = satcell.aot_869_filtered_stddev/satcell.aot_869_filtered_mean;
 end
 
 % epsilon
@@ -1667,6 +1704,36 @@ if exist(fullFileName, 'file')
       satcell.poc_iqr_stddev                               = str2double(s{1}{46});
       satcell.poc_iqr_rms                            = str2double(s{1}{48});
 end
+
+% CV
+if strcmp(sensor_id,'GOCI')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_490_CV,...
+      satcell.Rrs_555_CV,...
+      satcell.Rrs_660_CV,...
+      satcell.Rrs_680_CV,...
+      satcell.aot_865_CV]);
+elseif strcmp(sensor_id,'AQUA')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_488_CV,...
+      satcell.Rrs_547_CV,...
+      satcell.Rrs_667_CV,...
+      satcell.Rrs_678_CV,...
+      satcell.aot_869_CV]);
+elseif strcmp(sensor_id,'VIIRS')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_410_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_486_CV,...
+      satcell.Rrs_551_CV,...
+      satcell.Rrs_671_CV,...
+      satcell.aot_862_CV]);   
+end   
+
 
 % % satcell = get_product(filepath,'ozone',satcell);
 % satcell = get_product(filepath,'ozone',satcell);
