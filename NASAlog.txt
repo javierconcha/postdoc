@@ -2452,6 +2452,101 @@ max=30.1352
 longitude:
 min=131.8229
 max=142.895
+
+--------------------------------------------------
+2017-02-28 Tue
+number of files per satellite and per brdf_opt:
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF0_valregion.tar' javier_valtarg.txt|grep V2|wc -l               
+3946
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF3_valregion.tar' javier_valtarg.txt|grep V2|wc -l               
+3972
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF7_valregion.tar' javier_valtarg.txt|grep V2|wc -l               
+3913
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF0_valregion.tar' javier_valtarg.txt|grep A2|wc -l
+4080
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF3_valregion.tar' javier_valtarg.txt|grep A2|wc -l
+4080
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF7_valregion.tar' javier_valtarg.txt|grep A2|wc -l
+4082
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF0_valregion.tar' javier_valtarg.txt|grep G2|wc -l
+17099
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF3_valregion.tar' javier_valtarg.txt|grep G2|wc -l
+17100
+jconchas@anly104:/data2/jconchas/GOCI/GOCI_ROI$ grep 'BRDF7_valregion.tar' javier_valtarg.txt|grep G2|wc -l
+17099
+
+to change permission to only rw-r--r-- for r--r--r--:
+jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS$ find . -name "*valregion*" -perm 644 -exec chmod -v a-w {} \;
+
+how to create python 2.7 environment:
+  559  conda create -n py27 python=2.7
+  560  source activate py27
+  561  conda install scikit-learn
+  562  conda install nltk
+  563  python startup.py 
+
+configure the python2.7 environment:
+
+conda create -n py27 python=2.7
+source activate py27
+conda install notebook ipykernel
+ipython kernel install --user
+
+(py27) jconchas:~/Documents/Research/Lessons/MachineLearning/ud120-projects/naibe_bayes$ jupyter notebook Run_nb_emails.ipynb 
+
+to see a L3 binned file:
+jconchas:~/Documents/Research/VIIRS$ ~/Applications/seadas-7.3.2/ocssw/run/bin/macosx_intel/l3mapgen par=tmpParFile1283079978418890658.par 
+
+with tmpPar...
+ifile=/Users/jconchas/Documents/Research/VIIRS/V20151212015151.L3b_MO_SNPP_CHL.nc
+ofile=/Users/jconchas/Documents/Research/VIIRS/V20151212015152.L3m_l3mapgen_output
+product=chlor_a:nobs,chlor_a:nscenes
+
+
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+### create classifier
+clf = GaussianNB()
+
+### fit the classifier on the training features and labels
+clf.fit(features_train, labels_train)
+
+### use the trained classifier to predict labels for the test features
+pred = clf.predict(features_test)
+
+# accuracy
+accuracy = accuracy_score(pred, labels_test)
+print accuracy
+
+print clf.score(features_test, labels_test)
+
+
+
+
+to push a commit to gitlab:
+jconchas:~/Documents/Research/Lessons/classroom/MachineLearning/Meeting3$ git status -uno
+On branch javierbranch
+nothing to commit (use -u to show untracked files)
+jconchas:~/Documents/Research/Lessons/classroom/MachineLearning/Meeting3$ git push -u origin master
+Username for 'https://oceandata.sci.gsfc.nasa.gov': javier
+Password for 'https://javier@oceandata.sci.gsfc.nasa.gov': 
+Branch master set up to track remote branch master from origin.
+Everything up-to-date
+jconchas:~/Documents/Research/Lessons/classroom/MachineLearning/Meeting3$ git push -u origin javierbranch
+Username for 'https://oceandata.sci.gsfc.nasa.gov': javier
+Password for 'https://javier@oceandata.sci.gsfc.nasa.gov': 
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (5/5), 2.84 KiB | 0 bytes/s, done.
+Total 5 (delta 1), reused 0 (delta 0)
+To http://oceandata.sci.gsfc.nasa.gov/rcs/obpg/classroom.git
+ * [new branch]      javierbranch -> javierbranch
+Branch javierbranch set up to track remote branch javierbranch from origin.
+
+book that mention level 3 reduction in variance:
+Studies in the Atmospheric Sciences
 (END)
 
 
