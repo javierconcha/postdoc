@@ -123,41 +123,48 @@ Spinning Enhanced Visible and Infrared Imager (SEVIRI) \citet{Neukermans2009,Neu
 Example of citations \citet{Ryu2011,He2013,Hu2016}
 
 Biological and biogeochemical processes in the coastal zones and oceans can occur in short-term time scales (minutes to hours). Heritage ocean color sensors do not have the temporal resolution needed to capture these diurnal dynamics.
+
+
+The SeaDAS/l2gen code was modified to support NASA standard atmospheric correction for GOCI.
 %%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Data and Methodology}
 \section{Data and Sensor Characteristics}
 % ============================================================
 \subsection{GOCI Data}
-The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day (from 00:15 GMT to 07:45 GMT) with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. It hast eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm). GOCI operates in a 2D staring-frame capture mode in a geostationary orbit on board of the Communication Ocean and Meteorological Satellite (COMS) of South Korea. The acquisition of the observational coverage area of GOCI is done with a step-and-staring method that divides the image in 16 slots acquired in a sequential fashion with a dedicated CMOS detector array ($1400\times1400$ pixels).
+The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day (from 00:15 GMT to 07:45 GMT at one hour rate) with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. It hast eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm). GOCI operates in a 2D staring-frame capture mode in a geostationary orbit on board of the Communication Ocean and Meteorological Satellite (COMS) of South Korea. The acquisition of the observational coverage area of GOCI is done with a step-and-staring method that divides the image in 16 slots acquired in a sequential fashion with a dedicated CMOS detector array ($1400\times1400$ pixels).
 
-The images used in this analysis comprehend from the beginning of the GOCI's mission until September $29^{th}$, 2016\todo{update}, resulting in about 16,000 images. The GOCI Level-1B calibrated top-of-atmosphere (TOA) radiance data were obtained from the Ocean Biology Distributed Active Archive Center (OB.DAAC\todo{correct?}) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG) \todo{or OEL?}. The OB.DAAC acts a mirror site for the GOCI data provided by the Korea Ocean Satellite Center. These data are freely available for direct download from the OB.DAAC. Each file is provided as a  Hierarchical Data Format Release 5 (file extension: .he5) format and corresponds to one of the eight daily images per day. Each file contains eight images corresponding to the eight spectral bands.
+The images used in this analysis comprehend from the beginning of the GOCI's mission until September $29^{th}$, 2016\todo{update}, resulting in total of about 16,000 images. The GOCI Level-1B calibrated top-of-atmosphere (TOA) radiance data were obtained from the Ocean Biology Distributed Active Archive Center (OB.DAAC\todo{correct?}) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG) \todo{or OEL?}. The OB.DAAC acts a mirror site for the GOCI data provided by the Korea Ocean Satellite Center. These data are freely available for direct download from the OB.DAAC. Each file is provided as a  Hierarchical Data Format Release 5 format (file extension: .he5) and corresponds to one of the eight daily images per day. Each file contains eight images corresponding to the eight spectral bands.
 % ---------------------------------------------------------------
 \subsection{Study site}
 
-The area of study is located in low productivity waters (clear waters)\todo{lon and lat for box}(\autoref{fig:AreaOfStudy}). The pixel box covers approximately 2 millions pixels ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels).
+The area of study (\autoref{fig:AreaOfStudy}) covers clear, low-productivity waters (open ocean) located to the south of Japan with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. The area of study is $2000\times 1000$ GOCI pixels, and therefore, covering approximately two millions GOCI pixels ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels), equivalent to $500,000\ km^2$.  
 
 % ---------------------------------------------------------------
 \begin{figure}[ht]
 	\centering
-	\missingfigure[figwidth=10cm]{Area of study in top of the GOCI footprint}
-	\caption{Area of study}
+    \includegraphics[height=5.5cm]{./Figures/GOCI_ROI_footprint.png}
+	\caption{Area of study. GOCI foot print (red box) and the area of study (white box)}
 	\label{fig:AreaOfStudy}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Processing Approach}
 % ---------------------------------------------------------------
 \subsection{Atmospheric Correction Algorithm}
-GOCI Level 1B data (radiometric calibrations applied, L1B) was processed to Level 2 data (geolocated, geophysical values, L2) using the multisensor level 1 level 2 generator (l2gen) version 8.10.2 distributed with the SeaWiFS Data Analysis System (SeaDAS) (\url{http://seadas.gsfc.nasa.gov/}). The l2gen code reads level 1 observed top-of-atmosphere (TOA) radiances, applies an atmospheric correction scheme, and outputs $R_{rs}(\lambda)$ and various derived geophysical properties. The atmospheric correction scheme is based on \citet{Gordon1994}, with a near infrared (NIR) iterative correction by \citet{Bailey2010} ({\ttfamily aer\_opt=-2} in l2gen). GOCI's two near infrared (NIR) bands were used for the aerosol models selection. The current atmospheric correction algorithm is based on plane-parallel geometry \citep{Gordon1994}. \todo{include BRDF and RH-based model selection plus radiative transfer plane-parallel geometry}
+GOCI Level 1B data (radiometric calibrations applied, L1B) was processed to Level 2 data (geolocated, geophysical values, L2) using the multisensor level 1 level 2 generator (l2gen) version 8.10.2 distributed with the SeaWiFS Data Analysis System (SeaDAS) (\url{http://seadas.gsfc.nasa.gov/}). The l2gen code reads level 1 observed top-of-atmosphere (TOA) radiances, applies an atmospheric correction scheme, and outputs $R_{rs}(\lambda)$ and various derived geophysical properties. The atmospheric correction scheme uses an estimation of the aerosol contribution described by \citet{Gordon1994}, with a near infrared (NIR) iterative correction by \citet{Bailey2010} ({\ttfamily aer\_opt=-2} in l2gen) and a selection of the of the aerosol model dependent of the relative humidity by \citet{Ahmad2010}. GOCI's two near infrared (NIR) bands were used for the aerosol models selection. This approach assumes a plane-parallel geometry, ignoring earth curvature, for the vector radiative transfer simulations used for the computation of the {\todo{taken from Franz 2015} look-up tables of Rayleigh reflectance}. \todo{include BRDF correction}
 % ---------------------------------------------------------------
 \subsection{Data screening}
 % Filtering Criteria
-The exclusion criteria (filtering) was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. From the rest of the unflagged pixels (i.e. filtered) in the box, a filtered mean and standard deviation were calculated. The filtered mean was defined as:
-\begin{equation}\label{eq:filteredmean}
-  \text{Filtered Mean} =\frac{\sum_i(Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)}{NFP}
+The exclusion criteria (filtering) was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. In order to avoid the effect of outliers in the calculations, the following screening criteria was applied:
+\begin{equation}
+  (Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)
 \end{equation}
-where $Med$ is the unfiltered median value, $\sigma$ is standard deviation of the unfiltered data and $NFP$ is the Number Filtered Pixels, i.e. the number of unflagged values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimize the influence of outliers. This is the current standard approach adopted by the Ocean Ecology Lab at the NASA Goddard Space Flight Center. The statistical values filtered mean and standard deviation, among others, were computed operationally using the val-extract tool included in the SeaDAS/l2gen distribution.
+where $X_i$ is the $i^{th}$ filtered pixel within the box, $Med$ is the median value of the unflagged pixels, and $\sigma$ is standard deviation of the unflagged pixels. Then, the filtered was calculated:
+\begin{equation}\label{eq:filteredmean}
+  \text{Filtered Mean} =\frac{\displaystyle \sum_i^{NFP} X_i}{NFP}
+\end{equation}
+where $NFP$ is the Number Filtered Pixels, i.e. the number of unflagged values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimize the influence of outliers. This is the current standard approach adopted by the Ocean Ecology Lab at the NASA Goddard Space Flight Center. The statistical values filtered mean and standard deviation, among others, were computed operationally using the val-extract tool included in the SeaDAS/l2gen distribution (located on {\ttfamily \$OCSSWROOT/run/bin/macosx\_intel/val\_extract}  for the OSX installation) specifying the latitude and longitude limits as input parameters (slon, elon, slat and elat).
 
-In order to have statistical confidence in the filtered mean value, NFP is required to be at least half the number of total pixels in the box (i.e. $NFP\geq NTP/2 = 998,501$) to be considered into the analysis. Additionally, we excluded data where the solar zenith angle of the center of the pixel box exceed $75^o$ to avoid extreme viewing and solar geometries \citep{Bailey2006} (\autoref{fig:FilteringCriteria}).
+In order to have statistical confidence in the filtered mean value, NFP is required to be at least half the number of total pixels in the box (i.e. $NFP\geq NTP/2 = 998,501$) to be considered into the analysis. Additionally, we excluded data where the solar and viewing zenith angle of the center of the pixel box exceeded $75^o$ and $60^o$ to avoid extreme solar and  viewing geometries \citep{Bailey2006} (\autoref{fig:FilteringCriteria}).
 
 % ---------------------------------------------------------------
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,7 +207,7 @@ In order to have statistical confidence in the filtered mean value, NFP is requi
 
 \node (fail) [output, right of=enough, xshift=5cm] {Failed filtering criteria};
 
-\node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$?};
+\node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 
 \node (pass) [output, below of=zenith, yshift=-1cm] {Passed filtering criteria};
 
@@ -224,7 +231,14 @@ In order to have statistical confidence in the filtered mean value, NFP is requi
 	\label{fig:FilteringCriteria}
 \end{figure}
 % ---------------------------------------------------------------
-\subsection{Bio-Optical Algorithm}
+\subsection{Bio-Optical Algorithms}
+% ------------------------
+\subsubsection{Chlro-a}
+% ------------------------
+\subsubsection{POC}
+% ------------------------
+\subsubsection{ag(412)mlrc}
+
 % ---------------------------------------------------------------
 \subsection{Vicarious Calibration?}
 Vicarious calibration was applied.
@@ -236,40 +250,53 @@ Vicarious calibration was applied.
 \subsection{Matchups}
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{AERONET-OC}
-Validation of the atmospheric correction is performed by comparing the remote-sensing reflectance (Rrs) to in situ data from the
-AErosol RObotic NETwork-Ocean Color (AERONET-OC).
+The atmospheric correction was validated using {\it in situ} measurements of the AErosol RObotic NETwork-Ocean Color (AERONET-OC) as ground truth \citep{Zibordi2009}. The quality-assurance (QA) level used was level 2.0, which is the highest quality for the AERONET-OC data. The dataset from two stations were used for the analysis: Gageocho (N=20; PI: Jae-Seol Shim and Joo-Hyung Ryu) and Ieodo (N=25; PI: Young-Je Park and Hak-Yeol You). \autoref{fig:GOCI_AERO} shows scatter plots for satellite derived $R_{rs}(\lambda)$ versus {\it in situ} measurements. 
 
-Two stations: Gageocho (N=20; PI: Jae-Seol Shim and Joo-Hyung Ryu) and Ieodo (N=25; PI: Young-Je Park and Hak-Yeol You)
+\begin{table}[htbp!]
+\caption{Regression line of the form $y=m*x+b$}
+\caption{ \label{tab:val_stats} } 
+\small
+\centering
+\begin{tabular}{cccccc} 
+ \bfseries{Product Name} & \bfseries{m} & \bfseries{b} & \bfseries{$R^2$} & \bfseries{N} & \bfseries{RMSE} \\ \hline \hline
+
+$R_{rs}(412)$ & 0.9725 &  0.0013 & 0.867 & 45 & 0.0018 \\ 
+$R_{rs}(443)$ & 1.0090 &  0.0011 & 0.939 & 45 & 0.0017 \\ 
+$R_{rs}(490)$ & 0.8851 &  0.0002 & 0.965 & 45 & 0.0018 \\ 
+$R_{rs}(555)$ & 0.8456 & -0.0003 & 0.987 & 45 & 0.0024 \\ 
+$R_{rs}(660)$ & 1.0226 &  0.0004 & 0.958 & 45 & 0.0007 \\ 
+ \end{tabular}
+\end{table}
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[htb!]
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_412.eps}
+      \includegraphics[height=6.0cm]{./Figures/GOCI_AERO_412.eps}
     \centerline{(a)}\medskip
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_443.eps}
+      \includegraphics[height=6.0cm]{./Figures/GOCI_AERO_443.eps}
       \centerline{(b)}\medskip
     \end{minipage}  
 
   \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_490.eps}
+      \includegraphics[height=6.0cm]{./Figures/GOCI_AERO_490.eps}
     \centerline{(c)}\medskip
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_555.eps}
+      \includegraphics[height=6.0cm]{./Figures/GOCI_AERO_555.eps}
       \centerline{(d)}\medskip
     \end{minipage}  
 
   \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_660.eps}
+      \includegraphics[height=6.0cm]{./Figures/GOCI_AERO_660.eps}
       \centerline{(e)}\medskip
     \end{minipage}   
 
@@ -412,7 +439,7 @@ The $R_{rs}$ and Chlorophyll-{\it a} mean values for the region of interest were
       \end{overpic}
 	\end{minipage}  
 
-    \caption{$R_{rs}$ versus solar zenith angle. \label{fig:Chl_vs_zenith} } 
+    \caption{Chlor-{\it a} versus solar zenith angle. \label{fig:Chl_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -425,7 +452,7 @@ A standard deviation (SD) of the eight values per day was calculated. This daily
 \caption{ \label{tab:stdev_aero} } 
 \small
 \centering
-\begin{tabular}{c|c|c} 
+\begin{tabular}{ccc} 
  \bfseries{Product Name} & \bfseries{SD} & \bfseries{RMSE}\\
  & (Time Series)) & (AERONET-OC) \\ 
  & $[1/sr]$ & $[1/sr]$ \\ \hline \hline
@@ -628,7 +655,7 @@ where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the d
 % Challenges
 
 % from OO poster
-The validation with in situ data exhibit results comparable to heritage sensors.
+The validation with {\it in situ} data exhibit results comparable to heritage sensors.
 
 Expected seasonality and trends were observed through the complete mission.
 
@@ -646,7 +673,7 @@ Estimation of changes due to diurnal and day-to-day biogeochemical stocks and pr
 % \vspace{-.4cm}
 \section*{Acknowledgments}
 \vspace{-.2cm}
-We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI), the AERONET-OC, the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. 
+We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI), the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. Also, the principal investigator for the AERONET-OC data: Jae-Seol Shim and Joo-Hyung Ryu (Gageocho station), Young-Je Park and Hak-Yeol You (Ieodo station).
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \vspace{-.4cm}
