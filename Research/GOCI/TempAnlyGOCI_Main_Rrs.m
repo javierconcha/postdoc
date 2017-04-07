@@ -3270,10 +3270,6 @@ brdf_opt = 7;
 
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
-      %       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-      %       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_mean_first_six]);',wl{idx0}))
-      %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-      %       grid on
       cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt; 
       
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
@@ -3307,12 +3303,6 @@ for idx0 = 1:size(wl,2)
       data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
       
       fs = 25;
-      %       figure(h1)
-      %       hold on
-      %       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.-r','MarkerSize',12)
-      %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
-      %       grid on
-      
       figure(h2)
       hold on
       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'r','MarkerSize',12,'LineWidth',lw)
@@ -3330,10 +3320,10 @@ for idx0 = 1:size(wl,2)
             wl_VIIRS = '551';
       elseif strcmp(wl{idx0},'660')
             wl_VIIRS = '671';
-      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            wl_VIIRS = '671';
+%       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%             wl_VIIRS = '671';
       end
-      
+            
       cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
@@ -3343,33 +3333,14 @@ for idx0 = 1:size(wl,2)
       data_used_x = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
       
       fs = 25;
-      %       figure(h1)
-      %       hold on
-      %       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.-k','MarkerSize',12)
-      %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-      %       grid on
-      
-      figure(h2)
-      hold on
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12,'LineWidth',lw)
-      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
-      grid on
-      set(gcf, 'renderer','painters')
-      
-      %       figure(h1)
-      %       if strcmp(wl{idx0},'412')
-      %             legend('GOCI: 412 nm','MODISA: 412 nm','VIIRS: 410 nm')
-      %       elseif strcmp(wl{idx0},'443')
-      %             legend('GOCI: 443 nm','MODISA: 443 nm','VIIRS: 443 nm')
-      %       elseif strcmp(wl{idx0},'490')
-      %             legend('GOCI: 490 nm','MODISA: 488 nm','VIIRS: 486 nm')
-      %       elseif strcmp(wl{idx0},'555')
-      %             legend('GOCI: 555 nm','MODISA: 547 nm','VIIRS: 551 nm')
-      %       elseif strcmp(wl{idx0},'660')
-      %             legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm')
-      %       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      %             legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')
-      %       end
+      if ~strcmp(wl{idx0},'680')
+            figure(h2)
+            hold on
+            plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'k','MarkerSize',12,'LineWidth',lw)
+            eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
+            grid on
+            set(gcf, 'renderer','painters')
+      end
       
       figure(h2)
       if strcmp(wl{idx0},'412')
@@ -3383,7 +3354,7 @@ for idx0 = 1:size(wl,2)
       elseif strcmp(wl{idx0},'660')
             legend('GOCI: 660 nm','MODISA: 667 nm','VIIRS: 671 nm')
       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            legend('GOCI: 680 nm','MODISA: 678 nm','VIIRS: 671 nm')
+            legend('GOCI: 680 nm','MODISA: 678 nm')
       end
       
       %       legend boxoff
