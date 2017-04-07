@@ -2264,321 +2264,376 @@ if process_data_flag
                         AQUA_DailyStatMatrix(count).idx_to_AQUA_Data = find(cond_1t);
 
                         %% Rrs_412
-                        % only positive values
+                        % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        idx_aux = I([AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean]<0); % neg values
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux
-                                                
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
-                              disp('-------------------')
-                              disp('More than one image before half of area')
-                              idx
-                              [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]
-                              [AQUA_Data_used(cond_1t_aux).solz_center_value]
-                              show_next = 1;
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
                         end
-                        % only if more of half of the area is valid
-                        I = find(cond_1t_aux); % indexes to the images per day
-                        idx_aux = I([AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total); % neg values
-                        cond_1t_aux(idx_aux) = 0; % not to use neg values
-                        cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux
-                        
-                        % to find min solar zenith angle
-                        if sum(cond_1t_aux)>1||show_next
-                              disp('-------------------')
-                              disp('More than one image before geometry')
-                              idx
-                              [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]
-                              [AQUA_Data_used(cond_1t_aux).solz_center_value]
-                              show_next = 0;
-                        end
-                        I = find(cond_1t_aux);
-                        [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
-                        Imin = I(Itemp);
-                        cond_1t_aux = 0.*cond_1t_aux;
-                        cond_1t_aux(Imin) = 1;
-                        cond_1t_aux = logical(cond_1t_aux);
-                        
-%                         mean_temp = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean];
-%                         filtered_valid_temp = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_valid_pixel_count];
-%                         AQUA_DailyStatMatrix(count).Rrs_412_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-%                         AQUA_DailyStatMatrix(count).Rrs_412_N_mean = nansum(filtered_valid_temp);
-                        
+                      
                         AQUA_DailyStatMatrix(count).Rrs_412_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        if sum(cond_1t_aux)~=0 % half of the equivalent GOCI are for AQUA
+                        if sum(cond_1t_aux)~=0 % there is at least one image
                               AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = nan;
                         end
-                        clear cond_1t_aux Imin Itemp
+                        clear cond_1t_aux
+
                         %% Rrs_443
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_443_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_443_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).Rrs_443_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_443_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_443_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_443_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_443_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_443_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).Rrs_443_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_443_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = nan;
                         end
-                        
+                        clear cond_1t_aux
+
                         %% Rrs_488
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_488_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_488_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).Rrs_488_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_488_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_488_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_488_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_488_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_488_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).Rrs_488_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_488_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = nan;
                         end
+                        clear cond_1t_aux                        
                         
                         %% Rrs_547
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_547_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_547_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).Rrs_547_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_547_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_547_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_547_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_547_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_547_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).Rrs_547_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_547_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nan;
                         end
+                        clear cond_1t_aux                        
                         
                         %% Rrs_667
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_667_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_667_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).Rrs_667_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_667_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_667_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_667_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_667_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_667_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).Rrs_667_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_667_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% Rrs_678
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_678_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_678_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).Rrs_678_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_678_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_678_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_678_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_678_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_678_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).Rrs_678_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_678_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
+                   
+                        %% aot_869
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).aot_869_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).aot_869_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).aot_869_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        % aot_869
-                        
-                        valid_temp = [AQUA_Data_used(cond_1t).aot_869_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).aot_869_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).aot_869_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).aot_869_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).aot_869_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).aot_869_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).aot_869_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).aot_869_filtered_mean = [AQUA_Data_used(cond_1t_aux).aot_869_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).aot_869_filtered_mean = nan;
                         end
+                        clear cond_1t_aux                   
                         
-                        % angstrom
+                        %% angstrom
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).angstrom_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).angstrom_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).angstrom_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).angstrom_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).angstrom_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).angstrom_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).angstrom_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).angstrom_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).angstrom_median_CV= AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).angstrom_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).angstrom_filtered_mean = [AQUA_Data_used(cond_1t_aux).angstrom_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).angstrom_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
-                        % poc
+                        %% poc
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).poc_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).poc_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).poc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).poc_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).poc_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).poc_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).poc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).poc_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).poc_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).poc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).poc_filtered_mean = [AQUA_Data_used(cond_1t_aux).poc_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).poc_filtered_mean = nan;
                         end
+                        clear cond_1t_aux                        
                         
-                        % ag_412_mlrc
+                        %% ag_412_mlrc
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).ag_412_mlrc_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).ag_412_mlrc_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).ag_412_mlrc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).ag_412_mlrc_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
+
+                        %% chlor_a
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).chlor_a_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).chlor_a_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).chlor_a_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        % chlor_a
-                        
-                        valid_temp = [AQUA_Data_used(cond_1t).chlor_a_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).chlor_a_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).chlor_a_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).chlor_a_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).chlor_a_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).chlor_a_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = [AQUA_Data_used(cond_1t_aux).chlor_a_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
-                        % brdf
+                        %% brdf
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [AQUA_Data_used(cond_1t_aux).brdf_filtered_mean]<0;
+                        cond_area = [AQUA_Data_used(cond_1t_aux).brdf_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        AQUA_DailyStatMatrix(count).brdf_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).brdf_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [AQUA_Data_used(cond_1t).brdf_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).brdf_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).brdf_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).brdf_N_mean = nansum(filtered_valid_temp);
-                        
-                        AQUA_DailyStatMatrix(count).brdf_median_CV = AQUA_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).brdf_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              AQUA_DailyStatMatrix(count).brdf_filtered_mean = [AQUA_Data_used(cond_1t_aux).brdf_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).brdf_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                   end
             end
@@ -2628,270 +2683,348 @@ if process_data_flag
                         VIIRS_DailyStatMatrix(count).datetime =  date_idx(idx);
                         VIIRS_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         VIIRS_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
-                        
+                        VIIRS_DailyStatMatrix(count).idx_to_VIIRS_Data = find(cond_1t);
+
                         %% Rrs_410
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_410_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_410_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).Rrs_410_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).Rrs_410_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).Rrs_410_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).Rrs_410_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).Rrs_410_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).Rrs_410_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).Rrs_410_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_410_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% Rrs_443
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_443_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_443_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).Rrs_443_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).Rrs_443_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).Rrs_443_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).Rrs_443_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).Rrs_443_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).Rrs_443_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).Rrs_443_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_443_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% Rrs_486
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_486_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_486_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).Rrs_486_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).Rrs_486_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).Rrs_486_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).Rrs_486_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).Rrs_486_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).Rrs_486_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).Rrs_486_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_486_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% Rrs_551
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_551_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_551_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).Rrs_551_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).Rrs_551_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).Rrs_551_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).Rrs_551_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).Rrs_551_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).Rrs_551_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).Rrs_551_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_551_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% Rrs_671
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_671_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_671_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).Rrs_671_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).Rrs_671_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).Rrs_671_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).Rrs_671_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).Rrs_671_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).Rrs_671_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).Rrs_671_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_671_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% aot_862
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).aot_862_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).aot_862_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).aot_862_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).aot_862_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).aot_862_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).aot_862_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).aot_862_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).aot_862_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).aot_862_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = [VIIRS_Data_used(cond_1t_aux).aot_862_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% angstrom
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).angstrom_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).angstrom_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).angstrom_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).angstrom_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).angstrom_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).angstrom_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).angstrom_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).angstrom_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).angstrom_median_CV = VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = [VIIRS_Data_used(cond_1t_aux).angstrom_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% poc
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).poc_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).poc_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).poc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).poc_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).poc_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).poc_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).poc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).poc_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).poc_median_CV = VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).poc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).poc_filtered_mean = [VIIRS_Data_used(cond_1t_aux).poc_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).poc_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% ag_412_mlrc
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).ag_412_mlrc_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).ag_412_mlrc_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).ag_412_mlrc_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_median_CV = VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% chlor_a
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).chlor_a_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).chlor_a_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).chlor_a_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).chlor_a_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).chlor_a_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).chlor_a_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).chlor_a_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).chlor_a_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).chlor_a_median_CV= VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = [VIIRS_Data_used(cond_1t_aux).chlor_a_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = nan;
                         end
+                        clear cond_1t_aux
                         
                         %% brdf
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        cond_neg = [VIIRS_Data_used(cond_1t_aux).brdf_filtered_mean]<0;
+                        cond_area = [VIIRS_Data_used(cond_1t_aux).brdf_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux cond_area cond_neg
+
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                      
+                        VIIRS_DailyStatMatrix(count).brdf_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
-                        valid_temp = [VIIRS_Data_used(cond_1t).brdf_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
-                        
-                        mean_temp = [VIIRS_Data_used(cond_1t).brdf_filtered_mean];
-                        filtered_valid_temp = [VIIRS_Data_used(cond_1t).brdf_filtered_valid_pixel_count];
-                        VIIRS_DailyStatMatrix(count).brdf_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        VIIRS_DailyStatMatrix(count).brdf_N_mean = nansum(filtered_valid_temp);
-                        
-                        VIIRS_DailyStatMatrix(count).brdf_median_CV = VIIRS_Data_used(cond_1t).median_CV;
-                        
-                        if valid_temp_max >= total_px_GOCI/2.25/ratio_from_the_total; % half of the equivalent GOCI are for VIIRS
-                              VIIRS_DailyStatMatrix(count).brdf_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              VIIRS_DailyStatMatrix(count).brdf_filtered_mean = [VIIRS_Data_used(cond_1t_aux).brdf_filtered_mean];
                         else
                               VIIRS_DailyStatMatrix(count).brdf_filtered_mean = nan;
                         end
+                        clear cond_1t_aux              
                   end
             end
       end
