@@ -544,7 +544,7 @@ grid on
 process_data_flag = 1;
 
 count = 0;
-CV_lim = 10;
+CV_lim = 0.3;
 
 brdf_opt_vec = [0 3 7];
 
@@ -2221,16 +2221,14 @@ if process_data_flag
             end
       end
 end
-% Daily statistics for AQUA
+%% Daily statistics for AQUA
 
 count = 0;
 
 if process_data_flag
       clear AQUA_DailyStatMatrix AQUA_Data_used
       clear cond_1t cond1 cond2 cond_used
-      
-      
-      
+     
       first_day = datetime(AQUA_Data(1).datetime.Year,AQUA_Data(1).datetime.Month,AQUA_Data(1).datetime.Day);
       last_day = datetime(AQUA_Data(end).datetime.Year,AQUA_Data(end).datetime.Month,AQUA_Data(end).datetime.Day);
       
@@ -2251,7 +2249,6 @@ if process_data_flag
             clear cond_used
             
             for idx=1:size(date_idx,2)
-                  
                   % identify all the images for a specific day
                   cond_1t = date_idx(idx).Year==Year...
                         & date_idx.Month(idx)==Month...
@@ -2264,31 +2261,61 @@ if process_data_flag
                         AQUA_DailyStatMatrix(count).datetime =  date_idx(idx);
                         AQUA_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         AQUA_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
-                        
+                        AQUA_DailyStatMatrix(count).idx_to_AQUA_Data = find(cond_1t);
+
                         %% Rrs_412
+                        % only positive values
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        idx_aux = I([AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean]<0); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux
+                                                
+                        if sum(cond_1t_aux)>1
+                              disp('-------------------')
+                              disp('More than one image before half of area')
+                              idx
+                              [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]
+                              [AQUA_Data_used(cond_1t_aux).solz_center_value]
+                              show_next = 1;
+                        end
+                        % only if more of half of the area is valid
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        idx_aux = I([AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux
                         
-                        valid_temp = [AQUA_Data_used(cond_1t).Rrs_412_valid_pixel_count];
-                        % to find maximum valid pixel count
-                        I = find(cond_1t);
-                        [valid_temp_max,Itemp] = max(valid_temp);
-                        Imax = I(Itemp);
-                        cond_1t = 0.*cond_1t;
-                        cond_1t(Imax) = 1;
-                        cond_1t = logical(cond_1t);
+                        % to find min solar zenith angle
+                        if sum(cond_1t_aux)>1||show_next
+                              disp('-------------------')
+                              disp('More than one image before geometry')
+                              idx
+                              [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]
+                              [AQUA_Data_used(cond_1t_aux).solz_center_value]
+                              show_next = 0;
+                        end
+                        I = find(cond_1t_aux);
+                        [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                        Imin = I(Itemp);
+                        cond_1t_aux = 0.*cond_1t_aux;
+                        cond_1t_aux(Imin) = 1;
+                        cond_1t_aux = logical(cond_1t_aux);
                         
-                        mean_temp = [AQUA_Data_used(cond_1t).Rrs_412_filtered_mean];
-                        filtered_valid_temp = [AQUA_Data_used(cond_1t).Rrs_412_filtered_valid_pixel_count];
-                        AQUA_DailyStatMatrix(count).Rrs_412_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
-                        AQUA_DailyStatMatrix(count).Rrs_412_N_mean = nansum(filtered_valid_temp);
+%                         mean_temp = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean];
+%                         filtered_valid_temp = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_valid_pixel_count];
+%                         AQUA_DailyStatMatrix(count).Rrs_412_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+%                         AQUA_DailyStatMatrix(count).Rrs_412_N_mean = nansum(filtered_valid_temp);
                         
-                        AQUA_DailyStatMatrix(count).Rrs_412_median_CV = AQUA_Data_used(cond_1t).median_CV;
+                        AQUA_DailyStatMatrix(count).Rrs_412_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
-                        if valid_temp_max >= total_px_GOCI/4/ratio_from_the_total; % half of the equivalent GOCI are for AQUA
-                              AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = nansum(mean_temp.*filtered_valid_temp)./nansum(filtered_valid_temp);
+                        if sum(cond_1t_aux)~=0 % half of the equivalent GOCI are for AQUA
+                              AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean];
                         else
                               AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = nan;
                         end
-                        
+                        clear cond_1t_aux Imin Itemp
                         %% Rrs_443
                         
                         valid_temp = [AQUA_Data_used(cond_1t).Rrs_443_valid_pixel_count];
@@ -2558,7 +2585,7 @@ if process_data_flag
       end
 end
 
-% Daily statistics for VIIRS
+%% Daily statistics for VIIRS
 
 count = 0;
 
@@ -3103,8 +3130,10 @@ if process_data_flag
 end
 %
 % save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
-% Plot Monthly Rrs GOCI vs AQUA and VIIRS
+%% Plot Monthly Rrs GOCI vs AQUA and VIIRS
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+brdf_opt = 7;
 
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
@@ -3112,10 +3141,11 @@ for idx0 = 1:size(wl,2)
       %       eval(sprintf('plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.Rrs_%s_mean_first_six]);',wl{idx0}))
       %       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       %       grid on
+      cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt; 
       
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
-      data_used_x = [GOCI_MonthlyStatMatrix.datetime];
-      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_mean_mid_three];',wl{idx0}))
+      data_used_x = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
+      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three];',wl{idx0}))
       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12,'LineWidth',lw)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
@@ -3135,8 +3165,10 @@ for idx0 = 1:size(wl,2)
             wl_AQUA = '678';
       end
       
+      cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt; 
+      
       eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_mean]);',wl_AQUA));
-      cond_used = cond1;
+      cond_used = cond1&cond_brdf;
       
       eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_AQUA));
       data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
@@ -3169,8 +3201,10 @@ for idx0 = 1:size(wl,2)
             wl_VIIRS = '671';
       end
       
+      cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+      
       eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
-      cond_used = cond1;
+      cond_used = cond1&cond_brdf;
       
       eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_VIIRS));
       data_used_x = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
@@ -3234,8 +3268,10 @@ wl = {'412','443','490','555','660','680'};
 brdf_opt = 7;
 
 for idx = 1:size(wl,2)
+      cond_brdf = [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt;
+      
       eval(sprintf('cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_%s_mean_mid_three]);',wl{idx})); % ONLY FOR THE MIDDLE THREE IMAGES!!!
-      cond_used = cond1;
+      cond_used = cond1&cond_brdf;
       
       eval(sprintf('data_used_y = [GOCI_DailyStatMatrix(cond_used).Rrs_%s_mean_mid_three];',wl{idx}));
       data_used_x = [GOCI_DailyStatMatrix(cond_used).datetime];
@@ -4100,7 +4136,7 @@ nanmean([GOCI_DailyStatMatrix.Rrs_660_stdv_mean])
 nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])
 
 
-%% Scatter plots for Rrs
+%% Scatter plots for Rrs -- daily
 savedirname = '/Users/jconchas/Documents/Research/GOCI/Figures/';
 
 brdf_opt = 7;
@@ -4114,7 +4150,7 @@ VIIRS_used = VIIRS_DailyStatMatrix([VIIRS_DailyStatMatrix.brdf_opt]==brdf_opt);
 AQUA_used = AQUA_DailyStatMatrix([AQUA_DailyStatMatrix.brdf_opt]==brdf_opt);
 
 
-%% all in the same temporal grid
+% all in the same temporal grid
 min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
 
 max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
@@ -4143,7 +4179,7 @@ cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
 cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
 cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
 
-%%
+%
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
       %% For AQUA
@@ -4175,39 +4211,8 @@ for idx0 = 1:size(wl,2)
       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             wl_VIIRS = '671';
       end
-      
-      
-      %% GOCI Comparison with VIIRS
-%       % lower boundary
-%       a = find(VIIRS_date == GOCI_date(1)); % if VIIRS is older
-%       
-%       if ~isempty(a)
-%             V_low_index = a;
-%             G_low_index = 1;
-%       end
-%       
-%       b = find(VIIRS_date(1) == GOCI_date); % if GOCI is older
-%       
-%       if ~isempty(b)
-%             V_low_index = 1;
-%             G_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(VIIRS_date == GOCI_date(end));
-%       
-%       if ~isempty(c)
-%             V_upp_index = c;
-%             G_upp_index = size(GOCI_date,2);
-%       end
-%       
-%       d = find(VIIRS_date(end) == GOCI_date);
-%       
-%       if ~isempty(d)
-%             V_upp_index = size(VIIRS_date,2);
-%             G_upp_index = d;
-%       end
-      
+            
+      %% GOCI Comparison with VIIRS     
       [h1,ax1,leg1] = plot_sat_vs_sat('Rrs',wl{idx0},wl_VIIRS,'GOCI','VIIRS',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_%s_mean_mid_three]',wl{idx0})),...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_%s_filtered_mean]',wl_VIIRS)));
@@ -4215,73 +4220,13 @@ for idx0 = 1:size(wl,2)
       
       saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' wl{idx0}],'epsc')
       %% GOCI Comparison with AQUA
-      % lower boundary
-%       a = find(AQUA_date == GOCI_date(1)); % if AQUA is older
-%       
-%       if ~isempty(a)
-%             A_low_index = a;
-%             G_low_index = 1;
-%       end
-%       
-%       b = find(AQUA_date(1) == GOCI_date); % if GOCI is older
-%       
-%       if ~isempty(b)
-%             A_low_index = 1;
-%             G_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(AQUA_date == GOCI_date(end));
-%       
-%       if ~isempty(c)
-%             A_upp_index = c;
-%             G_upp_index = size(GOCI_date,2);
-%       end
-%       
-%       d = find(AQUA_date(end) == GOCI_date);
-%       
-%       if ~isempty(d)
-%             A_upp_index = size(AQUA_date,2);
-%             G_upp_index = d;
-%       end
-      
       [h2,ax2,leg2] = plot_sat_vs_sat('Rrs',wl{idx0},wl_AQUA,'GOCI','AQUA',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_%s_mean_mid_three]',wl{idx0})),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_%s_filtered_mean]',wl_AQUA)));
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' wl{idx0}],'epsc')
-      %% VIIRS Comparison with AQUA
-      % lower boundary
-%       a = find(AQUA_date == VIIRS_date(1)); % if AQUA is older
-%       
-%       if ~isempty(a)
-%             A_low_index = a;
-%             V_low_index = 1;
-%       end
-%       
-%       b = find(AQUA_date(1) == VIIRS_date); % if VIIRS is older
-%       
-%       if ~isempty(b)
-%             A_low_index = 1;
-%             V_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(AQUA_date == VIIRS_date(end));
-%       
-%       if ~isempty(c)
-%             A_upp_index = c;
-%             V_upp_index = size(VIIRS_date,2);
-%       end
-%       
-%       d = find(AQUA_date(end) == VIIRS_date);
-%       
-%       if ~isempty(d)
-%             A_upp_index = size(AQUA_date,2);
-%             V_upp_index = d;
-%       end
-      
+      %% VIIRS Comparison with AQUA      % lower boundary       
       [h3,ax3,leg3] = plot_sat_vs_sat('Rrs',wl_VIIRS,wl_AQUA,'VIIRS','AQUA',...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_VIIRS)),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_AQUA)));
@@ -4306,37 +4251,7 @@ for idx0 = 1:size(par,2)
             par_GOCI = par{idx0};
             par_AQUA = par{idx0};
             par_VIIRS = par{idx0};
-      end
-      
-%       % lower boundary
-%       a = find(VIIRS_date == GOCI_date(1)); % if VIIRS is older
-%       
-%       if ~isempty(a)
-%             V_low_index = a;
-%             G_low_index = 1;
-%       end
-%       
-%       b = find(VIIRS_date(1) == GOCI_date); % if GOCI is older
-%       
-%       if ~isempty(b)
-%             V_low_index = 1;
-%             G_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(VIIRS_date == GOCI_date(end));
-%       
-%       if ~isempty(c)
-%             V_upp_index = c;
-%             G_upp_index = size(GOCI_date,2);
-%       end
-%       
-%       d = find(VIIRS_date(end) == GOCI_date);
-%       
-%       if ~isempty(d)
-%             V_upp_index = size(VIIRS_date,2);
-%             G_upp_index = d;
-%       end
+      end      
       
       [h1,ax1,leg1] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','VIIRS',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_VG))).%s_mean_mid_three]',par_GOCI)),...
@@ -4345,37 +4260,8 @@ for idx0 = 1:size(par,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' par{idx0}],'epsc')
-      %% GOCI Comparison with AQUA
-      % lower boundary
-%       a = find(AQUA_date == GOCI_date(1)); % if AQUA is older
-%       
-%       if ~isempty(a)
-%             A_low_index = a;
-%             G_low_index = 1;
-%       end
-%       
-%       b = find(AQUA_date(1) == GOCI_date); % if GOCI is older
-%       
-%       if ~isempty(b)
-%             A_low_index = 1;
-%             G_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(AQUA_date == GOCI_date(end));
-%       
-%       if ~isempty(c)
-%             A_upp_index = c;
-%             G_upp_index = size(GOCI_date,2);
-%       end
-%       
-%       d = find(AQUA_date(end) == GOCI_date);
-%       
-%       if ~isempty(d)
-%             A_upp_index = size(AQUA_date,2);
-%             G_upp_index = d;
-%       end
-      
+
+      %% GOCI Comparison with AQUA   
       [h2,ax2,leg2] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','AQUA',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_AG))).%s_mean_mid_three]',par_GOCI)),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_AG))).%s_filtered_mean]',par_AQUA)));
@@ -4383,37 +4269,8 @@ for idx0 = 1:size(par,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' par{idx0}],'epsc')
+
       %% VIIRS Comparison with AQUA
-      % lower boundary
-%       a = find(AQUA_date == VIIRS_date(1)); % if AQUA is older
-%       
-%       if ~isempty(a)
-%             A_low_index = a;
-%             V_low_index = 1;
-%       end
-%       
-%       b = find(AQUA_date(1) == VIIRS_date); % if VIIRS is older
-%       
-%       if ~isempty(b)
-%             A_low_index = 1;
-%             V_low_index = b;
-%       end
-%       
-%       % upper boundary
-%       c = find(AQUA_date == VIIRS_date(end));
-%       
-%       if ~isempty(c)
-%             A_upp_index = c;
-%             V_upp_index = size(VIIRS_date,2);
-%       end
-%       
-%       d = find(AQUA_date(end) == VIIRS_date);
-%       
-%       if ~isempty(d)
-%             A_upp_index = size(AQUA_date,2);
-%             V_upp_index = d;
-%       end
-      
       [h3,ax3,leg3] = plot_sat_vs_sat(par{idx0},'NA','NA','VIIRS','AQUA',...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VA))).%s_filtered_mean]',par_VIIRS)),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_VA))).%s_filtered_mean]',par_AQUA)));
@@ -4422,6 +4279,147 @@ for idx0 = 1:size(par,2)
       
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' par{idx0}],'epsc')
 end
+
+%% Rrs ratios -- monthly
+savedirname = '/Users/jconchas/Documents/Research/GOCI/Figures/';
+
+clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
+
+brdf_opt = 7;
+
+GOCI_date = [GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+VIIRS_date = [VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+AQUA_date = [AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+
+GOCI_used = GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+VIIRS_used = VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+AQUA_used = AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+
+
+% all in the same temporal grid
+min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
+
+max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
+
+date_vec = min_date:calmonths(1):max_date;
+
+for idx=1:size(date_vec,2)
+      if ~isempty(find(GOCI_date==date_vec(idx),1))
+            GOCI_date_vec(idx) = find(GOCI_date==date_vec(idx)); % indexes
+      else
+            GOCI_date_vec(idx) = NaN;
+      end
+      if ~isempty(find(AQUA_date==date_vec(idx),1))
+            AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
+      else
+            AQUA_date_vec(idx) = NaN;
+      end      
+      if ~isempty(find(VIIRS_date==date_vec(idx),1))
+            VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
+      else
+            VIIRS_date_vec(idx) = NaN;
+      end
+end
+
+cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
+cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
+cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
+
+%
+wl = {'412','443','490','555','660','680'};
+
+% ratio: GOCI/MODISA Rrs(\lambda)
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
+
+x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_443_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_490_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_488_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_555_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_547_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_660_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_667_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+legend('412','443','490','555','660','680')
+xlabel('Time')
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('GOCI/MODISA ratio')
+grid on
+% ylim([-0.001 0.017])
+
+% ratio: GOCI/VIIRS Rrs(\lambda)
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
+
+x = [GOCI_used(GOCI_date_vec(find(cond_VG))).datetime];
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_412_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_443_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_490_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_486_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_555_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_551_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_660_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+% y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
+%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+legend('412','443','490','555','660')
+xlabel('Time')
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('GOCI/VIIRS ratio')
+grid on
+% ylim([-0.001 0.017])
+
+% ratio: AQUA/VIIRS Rrs(\lambda)
+fs = 16;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','AQUA/VIIRS ratio');
+
+x = [AQUA_used(AQUA_date_vec(find(cond_VA))).datetime];
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_412_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_443_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_488_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_486_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_547_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_551_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_667_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_671_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+% y = [AQUA_used(AQUA_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
+%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+legend('412','443','490','555','660')
+xlabel('Time')
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('MODISA/VIIRS ratio')
+grid on
+% ylim([-0.001 0.017])
 
 %% Daily AOT(865) and Angstrong
 lw = 1.5;
@@ -4470,21 +4468,63 @@ legend('GOCI','MODISA','VIIRS')
 %% Plot Monthly AOT(865) and Angstrong
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
+clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
+
+brdf_opt = 7;
+
+GOCI_date = [GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+VIIRS_date = [VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+AQUA_date = [AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+
+GOCI_used = GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+VIIRS_used = VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+AQUA_used = AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+
+
+% all in the same temporal grid
+min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
+
+max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
+
+date_vec = min_date:calmonths(1):max_date;
+
+for idx=1:size(date_vec,2)
+      if ~isempty(find(GOCI_date==date_vec(idx),1))
+            GOCI_date_vec(idx) = find(GOCI_date==date_vec(idx)); % indexes
+      else
+            GOCI_date_vec(idx) = NaN;
+      end
+      if ~isempty(find(AQUA_date==date_vec(idx),1))
+            AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
+      else
+            AQUA_date_vec(idx) = NaN;
+      end      
+      if ~isempty(find(VIIRS_date==date_vec(idx),1))
+            VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
+      else
+            VIIRS_date_vec(idx) = NaN;
+      end
+end
+
+cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
+cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
+cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
+
 % aot_865
 fs = 25;
 h1 = figure('Color','white','DefaultAxesFontSize',fs,'Name','AOT(865)');
-xdata = [GOCI_MonthlyStatMatrix.datetime];
-ydata = [GOCI_MonthlyStatMatrix.aot_865_mean_mid_three];
+xdata = [GOCI_used.datetime];
+ydata = [GOCI_used.aot_865_mean_mid_three];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
 
 hold on
-xdata = [AQUA_MonthlyStatMatrix.datetime];
-ydata = [AQUA_MonthlyStatMatrix.aot_869_mean];
+xdata = [AQUA_used.datetime];
+ydata = [AQUA_used.aot_869_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
 
 hold on
-xdata = [VIIRS_MonthlyStatMatrix.datetime];
-ydata = [VIIRS_MonthlyStatMatrix.aot_862_mean];
+xdata = [VIIRS_used.datetime];
+ydata = [VIIRS_used.aot_862_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
 ylabel('AOT(865)')
 grid on
@@ -4498,18 +4538,18 @@ saveas(gcf,[savedirname 'TimeSerie_AOT_865'],'epsc')
 
 % angstrom
 h2 = figure('Color','white','DefaultAxesFontSize',fs,'Name','Angstrom');
-xdata = [GOCI_MonthlyStatMatrix.datetime];
-ydata = [GOCI_MonthlyStatMatrix.angstrom_mean_mid_three];
+xdata = [GOCI_used.datetime];
+ydata = [GOCI_used.angstrom_mean_mid_three];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
 
 hold on
-xdata = [AQUA_MonthlyStatMatrix.datetime];
-ydata = [AQUA_MonthlyStatMatrix.angstrom_mean];
+xdata = [AQUA_used.datetime];
+ydata = [AQUA_used.angstrom_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'r','LineWidth',lw)
 
 hold on
-xdata = [VIIRS_MonthlyStatMatrix.datetime];
-ydata = [VIIRS_MonthlyStatMatrix.angstrom_mean];
+xdata = [VIIRS_used.datetime];
+ydata = [VIIRS_used.angstrom_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
 xlabel('Time')
 ylabel('Angstrom')
@@ -4651,7 +4691,7 @@ title('sola')
 
 %% GOCI L3
 fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Rrs');
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3');
 
 brdf_opt =7;
 cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -4753,7 +4793,10 @@ xlim
 ax.TickLabelInterpreter = 'none';
 
 % set(gcf, 'renderer','painters')
-
+legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660',...
+	'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667',...
+	'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
+	'Location','EastOutside')
 
 %%
 
