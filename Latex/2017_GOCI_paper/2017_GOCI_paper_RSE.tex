@@ -209,7 +209,9 @@ In order to have statistical confidence in the filtered mean value, NFP is requi
 
 \node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 
-\node (pass) [output, below of=zenith, yshift=-1cm] {Passed filtering criteria};
+\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[CV]$<3.0$?};
+
+\node (pass) [output, below of=CV, yshift=-1cm] {Passed filtering criteria};
 
 \node (out) [input, below of=pass, yshift=0.5cm, inner sep=6pt] {Filtered Mean};
 
@@ -221,8 +223,10 @@ In order to have statistical confidence in the filtered mean value, NFP is requi
 
 \draw [arrow] (enough) -- node[anchor=south] {NO} (fail);
 \draw [arrow] (zenith) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
+\draw [arrow] (CV) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
 \draw [arrow] (enough) -- node[anchor=east] {YES} (zenith);
-\draw [arrow] (zenith) -- node[anchor=east] {YES} (pass);
+\draw [arrow] (zenith) -- node[anchor=east] {YES} (CV);
+\draw [arrow] (CV) -- node[anchor=east] {YES} (pass);
 \draw [arrow] (pass) -- (out);
 
 \end{tikzpicture}
@@ -313,67 +317,67 @@ Time series for the $R_{rs}(\lambda)$ and Chlorophyll-{\it a} products are shown
 \begin{figure}[htb!]
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs412.eps} \put (50,23) {(a)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs412.eps} \put (90,28) {(a)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (79,60) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (82,67) {(b)}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs443.eps} \put (50,23) {(c)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs443.eps} \put (90,28) {(c)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (79,60) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (82,67) {(d)}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs490.eps} \put (50,23) {(e)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs490.eps} \put (90,28) {(e)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (79,60) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (82,67) {(f)}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs555.eps} \put (50,23) {(g)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs555.eps} \put (90,28) {(g)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (79,60) {(h)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (82,67) {(h)}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs660.eps} \put (50,23) {(i)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs660.eps} \put (90,28) {(i)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (79,60) {(j)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (82,67) {(j)}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(k)}
+      \begin{overpic}[trim=0 0 0 350,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(k)}
       \end{overpic}
     \end{minipage}   
 
@@ -385,7 +389,7 @@ Time series for the $R_{rs}(\lambda)$ and Chlorophyll-{\it a} products are shown
 \begin{figure}[htb!]
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(l)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(l)}
       \end{overpic}
     \end{minipage}  
     \hfill
@@ -397,7 +401,7 @@ Time series for the $R_{rs}(\lambda)$ and Chlorophyll-{\it a} products are shown
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Chla.eps} \put (50,23) {(n)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Chla.eps} \put (90,28) {(n)}
       \end{overpic}
     \end{minipage}  
     \hfill
@@ -409,7 +413,7 @@ Time series for the $R_{rs}(\lambda)$ and Chlorophyll-{\it a} products are shown
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(p)}
+      \begin{overpic}[trim=0 0 0 350,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(p)}
       \end{overpic}
     \end{minipage}   
 
@@ -423,7 +427,7 @@ The $R_{rs}$ and Chlorophyll-{\it a} mean values for the region of interest were
 \begin{figure}[htb!]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=10cm]{./Figures/Rrs_vs_Zenith.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=9cm]{./Figures/Rrs_vs_Zenith.eps}
       \end{overpic}
 	\end{minipage}  
 
@@ -435,11 +439,11 @@ The $R_{rs}$ and Chlorophyll-{\it a} mean values for the region of interest were
 \begin{figure}[htb!]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Chl_vs_Zenith.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Par_vs_Zenith.eps}
       \end{overpic}
 	\end{minipage}  
 
-    \caption{Chlor-{\it a} versus solar zenith angle. \label{fig:Chl_vs_zenith} } 
+    \caption{Chlor-{\it a}, $a_{g:mlrc}(412)$ and POC versus solar zenith angle. \label{fig:par_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -589,6 +593,18 @@ where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the d
 
     \caption{Cross-comparison. \label{fig:CrossComp} } 
 \end{figure}
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[htb!]
+
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=9cm]{./Figures/CrossComp_All_Rrs.eps}
+      \end{overpic}
+
+
+    \caption{Cross-comparison for all wavelengths. \label{fig:CrossCompAllRrs} } 
+\end{figure}
+
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%

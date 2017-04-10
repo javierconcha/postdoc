@@ -74,13 +74,13 @@ save('GOCI_TempAnly.mat','VIIRS_Data','-append')
 toc
 %%
 load('GOCI_TempAnly.mat','GOCI_Data')
-%%
-% fs = 24;
-% h1 =  figure('Color','white','DefaultAxesFontSize',fs);
+%% Time series Rrs
+fs = 24;
+h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
-zenith_lim = 100;
+solz_lim = 75;
 xrange = 0.02;
 startDate = datenum('01-01-2011');
 endDate = datenum('01-01-2017');
@@ -88,288 +88,334 @@ xData = startDate:datenum(years(1)):endDate;
 
 lw = 1.5;
 fs = 25;
-% % %
-% % % % Rrs_412
-% % % cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
-% % %
-% % %
-% % % figure(h1)
-% % % subplot(6,1,1)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(412)','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-% % % % Rrs_443
-% % % cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
-% % %
-% % % figure(h1)
-% % % subplot(6,1,2)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(443)','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-% % % % Rrs_490
-% % % cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
-% % %
-% % % figure(h1)
-% % % subplot(6,1,3)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(490)','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-% % % % Rrs_555
-% % % cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
-% % %
-% % % figure(h1)
-% % % subplot(6,1,4)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(555)','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(555) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-% % % % Rrs_660
-% % % cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
-% % %
-% % % figure(h1)
-% % % subplot(6,1,5)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(660)','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-% % % % Rrs_680
-% % % cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-% % % cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
-% % %
-% % %
-% % % figure(h1)
-% % % subplot(6,1,6)
-% % % plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')%
-% % % set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % % % set(gca,'XTickLabel',{' '})
-% % % ylabel('R_{rs}(680)','FontSize',fs)
-% % % xlabel('Time','FontSize',fs)
-% % % grid on
-% % %
-% % % N = nansum(cond_used);
-% % % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist(data_used,50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
-% % % % xlim([-1*xrange xrange])
-% % %
-% % % str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
-% % %       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-% % %
-% % % xLimits = get(gca,'XLim');
-% % % yLimits = get(gca,'YLim');
-% % % xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% % % yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% % % figure(h)
-% % % hold on
-% % % text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% % % grid on
-% % %
-%% GOCI Rrs vs time and solar zenith angle vs time
-% % %
-% % % % cond_used = 11064-7:11064+23;
-% % % % cond_used = 1:size(GOCI_Data,2);
-% % % % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-% % %
-% % % wl = '680'; % 412 443 490 555 660 680
-% % % eval(sprintf('cond1 = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl));
-% % % eval(sprintf('cond2 = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl));
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1 & cond2 & cond3;
-% % %
-% % % eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl));
-% % % data_used_x = [GOCI_Data(cond_used).datetime];
-% % %
-% % % fs = 25;
-% % % h1 = figure('Color','white','DefaultAxesFontSize',fs);
-% % % subplot(2,1,1)
-% % % hold on
-% % % plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.','MarkerSize',12)
-% % % eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl));
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')%
-% % % % set(gca,'XTickLabel',{' '})
-% % % grid on
-% % %
-% % % subplot(2,1,2)
-% % % hold on
-% % % plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.')
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % xlabel('Time','FontSize',fs)
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')%
-% % % % set(gca,'XTickLabel',{' '})
-% % % grid on
+
+% Rrs_412
+cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
+
+
+figure(h1)
+subplot(6,1,1)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(412)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_443
+cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
+
+figure(h1)
+subplot(6,1,2)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(443)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_490
+cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
+
+figure(h1)
+subplot(6,1,3)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(490)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_555
+cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
+
+figure(h1)
+subplot(6,1,4)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(555)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(555) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_660
+cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
+
+figure(h1)
+subplot(6,1,5)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(660)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_680
+cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
+
+
+figure(h1)
+subplot(6,1,6)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+% set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(680)','FontSize',fs)
+xlabel('Time','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+%% Time Serie: GOCI Rrs vs time, and solar zenith angle vs time
+
+% cond_used = 11064-7:11064+23;
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+wl = {'412','443','490','555','660','680'};
+
+for idx = 1:size(wl,2)
+      eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl{idx}));
+      eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl{idx}));
+      cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+      cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+      cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+      cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+      cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+      
+      eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl{idx}));
+      data_used_x = [GOCI_Data(cond_used).datetime];
+      
+      % plot time serie
+      fs = 25;
+      figure('Color','white','DefaultAxesFontSize',fs,'units','normalized','outerposition',[0 0 1 1]);
+      subplot(2,1,1)
+      hold on
+      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.b','MarkerSize',12)
+      eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx}));
+      ax = gca;
+      ax.XTick = xData;
+      datetick('x','yyyy')%
+%       ax.YAxis.TickLabelFormat = '%,.0f';
+%       ylim([-0.01 0.03])
+      grid on
+      
+      subplot(2,1,2)
+      hold on
+      plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.b','MarkerSize',12)
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      xlabel('Time','FontSize',fs)
+      ylim([0 80])
+      ax = gca;
+      ax.XTick = xData;
+      datetick('x','yyyy')%
+      grid on
+      
+      % save fullscreen figure
+%       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
+      set(gcf,'PaperPositionMode', 'auto')
+%       print('-depsc2', [savedirname 'TimeSerie_Rrs' wl{idx}])
+      saveas(gcf,[savedirname 'TimeSerie_Rrs' wl{idx}],'epsc')
+
+      % histogram
+      N = nansum(cond_used);
+      % fs = 20;
+      figure('Color','white','DefaultAxesFontSize',fs);
+      [counts,centers] = hist(data_used_y,50);
+      plot(centers,counts*100/N,'b-','LineWidth',1.5)
+      ylabel('Frequency (%)','FontSize',fs)
+      eval(sprintf('xlabel(''R_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl{idx}));
+      % xlim([-1*xrange xrange])
+      
+      str1 = sprintf('N: %i\nmean: %2.5f \nmax: %2.5f \nmin: %2.5f \nSD: %2.5f',...
+            N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
+      
+      xLimits = get(gca,'XLim');
+      yLimits = get(gca,'YLim');
+      xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
+      yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+      figure(gcf)
+      hold on
+      text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+      grid on
+
+      saveas(gcf,[savedirname 'Hist_Rrs' wl{idx}],'epsc')
+end
+
 %% show high solar zenith angle and no valid data
 % % % subplot(2,1,1)
 % % % hold on
@@ -385,141 +431,198 @@ fs = 25;
 % % % hold on
 % % % plot([GOCI_Data(~cond3).datetime],[GOCI_Data(~cond3).center_ze],'.g','MarkerSize',12)
 %% Chlr_a
-% % %
-% % % % cond_used = 11064-7:11064+23;
-% % % % cond_used = 1:size(GOCI_Data,2);
-% % % % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-% % % cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-% % % cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % fs = 25;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % subplot(2,1,1)
-% % % plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).chlor_a_filtered_mean],'.','MarkerSize',20)
-% % % ylabel('Chlor\_a','FontSize',fs)
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')%
-% % % % set(gca,'XTickLabel',{' '})
-% % % grid on
-% % %
-% % % subplot(2,1,2)
-% % % plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.')
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % xlabel('Time','FontSize',fs)
-% % % ax = gca;
-% % % ax.XTick = xData;
-% % % datetick('x','yyyy')%
-% % % % set(gca,'XTickLabel',{' '})
-% % % grid on
-% % %
-% % %
-% % % N = nansum(cond_used);
-% % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % [counts,centers] = hist([GOCI_Data(cond_used).chlor_a_filtered_mean],50);
-% % % plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% % % ylabel('Frequency (%)','FontSize',fs)
-% % % xlabel('Chlor\_a','FontSize',fs)
-% % % grid on
-% % %
-%% mean rrs vs zenith
+
+% cond_used = 11064-7:11064+23;
+% cond_used = 1:size(GOCI_Data,2);
+% cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
+cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
+cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+fs = 25;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).chlor_a_filtered_mean],'.b','MarkerSize',20)
+ylabel('Chlor\_a','FontSize',fs)
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+% set(gca,'XTickLabel',{' '})
+grid on
+
+subplot(2,1,2)
+plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).center_ze],'.b','MarkerSize',20)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+xlabel('Time','FontSize',fs)
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+% set(gca,'XTickLabel',{' '})
+grid on
+
+
+N = nansum(cond_used);
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist([GOCI_Data(cond_used).chlor_a_filtered_mean],50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('Chlor\_a','FontSize',fs)
+grid on
+
+%% mean rrs vs zenith -- filtered
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
 fs = 25;
-ms = 14;
+ms = 4;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
 h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs_412
-cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 subplot(2,3,1)
-plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(412)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs_443
-cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 subplot(2,3,2)
-plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(443)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs_490
-cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 subplot(2,3,3)
-plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(490)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs_555
-cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 subplot(2,3,4)
-plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(555)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs_660
-cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 subplot(2,3,5)
-plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(660)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 % Rrs_680
-cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-cond_used = cond1&cond2&cond3;
+cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 subplot(2,3,6)
-plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
+plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
 xlabel('R_{rs}(680)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 
-%% chl vs zenith
-% % %
-% % % % cond_used = 11064-7:11064+23;
-% % % % cond_used = 1:size(GOCI_Data,2);
-% % % % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-% % %
-% % %
-% % % cond1 = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
-% % % cond2 = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% % % cond3 = [GOCI_Data.center_ze] <= zenith_lim;
-% % % cond_used = cond1&cond2&cond3;
-% % %
-% % % fs = 20;
-% % % h = figure('Color','white','DefaultAxesFontSize',fs);
-% % % plot([GOCI_Data(cond_used).chlor_a_filtered_mean],[GOCI_Data(cond_used).center_ze],'.','MarkerSize',ms)
-% % % xlabel('Chlor-\it{a}','FontSize',fs)
-% % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-% % % grid on
+%% par vs zenith
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% chlor_a
+cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
+cond_area = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,1)
+plot([GOCI_Data(cond_used).chlor_a_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+xlabel('Chlor-\it{a}','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% ag_412_mlrc
+cond_nan = ~isnan([GOCI_Data.ag_412_mlrc_filtered_mean]);
+cond_area = [GOCI_Data.ag_412_mlrc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,2)
+plot([GOCI_Data(cond_used).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% poc
+cond_nan = ~isnan([GOCI_Data.poc_filtered_mean]);
+cond_area = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,3)
+plot([GOCI_Data(cond_used).poc_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+xlabel('POC','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
 % % %
 % % %
 %% Capture time analysis
@@ -536,11 +639,8 @@ grid on
 % % % ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 % % % xlabel('Time','FontSize',fs)
 % % % grid on
-%% Daily statistics for GOCI
 
-% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= 65;
-% cond_used = cond3 & cond2;
+%% Daily statistics for GOCI
 process_data_flag = 1;
 
 count = 0;
@@ -3263,6 +3363,73 @@ if process_data_flag
 end
 %
 % save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
+
+%% mean rrs vs zenith -- filtered
+
+fs = 25;
+ms = 14;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% Rrs_412
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_412_filtered_mean]);
+cond_used = cond1;
+
+subplot(2,3,1)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_412_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(412)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_443
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_443_mean_mid_three]);
+cond_used = cond1;
+
+subplot(2,3,2)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_443_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(443)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_490
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_490_mean_mid_three]);
+cond_used = cond1;
+
+subplot(2,3,3)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_490_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(490)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_555
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_555_mean_mid_three]);
+cond_used = cond1;
+
+subplot(2,3,4)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_555_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(555)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_660
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_660_mean_mid_three]);
+cond_used = cond1;
+
+subplot(2,3,5)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_660_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(660)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+% Rrs_680
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_680_mean_mid_three]);
+cond_used = cond1;
+
+subplot(2,3,6)
+plot([GOCI_DailyStatMatrix(cond_used).Rrs_680_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+xlabel('R_{rs}(680)','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
 %% Plot Monthly Rrs GOCI vs AQUA and VIIRS
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -3410,7 +3577,7 @@ for idx = 1:size(wl,2)
       end
       
       eval(sprintf('cond1 = ~isnan([AQUA_DailyStatMatrix.Rrs_%s_filtered_mean]);',wl_AQUA));
-      % cond3 = [AQUA_Data.center_ze] <= zenith_lim;
+      % cond3 = [AQUA_Data.center_ze] <= solz_lim;
       cond4 = [AQUA_DailyStatMatrix.datetime] >= nanmin([GOCI_Data.datetime]) &...
             [AQUA_DailyStatMatrix.datetime] <= nanmax([GOCI_Data.datetime]);
       cond_used = cond1 &cond4 & cond_brdf;
@@ -3449,7 +3616,7 @@ for idx = 1:size(wl,2)
       end
       
       eval(sprintf('cond1 = ~isnan([VIIRS_DailyStatMatrix.Rrs_%s_filtered_mean]);',wl_VIIRS));
-      % cond3 = [VIIRS_Data.center_ze] <= zenith_lim;
+      % cond3 = [VIIRS_Data.center_ze] <= solz_lim;
       cond4 = [VIIRS_DailyStatMatrix.datetime] >= nanmin([GOCI_Data.datetime]) &...
             [VIIRS_DailyStatMatrix.datetime] <= nanmax([GOCI_Data.datetime]);
       cond_used = cond1 & cond4 & cond_brdf;
@@ -4793,11 +4960,12 @@ subplot(5,1,5)
 plot([VIIRS_Data.datetime],[VIIRS_Data.sola_center_value],'o')
 title('sola')
 
-%% GOCI L3
-fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3');
-
+%% Time series for all Rrs
 brdf_opt =7;
+fs = 20;
+lw = 2.0;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3');
+% GOCI
 cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 x = [GOCI_MonthlyStatMatrix(cond).datetime];
 y = [GOCI_MonthlyStatMatrix(cond).Rrs_412_mean_mid_three];
@@ -4810,25 +4978,28 @@ plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[0 0.5 1],'LineWidth',lw)
 y = [GOCI_MonthlyStatMatrix(cond).Rrs_555_mean_mid_three];
 plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[0 0.5 0],'LineWidth',lw)
 y = [GOCI_MonthlyStatMatrix(cond).Rrs_660_mean_mid_three];
-plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[1 0.5 0.5],'LineWidth',lw)
-ylim([-0.001 0.017])
+plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[1 0 0],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).Rrs_680_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[1 0.5 0],'LineWidth',lw)
 
-grid on
-ax = gca;
-ax.YAxis.Exponent = 0;
-ax.YAxis.MinorTick = 'on';
-ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
-ax.YTick = [0.000 0.005 0.010 0.015];
-ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
-xlim(datenum(datetime([2012 2017],[1 1],[1 1])))
-ax.XTickLabel = {'2013','2014','2015','2016',''};
+% AQUA
+cond = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [AQUA_MonthlyStatMatrix(cond).datetime];
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_488_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_547_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_667_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0 0],'LineWidth',lw)
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_678_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
 
-ax.TickLabelInterpreter = 'none';
-
-% VIIRS L3
-fs = 16;
-% h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Rrs');
-
+% VIIRS
 brdf_opt =7;
 cond = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 x = [VIIRS_MonthlyStatMatrix(cond).datetime];
@@ -4842,7 +5013,7 @@ plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[0 0.5 1],'LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_551_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[0 0.5 0],'LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_671_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[1 0.5 0.5],'LineWidth',lw)
+plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[1 0 0],'LineWidth',lw)
 ylim([-0.001 0.017])
 
 grid on
@@ -4852,53 +5023,21 @@ ax.YAxis.MinorTick = 'on';
 ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
 ax.YTick = [0.000 0.005 0.010 0.015];
 ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
-xlim(datenum(datetime([2012 2017],[1 1],[1 1])))
-ax.XTickLabel = {'2013','2014','2015','2016',''};
+xlim(datenum(datetime([2011 2017],[1 1],[1 1])))
+% ax.XTickLabel = {'2011','2013','2014','2015','2016',''};
+ax.XTick = (datenum([datetime(2011,1,1) datetime(2012,1,1) datetime(2013,1,1) ...
+      datetime(2014,1,1) datetime(2015,1,1) datetime(2016,1,1) datetime(2017,1,1)]));
 
 ax.TickLabelInterpreter = 'none';
 
-% set(gcf, 'renderer','painters')
-
-
-% AQUA L3
-fs = 16;
-% h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Rrs');
-
-brdf_opt =7;
-cond = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
-x = [AQUA_MonthlyStatMatrix(cond).datetime];
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_412_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
-hold on
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_443_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_488_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_547_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_667_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0.5],'LineWidth',lw)
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_678_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0.5],'LineWidth',lw)
-
-ylim([-0.001 0.017])
-
-grid on
-ax = gca;
-ax.YAxis.Exponent = 0;
-ax.YAxis.MinorTick = 'on';
-ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
-ax.YTick = [0.000 0.005 0.010 0.015];
-ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
-xlim
-% xlim(datenum(datetime([2002 2017],[1 1],[1 1])))
-% ax.XTickLabel = {'2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016',''};
-
-ax.TickLabelInterpreter = 'none';
+xlabel('Time','FontSize',fs+4)
+ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs+4)
 
 % set(gcf, 'renderer','painters')
-legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660',...
-	'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667',...
+
+% set(gcf, 'renderer','painters')
+legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660','GOCI 680',...
+	'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667','MODISA 678',...
 	'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
 	'Location','EastOutside')
 
