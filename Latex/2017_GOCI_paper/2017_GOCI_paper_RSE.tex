@@ -66,6 +66,8 @@ NASA Goddard Space Flight Center,
 
 \author[oeladdress]{Bryan Franz}
 
+\author[oeladdress]{Amir Ibrahim}
+
 \author[kiostaddress]{Wonkook Kim}
 
 \author[usgsaddress]{Michael Ondrusek}
@@ -79,32 +81,31 @@ NASA Goddard Space Flight Center,
 \begin{abstract}
 
 % Background/motivation/context
-The GOCI sensor, the first ever geostationary satellite dedicated for ocean color, presents a unique opportunity to investigate diurnal dynamics by taking advantage of its eight images per day.
+Short-term (hours) biological and biogeochemical processes cannot be captured by heritage ocean color satellites because their temporal resolution is limited to potentially one clear image per day. 
 %
-
+Geostationary satellites, such as the Geostationary Ocean Color Imager (GOCI), allow the study of these short-term processes because their orbits permits the collection of multiple images throughout each day. 
 % Aim/objectives(s)/problem statement
-GOCI observations allow us to test NASA’s standard atmospheric correction approach over the same locations on the earth for a range of solar geometries.
-%
-The SeaDAS/l2gen package (NASA’s ocean color satellite data processing software) has recently added the capability to handle GOCI data and produce ocean color standard products.
+In order to be able to detect the changes in the water properties caused by these processes, the levels of uncertainties introduced by the instrument and/or algorithms need to be assessed first.
+% 
+This work presents a study of the variability during the day over a water region of low-productivity with the assumption that only small changes in the water properties occur during the day over the area of study. 
 % Methods
-
+The complete GOCI mission data were processed to level 2 using the SeaDAS/l2gen package.
 %
-
+Filtering criteria were applied to assure the quality of the data. 
 %
-Because the errors introduced by the atmospheric correction could contribute to an over or underestimation of the changes in these short-term processes, there is a need to have an estimation of the uncertainties introduced by the atmospheric correction.
+Relative differences with respect to the daily mean were calculated for each time of the day. 
 %
-NASA’s standard atmospheric correction approach included in the SeaDAS/l2gen package is tested.
+Also, the relationship between the solar zenith angle and remote sensing reflectances was analyzed.
 %
-Application of GOCI products to study diurnal and day-to-day biogeochemical stocks and processes.
+The GOCI time series was compared to the MODIS/Aqua and Suomi-NPP VIIRS missions.
 % Results
-
+Preliminary results suggest that the last two images of the day deviate significantly from the prior six hourly images, presenting errors on the order of $30\%$ or higher in the blue and green bands, and higher than $50\%$ in the red bands. 
 %
- 
-%
-
+Additionally, the atmospheric correction begins to fail for solar zenith angles greater than 60 degrees. 
 % Conclusions
 
 %
+
 
 \end{abstract}
 
@@ -137,7 +138,7 @@ The images used in this analysis comprehend from the beginning of the GOCI's mis
 % ---------------------------------------------------------------
 \subsection{Study site}
 
-The area of study (\autoref{fig:AreaOfStudy}) covers clear, low-productivity waters (open ocean) located to the south of Japan with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. The area of study is $2000\times 1000$ GOCI pixels, and therefore, covering approximately two millions GOCI pixels ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels), equivalent to $500,000\ km^2$.  
+The area of study (\autoref{fig:AreaOfStudy}) covers clear, low-productivity waters (open ocean) located to the south of Japan with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. The area of study is approximately $2000\times 1000$ GOCI pixels, and therefore, covering approximately two millions GOCI pixels ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels), equivalent to $500,000\ km^2$.  
 
 % ---------------------------------------------------------------
 \begin{figure}[ht]
@@ -209,7 +210,7 @@ In order to have statistical confidence in the filtered mean value, NFP is requi
 
 \node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 
-\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[CV]$<3.0$?};
+\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[CV]$<0.3$?};
 
 \node (pass) [output, below of=CV, yshift=-1cm] {Passed filtering criteria};
 
@@ -389,31 +390,55 @@ Time series for the $R_{rs}(\lambda)$ and Chlorophyll-{\it a} products are shown
 \begin{figure}[htb!]
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(l)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.8cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(l)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (75,60) {(m)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (78,68) {(m)}
       \end{overpic} 
     \end{minipage} 
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Chla.eps} \put (90,28) {(n)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_chlor_a.eps} \put (90,28) {(n)}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Chla.eps} \put (75,60) {(o)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_chlor_a.eps} \put (78,25) {(o)}
       \end{overpic} 
     \end{minipage}        
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 350,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(p)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_ag_412_mlrc.eps} \put (90,28) {(p)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_ag_412_mlrc.eps} \put (78,25) {(q)}
+      \end{overpic} 
+    \end{minipage}    
+
+        \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.7cm]{./Figures/TimeSerie_poc.eps} \put (90,28) {(r)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_poc.eps} \put (78,25) {(s)}
+      \end{overpic} 
+    \end{minipage}    
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 350,clip,height=3.9cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(t)}
       \end{overpic}
     \end{minipage}   
 
@@ -604,30 +629,27 @@ where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the d
 
     \caption{Cross-comparison for all wavelengths. \label{fig:CrossCompAllRrs} } 
 \end{figure}
-
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[htb!]
-    \begin{minipage}[c]{1.0\linewidth}
+    \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_chlor_a.eps} \put (9,30) {(a)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_MODISA.eps} \put (15,70) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_VIIRS.eps} \put (15,70) {(b)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_MODISA_VIIRS.eps} \put (15,70) {(c)}
       \end{overpic}
     \end{minipage} 
 
-    \begin{minipage}[c]{1.0\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_ag_412_mlrc.eps} \put (9,30) {(b)}
-      \end{overpic}
-    \end{minipage} 
-
-    \begin{minipage}[c]{1.0\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_poc.eps} \put (9,30) {(c)}
-      \end{overpic}
-    \end{minipage} 
-
-    \caption{Time Series for derived geophysical parameters. \label{fig:GOCI_TimeSeries_geophysical_par} } 
+    \caption{Ratios. \label{fig:ratios} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -635,26 +657,157 @@ where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the d
 \begin{figure}[htb!]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_chlor_a.eps} \put (9,30) {(d)}
       \end{overpic}
     \end{minipage}   
     
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {(e)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_ag_412_mlrc.eps} \put (9,30) {(e)}
       \end{overpic}
     \end{minipage}       
 
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_brdf.eps} \put (9,30) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_poc.eps} \put (9,30) {(f)}
       \end{overpic}
     \end{minipage} 
 
-    \caption{Time Series for derived geophysical paremeters (Angstrom and AOT(865)) and atmospheric correction intermediate (BRDF). \label{fig:GOCI_TimeSeries_intermed_par} } 
+    \caption{Time Series comparison with MODISA and VIIRS for chlor-{\it a}, $a_{g:mlrc}(412)$ and POC. \label{fig:GOCI_TimeSeriesComp_par} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
+% %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+% \begin{figure}[htb!]
+%     \begin{minipage}[c]{1.0\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {(d)}
+%       \end{overpic}
+%     \end{minipage}   
+    
+%     \begin{minipage}[c]{1.0\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {(e)}
+%       \end{overpic}
+%     \end{minipage}       
+
+%     \begin{minipage}[c]{1.0\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_brdf.eps} \put (9,30) {(f)}
+%       \end{overpic}
+%     \end{minipage} 
+
+%     \caption{Time Series for derived geophysical paremeters (Angstrom and AOT(865)) and atmospheric correction intermediate (BRDF). \label{fig:GOCI_TimeSeries_intermed_par} } 
+% \end{figure}
+% %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_412.eps} \put (80,30) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_412.eps} \put (80,30) {(b)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_412.eps} \put (80,30) {(c)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_443.eps} \put (80,30) {(d)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_443.eps} \put (80,30) {(e)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_443.eps} \put (80,30) {(f)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_490.eps} \put (80,30) {(g)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_490.eps} \put (80,30) {(h)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_490.eps} \put (80,30) {(i)}
+      \end{overpic}
+    \end{minipage} 
+
+    \caption{Scatter Rrs. \label{fig:scatterRrs} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_555.eps} \put (80,30) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_555.eps} \put (80,30) {(b)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_555.eps} \put (80,30) {(c)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_660.eps} \put (80,30) {(d)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_660.eps} \put (80,30) {(e)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_660.eps} \put (80,30) {(f)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_680.eps} \put (80,30) {(g)}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_680.eps} \put (80,30) {(h)}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_680.eps} \put (80,30) {(i)}
+      \end{overpic}
+    \end{minipage} 
+
+    \caption{Scatter Rrs (cont'). \label{fig:scatterRrs} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Plane-parallel versus Pseudo-Spherical geometry}
 
