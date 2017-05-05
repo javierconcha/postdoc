@@ -1099,7 +1099,7 @@ jconchas@anly104:~/ocssw/
 --------------------------------------------------
 2016-04-06 Wed
 to checkout in my local machine (gs616-tidal):
-$ svc co svn://localhost/OCSSW/trunk ocssw
+$ svn co svn://localhost/OCSSW/trunk ocssw
 q
 to tunnel the svn server:
 $ssh jconchas@obpg-torii.sci.gsfc.nasa.gov  -f -N -L3690:svn101:3690 

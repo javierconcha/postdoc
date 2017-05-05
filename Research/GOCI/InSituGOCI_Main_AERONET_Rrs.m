@@ -107,6 +107,13 @@ end
 %               2   4   7   11  12  17  N/A N/A
 %               1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17 
 % wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
+
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.15;
+
+total_px_GOCI = 7*7;
+ratio_from_the_total = 2;
           
 clear Matchup
 
@@ -117,10 +124,15 @@ for idx1=1:size(InSitu,2)
       
       % Rrs_412
       
-      Matchup(idx1).Rrs_412_ins = InSitu(idx1).Rrs(2 );
-      cond1 = [SatData.Rrs_412_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      Matchup(idx1).Rrs_412_ins = InSitu(idx1).Rrs(2);
+      cond_enough = [SatData.Rrs_412_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_412_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_412_sat = SatData(IdxOrig(idx_aux)).Rrs_412_filtered_mean;
@@ -132,10 +144,15 @@ for idx1=1:size(InSitu,2)
 
       % Rrs_443
       
-      Matchup(idx1).Rrs_443_ins = InSitu(idx1).Rrs(4 );
-      cond1 = [SatData.Rrs_443_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      Matchup(idx1).Rrs_443_ins = InSitu(idx1).Rrs(4);
+      cond_enough = [SatData.Rrs_443_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_443_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_443_sat = SatData(IdxOrig(idx_aux)).Rrs_443_filtered_mean;
@@ -147,10 +164,15 @@ for idx1=1:size(InSitu,2)
 
        % Rrs_490
 
-      Matchup(idx1).Rrs_490_ins = InSitu(idx1).Rrs(7 );
-      cond1 = [SatData.Rrs_490_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      Matchup(idx1).Rrs_490_ins = InSitu(idx1).Rrs(7);
+      cond_enough = [SatData.Rrs_490_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_490_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_490_sat = SatData(IdxOrig(idx_aux)).Rrs_490_filtered_mean;
@@ -163,9 +185,14 @@ for idx1=1:size(InSitu,2)
       % Rrs_555
       
       Matchup(idx1).Rrs_555_ins = InSitu(idx1).Rrs(11);
-      cond1 = [SatData.Rrs_555_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      cond_enough = [SatData.Rrs_555_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_555_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_555_sat = SatData(IdxOrig(idx_aux)).Rrs_555_filtered_mean;
@@ -178,9 +205,14 @@ for idx1=1:size(InSitu,2)
       % Rrs_660
       
       Matchup(idx1).Rrs_665_ins = InSitu(idx1).Rrs(12);
-      cond1 = [SatData.Rrs_660_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      cond_enough = [SatData.Rrs_660_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_660_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_660_sat = SatData(IdxOrig(idx_aux)).Rrs_660_filtered_mean;
@@ -193,15 +225,25 @@ for idx1=1:size(InSitu,2)
       % Rrs_680
       % For in situ @ 678 nm
       Matchup(idx1).Rrs_678_ins = InSitu(idx1).Rrs(16);
-      cond1 = [SatData.Rrs_680_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond1); % to convert to the original matrix
+      cond_enough = [SatData.Rrs_680_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      cond_pos = [SatData.Rrs_680_filtered_mean] >0;
+      cond_solz = [SatData.solz_center_value] <= solz_lim;
+      cond_senz = [SatData.senz_center_value] <= senz_lim;
+      cond_median_CV = [SatData.median_CV] <= CV_lim;
+      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
+      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      IdxOrig = find(cond_used); % to convert to the original matrix
 
       % % For in situ @ 681 nm
       % Matchup(idx1).Rrs_681_ins = InSitu(idx1).Rrs(17);
-      % cond1 = [SatData.Rrs_680_valid_pixel_count]>=9/2+1; % enough valid pixels for a 3x3 window?     
-      % [t_diff,idx_aux] = min(abs([SatData(cond1).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      % IdxOrig = find(cond1); % to convert to the original matrix
+      % cond_enough = [SatData.Rrs_680_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
+      % cond_pos = [SatData.Rrs_412_filtered_mean] >0;% 
+      % cond_solz = [SatData.solz_center_value] <= solz_lim;
+      % cond_senz = [SatData.senz_center_value] <= senz_lim;
+      % cond_median_CV = [SatData.median_CV] <= CV_lim;
+      % cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;    % % 
+      % % [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+      % IdxOrig = find(cond_used); % to convert to the original matrix
       
       if t_diff<=hours(3)
             Matchup(idx1).Rrs_680_sat = SatData(IdxOrig(idx_aux)).Rrs_680_filtered_mean;
@@ -214,31 +256,66 @@ for idx1=1:size(InSitu,2)
 end
 %%
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat]);
-legend off
-set(gcf, 'renderer','painters')
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat]);
-legend off
-set(gcf, 'renderer','painters')
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat]);
-legend off
-set(gcf, 'renderer','painters')
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat]);
-legend off
-set(gcf, 'renderer','painters')
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat]);
-legend off
-set(gcf, 'renderer','painters')
+% latex table
+!rm ./MyTable.tex
+FID = fopen('./MyTable.tex','w');
 
+fprintf(FID,'\\begin{tabular}{ccccccccccccc} \n \\hline \n');
+
+fprintf(FID, 'Sat (nm) ');
+fprintf(FID, '& InSitu (nm) ');
+fprintf(FID, '& $R^2$ ');
+fprintf(FID, '& Regression ');
+fprintf(FID, '& RMSE ');
+fprintf(FID, '& N ');
+fprintf(FID, '& Mean APD ($\\%%$) ');
+fprintf(FID, '& St.Dev. APD ($\\%%$) ');
+fprintf(FID, '& Median APD ($\\%%$) ');
+fprintf(FID, '& Bias ($\\%%$) ');
+fprintf(FID, '& Median ratio ');
+fprintf(FID, '& SIQR ');
+fprintf(FID, '& rsqcorr ');
+fprintf(FID,'\\\\ \\hline \n');
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],FID);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_412'],'epsc')
+
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],FID);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_443'],'epsc')
+
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],FID);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_490'],'epsc')
+
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],FID);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_555'],'epsc')
+
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],FID);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_660'],'epsc')
+
+% latex table
+fprintf(FID,'\\hline \n');
+fprintf(FID,'\\end{tabular}\n');
 % no data for in situ 678 or 681
 % [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('678','680',[Matchup.Rrs_678_ins],[Matchup.Rrs_680_sat]);
 % [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('681','680',[Matchup.Rrs_681_ins],[Matchup.Rrs_680_sat]);
 %%
 
 %% Histograms
-figure,hist([SatData(cond1).Rrs_490_filtered_mean],20)
+figure,hist([SatData(cond_used).Rrs_490_filtered_mean],20)
 
-figure,hist([SatData(cond1).angstrom_filtered_mean],20)
+figure,hist([SatData(cond_used).angstrom_filtered_mean],20)
 
-figure,hist([SatData(cond1).center_az],20)
-figure,hist([SatData(cond1).center_el],20)
+figure,hist([SatData(cond_used).center_az],20)
+figure,hist([SatData(cond_used).center_el],20)
