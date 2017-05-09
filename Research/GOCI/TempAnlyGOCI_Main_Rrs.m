@@ -4184,6 +4184,93 @@ for idx0 = 1:size(wl,2)
       
 end
 
+%% Detrending Data Rrs - subtract monthly means
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 25;
+ms = 4;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+wl = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl,2)
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      for idx_month = 1:12
+            cond_month_Monthly = month([GOCI_MonthlyStatMatrix.datetime])==idx_month & ...
+                  [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+            eval(sprintf('mean_month = nanmean([GOCI_MonthlyStatMatrix(cond_month_Monthly).Rrs_%s_mean_mid_three]);',wl{idx0}));
+            
+            cond_month_GOCI_Data = month([GOCI_Data.datetime])==idx_month;
+            eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl{idx0}));
+            eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
+            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            cond_used = cond_month_GOCI_Data&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                 
+            figure(gcf)
+            hold on
+            eval(sprintf('plot([GOCI_Data(cond_used).Rrs_%s_filtered_mean]-mean_month,[GOCI_Data(cond_used).solz_filtered_mean],''o'',''MarkerSize'',ms);',wl{idx0}));
+            
+      end
+      
+      figure(gcf)
+      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl{idx0}));
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      grid on
+      
+      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl{idx0}],'epsc')
+      
+end
+
+%% Detrending Data par - subtract monthly means
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 25;
+ms = 4;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+par_vec = {'chlor_a','ag_412_mlrc','poc'};
+
+for idx0 = 1:size(par_vec,2)
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      for idx_month = 1:12
+            cond_month_Monthly = month([GOCI_MonthlyStatMatrix.datetime])==idx_month & ...
+                  [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+            eval(sprintf('mean_month = nanmean([GOCI_MonthlyStatMatrix(cond_month_Monthly).%s_mean_mid_three]);',par_vec{idx0}));
+            
+            cond_month_GOCI_Data = month([GOCI_Data.datetime])==idx_month;
+            eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
+            eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
+            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            cond_used = cond_month_GOCI_Data&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                 
+            figure(gcf)
+            hold on
+            eval(sprintf('plot([GOCI_Data(cond_used).%s_filtered_mean]-mean_month,[GOCI_Data(cond_used).solz_filtered_mean],''o'',''MarkerSize'',ms);',par_vec{idx0}));
+            
+      end
+      
+      figure(gcf)
+      eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_vec{idx0}));
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      grid on
+      
+      saveas(gcf,[savedirname 'par_vs_Zenith_detrend_' par_vec{idx0}],'epsc')
+      
+end
+
 %% Plot Time Series Daily for Rrs_for GOCI, Aqua and VIIRS
 wl = {'412','443','490','555','660','680'};
 
