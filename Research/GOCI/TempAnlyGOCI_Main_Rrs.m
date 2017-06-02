@@ -4184,7 +4184,7 @@ for idx0 = 1:size(wl,2)
       
 end
 
-%% Detrending Data Rrs - subtract monthly means
+%% Detrending Data Rrs - subtract monthly hourly means
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -4195,39 +4195,39 @@ senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
 
-wl = {'412','443','490','555','660','680'};
-for idx0 = 1:size(wl,2)
+wl_vec = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl_vec,2)
       h = figure('Color','white','DefaultAxesFontSize',fs);
       for idx_month = 1:12
-            cond_month_Monthly = month([GOCI_MonthlyStatMatrix.datetime])==idx_month & ...
-                  [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
-            eval(sprintf('mean_month = nanmean([GOCI_MonthlyStatMatrix(cond_month_Monthly).Rrs_%s_mean_mid_three]);',wl{idx0}));
-            
-            cond_month_GOCI_Data = month([GOCI_Data.datetime])==idx_month;
-            eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl{idx0}));
-            eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
-            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-            cond_used = cond_month_GOCI_Data&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-                 
-            figure(gcf)
-            hold on
-            eval(sprintf('plot([GOCI_Data(cond_used).Rrs_%s_filtered_mean]-mean_month,[GOCI_Data(cond_used).solz_filtered_mean],''o'',''MarkerSize'',ms);',wl{idx0}));
-            
+      		for idx_hour = 0:7
+            	cond_time = month([GOCI_Data.datetime])==idx_month & ...
+            		  hour([GOCI_Data.datetime])==idx_hour;
+            	eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+            	eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
+            	cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            	cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            	cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            	cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            	cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+            	eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+            	     
+            	figure(gcf)
+            	hold on
+            	eval(sprintf('plot([GOCI_Data(cond_used).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used).solz_filtered_mean],''ob'',''MarkerSize'',ms);',wl_vec{idx0}));
+        	end
       end
       
       figure(gcf)
-      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl{idx0}));
+      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
       
-      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl{idx0}],'epsc')
+      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0}],'epsc')
       
 end
 
-%% Detrending Data par - subtract monthly means
+%% Detrending Data par - subtract monthly hourly means
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -4242,32 +4242,41 @@ par_vec = {'chlor_a','ag_412_mlrc','poc'};
 
 for idx0 = 1:size(par_vec,2)
       h = figure('Color','white','DefaultAxesFontSize',fs);
+
+      if strcmp(par_vec{idx0},'chlor_a')
+      		par_char = 'Chlor-{\ita} [mg m^{-3}]';
+      elseif strcmp(par_vec{idx0},'ag_412_mlrc')
+      		par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx0},'poc')		
+      		par_char = 'POC [mg m^{-3}]';
+      end	
+
       for idx_month = 1:12
-            cond_month_Monthly = month([GOCI_MonthlyStatMatrix.datetime])==idx_month & ...
-                  [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
-            eval(sprintf('mean_month = nanmean([GOCI_MonthlyStatMatrix(cond_month_Monthly).%s_mean_mid_three]);',par_vec{idx0}));
-            
-            cond_month_GOCI_Data = month([GOCI_Data.datetime])==idx_month;
-            eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
-            eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
-            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-            cond_used = cond_month_GOCI_Data&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-                 
-            figure(gcf)
-            hold on
-            eval(sprintf('plot([GOCI_Data(cond_used).%s_filtered_mean]-mean_month,[GOCI_Data(cond_used).solz_filtered_mean],''o'',''MarkerSize'',ms);',par_vec{idx0}));
-            
+      		for idx_hour = 0:7
+            	cond_time = month([GOCI_Data.datetime])==idx_month & ...
+            		  hour([GOCI_Data.datetime])==idx_hour;
+            	eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
+            	eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
+            	cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            	cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            	cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            	cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            	cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+            	eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).%s_filtered_mean]);',par_vec{idx0}));
+            	     
+            	figure(gcf)
+            	hold on
+            	eval(sprintf('plot([GOCI_Data(cond_used).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used).solz_filtered_mean],''ob'',''MarkerSize'',ms);',par_vec{idx0}));
+        	end
       end
       
       figure(gcf)
-      eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_vec{idx0}));
+      eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
       
-      saveas(gcf,[savedirname 'par_vs_Zenith_detrend_' par_vec{idx0}],'epsc')
+      saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0}],'epsc')
       
 end
 
@@ -4707,7 +4716,7 @@ for idx = 1:size(wl,2)
       saveas(gcf,[savedirname 'Rel_Diff_Daily_Mean_Rrs' wl{idx}],'epsc')
 end
 
-%% Plot relative difference from the middle three for Rrs
+%% Plot relative difference from the three midday for Rrs
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 
@@ -4776,6 +4785,86 @@ for idx = 1:size(wl,2)
       
       saveas(gcf,[savedirname 'Rel_Diff_mid_three_Rrs' wl{idx}],'epsc')
 end
+
+%% Plot relative difference from the three midday for Rrs
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+
+for idx = 1:size(par_vec,2)
+      
+      if strcmp(par_vec{idx},'chlor_a')
+            par_char = 'Chlor-{\ita}';
+      elseif strcmp(par_vec{idx},'ag_412_mlrc')
+            par_char = 'a_{g:mlrc}(412)';
+      elseif strcmp(par_vec{idx},'poc')
+            par_char = 'POC';
+      end
+      
+      eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_01= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_01= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_02= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_02= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_03= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_03= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_04= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_04= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_05= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_05= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_06= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_06= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      eval(sprintf('rel_diff_mean_07= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      eval(sprintf('rel_diff_stdv_07= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx},par_vec{idx}))
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      xlim([0 9])
+      
+      disp('======================')
+      disp(par_vec{idx})
+      rel_diff_mean_all
+      rel_diff_stdv_all
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Relative difference\n w/r to mean middle three\n  %s [%%]',par_char);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      
+      saveas(gcf,[savedirname 'Rel_Diff_mid_three_' par_vec{idx}],'epsc')
+end
+
+
 %% Plot relative absolute difference from the daily mean for Rrs
 % The difference of the mean
 

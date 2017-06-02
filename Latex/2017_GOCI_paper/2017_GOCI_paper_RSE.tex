@@ -275,7 +275,7 @@ A coefficient of variation (CV), which is defined as the filtered standard devia
 	\label{fig:FilteringCriteria}
 \end{figure}
 % ---------------------------------------------------------------
-\subsection{Bio-Optical Algorithms}
+\subsection{Bio-Optical Algorithms} \label{subsec:bioopalg}
 % ------------------------
 \subsubsection{Chlro-a}
 OCx and \citet{Hu2012}.
@@ -301,17 +301,18 @@ The atmospheric correction was validated using {\it in situ} observations from t
 
 The selection of matchups followed the satellite validation protocols described in \citet{Bailey2006}. GOCI data acquired within a three hours windows of the {\it in situ} sampling were considered as potential validation matchups. A $7\times7$ GOCI pixel array is extracted centered in the {\it in situ} sampling location. A filtered mean is calculated from these $7\times7$ arrays using \autoref{eq:filtered_value} and \autoref{eq:filtered_mean} \citep{Bailey2006}. A minimum of at least half the total of pixels in the $7\times7$ pixel array, i.e. $49/2\approx25$ pixels, were required to be valid (unflagged) for inclusion of the matchup in the validation analysis. Additionally, a coefficient of variation (CV, filtered mean divided by the filtered standard deviation) for the visible bands 412 to 555 nm and the aerosol optical thickness (AOT) at 864 nm was calculated for each pixel array that passes the exclusion criteria described above, and then, the median value of these coefficients of variation ($\text{Median}[CV]$) was calculated. Finally, the pixel arrays whose $\text{Median}[CV]>0.15$, as suggested by \citep{Bailey2006}, are excluded from the validation analysis.
 
-A validation analysis was performed by comparing the satellite-derived retrievals of products with the {\it in situ} observations based on different statistical parameters (\autoref{tab:val_stats}). These statistical parameters are: the slope and offset of the fitted Reduced Major Axis (RMA) regression line of the form $y=m*x+b$, and its coefficient of determination $R^2$, the root mean squared error (RMSE), the mean, standard deviation, and median of the absolute percentage difference (APD)(MAPD, St.Dev. APD, and Median APD, respectively), the percentage bias, median ratio of computed filtered mean satellite value ($R_{rs:ret}$) to {\it in situ} measurement ($R_{rs:in}$), and the semi-interquartile range (SIQR) \citep{Bailey2006}. These parameters are defined as:
+A validation analysis was performed by comparing the satellite-derived retrievals of products with the {\it in situ} observations based on different statistical parameters (\autoref{tab:val_stats}). These statistical parameters are: the slope and offset of the fitted Reduced Major Axis (RMA) regression line of the form $y=m*x+b$, and its coefficient of determination $R^2$, the root mean squared error (RMSE), the mean, standard deviation, and median of the absolute percentage difference (APD)(MAPD, $\pm$sd APD, and Median APD, respectively), the percentage bias, median ratio of computed filtered mean satellite value ($R_{rs:ret}$) to {\it in situ} measurement ($R_{rs:in}$), and the semi-interquartile range (SIQR) \citep{Bailey2006}. These parameters are defined as:
 \begin{equation}
   \text{APD$_n$(\%)}=\left[\frac{\displaystyle \left|R_{rs:in}^1-R_{rs:ret}^1 \right|}{R_{rs:in}^1},\dots,\frac{\displaystyle \left|R_{rs:in}^n-R_{rs:ret}^n \right|}{R_{rs:in}^n},\dots,\frac{\displaystyle \left|R_{rs:in}^N-R_{rs:ret}^N \right|}{R_{rs:in}^N}\right]*100,\ n=1,\dots,N
 \end{equation}
-\noindent where N is the total number of matchups.
+\noindent where N is the total number of matchups, and $R_{rs:in}^n$ is the $n^{th}$ {\it in situ} $R_{rs}$ and $R_{rs:ret}^n$ is the $n^{th}$ satellite-derived $R_{rs}$.
 \begin{equation}
   \text{MAPD(\%)} = \frac{1}{N} \sum_{n=1}^{N} \text{APD$_n$(\%)}
 \end{equation}
 \begin{equation}
   \text{$\pm$ \text{sd} APD(\%)} =  SD\left[\text{APD$_n$(\%)}\right]
 \end{equation}
+\noindent with $SD$ the standard deviation.
 \begin{equation}
   \text{\text{Median} APD(\%)} =  Median\left[\text{APD$_n$(\%)}\right]
 \end{equation}
@@ -328,6 +329,8 @@ A validation analysis was performed by comparing the satellite-derived retrieval
     \text{SIQR} = \frac{Q_3-Q_1}{2}
 \end{equation}
 \noindent where $Q_3$ and $Q_1$ are the $75^{th}$ and $25^{th}$ percentiles for the ratios of the satellite-derived values to the {\it in situ} measurements.  
+
+\autoref{fig:GOCI_AERO} shows the color coded AERONET-OC data divided by group representing the times of the day (early morning: 0h and 1h (blue circles); early midday: 2h and 3h (red circles); late midday: 4h and 5h (green circles); and late afternoon: 6h and 7h (cyan circles)) in order to evaluate the influence of the solar zenith angle in the validation matchups. The statistics calculated for each group and for all matchups (highlighted in bold cases) are shown in (\autoref{tab:val_stats}). The number of matchups decreases throughout the day, having only 2 matchups at the end of the day.
 
 % \begin{table}[htbp!]
 % \caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from the AERONET-OC. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). \label{tab:val_stats} }
@@ -347,7 +350,7 @@ A validation analysis was performed by comparing the satellite-derived retrieval
 % \end{table}
 
 \begin{table}[htbp!]
-\caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from the AERONET-OC. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). \label{tab:val_stats} }
+\caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from the AERONET-OC. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). The statistics for all the matchups are highlighted in bold cases. \label{tab:val_stats} }
 \tiny
 \centering
 \begin{tabular}{ccccccccccccc} 
@@ -358,27 +361,27 @@ $\lambda_{sat} (\lambda_{\text in situ})$ & hour & $R^2$ & \multicolumn{2}{c}{RM
                             &  2h $\&$ 3h  & 0.84    & 0.75    & +0.0012 & 0.0015      & 15  & 38.4    & 47.2        & 16.0        & - 3.1    & 0.92    & 0.346   \\ 
                             &  4h $\&$ 5h  & 0.99    & 0.79    & +0.0008 & 0.0012      & 6   & 10.5    &  5.6        & 12.0        & -12.0    & 0.87    & 0.044   \\ 
                             &  6h $\&$ 7h  & 1       & 3.12    & -0.0282 & 0.0036      & 2   & 30.9    &  6.7        & 30.9        & -30.8    & 0.69    & 0.047   \\ 
-                            &  all         & 0.81    & 0.83    & -0.0002 & 0.0021      & 45  & 40.1    & 38.7        & 27.5        & -20.4    & 0.83    & 0.146   \\ \hline 
+                              &  \textbf{all}         & \textbf{0.81}    & \textbf{0.83}    & \textbf{-0.0002} & \textbf{0.0021}      & \textbf{45}  & \textbf{40.1}    & \textbf{38.7}        & \textbf{27.5}        & \textbf{-20.4}    & \textbf{0.83}    & \textbf{0.146}   \\ \hline 
 \multirow{5}{*}{443 (443)}  &  0h $\&$ 1h  & 0.96    & 0.90    & -0.0007 & 0.0014      & 16  & 34.6    & 25.4        & 37.6        & -23.4    & 0.62    & 0.224   \\ 
                             &  2h $\&$ 3h  & 0.86    & 0.85    & +0.0009 & 0.0017      & 14  & 33.2    & 30.0        & 22.1        & - 2.7    & 0.99    & 0.433   \\ 
                             &  4h $\&$ 5h  & 0.99    & 0.88    & +0.0006 & 0.0008      & 6   &  4.9    &  3.3        &  6.0        & - 5.7    & 0.93    & 0.033   \\ 
                             &  6h $\&$ 7h  & 1       & 0.62    & +0.0025 & 0.0028      & 2   & 19.8    &  1.2        & 19.8        & -19.9    & 0.80    & 0.008   \\ 
-                            &  all         & 0.91    & 0.91    & -0.0003 & 0.0017      & 45  & 28.0    & 25.1        & 20.1        & -13.2    & 0.86    & 0.145   \\ \hline 
+                              &  \textbf{all}         & \textbf{0.91}    & \textbf{0.91}    & \textbf{-0.0003} & \textbf{0.0017}      & \textbf{45}  & \textbf{28.0}    & \textbf{25.1}        & \textbf{20.1}        & \textbf{-13.2}    & \textbf{0.86}    & \textbf{0.145}   \\ \hline 
 \multirow{5}{*}{490 (490)}  &  0h $\&$ 1h  & 0.98    & 0.79    & -0.0004 & 0.0024      & 16  & 31.3    & 21.4        & 29.1        & -26.8    & 0.70    & 0.094   \\ 
                             &  2h $\&$ 3h  & 0.91    & 0.82    & +0.0001 & 0.0027      & 14  & 22.9    & 14.5        & 22.7        & -15.9    & 0.89    & 0.179   \\ 
                             &  4h $\&$ 5h  & 0.99    & 0.84    & -0.0001 & 0.0026      & 6   & 16.1    &  0.9        & 15.9        & -16.0    & 0.84    & 0.007   \\ 
                             &  6h $\&$ 7h  & 1       & 2.04    & -0.0263 & 0.0055      & 2   & 27.9    &  3.1        & 27.9        & -27.8    & 0.72    & 0.022   \\ 
-                            &  all         & 0.95    & 0.82    & -0.0004 & 0.0029      & 45  & 25.7    & 16.3        & 21.9        & -21.0    & 0.79    & 0.095   \\ \hline 
+                              &  \textbf{all}         & \textbf{0.95}    & \textbf{0.82}    & \textbf{-0.0004} & \textbf{0.0029}      & \textbf{45}  & \textbf{25.7}    & \textbf{16.3}        & \textbf{21.9}        & \textbf{-21.0}    & \textbf{0.79}    & \textbf{0.095}   \\ \hline 
 \multirow{5}{*}{555 (555)}  &  0h $\&$ 1h  & 0.97    & 0.80    & -0.0004 & 0.0024      & 16  & 26.4    &  9.7        & 28.0        & -24.6    & 0.71    & 0.066   \\ 
                             &  2h $\&$ 3h  & 0.98    & 0.80    & -0.0002 & 0.0027      & 14  & 19.6    & 11.3        & 18.1        & -21.7    & 0.81    & 0.092   \\ 
                             &  4h $\&$ 5h  & 0.99    & 0.75    & +0.0009 & 0.0034      & 6   & 17.4    &  4.2        & 19.6        & -18.7    & 0.80    & 0.026   \\ 
                             &  6h $\&$ 7h  & 1       & 0.61    & +0.0027 & 0.0049      & 2   & 24.7    &  1.0        & 24.7        & -24.7    & 0.75    & 0.007   \\ 
-                            &  all         & 0.98    & 0.80    & -0.0003 & 0.0029      & 45  & 22.8    & 10.1        & 21.4        & -22.4    & 0.78    & 0.072   \\ \hline 
+                              &  \textbf{all}         & \textbf{0.98}    & \textbf{0.80}    & \textbf{-0.0003} & \textbf{0.0029}      & \textbf{45}  & \textbf{22.8}    & \textbf{10.1}        & \textbf{21.4}        & \textbf{-22.4}    & \textbf{0.78}    & \textbf{0.072}   \\ \hline 
 \multirow{5}{*}{660 (665)}  &  0h $\&$ 1h  & 0.98    & 0.96    & -0.0004 & 0.0005      & 16  & 55.1    & 28.8        & 65.5        & -24.0    & 0.34    & 0.264   \\ 
                             &  2h $\&$ 3h  & 0.98    & 0.81    & -0.0002 & 0.0008      & 14  & 40.0    & 22.2        & 31.7        & -26.8    & 0.68    & 0.187   \\ 
                             &  4h $\&$ 5h  & 0.99    & 0.84    & +0.0002 & 0.0005      & 6   &  9.2    &  5.8        & 11.1        & -11.6    & 0.88    & 0.053   \\ 
                             &  6h $\&$ 7h  & 1       & 1.56    & -0.0042 & 0.0009      & 2   & 17.5    &  2.4        & 17.5        & -17.4    & 0.82    & 0.017   \\ 
-                            &  all         & 0.97    & 0.90    & -0.0003 & 0.0007      & 45  & 39.3    & 28.2        & 27.1        & -22.2    & 0.72    & 0.253   \\ 
+                              &  \textbf{all}         & \textbf{0.97}    & \textbf{0.90}    & \textbf{-0.0003} & \textbf{0.0007}      & \textbf{45}  & \textbf{39.3}    & \textbf{28.2}        & \textbf{27.1}        & \textbf{-22.2}    & \textbf{0.72}    & \textbf{0.253}   \\ 
 \hline 
 \end{tabular}
 \end{table}
@@ -394,34 +397,37 @@ $\lambda_{sat} (\lambda_{\text in situ})$ & hour & $R^2$ & \multicolumn{2}{c}{RM
 \begin{figure}[H]
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-       \begin{overpic}[trim=0 0 0 0,clip,height=6.0cm]{./Figures/GOCI_AERO_412.eps} \put (85,20) {(a)}
+      \hspace{1cm}
+       \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/GOCI_AERO_412.eps} \put (85,20) {\colorbox{white}{(a)}}
        \end{overpic}
     \end{minipage}  
-    \hfill
+    \hspace{-0.5cm}
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-       \begin{overpic}[trim=0 0 0 0,clip,height=6.0cm]{./Figures/GOCI_AERO_443.eps} \put (85,20) {(b)}
+       \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/GOCI_AERO_443.eps} \put (85,20) {\colorbox{white}{(b)}}
        \end{overpic}
     \end{minipage}  
 
   \begin{minipage}[c]{0.48\linewidth}
       \centering
-       \begin{overpic}[trim=0 0 0 0,clip,height=6.0cm]{./Figures/GOCI_AERO_490.eps} \put (85,20) {(c)}
+      \hspace{1cm}
+       \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/GOCI_AERO_490.eps} \put (85,20) {\colorbox{white}{(c)}}
        \end{overpic}
     \end{minipage}  
-    \hfill
+    \hspace{-0.5cm}
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-       \begin{overpic}[trim=0 0 0 0,clip,height=6.0cm]{./Figures/GOCI_AERO_555.eps} \put (85,20) {(d)}
+       \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/GOCI_AERO_555.eps} \put (85,20) {\colorbox{white}{(d)}}
        \end{overpic}
     \end{minipage}  
 
   \begin{minipage}[c]{0.48\linewidth}
       \centering
-       \begin{overpic}[trim=0 0 0 0,clip,height=6.0cm]{./Figures/GOCI_AERO_660.eps} \put (85,20) {(e)}
+      \hspace{1cm}
+       \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/GOCI_AERO_660.eps} \put (85,20) {\colorbox{white}{(e)}}
        \end{overpic}
     \end{minipage}   
-    \hfill
+    \hspace{-0.5cm}
   \begin{minipage}[c]{0.48\linewidth}
       \centering
        \begin{overpic}[trim=0 0 0 0,clip,height=2.0cm]{./Figures/LegendScatterAERO.pdf}
@@ -438,84 +444,82 @@ In general, a good agreement was found between the retrieved $R_{rs}$ and {\it i
 
 % ---------------------------------------------------------------
 \subsection{Time Series}
-\autoref{fig:GOCI_TimeSeries}.(a-l) shows time series and histograms for the $R_{rs}(\lambda)$ for GOCI. The complete GOCI mission was processed to level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used. Note that for each there are potentially eight values displayed, which explains the daily spread of the data. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting the failure of the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products. The time series exhibit a expected seasonal variability, which is correlated to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). 
+As mentioned previously, the complete GOCI mission was processed to level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered means for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands over the area of study. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. The time series exhibit an expected seasonal variability, which is correlated to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting failure on the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero and there are only a few of them, except for the 680 nm band.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs412.eps} \put (90,28) {(a)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs412.eps} \put (90,28) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (82,67) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (82,67) {\colorbox{white}{(b)}}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs443.eps} \put (90,28) {(c)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs443.eps} \put (90,28) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (82,67) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (82,67) {\colorbox{white}{(d)}}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs490.eps} \put (90,28) {(e)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs490.eps} \put (90,28) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (82,67) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (82,67) {\colorbox{white}{(f)}}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs555.eps} \put (90,28) {(g)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs555.eps} \put (90,28) {\colorbox{white}{(g)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (82,67) {(h)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (82,67) {\colorbox{white}{(h)}}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_Rrs660.eps} \put (90,28) {(i)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs660.eps} \put (90,28) {\colorbox{white}{(i)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (82,67) {(j)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (82,67) {\colorbox{white}{(j)}}
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.8cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {(k)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.4cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,28) {\colorbox{white}{(k)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (78,68) {(l)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (78,68) {\colorbox{white}{(l)}}
       \end{overpic} 
     \end{minipage} 
 
-
-
-    \caption{Time Series and histograms. The complete GOCI mission was processed to level 2 and a filtered mean was calculated for each image over the area of study. The spread of the data is due to the multiple images per day. \label{fig:GOCI_TimeSeries} } 
+    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to level 2 and a filtered mean was calculated for each image over the area of study. The spread of the data is due to the multiple images per day. \label{fig:GOCI_TimeSeries} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -524,73 +528,150 @@ In general, a good agreement was found between the retrieved $R_{rs}$ and {\it i
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_chlor_a.eps} \put (90,28) {(a)}
+      \begin{overpic}[trim=0 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_chlor_a.eps} \put (90,28) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_chlor_a.eps} \put (78,25) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_chlor_a.eps} \put (78,25) {\colorbox{white}{(b)}}
       \end{overpic} 
     \end{minipage}        
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=12 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_ag_412_mlrc.eps} \put (90,28) {(c)}
+      \begin{overpic}[trim=12 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_ag_412_mlrc.eps} \put (90,28) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_ag_412_mlrc.eps} \put (78,25) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_ag_412_mlrc.eps} \put (78,25) {\colorbox{white}{(d)}}
       \end{overpic} 
     \end{minipage}    
 
         \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=-15 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_poc.eps} \put (90,28) {(e)}
+      \begin{overpic}[trim=-15 352 0 0,clip,height=3.6cm]{./Figures/TimeSerie_poc.eps} \put (90,28) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_poc.eps} \put (78,25) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_poc.eps} \put (78,25) {\colorbox{white}{(f)}}
       \end{overpic} 
     \end{minipage}    
 
     \begin{minipage}[c]{0.66\linewidth}
       \centering
-      \begin{overpic}[trim=10 0 0 390,clip,height=3.5cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,25) {(g)}
+      \begin{overpic}[trim=10 0 0 390,clip,height=3.5cm]{./Figures/TimeSerie_Rrs680.eps} \put (90,25) {\colorbox{white}{(g)}}
       \end{overpic}
     \end{minipage}   
 
-    \caption{Time Series (con't). \label{fig:GOCI_TimeSeries2} } 
+    \caption{Time Series and histograms for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products for the area of study. \label{fig:GOCI_TimeSeries2} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Products versus solar zenith angle}
-The $R_{rs}$ and Chlorophyll-{\it a} mean values for the region of interest were compared against the solar zenith angle.
+\autoref{fig:Rrs_vs_zenith} shows the $R_{rs}$ filtered mean values for each time of the day for the area of study versus the solar zenith angle (SZA) for the area of study. The plots show only data that passed the exclusion criteria described previously. \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products versus the solar zenith angle for the area of study. 
+
+The climatological monthly means for each time of the day were subtracted from the hourly filtered mean in order to make the data independent of the seasonality. These detrended\todo{correct?}~data are shown in \autoref{fig:Rrs_vs_zenith_detrend} and \autoref{fig:par_vs_zenith_detrend}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=9cm]{./Figures/Rrs_vs_Zenith.eps}
-      \end{overpic}
+      \begin{overpic}[trim=0 0 0 50,clip,height=9cm]{./Figures/Rrs_vs_Zenith.eps}
+      \put (14,36) {\colorbox{white}{(a)}}
+      \put (42,36) {\colorbox{white}{(b)}}
+      \put (70,36) {\colorbox{white}{(c)}}
+      \put (14,9) {\colorbox{white}{(d)}}
+      \put (42,9) {\colorbox{white}{(e)}}
+      \put (70,9) {\colorbox{white}{(f)}}      
+      \end{overpic} 
 	\end{minipage}  
 
-    \caption{$R_{rs}$ versus solar zenith angle. \label{fig:Rrs_vs_zenith} } 
+    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle. \label{fig:Rrs_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Par_vs_Zenith.eps}
+      \put (30,6) {\colorbox{white}{(a)}}
+      \put (58,6) {\colorbox{white}{(b)}}
+      \put (86,6) {\colorbox{white}{(c)}}      
       \end{overpic}
 	\end{minipage}  
 
-    \caption{Chlor-{\it a}, $a_{g:mlrc}(412)$ and POC versus solar zenith angle. \label{fig:par_vs_zenith} } 
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle. \label{fig:par_vs_zenith} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_412.eps}
+        \put (16,22) {\colorbox{white}{(a)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_443.eps}
+        \put (16,22) {\colorbox{white}{(b)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_490.eps}
+        \put (16,22) {\colorbox{white}{(c)}}   
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_555.eps}
+        \put (16,22) {\colorbox{white}{(d)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_660.eps}
+        \put (16,22) {\colorbox{white}{(e)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_680.eps}
+        \put (16,22) {\colorbox{white}{(f)}}   
+      \end{overpic} 
+    \end{minipage}  
+
+    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data. \label{fig:Rrs_vs_zenith_detrend} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_chlor_a.eps}
+        \put (16,22) {\colorbox{white}{(a)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_ag_412_mlrc.eps}
+        \put (16,22) {\colorbox{white}{(b)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_poc.eps}
+        \put (16,22) {\colorbox{white}{(c)}}   
+      \end{overpic} 
+    \end{minipage}  
+
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data. \label{fig:par_vs_zenith_detrend} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -653,38 +734,47 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs412.eps}
-    \centerline{(a)}\medskip
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs412.eps}
+        \put (25,15) {\colorbox{white}{(a)}}
+      \end{overpic}
     \end{minipage}  
-    \hfill
+    \hspace{-1.0cm}
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs443.eps}
-      \centerline{(b)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs443.eps}
+        \put (25,15) {\colorbox{white}{(b)}}
+      \end{overpic}
     \end{minipage}  
 
   \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs490.eps}
-    \centerline{(c)}\medskip
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs490.eps}
+        \put (25,15) {\colorbox{white}{(c)}}
+      \end{overpic}
     \end{minipage}  
-    \hfill
+    \hspace{-1.0cm}
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs555.eps}
-      \centerline{(d)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs555.eps}
+        \put (25,15) {\colorbox{white}{(d)}}
+      \end{overpic}
     \end{minipage}  
 
   \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs660.eps}
-      \centerline{(e)}\medskip
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs660.eps}
+        \put (28,15) {\colorbox{white}{(e)}}
+      \end{overpic}
     \end{minipage}   
-        \hfill
+        \hspace{-1.0cm}
     \begin{minipage}[c]{0.48\linewidth}
       \centering
-      \includegraphics[height=5.5cm]{./Figures/Rel_Diff_mid_three_Rrs680.eps}
-      \centerline{(f)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_Rrs680.eps}
+        \put (28,15) {\colorbox{white}{(f)}}
+      \end{overpic}
     \end{minipage} 
     \caption{Relative difference with respect to the daily mean value for Rrs. \label{fig:DiffDailyMeanRrs} } 
 \end{figure}
@@ -692,25 +782,28 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
-    \begin{minipage}[c]{0.33\linewidth}
+    \begin{minipage}[c]{0.3\linewidth}
       \centering
-      \includegraphics[height=4.5cm]{./Figures/Rel_Diff_Daily_Mean_chlor_a.eps}
-    \centerline{(a)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_chlor_a.eps}
+        \put (28,15) {\colorbox{white}{(a)}}
+      \end{overpic}
     \end{minipage}  
     % \hfill
-    \begin{minipage}[c]{0.33\linewidth}
+    \begin{minipage}[c]{0.3\linewidth}
       \centering
-      \includegraphics[height=4.5cm]{./Figures/Rel_Diff_Daily_Mean_poc.eps}
-      \centerline{(b)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_poc.eps}
+        \put (28,15) {\colorbox{white}{(b)}}
+      \end{overpic}
     \end{minipage}  
     % \hfill
-  	\begin{minipage}[c]{0.33\linewidth}
+  	\begin{minipage}[c]{0.3\linewidth}
       \centering
-      \includegraphics[height=4.5cm]{./Figures/Rel_Diff_Daily_Mean_ag_412_mlrc.eps}
-    \centerline{(c)}\medskip
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc.eps}
+        \put (30,15) {\colorbox{white}{(c)}}
+      \end{overpic}
     \end{minipage}  
 
-    \caption{Relative Difference with respect to the daily mean value for chlor-a, poc and ag(412)mlrc. \label{fig:DiffDailyMeanProd} } 
+    \caption{Relative Difference with respect to the mean of the three midday images for Chlorophyll-{\it a}, POC and $a_{g:mlrc}(412)$. \label{fig:DiffDailyMeanProd} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -721,37 +814,37 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs412.eps} \put (10,28) {(a)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/CrossComp_Rrs412.eps} \put (10,28) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}   
     
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs443.eps} \put (10,28) {(b)}
-      \end{overpic}
-    \end{minipage}   
-
-    \begin{minipage}[c]{1.0\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs490.eps} \put (10,28) {(c)}
-      \end{overpic}
-    \end{minipage}  
-    
-    \begin{minipage}[c]{1.0\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs555.eps} \put (10,28) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./Figures/CrossComp_Rrs443.eps} \put (10,28) {\colorbox{white}{(b)}}
       \end{overpic}
     \end{minipage}   
 
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs660.eps} \put (10,28) {(e)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./Figures/CrossComp_Rrs490.eps} \put (10,28) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage}  
     
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs680.eps} \put (10,28) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./Figures/CrossComp_Rrs555.eps} \put (10,28) {\colorbox{white}{(d)}}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./Figures/CrossComp_Rrs660.eps} \put (10,28) {\colorbox{white}{(e)}}
+      \end{overpic}
+    \end{minipage}  
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./Figures/CrossComp_Rrs680.eps} \put (10,28) {\colorbox{white}{(f)}}
       \end{overpic}
     \end{minipage}   
 
@@ -774,17 +867,17 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_MODISA.eps} \put (15,70) {(a)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_MODISA.eps} \put (15,70) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_VIIRS.eps} \put (15,70) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_GOCI_VIIRS.eps} \put (15,70) {\colorbox{white}{(b)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_MODISA_VIIRS.eps} \put (15,70) {(c)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Ratio_MODISA_VIIRS.eps} \put (15,70) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage} 
 
@@ -796,19 +889,19 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_chlor_a.eps} \put (9,30) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_chlor_a.eps} \put (9,30) {\colorbox{white}{(d)}}
       \end{overpic}
     \end{minipage}   
     
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_ag_412_mlrc.eps} \put (9,30) {(e)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_ag_412_mlrc.eps} \put (9,30) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}       
 
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_poc.eps} \put (9,30) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerieComp_poc.eps} \put (9,30) {\colorbox{white}{(f)}}
       \end{overpic}
     \end{minipage} 
 
@@ -820,19 +913,19 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 % \begin{figure}[H]
 %     \begin{minipage}[c]{1.0\linewidth}
 %       \centering
-%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {(d)}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {\colorbox{white}{(d)}}
 %       \end{overpic}
 %     \end{minipage}   
     
 %     \begin{minipage}[c]{1.0\linewidth}
 %       \centering
-%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {(e)}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {\colorbox{white}{(e)}}
 %       \end{overpic}
 %     \end{minipage}       
 
 %     \begin{minipage}[c]{1.0\linewidth}
 %       \centering
-%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_brdf.eps} \put (9,30) {(f)}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_brdf.eps} \put (9,30) {\colorbox{white}{(f)}}
 %       \end{overpic}
 %     \end{minipage} 
 
@@ -844,49 +937,49 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_412.eps} \put (80,30) {(a)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_412.eps} \put (80,30) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_412.eps} \put (80,30) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_412.eps} \put (80,30) {\colorbox{white}{(b)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_412.eps} \put (80,30) {(c)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_412.eps} \put (80,30) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage} 
 
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_443.eps} \put (80,30) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_443.eps} \put (80,30) {\colorbox{white}{(d)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_443.eps} \put (80,30) {(e)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_443.eps} \put (80,30) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_443.eps} \put (80,30) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_443.eps} \put (80,30) {\colorbox{white}{(f)}}
       \end{overpic}
     \end{minipage} 
 
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_490.eps} \put (80,30) {(g)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_490.eps} \put (80,30) {\colorbox{white}{(g)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_490.eps} \put (80,30) {(h)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_490.eps} \put (80,30) {\colorbox{white}{(h)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_490.eps} \put (80,30) {(i)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_490.eps} \put (80,30) {\colorbox{white}{(i)}}
       \end{overpic}
     \end{minipage} 
 
@@ -898,49 +991,49 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 \begin{figure}[H]
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_555.eps} \put (80,30) {(a)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_555.eps} \put (80,30) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_555.eps} \put (80,30) {(b)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_555.eps} \put (80,30) {\colorbox{white}{(b)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_555.eps} \put (80,30) {(c)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_555.eps} \put (80,30) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage} 
 
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_660.eps} \put (80,30) {(d)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_660.eps} \put (80,30) {\colorbox{white}{(d)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_660.eps} \put (80,30) {(e)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_660.eps} \put (80,30) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_660.eps} \put (80,30) {(f)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_660.eps} \put (80,30) {\colorbox{white}{(f)}}
       \end{overpic}
     \end{minipage} 
 
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_680.eps} \put (80,30) {(g)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_AQUA_680.eps} \put (80,30) {\colorbox{white}{(g)}}
       \end{overpic}
     \end{minipage}   
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_680.eps} \put (80,30) {(h)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_GOCI_VIIRS_680.eps} \put (80,30) {\colorbox{white}{(h)}}
       \end{overpic}
     \end{minipage}       
     \begin{minipage}[c]{0.33\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_680.eps} \put (80,30) {(i)}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.5cm]{./Figures/Scatter_VIIRS_AQUA_680.eps} \put (80,30) {\colorbox{white}{(i)}}
       \end{overpic}
     \end{minipage} 
 
