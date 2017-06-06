@@ -76,7 +76,7 @@ toc
 load('GOCI_TempAnly.mat','GOCI_Data')
 %% Time series Rrs
 fs = 24;
-% h1 =  figure('Color','white','DefaultAxesFontSize',fs);
+h1 =  figure('Color','white','DefaultAxesFontSize',fs);
 
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
@@ -89,249 +89,249 @@ xData = startDate:datenum(years(1)):endDate;
 lw = 1.5;
 fs = 25;
 
-% % Rrs_412
-% cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
+% Rrs_412
+cond1 = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
 
-% data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
+data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
 
 
-% figure(h1)
-% subplot(6,1,1)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+figure(h1)
+subplot(6,1,1)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(412)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_443
+cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
+
+figure(h1)
+subplot(6,1,2)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(443)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_490
+cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
+
+figure(h1)
+subplot(6,1,3)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(490)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_555
+cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
+
+figure(h1)
+subplot(6,1,4)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(555)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_660
+cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
+
+figure(h1)
+subplot(6,1,5)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
+set(gca,'XTickLabel',{' '})
+ylabel('R_{rs}(660)','FontSize',fs)
+grid on
+
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
+
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
+
+% Rrs_680
+cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond3 = [GOCI_Data.center_ze] <= solz_lim;
+cond_used = cond1&cond2&cond3;
+
+data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
+
+
+figure(h1)
+subplot(6,1,6)
+plot([GOCI_Data(cond_used).datetime],data_used,'.')
+ax = gca;
+ax.XTick = xData;
+datetick('x','yyyy')%
+set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
 % set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(412)','FontSize',fs)
-% grid on
+ylabel('R_{rs}(680)','FontSize',fs)
+xlabel('Time','FontSize',fs)
+grid on
 
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
+N = nansum(cond_used);
+% fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+[counts,centers] = hist(data_used,50);
+plot(centers,counts*100/N,'b-','LineWidth',1.5)
+ylabel('Frequency (%)','FontSize',fs)
+xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
+% xlim([-1*xrange xrange])
 
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
+str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+      N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
-
-% % Rrs_443
-% cond1 = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
-
-% data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
-
-% figure(h1)
-% subplot(6,1,2)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(443)','FontSize',fs)
-% grid on
-
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
-
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
-
-% % Rrs_490
-% cond1 = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
-
-% data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
-
-% figure(h1)
-% subplot(6,1,3)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(490)','FontSize',fs)
-% grid on
-
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
-
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
-
-% % Rrs_555
-% cond1 = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
-
-% data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
-
-% figure(h1)
-% subplot(6,1,4)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(555)','FontSize',fs)
-% grid on
-
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
-
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
-
-% % Rrs_660
-% cond1 = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
-
-% data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
-
-% figure(h1)
-% subplot(6,1,5)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(660)','FontSize',fs)
-% grid on
-
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
-
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
-
-% % Rrs_680
-% cond1 = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-% cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-% cond3 = [GOCI_Data.center_ze] <= solz_lim;
-% cond_used = cond1&cond2&cond3;
-
-% data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
-
-
-% figure(h1)
-% subplot(6,1,6)
-% plot([GOCI_Data(cond_used).datetime],data_used,'.')
-% ax = gca;
-% ax.XTick = xData;
-% datetick('x','yyyy')%
-% set(gca,'YTickLabel',num2str(get(gca,'YTick').'))
-% % set(gca,'XTickLabel',{' '})
-% ylabel('R_{rs}(680)','FontSize',fs)
-% xlabel('Time','FontSize',fs)
-% grid on
-
-% N = nansum(cond_used);
-% % fs = 20;
-% h = figure('Color','white','DefaultAxesFontSize',fs);
-% [counts,centers] = hist(data_used,50);
-% plot(centers,counts*100/N,'b-','LineWidth',1.5)
-% ylabel('Frequency (%)','FontSize',fs)
-% xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
-% % xlim([-1*xrange xrange])
-
-% str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
-%       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
-
-% xLimits = get(gca,'XLim');
-% yLimits = get(gca,'YLim');
-% xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
-% yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-% figure(h)
-% hold on
-% text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
-% grid on
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+grid on
 
 %% Time Serie: GOCI Rrs vs time, and solar zenith angle vs time -- filtered except negative
 

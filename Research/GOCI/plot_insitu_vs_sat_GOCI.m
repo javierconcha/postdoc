@@ -1,4 +1,4 @@
-function [h,ax,leg] = plot_insitu_vs_sat_GOCI(wl_sat,wl_ins,x_data,y_data,x_data_datetime,FID)
+function [h,ax,leg] = plot_insitu_vs_sat_GOCI(wl_sat,wl_ins,x_data,y_data,x_data_datetime,station_ID,FID)
 
 %% filtered
 
@@ -19,37 +19,89 @@ xlabel(['In situ R_{rs}(' wl_ins ') (sr^{-1})'],'FontSize',fs)
 ylabel(['Satellite R_{rs}(' wl_sat ') (sr^{-1})'],'FontSize',fs)
 axis equal
 
-% Hour 0 and 1
-cond_used = cond0&hour(x_data_datetime)==0|hour(x_data_datetime)==1;
+% Hour 0 and 1 
+cond_used = cond0&(hour(x_data_datetime)==0|hour(x_data_datetime)==1);
 Matchup_ins_0_1 = Matchup_ins(cond_used);
 Matchup_sat_0_1 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_0_1,Matchup_sat_0_1,'ob','MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'ob','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^b','MarkerSize',14,'LineWidth',3)
 
 % Hour 2 and 3
-cond_used = cond0&hour(x_data_datetime)==2|hour(x_data_datetime)==3;
+cond_used = cond0&(hour(x_data_datetime)==2|hour(x_data_datetime)==3);
 Matchup_ins_2_3 = Matchup_ins(cond_used);
 Matchup_sat_2_3 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_2_3,Matchup_sat_2_3,'or','MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'or','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^r','MarkerSize',14,'LineWidth',3)
 
 % Hour 4 and 5
-cond_used = cond0&hour(x_data_datetime)==4|hour(x_data_datetime)==4;
+cond_used = cond0&(hour(x_data_datetime)==4|hour(x_data_datetime)==4);
 Matchup_ins_4_5 = Matchup_ins(cond_used);
 Matchup_sat_4_5 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_4_5,Matchup_sat_4_5,'og','MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'og','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^g','MarkerSize',14,'LineWidth',3)
 
 % Hour 6 and 7
-cond_used = cond0&hour(x_data_datetime)==6|hour(x_data_datetime)==7;
+cond_used = cond0&(hour(x_data_datetime)==6|hour(x_data_datetime)==7);
 Matchup_ins_6_7 = Matchup_ins(cond_used);
 Matchup_sat_6_7 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_6_7,Matchup_sat_6_7,'oc','MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'oc','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^c','MarkerSize',14,'LineWidth',3)
 
 if min(Matchup_sat_used) <0
       Rrs_sat_min = min(Matchup_sat_used)*1.1;

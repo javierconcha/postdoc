@@ -122,6 +122,14 @@ for idx1=1:size(InSitu,2)
       Matchup(idx1).datetime_ins = InSitu(idx1).t;
       Matchup(idx1).station_ins = InSitu(idx1).station;
       
+      station_char = char(InSitu(idx1).station);
+      
+      if strcmp(station_char(1:9),'aoc_gageo')
+            Matchup(idx1).station_ins_ID = 1;
+      elseif strcmp(station_char(1:9),'aoc_ieodo')
+            Matchup(idx1).station_ins_ID = 2;
+      end
+      
       % Rrs_412
       
       Matchup(idx1).Rrs_412_ins = InSitu(idx1).Rrs(2);
@@ -279,27 +287,27 @@ fprintf(FID,'\\\\ \\hline \n');
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],FID);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_412'],'epsc')
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],FID);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_443'],'epsc')
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],FID);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_490'],'epsc')
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],FID);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_555'],'epsc')
 
-[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],FID);
+[h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_660'],'epsc')
