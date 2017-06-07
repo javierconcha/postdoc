@@ -522,13 +522,15 @@ for idx = 1:size(par_vec,2)
 
       saveas(gcf,[savedirname 'Hist_' par_vec{idx}],'epsc')
 end
-%% mean Rrs vs zenith -- filtered
+
+%% mean Rrs vs zenith -- filtered, color coded by time of the day
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
 fs = 25;
-ms = 4;
+ms = 5;
+lw = 2;
 solz_lim = 75;
 senz_lim = 60;
 CV_lim = 0.3;
@@ -544,12 +546,55 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
+ 
 subplot(2,3,1)
-plot([GOCI_Data(cond_used).Rrs_412_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','southwest')
 
 % Rrs_443
 cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
@@ -559,11 +604,53 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
 subplot(2,3,2)
-plot([GOCI_Data(cond_used).Rrs_443_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 % Rrs_490
 cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
@@ -573,11 +660,53 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
 subplot(2,3,3)
-plot([GOCI_Data(cond_used).Rrs_490_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 % Rrs_555
 cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
@@ -587,11 +716,53 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
 subplot(2,3,4)
-plot([GOCI_Data(cond_used).Rrs_555_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 % Rrs_660
 cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
@@ -601,11 +772,53 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
 subplot(2,3,5)
-plot([GOCI_Data(cond_used).Rrs_660_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 % Rrs_680
 cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
@@ -615,14 +828,295 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
 subplot(2,3,6)
-plot([GOCI_Data(cond_used).Rrs_680_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
-%% par vs zenith
+%% mean Rrs vs zenith -- filtered, color coded by season
+% Spring - from March 1 to May 31; 3, 4, 5
+% Summer - from June 1 to August 31; 6, 7, 8
+% Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
+% Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
+
+fs = 25;
+ms = 5;
+lw = 2;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% Rrs_412
+cond_nan = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,1)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+legend('Spring','Summer','Fall','Winter','Location','southwest')
+
+% Rrs_443
+cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,2)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+% Rrs_490
+cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,3)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+% Rrs_555
+cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,4)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+% Rrs_660
+cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,5)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+% Rrs_680
+cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
+cond_area = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+ 
+subplot(2,3,6)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+%% par vs zenith -- color coded by time of the day
 
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -638,10 +1132,51 @@ cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
 subplot(1,3,1)
-plot([GOCI_Data(cond_used).chlor_a_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 % ag_412_mlrc
 cond_nan = ~isnan([GOCI_Data.ag_412_mlrc_filtered_mean]);
@@ -654,14 +1189,57 @@ cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
 subplot(1,3,2)
-plot([GOCI_Data(cond_used).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','east')
+
 % poc
 cond_nan = ~isnan([GOCI_Data.poc_filtered_mean]);
-cond_area = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_area = [GOCI_Data.poc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
 cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
 cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
@@ -671,9 +1249,176 @@ cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 subplot(1,3,3)
 plot([GOCI_Data(cond_used).poc_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+
+% 0h
+cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 1h
+cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 2h
+cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 3h
+cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+% 4h
+cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 5h
+cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 6h
+cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% 7h
+cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
 xlabel('POC [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+%% par vs zenith -- color coded by season
+
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
+
+% chlor_a
+cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
+cond_area = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,1)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+
+% ag_412_mlrc
+cond_nan = ~isnan([GOCI_Data.ag_412_mlrc_filtered_mean]);
+cond_area = [GOCI_Data.ag_412_mlrc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,2)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+legend('Spring','Summer','Fall','Winter','Location','southeast')
+
+% poc
+cond_nan = ~isnan([GOCI_Data.poc_filtered_mean]);
+cond_area = [GOCI_Data.poc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
+cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+
+subplot(1,3,3)
+
+% Spring
+cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Summer
+cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Fall
+cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+
+hold on
+% Winter
+cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+
+
+xlabel('POC [mg m^{-3}]','FontSize',fs)
+ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+grid on
+
+str1 = sprintf('N = %i',sum(cond_used));
+title(str1,'FontSize',fs-2,'FontWeight','Normal')
+
+
 % % %
 % % %
 %% Capture time analysis
@@ -4184,38 +4929,81 @@ for idx0 = 1:size(wl,2)
       
 end
 
-%% Detrending Data Rrs - subtract monthly hourly means
+%% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 fs = 25;
-ms = 4;
+ms = 5;
+lw = 2;
 solz_lim = 75;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
 
+N = 0; % total number of points per band
+
 wl_vec = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl_vec,2)
       h = figure('Color','white','DefaultAxesFontSize',fs);
       for idx_month = 1:12
-      		for idx_hour = 0:7
-            	cond_time = month([GOCI_Data.datetime])==idx_month & ...
-            		  hour([GOCI_Data.datetime])==idx_hour;
-            	eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
-            	eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
-            	cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-            	cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-            	cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-            	cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-            	cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
-            	eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).Rrs_%s_filtered_mean]);',wl_vec{idx0}));
-            	     
-            	figure(gcf)
-            	hold on
-            	eval(sprintf('plot([GOCI_Data(cond_used).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used).solz_filtered_mean],''ob'',''MarkerSize'',ms);',wl_vec{idx0}));
-        	end
+            for idx_hour = 0:7
+                  cond_time = month([GOCI_Data.datetime])==idx_month & ...
+                        hour([GOCI_Data.datetime])==idx_hour;
+                  eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+                  eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
+                  cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+                  cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+                  cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+                  cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+                  cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                  
+                  N = N + sum(cond_used);
+                  
+                  eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+                  
+                  figure(gcf)
+                  hold on
+                  
+                  % 0h
+                  cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 1h
+                  cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''og'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 2h
+                  cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ob'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 3h
+                  cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  % 4h
+                  cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''oc'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 5h
+                  cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''om'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 6h
+                  cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[1 0.5 0],''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % 7h
+                  cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[0.5 0 0.5],''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+            end
       end
       
       figure(gcf)
@@ -4223,11 +5011,20 @@ for idx0 = 1:size(wl_vec,2)
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
       
-      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0}],'epsc')
+      str1 = sprintf('N = %i',N);
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      N = 0;
+      
+      if idx0==6
+            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      end
+      
+      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
       
 end
 
-%% Detrending Data par - subtract monthly hourly means
+
+%% Detrending Data par - subtract monthly hourly means, color coded by time of the day
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -4237,6 +5034,8 @@ solz_lim = 75;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
+
+N = 0;
 
 par_vec = {'chlor_a','ag_412_mlrc','poc'};
 
@@ -4252,7 +5051,7 @@ for idx0 = 1:size(par_vec,2)
       end	
 
       for idx_month = 1:12
-      		for idx_hour = 0:7
+            for idx_hour = 0:7
             	cond_time = month([GOCI_Data.datetime])==idx_month & ...
             		  hour([GOCI_Data.datetime])==idx_hour;
             	eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
@@ -4263,11 +5062,51 @@ for idx0 = 1:size(par_vec,2)
             	cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
             	cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
+                  N = N + sum(cond_used);
+
             	eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).%s_filtered_mean]);',par_vec{idx0}));
             	     
             	figure(gcf)
             	hold on
-            	eval(sprintf('plot([GOCI_Data(cond_used).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used).solz_filtered_mean],''ob'',''MarkerSize'',ms);',par_vec{idx0}));
+                  % 0h
+                  cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 1h
+                  cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''og'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 2h
+                  cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ob'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 3h
+                  cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  % 4h
+                  cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''oc'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 5h
+                  cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''om'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 6h
+                  cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[1 0.5 0],''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % 7h
+                  cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[0.5 0 0.5],''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+
         	end
       end
       
@@ -4275,8 +5114,187 @@ for idx0 = 1:size(par_vec,2)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
+
+      str1 = sprintf('N = %i',N);
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      N = 0;
       
-      saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0}],'epsc')
+      if idx0==2
+            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      end
+      
+      saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0} '_2'],'epsc')
+      
+end
+
+%% Detrending Data Rrs - subtract monthly hourly means, color coded by season
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 25;
+ms = 5;
+lw = 2;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+N = 0; % total number of points per band
+
+wl_vec = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl_vec,2)
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      for idx_month = 1:12
+            for idx_hour = 0:7
+                  cond_time = month([GOCI_Data.datetime])==idx_month & ...
+                        hour([GOCI_Data.datetime])==idx_hour;
+                  eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+                  eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
+                  cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+                  cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+                  cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+                  cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+                  cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                  
+                  N = N + sum(cond_used);
+                  
+                  eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+                  
+                  figure(gcf)
+                  hold on
+                  
+                  % Spring
+                  cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % Summer
+                  cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''og'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % Fall
+                  cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ob'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+                  hold on
+                  % Winter
+                  cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
+                  
+
+            end
+      end
+      
+      figure(gcf)
+      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      grid on
+      
+      str1 = sprintf('N = %i',N);
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      N = 0;    
+      
+      % to create dummy data and create a custon legend
+      if idx0==6&&idx_month==12&&idx_hour==7
+            p = zeros(4,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            legend(p,'Spring','Summer','Fall','Winter','Location','northeast')
+      end
+      
+      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_season'],'epsc')
+      
+end
+
+% Detrending Data par - subtract monthly hourly means, color coded by season
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 25;
+ms = 4;
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+N = 0;
+
+par_vec = {'chlor_a','ag_412_mlrc','poc'};
+
+for idx0 = 1:size(par_vec,2)
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+
+      if strcmp(par_vec{idx0},'chlor_a')
+                  par_char = 'Chlor-{\ita} [mg m^{-3}]';
+      elseif strcmp(par_vec{idx0},'ag_412_mlrc')
+                  par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx0},'poc')        
+                  par_char = 'POC [mg m^{-3}]';
+      end   
+
+      for idx_month = 1:12
+            for idx_hour = 0:7
+                  cond_time = month([GOCI_Data.datetime])==idx_month & ...
+                        hour([GOCI_Data.datetime])==idx_hour;
+                  eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
+                  eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
+                  cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+                  cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+                  cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+                  cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+                  cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                  
+                  N = N + sum(cond_used);
+                  
+                  eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).%s_filtered_mean]);',par_vec{idx0}));
+                  
+                  figure(gcf)
+                  hold on
+                  % Spring
+                  cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % Summer
+                  cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''og'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % Fall
+                  cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ob'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+                  hold on
+                  % Winter
+                  cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
+                  
+            end
+      end
+      
+      figure(gcf)
+      eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      grid on
+
+      str1 = sprintf('N = %i',N);
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      N = 0;
+      
+      % to create dummy data and create a custon legend
+      if idx0==3&&idx_month==12&&idx_hour==7
+            p = zeros(4,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            legend(p,'Spring','Summer','Fall','Winter','Location','northeast')
+      end
+
+      saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0} '_season'],'epsc')
       
 end
 

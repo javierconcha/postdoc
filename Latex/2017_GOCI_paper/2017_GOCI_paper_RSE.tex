@@ -444,7 +444,7 @@ When all the data are used for the analyses, a good agreement was found between 
 
 % ---------------------------------------------------------------
 \subsection{Time Series}
-As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered means for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands over the area of study. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting failure on the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero and there are only a few of them, except for the 680 nm band.
+As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting failure on the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero and there are only a few of them, except for the 680 nm band.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{0.66\linewidth}
@@ -519,7 +519,7 @@ As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission 
       \end{overpic} 
     \end{minipage} 
 
-    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to level 2 and a filtered mean was calculated for each image over the area of study. The spread of the data is due to the multiple images per day. \label{fig:GOCI_TimeSeries} } 
+    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to Level 2 and a filtered mean was calculated for each image over the area of study. The spread of the data is due to the multiple images per day. \label{fig:GOCI_TimeSeries} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -573,20 +573,20 @@ As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission 
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Products versus solar zenith angle}
-\autoref{fig:Rrs_vs_zenith} shows the $R_{rs}$ filtered mean values for each time of the day for the area of study versus the solar zenith angle (SZA) for the area of study. The plots show only data that passed the exclusion criteria described previously. \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products versus the solar zenith angle for the area of study. 
+\autoref{fig:Rrs_vs_zenith} shows the $R_{rs}$ filtered mean values for each time of the day for the area of study versus the solar zenith angle (SZA). The plots show only data that passed the exclusion criteria described previously. \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products versus the solar zenith angle for the area of study. 
 
 The climatological monthly means for each time of the day were subtracted from the hourly filtered mean in order to make the data independent of the seasonality. These detrended\todo{correct?}~data are shown in \autoref{fig:Rrs_vs_zenith_detrend} and \autoref{fig:par_vs_zenith_detrend}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 50,clip,height=9cm]{./Figures/Rrs_vs_Zenith.eps}
-      \put (14,36) {\colorbox{white}{(a)}}
-      \put (42,36) {\colorbox{white}{(b)}}
-      \put (70,36) {\colorbox{white}{(c)}}
-      \put (14,9) {\colorbox{white}{(d)}}
-      \put (42,9) {\colorbox{white}{(e)}}
-      \put (70,9) {\colorbox{white}{(f)}}      
+      \begin{overpic}[trim=100 0 100 00,clip,height=10cm]{./Figures/Rrs_vs_Zenith2.eps}
+      \put (8,58) {\colorbox{white}{(a)}}
+      \put (40,58) {\colorbox{white}{(b)}}
+      \put (73,58) {\colorbox{white}{(c)}}
+      \put (8,27) {\colorbox{white}{(d)}}
+      \put (40,27) {\colorbox{white}{(e)}}
+      \put (73,27) {\colorbox{white}{(f)}}      
       \end{overpic} 
 	\end{minipage}  
 
@@ -597,10 +597,10 @@ The climatological monthly means for each time of the day were subtracted from t
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Par_vs_Zenith.eps}
-      \put (30,6) {\colorbox{white}{(a)}}
-      \put (58,6) {\colorbox{white}{(b)}}
-      \put (86,6) {\colorbox{white}{(c)}}      
+      \begin{overpic}[trim=110 0 100 0,clip,height=5cm]{./Figures/Par_vs_Zenith2.eps}
+      \put (25,7) {\colorbox{white}{(a)}}
+      \put (58,7) {\colorbox{white}{(b)}}
+      \put (91,7) {\colorbox{white}{(c)}}      
       \end{overpic}
 	\end{minipage}  
 
@@ -609,40 +609,71 @@ The climatological monthly means for each time of the day were subtracted from t
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=100 0 100 00,clip,height=10cm]{./Figures/Rrs_vs_Zenith_season.eps}
+      \put (8,58) {\colorbox{white}{(a)}}
+      \put (40,58) {\colorbox{white}{(b)}}
+      \put (73,58) {\colorbox{white}{(c)}}
+      \put (8,27) {\colorbox{white}{(d)}}
+      \put (40,27) {\colorbox{white}{(e)}}
+      \put (73,27) {\colorbox{white}{(f)}}      
+      \end{overpic} 
+  \end{minipage}  
+
+    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle. \label{fig:Rrs_vs_zenith_season} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=110 0 100 0,clip,height=5cm]{./Figures/Par_vs_Zenith_season.eps}
+      \put (25,7) {\colorbox{white}{(a)}}
+      \put (58,7) {\colorbox{white}{(b)}}
+      \put (91,7) {\colorbox{white}{(c)}}      
+      \end{overpic}
+  \end{minipage}  
+
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle. \label{fig:par_vs_zenith_season} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
     \begin{minipage}[c]{0.3\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_412.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_412_2.eps}
         \put (16,22) {\colorbox{white}{(a)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_443.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_443_2.eps}
         \put (16,22) {\colorbox{white}{(b)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_490.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_490_2.eps}
         \put (16,22) {\colorbox{white}{(c)}}   
       \end{overpic} 
     \end{minipage}  
 
     \begin{minipage}[c]{0.3\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_555.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_555_2.eps}
         \put (16,22) {\colorbox{white}{(d)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_660.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_660_2.eps}
         \put (16,22) {\colorbox{white}{(e)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_680.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_680_2.eps}
         \put (16,22) {\colorbox{white}{(f)}}   
       \end{overpic} 
     \end{minipage}  
@@ -654,19 +685,19 @@ The climatological monthly means for each time of the day were subtracted from t
 \begin{figure}[H]
     \begin{minipage}[c]{0.3\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_chlor_a.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_chlor_a_2.eps}
         \put (16,22) {\colorbox{white}{(a)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_ag_412_mlrc.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_ag_412_mlrc_2.eps}
         \put (16,22) {\colorbox{white}{(b)}}   
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.3\linewidth}
-      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_poc.eps}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_poc_2.eps}
         \put (16,22) {\colorbox{white}{(c)}}   
       \end{overpic} 
     \end{minipage}  
@@ -674,7 +705,73 @@ The climatological monthly means for each time of the day were subtracted from t
     \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data. \label{fig:par_vs_zenith_detrend} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_412_season.eps}
+        \put (16,22) {\colorbox{white}{(a)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_443_season.eps}
+        \put (16,22) {\colorbox{white}{(b)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_490_season.eps}
+        \put (16,22) {\colorbox{white}{(c)}}   
+      \end{overpic} 
+    \end{minipage}  
 
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_555_season.eps}
+        \put (16,22) {\colorbox{white}{(d)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_660_season.eps}
+        \put (16,22) {\colorbox{white}{(e)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/Rrs_vs_Zenith_detrend_680_season.eps}
+        \put (16,22) {\colorbox{white}{(f)}}   
+      \end{overpic} 
+    \end{minipage}  
+
+    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data. \label{fig:Rrs_vs_zenith_detrend} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{0.3\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_chlor_a_season.eps}
+        \put (16,22) {\colorbox{white}{(a)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_ag_412_mlrc_season.eps}
+        \put (16,22) {\colorbox{white}{(b)}}   
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.3\linewidth}
+      \begin{overpic}[trim=0 0 0 00,clip,height=3.8cm]{./Figures/par_vs_Zenith_detrend_poc_season.eps}
+        \put (16,22) {\colorbox{white}{(c)}}   
+      \end{overpic} 
+    \end{minipage}  
+
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data. \label{fig:par_vs_zenith_detrend} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Diurnal Differences and Uncertainties}
 % Daily standard deviation
