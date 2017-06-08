@@ -349,6 +349,7 @@ brdf_opt = 7;
 wl_vec = {'412','443','490','555','660','680'};
 
 for idx = 1:size(wl_vec,2)
+      
       eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx}));
       eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx}));
       cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
@@ -357,15 +358,62 @@ for idx = 1:size(wl_vec,2)
       cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
       cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
       
-      eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl_vec{idx}));
-      data_used_x = [GOCI_Data(cond_used).datetime];
-      
       % plot time serie
       fs = 25;
-      figure('Color','white','DefaultAxesFontSize',fs,'units','normalized','outerposition',[0 0 1 1]);
+      h1 = figure('Color','white','DefaultAxesFontSize',fs,'units','normalized','outerposition',[0 0 1 1]);
+      
+      for idx_tod = 0:7
+            cond_tod = (hour([GOCI_Data.datetime])==idx_tod); % cond for time of the day
+            cond_plot = cond_used&cond_tod;
+            eval(sprintf('data_used_y = [GOCI_Data(cond_plot).Rrs_%s_filtered_mean];',wl_vec{idx}));
+            data_used_x = [GOCI_Data(cond_plot).datetime];
+            
+            figure(h1)
+            subplot(2,1,1)
+            hold on
+            if idx_tod==0
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'or','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==1
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'og','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==2
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);  
+            elseif idx_tod==3
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ok','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==4
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'oc','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==5
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'om','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==6
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==7
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+            end
+            
+
+            subplot(2,1,2)
+            hold on
+
+            if idx_tod==0
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==1
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==2
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);  
+            elseif idx_tod==3
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==4
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==5
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==6
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==7
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+            end
+      end
+
       subplot(2,1,1)
       hold on
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.b','MarkerSize',12)
       eval(sprintf('ylabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx}));
       ax = gca;
       ax.XTick = xData;
@@ -373,10 +421,22 @@ for idx = 1:size(wl_vec,2)
 %       ax.YAxis.TickLabelFormat = '%,.0f';
 %       ylim([-0.01 0.03])
       grid on
+
+      % to create dummy data and create a custon legend
+      if idx==1
+            p = zeros(4,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);           
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
+      end
       
       subplot(2,1,2)
-      hold on
-      plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).solz_center_value],'.b','MarkerSize',12)
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       xlabel('Time','FontSize',fs)
       ylim([0 80])
@@ -384,7 +444,7 @@ for idx = 1:size(wl_vec,2)
       ax.XTick = xData;
       datetick('x','yyyy')%
       grid on
-      
+
       % save fullscreen figure
 %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
@@ -393,6 +453,7 @@ for idx = 1:size(wl_vec,2)
 
       % histogram
       N = nansum(cond_used);
+      eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl_vec{idx}));
       % fs = 20;
       figure('Color','white','DefaultAxesFontSize',fs);
       [counts,centers] = hist(data_used_y,50);
@@ -412,8 +473,9 @@ for idx = 1:size(wl_vec,2)
       hold on
       text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
       grid on
-
+      
       saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
+
 end
 
 %% show high solar zenith angle and no valid data
@@ -464,15 +526,60 @@ for idx = 1:size(par_vec,2)
       cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
       cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
       
-      eval(sprintf('data_used_y = [GOCI_Data(cond_used).%s_filtered_mean];',par_vec{idx}));
-      data_used_x = [GOCI_Data(cond_used).datetime];
-      
       % plot time serie
       fs = 25;
-      figure('Color','white','DefaultAxesFontSize',fs,'units','normalized','outerposition',[0 0 1 1]);
+      h1 = figure('Color','white','DefaultAxesFontSize',fs,'units','normalized','outerposition',[0 0 1 1]);
+      
+      for idx_tod = 0:7
+            cond_tod = (hour([GOCI_Data.datetime])==idx_tod); % cond for time of the day
+            cond_plot = cond_used&cond_tod;
+            eval(sprintf('data_used_y = [GOCI_Data(cond_plot).%s_filtered_mean];',par_vec{idx}));
+            data_used_x = [GOCI_Data(cond_plot).datetime];
+            
+            figure(h1)
+            subplot(2,1,1)
+            hold on
+            if idx_tod==0
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'or','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==1
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'og','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==2
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);  
+            elseif idx_tod==3
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ok','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==4
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'oc','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==5
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'om','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==6
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==7
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+            end
+            
+            subplot(2,1,2)
+            hold on
+            if idx_tod==0
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==1
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==2
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);  
+            elseif idx_tod==3
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==4
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==5
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==6
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            elseif idx_tod==7
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+            end
+      end
+            
       subplot(2,1,1)
-      hold on
-      plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'.b','MarkerSize',12)
+      hold on            
       eval(sprintf('ylabel(''%s'',''FontSize'',fs)',par_char));
       ax = gca;
       ax.XTick = xData;
@@ -480,10 +587,22 @@ for idx = 1:size(par_vec,2)
 %       ax.YAxis.TickLabelFormat = '%,.0f';
 %       ylim([-0.01 0.03])
       grid on
+
+      if idx==1
+            p = zeros(4,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);           
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
+      end         
       
       subplot(2,1,2)
       hold on
-      plot([GOCI_Data(cond_used).datetime],[GOCI_Data(cond_used).solz_center_value],'.b','MarkerSize',12)
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       xlabel('Time','FontSize',fs)
       ylim([0 80])
@@ -491,7 +610,7 @@ for idx = 1:size(par_vec,2)
       ax.XTick = xData;
       datetick('x','yyyy')%
       grid on
-      
+     
       % save fullscreen figure
 %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
@@ -500,6 +619,7 @@ for idx = 1:size(par_vec,2)
 
       % histogram
       N = nansum(cond_used);
+      eval(sprintf('data_used_y = [GOCI_Data(cond_used).%s_filtered_mean];',par_vec{idx}));
       % fs = 20;
       figure('Color','white','DefaultAxesFontSize',fs);
       [counts,centers] = hist(data_used_y,50);

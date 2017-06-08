@@ -441,10 +441,9 @@ When all the data are used for the analyses, a good agreement was found between 
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Cruises Matchups?}
-
 % ---------------------------------------------------------------
 \subsection{Time Series}
-As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting failure on the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero and there are only a few of them, except for the 680 nm band.
+As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands, and color coded by time of the day. \autoref{fig:GOCI_TimeSeries2} shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. Also, note that some values are negative for the 660 and 680 nm spectral bands, reflecting failure on the atmospheric correction. However, from the histogram for these bands, it can be seen that the mean values are close to zero and there are only a few of them, except for the 680 nm band.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{0.66\linewidth}
@@ -519,10 +518,9 @@ As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission 
       \end{overpic} 
     \end{minipage} 
 
-    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to Level 2 and a filtered mean was calculated for each image over the area of study. The spread of the data is due to the multiple images per day. \label{fig:GOCI_TimeSeries} } 
+    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to Level 2 and a filtered mean was calculated for each image over the area of study. The data are color coded by time of the day. \label{fig:GOCI_TimeSeries} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
 
@@ -568,7 +566,7 @@ As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission 
       \end{overpic}
     \end{minipage}   
 
-    \caption{Time Series and histograms for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products for the area of study. \label{fig:GOCI_TimeSeries2} } 
+    \caption{Time Series and histograms for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC products for the area of study. The data are color coded by time of the day. \label{fig:GOCI_TimeSeries2} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
@@ -590,7 +588,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
 	\end{minipage}  
 
-    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle. \label{fig:Rrs_vs_zenith} } 
+    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle, color coded by time of the day. \label{fig:Rrs_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -604,7 +602,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic}
 	\end{minipage}  
 
-    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle. \label{fig:par_vs_zenith} } 
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle, color coded by time of the day. \label{fig:par_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -621,7 +619,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
   \end{minipage}  
 
-    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle. \label{fig:Rrs_vs_zenith_season} } 
+    \caption{Filtered mean $R_{rs}(\lambda)$ versus solar zenith angle, color coded by seasons. \label{fig:Rrs_vs_zenith_season} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -635,7 +633,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic}
   \end{minipage}  
 
-    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle. \label{fig:par_vs_zenith_season} } 
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle, color coded by seasons. \label{fig:par_vs_zenith_season} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -678,7 +676,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
     \end{minipage}  
 
-    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data. \label{fig:Rrs_vs_zenith_detrend} } 
+    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data, color coded by time of the day. \label{fig:Rrs_vs_zenith_detrend} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -702,7 +700,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
     \end{minipage}  
 
-    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data. \label{fig:par_vs_zenith_detrend} } 
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data, color coded by time of the day. \label{fig:par_vs_zenith_detrend} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -745,7 +743,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
     \end{minipage}  
 
-    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data. \label{fig:Rrs_vs_zenith_detrend} } 
+    \caption{$R_{rs}(\lambda)$ versus solar zenith angle with detrended data, color coded by seasons. \label{fig:Rrs_vs_zenith_detrend_season} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -769,7 +767,7 @@ The climatological monthly means for each time of the day were subtracted from t
       \end{overpic} 
     \end{minipage}  
 
-    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data. \label{fig:par_vs_zenith_detrend} } 
+    \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle with detrended data, color coded by seasons. \label{fig:par_vs_zenith_detrend_season} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
