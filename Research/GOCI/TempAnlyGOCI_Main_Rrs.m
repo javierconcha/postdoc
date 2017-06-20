@@ -74,6 +74,7 @@ save('GOCI_TempAnly.mat','VIIRS_Data','-append')
 toc
 %%
 load('GOCI_TempAnly.mat','GOCI_Data')
+
 %% Time series Rrs
 fs = 24;
 h1 =  figure('Color','white','DefaultAxesFontSize',fs);
@@ -376,7 +377,7 @@ for idx = 1:size(wl_vec,2)
             elseif idx_tod==1
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'og','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==2
-                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);  
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==3
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ok','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==4
@@ -386,19 +387,19 @@ for idx = 1:size(wl_vec,2)
             elseif idx_tod==6
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==7
-                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             end
             
-
+            
             subplot(2,1,2)
             hold on
-
+            
             if idx_tod==0
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==1
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==2
-                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);  
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==3
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==4
@@ -408,20 +409,20 @@ for idx = 1:size(wl_vec,2)
             elseif idx_tod==6
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==7
-                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             end
       end
-
+      
       subplot(2,1,1)
       hold on
       eval(sprintf('ylabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx}));
       ax = gca;
       ax.XTick = xData;
       datetick('x','yyyy')%
-%       ax.YAxis.TickLabelFormat = '%,.0f';
-%       ylim([-0.01 0.03])
+      %       ax.YAxis.TickLabelFormat = '%,.0f';
+      %       ylim([-0.01 0.03])
       grid on
-
+      
       % to create dummy data and create a custon legend
       if idx==1
             p = zeros(4,1);
@@ -432,7 +433,7 @@ for idx = 1:size(wl_vec,2)
             p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
             p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
             p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
-            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);           
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
       end
       
@@ -444,13 +445,13 @@ for idx = 1:size(wl_vec,2)
       ax.XTick = xData;
       datetick('x','yyyy')%
       grid on
-
+      
       % save fullscreen figure
-%       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
+      %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
-%       print('-depsc2', [savedirname 'TimeSerie_Rrs' wl_vec{idx}])
+      %       print('-depsc2', [savedirname 'TimeSerie_Rrs' wl_vec{idx}])
       saveas(gcf,[savedirname 'TimeSerie_Rrs' wl_vec{idx}],'epsc')
-
+      
       % histogram
       N = nansum(cond_used);
       eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl_vec{idx}));
@@ -475,7 +476,7 @@ for idx = 1:size(wl_vec,2)
       grid on
       
       saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
-
+      
 end
 
 %% show high solar zenith angle and no valid data
@@ -510,13 +511,13 @@ par_vec = {'chlor_a','ag_412_mlrc', 'poc'};
 for idx = 1:size(par_vec,2)
       
       if strcmp(par_vec{idx},'chlor_a')
-      		par_char = 'Chlor-{\ita} [mg m^{-3}]';
+            par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-      		par_char = 'a_{g:mlrc}(412) [m^{-1}]';
-      elseif strcmp(par_vec{idx},'poc')		
-      		par_char = 'POC [mg m^{-3}]';
+            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx},'poc')
+            par_char = 'POC [mg m^{-3}]';
       end
-
+      
       
       eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx}));
       eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx}));
@@ -544,7 +545,7 @@ for idx = 1:size(par_vec,2)
             elseif idx_tod==1
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'og','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==2
-                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);  
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ob','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==3
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'ok','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==4
@@ -554,7 +555,7 @@ for idx = 1:size(par_vec,2)
             elseif idx_tod==6
                   plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==7
-                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+                  plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             end
             
             subplot(2,1,2)
@@ -564,7 +565,7 @@ for idx = 1:size(par_vec,2)
             elseif idx_tod==1
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==2
-                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);  
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==3
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==4
@@ -574,20 +575,20 @@ for idx = 1:size(par_vec,2)
             elseif idx_tod==6
                   plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             elseif idx_tod==7
-                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);                                                                                                                       
+                  plot([GOCI_Data(cond_plot).datetime],[GOCI_Data(cond_plot).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             end
       end
-            
+      
       subplot(2,1,1)
-      hold on            
+      hold on
       eval(sprintf('ylabel(''%s'',''FontSize'',fs)',par_char));
       ax = gca;
       ax.XTick = xData;
       datetick('x','yyyy')%
-%       ax.YAxis.TickLabelFormat = '%,.0f';
-%       ylim([-0.01 0.03])
+      %       ax.YAxis.TickLabelFormat = '%,.0f';
+      %       ylim([-0.01 0.03])
       grid on
-
+      
       if idx==1
             p = zeros(4,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
@@ -597,9 +598,9 @@ for idx = 1:size(par_vec,2)
             p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
             p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
             p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
-            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);           
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
-      end         
+      end
       
       subplot(2,1,2)
       hold on
@@ -610,13 +611,13 @@ for idx = 1:size(par_vec,2)
       ax.XTick = xData;
       datetick('x','yyyy')%
       grid on
-     
+      
       % save fullscreen figure
-%       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
+      %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
-%       print('-depsc2', [savedirname 'TimeSerie_Rrs' par_vec{idx}])
+      %       print('-depsc2', [savedirname 'TimeSerie_Rrs' par_vec{idx}])
       saveas(gcf,[savedirname 'TimeSerie_' par_vec{idx}],'epsc')
-
+      
       % histogram
       N = nansum(cond_used);
       eval(sprintf('data_used_y = [GOCI_Data(cond_used).%s_filtered_mean];',par_vec{idx}));
@@ -639,7 +640,7 @@ for idx = 1:size(par_vec,2)
       hold on
       text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
       grid on
-
+      
       saveas(gcf,[savedirname 'Hist_' par_vec{idx}],'epsc')
 end
 
@@ -647,16 +648,15 @@ end
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
-fs = 25;
+fs = 40;
 ms = 5;
 lw = 2;
 solz_lim = 75;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs_412
 cond_nan = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
@@ -666,8 +666,9 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,1)
+
+h0 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,1)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -716,6 +717,10 @@ title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','southwest')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_412_vs_Zenith'],'epsc')
+
 % Rrs_443
 cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -725,7 +730,8 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-subplot(2,3,2)
+h1 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,2)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -772,6 +778,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_443_vs_Zenith'],'epsc')
+
 % Rrs_490
 cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -781,7 +791,8 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-subplot(2,3,3)
+h2 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,3)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -828,6 +839,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_490_vs_Zenith'],'epsc')
+
 % Rrs_555
 cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -837,7 +852,8 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-subplot(2,3,4)
+h3 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,4)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -884,6 +900,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_555_vs_Zenith'],'epsc')
+
 % Rrs_660
 cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -893,7 +913,8 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-subplot(2,3,5)
+h4 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,5)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -940,6 +961,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_660_vs_Zenith'],'epsc')
+
 % Rrs_680
 cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -949,7 +974,8 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-subplot(2,3,6)
+h5 = figure('Color','white','DefaultAxesFontSize',fs);
+% subplot(2,3,6)
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -996,21 +1022,23 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_680_vs_Zenith'],'epsc')
+
 %% mean Rrs vs zenith -- filtered, color coded by season
 % Spring - from March 1 to May 31; 3, 4, 5
 % Summer - from June 1 to August 31; 6, 7, 8
 % Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
 % Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
 
-fs = 25;
+fs = 40;
 ms = 5;
 lw = 2;
 solz_lim = 75;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs_412
 cond_nan = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
@@ -1020,8 +1048,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,1)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1051,6 +1079,10 @@ title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 legend('Spring','Summer','Fall','Winter','Location','southwest')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_412_vs_Zenith_season'],'epsc')
+
 % Rrs_443
 cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1059,8 +1091,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,2)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1088,6 +1120,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_443_vs_Zenith_season'],'epsc')
+
 % Rrs_490
 cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1096,8 +1132,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,3)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1125,6 +1161,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_490_vs_Zenith_season'],'epsc')
+
 % Rrs_555
 cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1133,8 +1173,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,4)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1162,6 +1202,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_555_vs_Zenith_season'],'epsc')
+
 % Rrs_660
 cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1170,8 +1214,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,5)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1199,6 +1243,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_660_vs_Zenith_season'],'epsc')
+
 % Rrs_680
 cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
 cond_area = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1207,8 +1255,8 @@ cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
- 
-subplot(2,3,6)
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1236,10 +1284,13 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Rrs_680_vs_Zenith_season'],'epsc')
+
 %% par vs zenith -- color coded by time of the day
 
-fs = 20;
-h = figure('Color','white','DefaultAxesFontSize',fs);
+fs = 40;
 
 % chlor_a
 cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
@@ -1251,7 +1302,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,1)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -1298,6 +1349,10 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_chlor_a'],'epsc')
+
 % ag_412_mlrc
 cond_nan = ~isnan([GOCI_Data.ag_412_mlrc_filtered_mean]);
 cond_area = [GOCI_Data.ag_412_mlrc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1308,7 +1363,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,2)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -1357,6 +1412,10 @@ title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','east')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_ag_412_mlrc'],'epsc')
+
 % poc
 cond_nan = ~isnan([GOCI_Data.poc_filtered_mean]);
 cond_area = [GOCI_Data.poc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1367,8 +1426,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,3)
-plot([GOCI_Data(cond_used).poc_filtered_mean],[GOCI_Data(cond_used).solz_center_value],'ob','MarkerSize',ms)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
@@ -1415,10 +1473,13 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_poc'],'epsc')
+
 %% par vs zenith -- color coded by season
 
-fs = 20;
-h = figure('Color','white','DefaultAxesFontSize',fs);
+fs = 40;
 
 % chlor_a
 cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
@@ -1430,7 +1491,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,1)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1458,6 +1519,9 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_chlor_a_season'],'epsc')
 
 % ag_412_mlrc
 cond_nan = ~isnan([GOCI_Data.ag_412_mlrc_filtered_mean]);
@@ -1469,7 +1533,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,2)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1499,6 +1563,10 @@ title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
 legend('Spring','Summer','Fall','Winter','Location','southeast')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_ag_412_mlrc_season'],'epsc')
+
 % poc
 cond_nan = ~isnan([GOCI_Data.poc_filtered_mean]);
 cond_area = [GOCI_Data.poc_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1509,7 +1577,7 @@ cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
 cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
 
-subplot(1,3,3)
+h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
@@ -1538,6 +1606,9 @@ grid on
 str1 = sprintf('N = %i',sum(cond_used));
 title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+saveas(gcf,[savedirname 'Par_vs_Zenith_poc_season'],'epsc')
 
 % % %
 % % %
@@ -1671,7 +1742,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07 = nan;                        
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -1754,13 +1825,13 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_412_03,GOCI_DailyStatMatrix(count).Rrs_412_04,GOCI_DailyStatMatrix(count).Rrs_412_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02,GOCI_DailyStatMatrix(count).Rrs_412_03,GOCI_DailyStatMatrix(count).Rrs_412_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02,GOCI_DailyStatMatrix(count).Rrs_412_03,GOCI_DailyStatMatrix(count).Rrs_412_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02,GOCI_DailyStatMatrix(count).Rrs_412_03,GOCI_DailyStatMatrix(count).Rrs_412_04]);
                         end
-
-
+                        
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00 = ...
@@ -1795,7 +1866,7 @@ if process_data_flag
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
                               end
                         end
-
+                        
                         
                         %% Rrs_443
                         
@@ -1857,7 +1928,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07 = nan;                           
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -1940,12 +2011,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_443_03,GOCI_DailyStatMatrix(count).Rrs_443_04,GOCI_DailyStatMatrix(count).Rrs_443_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02,GOCI_DailyStatMatrix(count).Rrs_443_03,GOCI_DailyStatMatrix(count).Rrs_443_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02,GOCI_DailyStatMatrix(count).Rrs_443_03,GOCI_DailyStatMatrix(count).Rrs_443_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02,GOCI_DailyStatMatrix(count).Rrs_443_03,GOCI_DailyStatMatrix(count).Rrs_443_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00 = ...
@@ -2041,7 +2112,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07 = nan;   
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07 = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -2123,13 +2194,13 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_490_03,GOCI_DailyStatMatrix(count).Rrs_490_04,GOCI_DailyStatMatrix(count).Rrs_490_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02,GOCI_DailyStatMatrix(count).Rrs_490_03,GOCI_DailyStatMatrix(count).Rrs_490_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02,GOCI_DailyStatMatrix(count).Rrs_490_03,GOCI_DailyStatMatrix(count).Rrs_490_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02,GOCI_DailyStatMatrix(count).Rrs_490_03,GOCI_DailyStatMatrix(count).Rrs_490_04]);
                         end
-
-
+                        
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00 = ...
@@ -2225,7 +2296,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -2308,13 +2379,13 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_555_03,GOCI_DailyStatMatrix(count).Rrs_555_04,GOCI_DailyStatMatrix(count).Rrs_555_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02,GOCI_DailyStatMatrix(count).Rrs_555_03,GOCI_DailyStatMatrix(count).Rrs_555_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02,GOCI_DailyStatMatrix(count).Rrs_555_03,GOCI_DailyStatMatrix(count).Rrs_555_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02,GOCI_DailyStatMatrix(count).Rrs_555_03,GOCI_DailyStatMatrix(count).Rrs_555_04]);
                         end
- 
-                         for idx2 =1:size(data_used_filtered,2)
+                        
+                        for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
@@ -2347,7 +2418,7 @@ if process_data_flag
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
                               end
-                        end                       
+                        end
                         
                         %% Rrs_660
                         
@@ -2409,7 +2480,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -2492,12 +2563,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_660_03,GOCI_DailyStatMatrix(count).Rrs_660_04,GOCI_DailyStatMatrix(count).Rrs_660_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02,GOCI_DailyStatMatrix(count).Rrs_660_03,GOCI_DailyStatMatrix(count).Rrs_660_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02,GOCI_DailyStatMatrix(count).Rrs_660_03,GOCI_DailyStatMatrix(count).Rrs_660_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02,GOCI_DailyStatMatrix(count).Rrs_660_03,GOCI_DailyStatMatrix(count).Rrs_660_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00 = ...
@@ -2531,7 +2602,7 @@ if process_data_flag
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
                               end
-                        end                        
+                        end
                         
                         %% Rrs_680
                         
@@ -2593,7 +2664,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -2676,13 +2747,13 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).Rrs_680_03,GOCI_DailyStatMatrix(count).Rrs_680_04,GOCI_DailyStatMatrix(count).Rrs_680_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02,GOCI_DailyStatMatrix(count).Rrs_680_03,GOCI_DailyStatMatrix(count).Rrs_680_04])==0
-                        	GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02,GOCI_DailyStatMatrix(count).Rrs_680_03,GOCI_DailyStatMatrix(count).Rrs_680_04]);                        	
+                              GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02,GOCI_DailyStatMatrix(count).Rrs_680_03,GOCI_DailyStatMatrix(count).Rrs_680_04]);
                         end
-
-
+                        
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00 = ...
@@ -2778,7 +2849,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -2861,10 +2932,10 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).aot_865_03,GOCI_DailyStatMatrix(count).aot_865_04,GOCI_DailyStatMatrix(count).aot_865_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).aot_865_02,GOCI_DailyStatMatrix(count).aot_865_03,GOCI_DailyStatMatrix(count).aot_865_04])==0
-                        	GOCI_DailyStatMatrix(count).aot_865_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).aot_865_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).aot_865_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).aot_865_02,GOCI_DailyStatMatrix(count).aot_865_03,GOCI_DailyStatMatrix(count).aot_865_04]);                        	
+                              GOCI_DailyStatMatrix(count).aot_865_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).aot_865_02,GOCI_DailyStatMatrix(count).aot_865_03,GOCI_DailyStatMatrix(count).aot_865_04]);
                         end
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -2901,7 +2972,7 @@ if process_data_flag
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
                               end
                         end
-
+                        
                         %% angstrom
                         
                         data_used = [GOCI_Data_used(cond_1t).angstrom_filtered_mean];
@@ -2962,7 +3033,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3045,13 +3116,13 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).angstrom_03,GOCI_DailyStatMatrix(count).angstrom_04,GOCI_DailyStatMatrix(count).angstrom_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).angstrom_02,GOCI_DailyStatMatrix(count).angstrom_03,GOCI_DailyStatMatrix(count).angstrom_04])==0
-                        	GOCI_DailyStatMatrix(count).angstrom_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).angstrom_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).angstrom_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).angstrom_02,GOCI_DailyStatMatrix(count).angstrom_03,GOCI_DailyStatMatrix(count).angstrom_04]);                        	
+                              GOCI_DailyStatMatrix(count).angstrom_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).angstrom_02,GOCI_DailyStatMatrix(count).angstrom_03,GOCI_DailyStatMatrix(count).angstrom_04]);
                         end
-
-
+                        
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00 = ...
@@ -3086,7 +3157,7 @@ if process_data_flag
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
                               end
                         end
-                       
+                        
                         %% poc
                         
                         data_used = [GOCI_Data_used(cond_1t).poc_filtered_mean];
@@ -3147,7 +3218,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3230,12 +3301,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).poc_03,GOCI_DailyStatMatrix(count).poc_04,GOCI_DailyStatMatrix(count).poc_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).poc_02,GOCI_DailyStatMatrix(count).poc_03,GOCI_DailyStatMatrix(count).poc_04])==0
-                        	GOCI_DailyStatMatrix(count).poc_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).poc_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).poc_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).poc_02,GOCI_DailyStatMatrix(count).poc_03,GOCI_DailyStatMatrix(count).poc_04]);                        	
+                              GOCI_DailyStatMatrix(count).poc_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).poc_02,GOCI_DailyStatMatrix(count).poc_03,GOCI_DailyStatMatrix(count).poc_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00 = ...
@@ -3331,7 +3402,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3414,12 +3485,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).ag_412_mlrc_03,GOCI_DailyStatMatrix(count).ag_412_mlrc_04,GOCI_DailyStatMatrix(count).ag_412_mlrc_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02,GOCI_DailyStatMatrix(count).ag_412_mlrc_03,GOCI_DailyStatMatrix(count).ag_412_mlrc_04])==0
-                        	GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02,GOCI_DailyStatMatrix(count).ag_412_mlrc_03,GOCI_DailyStatMatrix(count).ag_412_mlrc_04]);                        	
+                              GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02,GOCI_DailyStatMatrix(count).ag_412_mlrc_03,GOCI_DailyStatMatrix(count).ag_412_mlrc_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00 = ...
@@ -3515,7 +3586,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3598,12 +3669,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).chlor_a_03,GOCI_DailyStatMatrix(count).chlor_a_04,GOCI_DailyStatMatrix(count).chlor_a_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).chlor_a_02,GOCI_DailyStatMatrix(count).chlor_a_03,GOCI_DailyStatMatrix(count).chlor_a_04])==0
-                        	GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).chlor_a_02,GOCI_DailyStatMatrix(count).chlor_a_03,GOCI_DailyStatMatrix(count).chlor_a_04]);                        	
+                              GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).chlor_a_02,GOCI_DailyStatMatrix(count).chlor_a_03,GOCI_DailyStatMatrix(count).chlor_a_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00 = ...
@@ -3699,7 +3770,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04 = nan;
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06 = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07 = nan; 
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07 = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3782,12 +3853,12 @@ if process_data_flag
                               GOCI_DailyStatMatrix(count).brdf_03,GOCI_DailyStatMatrix(count).brdf_04,GOCI_DailyStatMatrix(count).brdf_05]);
                         
                         if nanmean([GOCI_DailyStatMatrix(count).brdf_02,GOCI_DailyStatMatrix(count).brdf_03,GOCI_DailyStatMatrix(count).brdf_04])==0
-                        	GOCI_DailyStatMatrix(count).brdf_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                              GOCI_DailyStatMatrix(count).brdf_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
                         else
-                        	GOCI_DailyStatMatrix(count).brdf_mean_mid_three = ...
-                              nanmean([GOCI_DailyStatMatrix(count).brdf_02,GOCI_DailyStatMatrix(count).brdf_03,GOCI_DailyStatMatrix(count).brdf_04]);                        	
+                              GOCI_DailyStatMatrix(count).brdf_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).brdf_02,GOCI_DailyStatMatrix(count).brdf_03,GOCI_DailyStatMatrix(count).brdf_04]);
                         end
-
+                        
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00 = ...
@@ -3836,7 +3907,7 @@ CV_lim = nanmean([AQUA_Data.median_CV])+nanstd([AQUA_Data.median_CV]);
 if process_data_flag
       clear AQUA_DailyStatMatrix AQUA_Data_used
       clear cond_1t cond1 cond2 cond_used
-     
+      
       first_day = datetime(AQUA_Data(1).datetime.Year,AQUA_Data(1).datetime.Month,AQUA_Data(1).datetime.Day);
       last_day = datetime(AQUA_Data(end).datetime.Year,AQUA_Data(end).datetime.Month,AQUA_Data(end).datetime.Day);
       
@@ -3870,7 +3941,7 @@ if process_data_flag
                         AQUA_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         AQUA_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         AQUA_DailyStatMatrix(count).idx_to_AQUA_Data = find(cond_1t);
-
+                        
                         %% Rrs_412
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -3881,7 +3952,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -3892,7 +3963,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_412_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -3901,7 +3972,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = nan;
                         end
                         clear cond_1t_aux
-
+                        
                         %% Rrs_443
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -3912,7 +3983,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -3923,7 +3994,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_443_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -3932,7 +4003,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = nan;
                         end
                         clear cond_1t_aux
-
+                        
                         %% Rrs_488
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -3943,7 +4014,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -3954,7 +4025,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_488_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -3962,7 +4033,7 @@ if process_data_flag
                         else
                               AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = nan;
                         end
-                        clear cond_1t_aux                        
+                        clear cond_1t_aux
                         
                         %% Rrs_547
                         % only positive values and if more of half of the area is valid
@@ -3974,7 +4045,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -3985,7 +4056,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_547_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -3993,7 +4064,7 @@ if process_data_flag
                         else
                               AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nan;
                         end
-                        clear cond_1t_aux                        
+                        clear cond_1t_aux
                         
                         %% Rrs_667
                         % only positive values and if more of half of the area is valid
@@ -4005,7 +4076,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4016,7 +4087,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_667_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4036,7 +4107,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4047,7 +4118,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).Rrs_678_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4056,7 +4127,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = nan;
                         end
                         clear cond_1t_aux
-                   
+                        
                         %% aot_869
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -4067,7 +4138,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4078,7 +4149,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).aot_869_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4086,7 +4157,7 @@ if process_data_flag
                         else
                               AQUA_DailyStatMatrix(count).aot_869_filtered_mean = nan;
                         end
-                        clear cond_1t_aux                   
+                        clear cond_1t_aux
                         
                         %% angstrom
                         % only positive values and if more of half of the area is valid
@@ -4098,7 +4169,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4109,7 +4180,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).angstrom_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4129,7 +4200,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4140,7 +4211,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).poc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4148,7 +4219,7 @@ if process_data_flag
                         else
                               AQUA_DailyStatMatrix(count).poc_filtered_mean = nan;
                         end
-                        clear cond_1t_aux                        
+                        clear cond_1t_aux
                         
                         %% ag_412_mlrc
                         % only positive values and if more of half of the area is valid
@@ -4160,7 +4231,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4171,7 +4242,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4180,7 +4251,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nan;
                         end
                         clear cond_1t_aux
-
+                        
                         %% chlor_a
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -4191,7 +4262,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4202,7 +4273,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).chlor_a_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4222,7 +4293,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4233,7 +4304,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         AQUA_DailyStatMatrix(count).brdf_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4295,7 +4366,7 @@ if process_data_flag
                         VIIRS_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         VIIRS_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         VIIRS_DailyStatMatrix(count).idx_to_VIIRS_Data = find(cond_1t);
-
+                        
                         %% Rrs_410
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -4306,7 +4377,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4317,7 +4388,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).Rrs_410_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4337,7 +4408,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4348,7 +4419,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).Rrs_443_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4368,7 +4439,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4379,7 +4450,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).Rrs_486_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4399,7 +4470,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4410,7 +4481,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).Rrs_551_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4430,7 +4501,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4441,7 +4512,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).Rrs_671_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4461,7 +4532,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4472,7 +4543,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).aot_862_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4492,7 +4563,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4503,7 +4574,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).angstrom_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4523,7 +4594,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4534,7 +4605,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).poc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4554,7 +4625,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4565,7 +4636,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).ag_412_mlrc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4585,7 +4656,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4596,7 +4667,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).chlor_a_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4616,7 +4687,7 @@ if process_data_flag
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux cond_area cond_neg
-
+                        
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
@@ -4627,7 +4698,7 @@ if process_data_flag
                               cond_1t_aux = logical(cond_1t_aux);
                               clear Imin Itemp
                         end
-                      
+                        
                         VIIRS_DailyStatMatrix(count).brdf_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
@@ -4635,13 +4706,13 @@ if process_data_flag
                         else
                               VIIRS_DailyStatMatrix(count).brdf_filtered_mean = nan;
                         end
-                        clear cond_1t_aux              
+                        clear cond_1t_aux
                   end
             end
       end
 end
 %
-% save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
+save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4872,8 +4943,8 @@ if process_data_flag
             end
       end
 end
-%
-% save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
+%%
+save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
 
 %% mean rrs vs zenith -- filtered
 
@@ -4950,7 +5021,7 @@ brdf_opt = 7;
 
 wl = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl,2)
-      cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt; 
+      cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
       data_used_x = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
@@ -4974,7 +5045,7 @@ for idx0 = 1:size(wl,2)
             wl_AQUA = '678';
       end
       
-      cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt; 
+      cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_mean]);',wl_AQUA));
       cond_used = cond1&cond_brdf;
@@ -5000,10 +5071,10 @@ for idx0 = 1:size(wl,2)
             wl_VIIRS = '551';
       elseif strcmp(wl{idx0},'660')
             wl_VIIRS = '671';
-%       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-%             wl_VIIRS = '671';
+            %       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            %             wl_VIIRS = '671';
       end
-            
+      
       cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
@@ -5053,7 +5124,7 @@ end
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
-fs = 25;
+fs = 40;
 ms = 5;
 lw = 2;
 solz_lim = 75;
@@ -5139,21 +5210,16 @@ for idx0 = 1:size(wl_vec,2)
             legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       end
       
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
       
 end
 
 
-%% Detrending Data par - subtract monthly hourly means, color coded by time of the day
+% Detrending Data par - subtract monthly hourly means, color coded by time of the day
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-
-fs = 25;
-ms = 4;
-solz_lim = 75;
-senz_lim = 60;
-CV_lim = 0.3;
-brdf_opt = 7;
 
 N = 0;
 
@@ -5161,33 +5227,33 @@ par_vec = {'chlor_a','ag_412_mlrc','poc'};
 
 for idx0 = 1:size(par_vec,2)
       h = figure('Color','white','DefaultAxesFontSize',fs);
-
+      
       if strcmp(par_vec{idx0},'chlor_a')
-      		par_char = 'Chlor-{\ita} [mg m^{-3}]';
+            par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx0},'ag_412_mlrc')
-      		par_char = 'a_{g:mlrc}(412) [m^{-1}]';
-      elseif strcmp(par_vec{idx0},'poc')		
-      		par_char = 'POC [mg m^{-3}]';
-      end	
-
+            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx0},'poc')
+            par_char = 'POC [mg m^{-3}]';
+      end
+      
       for idx_month = 1:12
             for idx_hour = 0:7
-            	cond_time = month([GOCI_Data.datetime])==idx_month & ...
-            		  hour([GOCI_Data.datetime])==idx_hour;
-            	eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
-            	eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
-            	cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-            	cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-            	cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-            	cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-            	cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
+                  cond_time = month([GOCI_Data.datetime])==idx_month & ...
+                        hour([GOCI_Data.datetime])==idx_hour;
+                  eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx0}));
+                  eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx0}));
+                  cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+                  cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+                  cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+                  cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+                  cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+                  
                   N = N + sum(cond_used);
-
-            	eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).%s_filtered_mean]);',par_vec{idx0}));
-            	     
-            	figure(gcf)
-            	hold on
+                  
+                  eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).%s_filtered_mean]);',par_vec{idx0}));
+                  
+                  figure(gcf)
+                  hold on
                   % 0h
                   cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
                   eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
@@ -5226,15 +5292,15 @@ for idx0 = 1:size(par_vec,2)
                   cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
                   eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[0.5 0 0.5],''MarkerSize'',ms,''LineWidth'',lw);',par_vec{idx0}));
                   
-
-        	end
+                  
+            end
       end
       
       figure(gcf)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
-
+      
       str1 = sprintf('N = %i',N);
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       N = 0;
@@ -5243,21 +5309,15 @@ for idx0 = 1:size(par_vec,2)
             legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       end
       
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0} '_2'],'epsc')
       
 end
 
-%% Detrending Data Rrs - subtract monthly hourly means, color coded by season
+% Detrending Data Rrs - subtract monthly hourly means, color coded by season
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-
-fs = 25;
-ms = 5;
-lw = 2;
-solz_lim = 75;
-senz_lim = 60;
-CV_lim = 0.3;
-brdf_opt = 7;
 
 N = 0; % total number of points per band
 
@@ -5302,7 +5362,7 @@ for idx0 = 1:size(wl_vec,2)
                   cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
                   eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
                   
-
+                  
             end
       end
       
@@ -5313,7 +5373,7 @@ for idx0 = 1:size(wl_vec,2)
       
       str1 = sprintf('N = %i',N);
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
-      N = 0;    
+      N = 0;
       
       % to create dummy data and create a custon legend
       if idx0==6&&idx_month==12&&idx_hour==7
@@ -5325,6 +5385,8 @@ for idx0 = 1:size(wl_vec,2)
             legend(p,'Spring','Summer','Fall','Winter','Location','northeast')
       end
       
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_season'],'epsc')
       
 end
@@ -5333,28 +5395,21 @@ end
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
-fs = 25;
-ms = 4;
-solz_lim = 75;
-senz_lim = 60;
-CV_lim = 0.3;
-brdf_opt = 7;
-
 N = 0;
 
 par_vec = {'chlor_a','ag_412_mlrc','poc'};
 
 for idx0 = 1:size(par_vec,2)
       h = figure('Color','white','DefaultAxesFontSize',fs);
-
+      
       if strcmp(par_vec{idx0},'chlor_a')
-                  par_char = 'Chlor-{\ita} [mg m^{-3}]';
+            par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx0},'ag_412_mlrc')
-                  par_char = 'a_{g:mlrc}(412) [m^{-1}]';
-      elseif strcmp(par_vec{idx0},'poc')        
-                  par_char = 'POC [mg m^{-3}]';
-      end   
-
+            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx0},'poc')
+            par_char = 'POC [mg m^{-3}]';
+      end
+      
       for idx_month = 1:12
             for idx_hour = 0:7
                   cond_time = month([GOCI_Data.datetime])==idx_month & ...
@@ -5399,7 +5454,7 @@ for idx0 = 1:size(par_vec,2)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       grid on
-
+      
       str1 = sprintf('N = %i',N);
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       N = 0;
@@ -5413,7 +5468,9 @@ for idx0 = 1:size(par_vec,2)
             p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
             legend(p,'Spring','Summer','Fall','Winter','Location','northeast')
       end
-
+      
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       saveas(gcf,[savedirname 'Par_vs_Zenith_detrend_' par_vec{idx0} '_season'],'epsc')
       
 end
@@ -6178,11 +6235,11 @@ par_vec = {'chlor_a','ag_412_mlrc', 'poc'};
 for idx = 1:size(par_vec,2)
       
       if strcmp(par_vec{idx},'chlor_a')
-      		par_char = 'Chlor-{\ita} [mg m^{-3}]';
+            par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-      		par_char = 'a_{g:mlrc}(412) [m^{-1}]';
-      elseif strcmp(par_vec{idx},'poc')		
-      		par_char = 'POC [mg m^{-3}]';
+            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+      elseif strcmp(par_vec{idx},'poc')
+            par_char = 'POC [mg m^{-3}]';
       end
       
       eval(sprintf('rel_diff_mean_00 = nanmean(100*[GOCI_DailyStatMatrix.%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix.%s_mean_mean]));',par_vec{idx},par_vec{idx}))
@@ -6489,7 +6546,7 @@ for idx=1:size(date_vec,2)
             AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
       else
             AQUA_date_vec(idx) = NaN;
-      end      
+      end
       if ~isempty(find(VIIRS_date==date_vec(idx)))
             VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
       else
@@ -6533,8 +6590,8 @@ for idx0 = 1:size(wl,2)
       elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             wl_VIIRS = '671';
       end
-            
-      %% GOCI Comparison with VIIRS     
+      
+      %% GOCI Comparison with VIIRS
       [h1,ax1,leg1] = plot_sat_vs_sat('Rrs',wl{idx0},wl_VIIRS,'GOCI','VIIRS',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_%s_mean_mid_three]',wl{idx0})),...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_%s_filtered_mean]',wl_VIIRS)));
@@ -6548,7 +6605,7 @@ for idx0 = 1:size(wl,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' wl{idx0}],'epsc')
-      %% VIIRS Comparison with AQUA      % lower boundary       
+      %% VIIRS Comparison with AQUA      % lower boundary
       [h3,ax3,leg3] = plot_sat_vs_sat('Rrs',wl_VIIRS,wl_AQUA,'VIIRS','AQUA',...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_VIIRS)),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_AQUA)));
@@ -6573,7 +6630,7 @@ for idx0 = 1:size(par,2)
             par_GOCI = par{idx0};
             par_AQUA = par{idx0};
             par_VIIRS = par{idx0};
-      end      
+      end
       
       [h1,ax1,leg1] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','VIIRS',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_VG))).%s_mean_mid_three]',par_GOCI)),...
@@ -6582,8 +6639,8 @@ for idx0 = 1:size(par,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' par{idx0}],'epsc')
-
-      %% GOCI Comparison with AQUA   
+      
+      %% GOCI Comparison with AQUA
       [h2,ax2,leg2] = plot_sat_vs_sat(par{idx0},'NA','NA','GOCI','AQUA',...
             eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_AG))).%s_mean_mid_three]',par_GOCI)),...
             eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_AG))).%s_filtered_mean]',par_AQUA)));
@@ -6591,7 +6648,7 @@ for idx0 = 1:size(par,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' par{idx0}],'epsc')
-
+      
       %% VIIRS Comparison with AQUA
       [h3,ax3,leg3] = plot_sat_vs_sat(par{idx0},'NA','NA','VIIRS','AQUA',...
             eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VA))).%s_filtered_mean]',par_VIIRS)),...
@@ -6635,7 +6692,7 @@ for idx=1:size(date_vec,2)
             AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
       else
             AQUA_date_vec(idx) = NaN;
-      end      
+      end
       if ~isempty(find(VIIRS_date==date_vec(idx),1))
             VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
       else
@@ -6823,7 +6880,7 @@ for idx=1:size(date_vec,2)
             AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
       else
             AQUA_date_vec(idx) = NaN;
-      end      
+      end
       if ~isempty(find(VIIRS_date==date_vec(idx),1))
             VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
       else
@@ -7123,9 +7180,9 @@ ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs+4)
 
 % set(gcf, 'renderer','painters')
 legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660','GOCI 680',...
-	'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667','MODISA 678',...
-	'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
-	'Location','EastOutside')
+      'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667','MODISA 678',...
+      'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
+      'Location','EastOutside')
 
 set(gcf,'PaperPositionMode', 'auto')
 % saveas(gcf,[savedirname 'CrossComp_All_Rrs'],'epsc')
@@ -7381,3 +7438,342 @@ hist([VIIRS_DailyStatMatrix(cond).Rrs_671_median_CV])
 % subplot(3,1,3)
 % plot([VIIRS_MonthlyStatMatrix.datetime],[VIIRS_MonthlyStatMatrix.Rrs_671_mean_N],'*-')
 % xlim([datenum(datetime(2012,1,1)) datenum(datetime(2017,1,1))])
+
+%% 3-day set comparison
+clear three_day_idx
+
+brdf_opt = 7;
+
+for idx = 1:size(GOCI_DailyStatMatrix,2)-2
+      cond_brdf1 = [GOCI_DailyStatMatrix(idx+0).brdf_opt]==brdf_opt;
+      cond_brdf2 = [GOCI_DailyStatMatrix(idx+1).brdf_opt]==brdf_opt;
+      cond_brdf3 = [GOCI_DailyStatMatrix(idx+2).brdf_opt]==brdf_opt;
+      
+      
+      cond1 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_07]);
+      
+      
+      cond2 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_443_07]);
+      
+      cond3 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_490_07]);
+      
+      cond4 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_07]);
+      
+      cond5 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_07]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_01]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_02]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_03]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_04]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_05]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_06]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_07]);
+      
+%       cond6 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_01]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_02]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_03]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_04]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_05]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_06]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_07]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_00]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_01]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_02]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_03]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_04]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_05]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_06]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_07]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_00]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_01]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_02]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_03]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_04]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_05]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_06]) && ...
+%             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_07]);
+      
+      if    cond1&&cond2&&cond3&&cond4... % for bands 412, 443, 490, and 555
+            &&cond_brdf1&&cond_brdf2&&cond_brdf3
+            three_day_idx(idx)=true;
+            
+      else
+            three_day_idx(idx)=false;
+      end
+end
+
+A= find(three_day_idx); % indeces to 3-day sequences.
+%%
+
+for idx = 1:sum(three_day_idx)
+      % Rrs
+      tod_Rrs_412_00 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_00] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_00] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_00]];
+      tod_Rrs_412_01 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_01] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_01] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_01]];
+      tod_Rrs_412_02 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_02] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_02] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_02]];
+      tod_Rrs_412_03 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_03] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_03] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_03]];
+      tod_Rrs_412_04 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_04] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_04] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_04]];
+      tod_Rrs_412_05 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_05] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_05] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_05]];
+      tod_Rrs_412_06 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_06] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_06] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_06]];
+      tod_Rrs_412_07 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_07] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_07] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_07]];
+      
+      tod_Rrs_443_00 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_00] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_00] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_00]];
+      tod_Rrs_443_01 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_01] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_01] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_01]];
+      tod_Rrs_443_02 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_02] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_02] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_02]];
+      tod_Rrs_443_03 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_03] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_03] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_03]];
+      tod_Rrs_443_04 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_04] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_04] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_04]];
+      tod_Rrs_443_05 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_05] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_05] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_05]];
+      tod_Rrs_443_06 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_06] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_06] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_06]];
+      tod_Rrs_443_07 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_443_07] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_443_07] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_443_07]];
+      
+      tod_Rrs_490_00 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_00] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_00] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_00]];
+      tod_Rrs_490_01 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_01] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_01] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_01]];
+      tod_Rrs_490_02 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_02] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_02] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_02]];
+      tod_Rrs_490_03 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_03] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_03] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_03]];
+      tod_Rrs_490_04 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_04] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_04] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_04]];
+      tod_Rrs_490_05 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_05] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_05] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_05]];
+      tod_Rrs_490_06 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_06] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_06] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_06]];
+      tod_Rrs_490_07 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_490_07] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_490_07] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_490_07]];
+      
+      tod_Rrs_555_00 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_00] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_00] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_00]];
+      tod_Rrs_555_01 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_01] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_01] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_01]];
+      tod_Rrs_555_02 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_02] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_02] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_02]];
+      tod_Rrs_555_03 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_03] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_03] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_03]];
+      tod_Rrs_555_04 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_04] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_04] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_04]];
+      tod_Rrs_555_05 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_05] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_05] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_05]];
+      tod_Rrs_555_06 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_06] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_06] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_06]];
+      tod_Rrs_555_07 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_555_07] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_555_07] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_555_07]];
+      
+      % datetime
+      tod_Rrs_412_00_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_01_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_02_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_03_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_04_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_05_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_06_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_412_07_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      
+      tod_Rrs_443_00_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_01_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_02_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_03_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_04_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_05_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_06_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_443_07_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      
+      tod_Rrs_490_00_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_01_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_02_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_03_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_04_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_05_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_06_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_490_07_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      
+      tod_Rrs_555_00_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_01_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_02_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_03_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_04_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_05_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_06_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      tod_Rrs_555_07_datetime = [[GOCI_DailyStatMatrix(A(idx)).datetime] [GOCI_DailyStatMatrix(A(idx)+1).datetime] [GOCI_DailyStatMatrix(A(idx)+2).datetime]];
+      
+      
+      fs = 25;
+      ms = 14;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      
+      % Rrs_412
+      % subplot(2,2,1)
+      plot(tod_Rrs_412_00_datetime,tod_Rrs_412_00,'-or','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      plot(tod_Rrs_412_01_datetime,tod_Rrs_412_01,'-og','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_02_datetime,tod_Rrs_412_02,'-ob','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_03_datetime,tod_Rrs_412_03,'-ok','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_04_datetime,tod_Rrs_412_04,'-oc','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_05_datetime,tod_Rrs_412_05,'-om','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_06_datetime,tod_Rrs_412_06,'-o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_412_07_datetime,tod_Rrs_412_07,'-o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      
+      % ylabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+      % xlabel('Time','FontSize',fs)
+      % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      
+      % Rrs_443
+      % subplot(2,2,1)
+      plot(tod_Rrs_443_00_datetime,tod_Rrs_443_00,'-^r','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      plot(tod_Rrs_443_01_datetime,tod_Rrs_443_01,'-^g','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_02_datetime,tod_Rrs_443_02,'-^b','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_03_datetime,tod_Rrs_443_03,'-^k','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_04_datetime,tod_Rrs_443_04,'-^c','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_05_datetime,tod_Rrs_443_05,'-^m','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_06_datetime,tod_Rrs_443_06,'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_443_07_datetime,tod_Rrs_443_07,'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      
+      % ylabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+      % xlabel('Time','FontSize',fs)
+      % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      
+      % Rrs_490
+      % subplot(2,2,1)
+      plot(tod_Rrs_490_00_datetime,tod_Rrs_490_00,'-*r','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      plot(tod_Rrs_490_01_datetime,tod_Rrs_490_01,'-*g','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_02_datetime,tod_Rrs_490_02,'-*b','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_03_datetime,tod_Rrs_490_03,'-*k','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_04_datetime,tod_Rrs_490_04,'-*c','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_05_datetime,tod_Rrs_490_05,'-*m','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_06_datetime,tod_Rrs_490_06,'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_490_07_datetime,tod_Rrs_490_07,'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      
+      % ylabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+      % xlabel('Time','FontSize',fs)
+      % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      
+      % Rrs_555
+      % subplot(2,2,1)
+      plot(tod_Rrs_555_00_datetime,tod_Rrs_555_00,'-xr','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      plot(tod_Rrs_555_01_datetime,tod_Rrs_555_01,'-xg','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_02_datetime,tod_Rrs_555_02,'-xb','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_03_datetime,tod_Rrs_555_03,'-xk','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_04_datetime,tod_Rrs_555_04,'-xc','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_05_datetime,tod_Rrs_555_05,'-xm','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_06_datetime,tod_Rrs_555_06,'-x','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_555_07_datetime,tod_Rrs_555_07,'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      
+      grid on
+      ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs)
+      xlabel('Time','FontSize',fs)
+      
+      datetick('x','mm/dd/yyyy')
+      
+      legend('412: 0h','412: 1h','412: 2h','412: 3h','412: 4h','412: 5h','412: 6h','412: 7h',...
+            '443: 0h','443: 1h','443: 2h','443: 3h','443: 4h','443: 5h','443: 6h','443: 7h',...
+            '490: 0h','490: 1h','490: 2h','490: 3h','490: 4h','490: 5h','490: 6h','490: 7h',...
+            '555: 0h','555: 1h','555: 2h','555: 3h','555: 4h','555: 5h','555: 6h','555: 7h',...
+            'Location','northeastoutside','FontSize',8)
+      
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+      
+      % saveas(gcf,[savedirname '3_day_sequence'],'epsc')
+      
+end
+
+
+
+
+
+
