@@ -2547,6 +2547,13 @@ Branch javierbranch set up to track remote branch javierbranch from origin.
 
 book that mention level 3 reduction in variance:
 Studies in the Atmospheric Sciences
+
+
+--------------------------------------------------
+2017-06-13 Tue
+anomalies:
+https://oceancolor.gsfc.nasa.gov/docs/methods/sensor_analysis_methods/
+To evaluate temporal trends in a more quantitative manner, the mean annual cycle for each parameter is subtracted from the respective time series to produce a temporal anomaly trend. An example is shown in Figure 5. The variations observed in these trends may be due to real, geophysical variability, or residual instrument calibration errors. 
 (END)
 
 
