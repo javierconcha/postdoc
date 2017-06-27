@@ -201,11 +201,11 @@ if sum(isfinite(x_data_used))
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
-      xLoc = xLimits(1)+0.1*(xLimits(2)-xLimits(1));
+      xLoc = xLimits(1)+0.05*(xLimits(2)-xLimits(1));
       yLoc = yLimits(1)+0.85*(yLimits(2)-yLimits(1));
       figure(h)
       hold on
-      text(xLoc,yLoc,str1,'FontSize',fs-1,'FontWeight','normal');
+      text(xLoc,yLoc,str1,'FontSize',fs-2,'FontWeight','normal');
       
       
       % display
