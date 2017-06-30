@@ -575,13 +575,14 @@ There some data that passed the exclusion criteria and have negative values for 
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Temporal Homogeneity}
+One assumption for this work is that the area of study stays homogeneous over short periods of time, i.e. the water does not change considerable diurnally (hour to hour) and from day to day.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
 % \centering
     \begin{minipage}[c]{0.24\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3days_20120728.eps}
-        \put (30,100) {\colorbox{white}{(a)}}   
+        \put (20,90) {\colorbox{white}{(a)}}   
       \end{overpic}
     \end{minipage} 
     \hfill
@@ -611,7 +612,7 @@ There some data that passed the exclusion criteria and have negative values for 
     \begin{minipage}[c]{0.24\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3days_20150909.eps}
-        \put (30,100) {\colorbox{white}{(e)}}   
+        \put (20,90) {\colorbox{white}{(e)}}   
       \end{overpic}
     \end{minipage}
     \begin{minipage}[c]{0.24\linewidth}
@@ -646,14 +647,14 @@ There some data that passed the exclusion criteria and have negative values for 
     \begin{minipage}[c]{0.49\linewidth}
       \centering
       \begin{overpic}[trim=0 0 250 0,clip,height=5cm]{./Figures/3dayseq_mean_SD.eps}
-        \put (74,50) {\colorbox{white}{(a)}}   
+        \put (88,60) {\colorbox{white}{(a)}}   
       \end{overpic}
     \end{minipage} 
     \hfill
     \begin{minipage}[c]{0.49\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3dayseq_CV.eps}
-        \put (60,50) {\colorbox{white}{(b)}}   
+        \put (15,49) {\colorbox{white}{(b)}}   
       \end{overpic}
     \end{minipage}
 
@@ -672,7 +673,7 @@ There some data that passed the exclusion criteria and have negative values for 
     \begin{minipage}[c]{0.49\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3dayseq_mean_SD_ag_412_mlrc.eps}
-        \put (15,10) {\colorbox{white}{(a)}}   
+        \put (15,10) {\colorbox{white}{(b)}}   
       \end{overpic}
     \end{minipage} 
 
@@ -681,14 +682,14 @@ There some data that passed the exclusion criteria and have negative values for 
     \begin{minipage}[c]{0.49\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3dayseq_mean_SD_poc.eps}
-        \put (15,10) {\colorbox{white}{(a)}}   
+        \put (15,10) {\colorbox{white}{(c)}}   
       \end{overpic}
     \end{minipage} 
     \hfill
     \begin{minipage}[c]{0.49\linewidth}
       \centering
       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/3dayseq_CV_par.eps}
-        \put (15,10) {\colorbox{white}{(b)}}   
+        \put (15,10) {\colorbox{white}{(d)}}   
       \end{overpic}
     \end{minipage}
 
@@ -780,9 +781,7 @@ There some data that passed the exclusion criteria and have negative values for 
     \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle, color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:par_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-
-%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-The anomalies of each parameter were then calculated by subtracting the long-term monthly mean (climatology) grouped by time of the day from every time of the day. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from the hourly filtered means acquired in all Januaries. This anomalies represent de-seasoned data, i.e. independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \autoref{fig:Rrs_vs_zenith_detrend} color coded by time of the day.
+Then, the anomalies were calculated in order to remove seasonality. Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 9h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \autoref{fig:Rrs_vs_zenith_detrend} color coded by time of the day.
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
@@ -995,7 +994,81 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
     \caption{Relative Difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. \label{fig:DiffMidThreeMean} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs412.eps}
+        \put (25,15) {\colorbox{white}{(a)}}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs443.eps}
+        \put (25,15) {\colorbox{white}{(b)}}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs490.eps}
+        \put (25,15) {\colorbox{white}{(c)}}
+      \end{overpic}
+    \end{minipage}  
+    
+    \vspace{0.5cm}
 
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs555.eps}
+        \put (25,15) {\colorbox{white}{(d)}}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs660.eps}
+        \put (28,15) {\colorbox{white}{(e)}}
+      \end{overpic}
+    \end{minipage}   
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs680.eps}
+        \put (28,15) {\colorbox{white}{(f)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \vspace{0.5cm}
+
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_chlor_a.eps}
+        \put (28,15) {\colorbox{white}{(g)}}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_poc.eps}
+        \put (28,15) {\colorbox{white}{(h)}}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc.eps}
+        \put (30,15) {\colorbox{white}{(i)}}
+      \end{overpic}
+    \end{minipage}  
+
+    \caption{Relative Difference for the anomalies with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. \label{fig:DiffMidThreeMean_detrend} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Sensor Cross-comparison}
 
