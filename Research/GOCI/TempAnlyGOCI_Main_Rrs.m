@@ -96,12 +96,15 @@ cond2 = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_412_filtered_mean];
+data_used = [GOCI_Data.Rrs_412_filtered_mean];
+data_used = data_used(cond_used);
 
 
 figure(h1)
 subplot(6,1,1)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -138,11 +141,14 @@ cond2 = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_443_filtered_mean];
+data_used = [GOCI_Data.Rrs_443_filtered_mean];
+data_used = data_used(cond_used);
 
 figure(h1)
 subplot(6,1,2)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.') 
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -178,11 +184,14 @@ cond2 = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_490_filtered_mean];
+data_used = [GOCI_Data.Rrs_490_filtered_mean];
+data_used = data_used(cond_used);
 
 figure(h1)
 subplot(6,1,3)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.') 
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -218,11 +227,14 @@ cond2 = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_555_filtered_mean];
+data_used = [GOCI_Data.Rrs_555_filtered_mean];
+data_used = data_used(cond_used);
 
 figure(h1)
 subplot(6,1,4)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.') 
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -258,11 +270,14 @@ cond2 = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_660_filtered_mean];
+data_used = [GOCI_Data.Rrs_660_filtered_mean];
+data_used = data_used(cond_used);
 
 figure(h1)
 subplot(6,1,5)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.') 
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -298,12 +313,15 @@ cond2 = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_fro
 cond3 = [GOCI_Data.center_ze] <= solz_lim;
 cond_used = cond1&cond2&cond3;
 
-data_used = [GOCI_Data(cond_used).Rrs_680_filtered_mean];
+data_used = [GOCI_Data.Rrs_680_filtered_mean];
+data_used = data_used(cond_used);
 
 
 figure(h1)
 subplot(6,1,6)
-plot([GOCI_Data(cond_used).datetime],data_used,'.')
+x_data = [GOCI_Data.datetime];
+x_data = x_data(cond_used);
+plot(x_data,data_used,'.') 
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')%
@@ -366,8 +384,11 @@ for idx = 1:size(wl_vec,2)
       for idx_tod = 0:7
             cond_tod = (hour([GOCI_Data.datetime])==idx_tod); % cond for time of the day
             cond_plot = cond_used&cond_tod;
-            eval(sprintf('data_used_y = [GOCI_Data(cond_plot).Rrs_%s_filtered_mean];',wl_vec{idx}));
-            data_used_x = [GOCI_Data(cond_plot).datetime];
+            eval(sprintf('data_used_y = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx}));
+            data_used_y = data_used_y(cond_plot);
+
+            data_used_x = [GOCI_Data.datetime];
+            data_used_x = data_used_x(cond_plot);
             
             figure(h1)
             subplot(2,1,1)
@@ -450,11 +471,12 @@ for idx = 1:size(wl_vec,2)
       %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
       %       print('-depsc2', [savedirname 'TimeSerie_Rrs' wl_vec{idx}])
-      saveas(gcf,[savedirname 'TimeSerie_Rrs' wl_vec{idx}],'epsc')
+%       saveas(gcf,[savedirname 'TimeSerie_Rrs' wl_vec{idx}],'epsc')
       
       % histogram
       N = nansum(cond_used);
-      eval(sprintf('data_used_y = [GOCI_Data(cond_used).Rrs_%s_filtered_mean];',wl_vec{idx}));
+      eval(sprintf('data_used_y = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx}));
+      data_used_y = data_used_y((cond_used));
       % fs = 20;
       figure('Color','white','DefaultAxesFontSize',fs);
       [counts,centers] = hist(data_used_y,50);
@@ -475,7 +497,7 @@ for idx = 1:size(wl_vec,2)
       text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
       grid on
       
-      saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
+%       saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
       
 end
 
@@ -534,8 +556,10 @@ for idx = 1:size(par_vec,2)
       for idx_tod = 0:7
             cond_tod = (hour([GOCI_Data.datetime])==idx_tod); % cond for time of the day
             cond_plot = cond_used&cond_tod;
-            eval(sprintf('data_used_y = [GOCI_Data(cond_plot).%s_filtered_mean];',par_vec{idx}));
-            data_used_x = [GOCI_Data(cond_plot).datetime];
+            eval(sprintf('data_used_y = [GOCI_Data.%s_filtered_mean];',par_vec{idx}));
+            data_used_y = data_used_y(cond_plot);
+            data_used_x = [GOCI_Data.datetime];
+            data_used_x = data_used_x(cond_plot);
             
             figure(h1)
             subplot(2,1,1)
@@ -620,7 +644,8 @@ for idx = 1:size(par_vec,2)
       
       % histogram
       N = nansum(cond_used);
-      eval(sprintf('data_used_y = [GOCI_Data(cond_used).%s_filtered_mean];',par_vec{idx}));
+      eval(sprintf('data_used_y = [GOCI_Data.%s_filtered_mean];',par_vec{idx}));
+      data_used_y = data_used_y(cond_used);
       % fs = 20;
       figure('Color','white','DefaultAxesFontSize',fs);
       [counts,centers] = hist(data_used_y,50);
@@ -672,41 +697,73 @@ h0 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -735,41 +792,73 @@ h1 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -796,41 +885,73 @@ h2 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -857,41 +978,73 @@ h3 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -918,41 +1071,73 @@ h4 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -979,41 +1164,73 @@ h5 = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1053,22 +1270,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_412_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_412_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1096,22 +1329,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_443_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_443_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1137,22 +1386,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_490_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_490_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1178,22 +1443,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_555_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_555_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1219,22 +1500,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_660_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_660_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1260,22 +1557,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).Rrs_680_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.Rrs_680_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1306,41 +1619,73 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1367,41 +1712,73 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1430,41 +1807,73 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % 0h
 cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 1h
 cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 2h
 cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 3h
 cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 % 4h
 cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'oc','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'oc','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 5h
 cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'om','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'om','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 6h
 cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % 7h
 cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('POC [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1495,22 +1904,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).chlor_a_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.chlor_a_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1537,22 +1962,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).ag_412_mlrc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.ag_412_mlrc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -1581,22 +2022,38 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Spring
 cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'or','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.poc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Summer
 cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'og','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.poc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Fall
 cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ob','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.poc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
 hold on
 % Winter
 cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-plot([GOCI_Data(cond_used&cond_tod).poc_filtered_mean],[GOCI_Data(cond_used&cond_tod).solz_center_value],'ok','MarkerSize',ms,'LineWidth',lw)
+data_x = [GOCI_Data.poc_filtered_mean];
+data_x = data_x(cond_used&cond_tod);
+data_y = [GOCI_Data.solz_center_value];
+data_y = data_y(cond_used&cond_tod);
+plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 
 xlabel('POC [mg m^{-3}]','FontSize',fs)
@@ -1639,8 +2096,8 @@ xData = startDate:datenum(years(1)):endDate;
 tic
 process_data_flag = 1;
 
-count = 0;
 CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+
 solz_lim = 75;
 senz_lim = 60;
 
@@ -1662,44 +2119,54 @@ cond_senz = [GOCI_Data.senz_center_value]<=senz_lim; % criteria for the sensor z
 cond_solz = [GOCI_Data.solz_center_value]<=solz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 
-par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','aot_865','angstrom','poc','ag_412_mlrc','chlor_a','brdf','solz','senz'};
+% %% climatology data
+% tic
+% par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','aot_865','angstrom','poc','ag_412_mlrc','chlor_a','brdf','solz','senz'};
 
-%% climatology data
-tic
-for idx_par = 1:size(par_vec,2)
-      for idx_brdf=1:size(brdf_opt_vec,2)
-            for idx_month = 1:12
-                  for idx_hour = 0:7
-                        
-                        %% detrend
-                        cond_time_aux = month([GOCI_Data.datetime])==idx_month & ...
-                              hour([GOCI_Data.datetime])==idx_hour;
-                        cond_brdf_aux = [GOCI_Data.brdf_opt]==brdf_opt_vec(idx_brdf);
-                        
-                        eval(sprintf('cond_area_aux = [GOCI_Data.%s_filtered_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}));
-                        eval(sprintf('cond_nan_aux = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}));
-                        
-                        cond_used_aux = cond_time_aux&cond_nan_aux&cond_area_aux&cond_brdf_aux&cond_solz&cond_senz&cond_CV;
-                        
-                        eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used_aux).%s_filtered_mean]);',par_vec{idx_par}));
-                        
-                        eval(sprintf('ClimatologyMatrix.BRDF(idx_brdf).Month(idx_month).Hour(idx_hour+1).%s.mean_month_hour = mean_month_hour;',par_vec{idx_par}));
-                  end
-            end
-      end
-end
-toc
-%% fast checking climatology
-figure
-for idx_brdf=1:size(brdf_opt_vec,2)
-      for idx_month = 1:12
-            for idx_hour = 0:7
-                  hold on
-                  plot((idx_month-1)*10+idx_hour,ClimatologyMatrix.BRDF(3).Month(idx_month).Hour(idx_hour+1).chlor_a.mean_month_hour,'*');
-            end
-      end
-end
-%%
+% h1 = waitbar(0,'Initializing ...');
+% count_per_proc = 0;
+% for idx_par = 1:size(par_vec,2)
+%       for idx_brdf=1:size(brdf_opt_vec,2)
+%             for idx_month = 1:12
+%                   for idx_hour = 0:7
+%                         count_per_proc = count_per_proc+1;
+%                         per_proc = count_per_proc/(size(par_vec,2)*size(brdf_opt_vec,2)*12*8);
+%                         str1 = sprintf('%3.2f',100*per_proc);                        
+%                         waitbar(per_proc,h1,['Processing Climatology Data: ' str1 '%'])
+%                         %% detrend
+%                         cond_time_aux = month([GOCI_Data.datetime])==idx_month & ...
+%                               hour([GOCI_Data.datetime])==idx_hour;
+%                         cond_brdf_aux = [GOCI_Data.brdf_opt]==brdf_opt_vec(idx_brdf);
+%                         
+%                         eval(sprintf('cond_area_aux = [GOCI_Data.%s_filtered_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}));
+%                         eval(sprintf('cond_nan_aux = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}));
+%                         
+%                         cond_used_aux = cond_time_aux&cond_nan_aux&cond_area_aux&cond_brdf_aux&cond_solz&cond_senz&cond_CV;
+%                         
+%                         eval(sprintf('data_aux = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}));
+%                         data_aux = data_aux(cond_used_aux);
+%                         mean_month_hour = nanmean(data_aux);
+%                         
+%                         eval(sprintf('ClimatologyMatrix.BRDF(idx_brdf).Month(idx_month).Hour(idx_hour+1).%s.mean_month_hour = mean_month_hour;',par_vec{idx_par}));
+%                   end
+%             end
+%       end
+% end
+% clear idx_par idx_brdf idx_month idx_hour per_proc str1 count_per_proc
+% clear cond_used_aux cond_time_aux cond_brdf_aux cond_area_aux cond_nan_aux data_aux mean_month_hour
+% close(h1)
+% toc
+% %% fast checking climatology
+% figure
+% for idx_brdf=1:size(brdf_opt_vec,2)
+%       for idx_month = 1:12
+%             for idx_hour = 0:7
+%                   hold on
+%                   plot((idx_month-1)*10+idx_hour,ClimatologyMatrix.BRDF(3).Month(idx_month).Hour(idx_hour+1).Rrs_680.mean_month_hour,'*');
+%             end
+%       end
+% end
+% %%
 tic
 if process_data_flag
       %%%%%%%%%%%%%%%%
@@ -2511,6 +2978,7 @@ if process_data_flag
       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_06_detrend = nan;
       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_07_detrend = nan;
       %%%%%%%%%%%%%%%%
+      count = 0;
       
       h1 = waitbar(0,'Initializing ...');
       
@@ -2520,8 +2988,10 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             GOCI_Data_used = GOCI_Data(cond_used);
+
+            datetime_used = [GOCI_Data.datetime];
             
-            [Year,Month,Day] = datevec([GOCI_Data(cond_used).datetime]);
+            [Year,Month,Day] = datevec(datetime_used(cond_used));
             
             clear cond_used
             
@@ -2537,7 +3007,6 @@ if process_data_flag
                         & date_idx.Day(idx)==Day;
                   
                   if ~sum(cond_1t) == 0
-                        
                         count = count+1;
                         
                         GOCI_DailyStatMatrix(count).datetime =  date_idx(idx);
@@ -2546,7 +3015,8 @@ if process_data_flag
                         
                         % check if there are more than one image per hour. It does not check
                         % if the values are valid or not, but there are only a bunch of cases
-                        time_aux = [GOCI_Data_used(cond_1t).datetime];
+                        time_aux = [GOCI_Data_used.datetime];
+                        time_aux = time_aux(cond_1t);
                         [~,IA,~] = unique([time_aux.Hour]);
                         cond_aux = zeros(size(time_aux));
                         cond_aux(IA) = 1;
@@ -2554,9 +3024,10 @@ if process_data_flag
                         clear time_aux IA cond_aux
                         
                         %% Rrs_412
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_412_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_412_valid_pixel_count];
+                        data_used = [GOCI_Data_used.Rrs_412_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_412_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -2572,8 +3043,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_412_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -2712,12 +3184,12 @@ if process_data_flag
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_412_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
                                     mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
                                     GOCI_DailyStatMatrix(count).Rrs_412_06_detrend = data_used_filtered(idx2)-mean_month_hour;
@@ -2809,10 +3281,10 @@ if process_data_flag
                         
                         
                         %% Rrs_443
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_443_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_443_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.Rrs_443_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_443_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -2829,8 +3301,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_443_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3065,10 +3538,10 @@ if process_data_flag
                         end
                         
                         %% Rrs_490
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_490_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_490_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.Rrs_490_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_490_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -3085,8 +3558,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_490_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3321,10 +3795,10 @@ if process_data_flag
                         end
                         
                         %% Rrs_555
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_555_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_555_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.Rrs_555_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_555_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -3341,8 +3815,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_555_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3577,10 +4052,10 @@ if process_data_flag
                         end
                         
                         %% Rrs_660
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_660_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_660_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.Rrs_660_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_660_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -3597,8 +4072,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_660_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3833,10 +4309,10 @@ if process_data_flag
                         end
                         
                         %% Rrs_680
-                        
-                        data_used = [GOCI_Data_used(cond_1t).Rrs_680_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).Rrs_680_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.Rrs_680_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.Rrs_680_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -3853,8 +4329,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).Rrs_680_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4090,10 +4567,10 @@ if process_data_flag
                         end
                         
                         %% aot_865
-                        
-                        data_used = [GOCI_Data_used(cond_1t).aot_865_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).aot_865_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.aot_865_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.aot_865_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -4110,8 +4587,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).aot_865_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4346,10 +4824,10 @@ if process_data_flag
                         end
                         
                         %% angstrom
-                        
-                        data_used = [GOCI_Data_used(cond_1t).angstrom_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).angstrom_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.angstrom_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.angstrom_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -4366,8 +4844,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).angstrom_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4603,10 +5082,10 @@ if process_data_flag
                         end
                         
                         %% poc
-                        
-                        data_used = [GOCI_Data_used(cond_1t).poc_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).poc_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.poc_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.poc_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -4623,8 +5102,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).poc_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4859,10 +5339,10 @@ if process_data_flag
                         end
                         
                         %% ag_412_mlrc
-                        
-                        data_used = [GOCI_Data_used(cond_1t).ag_412_mlrc_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).ag_412_mlrc_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.ag_412_mlrc_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.ag_412_mlrc_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -4879,8 +5359,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).ag_412_mlrc_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5115,10 +5596,10 @@ if process_data_flag
                         end
                         
                         %% chlor_a
-                        
-                        data_used = [GOCI_Data_used(cond_1t).chlor_a_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).chlor_a_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.chlor_a_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.chlor_a_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -5135,8 +5616,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).chlor_a_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5371,10 +5853,10 @@ if process_data_flag
                         end
                         
                         %% brdf
-                        
-                        data_used = [GOCI_Data_used(cond_1t).brdf_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).brdf_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.brdf_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.brdf_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -5391,8 +5873,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).brdf_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5627,10 +6110,10 @@ if process_data_flag
                         end
                         
                         %% solz
-                        
-                        data_used = [GOCI_Data_used(cond_1t).solz_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).solz_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.solz_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.solz_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -5647,8 +6130,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).solz_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5883,10 +6367,10 @@ if process_data_flag
                         end
                         
                         %% senz
-                        
-                        data_used = [GOCI_Data_used(cond_1t).senz_filtered_mean];
-                        valid_px_count_used = [GOCI_Data_used(cond_1t).senz_valid_pixel_count];
-                        
+                        data_used = [GOCI_Data_used.senz_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.senz_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
                         cond1 = data_used >= 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
@@ -5903,8 +6387,9 @@ if process_data_flag
                         % RMSE = sqrt(nansum(sq_err)/nansum(cond_used));
                         % GOCI_DailyStatMatrix(count).senz_RMSE_mean = RMSE;
                         
-                        time_used = [GOCI_Data_used(cond_1t).datetime];
-                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6137,6 +6622,110 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).senz_07_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
+
+                        %% solz_center_value
+                        data_used = [GOCI_Data_used.solz_center_value];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.solz_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used >= 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).solz_center_value_00 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_01 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_02 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_03 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_04 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_05 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_06 = nan;
+                        GOCI_DailyStatMatrix(count).solz_center_value_07 = nan;  
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).solz_center_value_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).solz_center_value_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).solz_center_value_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).solz_center_value_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).solz_center_value_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).solz_center_value_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).solz_center_value_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).solz_center_value_07 = data_used_filtered(idx2);
+                              end
+                        end
+
+                        %% senz_center_value
+                        data_used = [GOCI_Data_used.senz_center_value];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.senz_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used >= 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).senz_center_value_00 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_01 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_02 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_03 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_04 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_05 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_06 = nan;
+                        GOCI_DailyStatMatrix(count).senz_center_value_07 = nan;  
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).senz_center_value_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).senz_center_value_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).senz_center_value_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).senz_center_value_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).senz_center_value_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).senz_center_value_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).senz_center_value_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).senz_center_value_07 = data_used_filtered(idx2);
+                              end
+                        end
                   end
             end
       end
@@ -6158,6 +6747,9 @@ if process_data_flag
       
       date_idx = first_day:last_day;
       
+      count_per_proc = 0;
+      h1 = waitbar(0,'Initializing ...');
+      
       for idx_brdf = 1:size(brdf_opt_vec,2)
             
             cond_brdf = [AQUA_Data.brdf_opt] == brdf_opt_vec(idx_brdf);
@@ -6167,12 +6759,20 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             AQUA_Data_used = AQUA_Data(cond_used);
+
+            datetime_aux = [AQUA_Data.datetime];
+            datetime_aux = datetime_aux(cond_used);
+
+            [Year,Month,Day] = datevec(datetime_aux); % only days that satisfy the criteria above
             
-            [Year,Month,Day] = datevec([AQUA_Data(cond_used).datetime]); % only days that satisfy the criteria above
-            
-            clear cond_used
+            clear cond_used datetime_aux
             
             for idx=1:size(date_idx,2)
+                  count_per_proc = count_per_proc +1;
+                  per_proc = count_per_proc/(size(brdf_opt_vec,2)*size(date_idx,2));
+                  str1 = sprintf('%3.2f',100*per_proc);
+                  waitbar(per_proc,h1,['Processing AQUA Daily Data: ' str1 '%'])
+                  
                   % identify all the images for a specific day
                   cond_1t = date_idx(idx).Year==Year...
                         & date_idx.Month(idx)==Month...
@@ -6191,17 +6791,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_412_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_412_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_412_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6209,30 +6812,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_412_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_412_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_412_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_412_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_412_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_443
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_443_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_443_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_443_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_443_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6240,30 +6848,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_443_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_443_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_443_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_443_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_443_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_488
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_488_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_488_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_488_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_488_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6271,30 +6884,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_488_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_488_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_488_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_488_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_488_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_547
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_547_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_547_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_547_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6302,30 +6920,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_547_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_547_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_547_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_667
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_667_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_667_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_667_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_667_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6333,30 +6956,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_667_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_667_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_667_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_667_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_667_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_678
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).Rrs_678_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).Rrs_678_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.Rrs_678_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.Rrs_678_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6364,30 +6992,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).Rrs_678_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_678_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = [AQUA_Data_used(cond_1t_aux).Rrs_678_filtered_mean];
+                              data_aux = [AQUA_Data_used.Rrs_678_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).Rrs_678_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% aot_869
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).aot_869_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).aot_869_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.aot_869_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.aot_869_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6395,30 +7028,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).aot_869_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).aot_869_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).aot_869_filtered_mean = [AQUA_Data_used(cond_1t_aux).aot_869_filtered_mean];
+                              data_aux = [AQUA_Data_used.aot_869_filtered_mean];
+                              AQUA_DailyStatMatrix(count).aot_869_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).aot_869_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% angstrom
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).angstrom_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).angstrom_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.angstrom_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.angstrom_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6426,30 +7064,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).angstrom_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).angstrom_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).angstrom_filtered_mean = [AQUA_Data_used(cond_1t_aux).angstrom_filtered_mean];
+                              data_aux = [AQUA_Data_used.angstrom_filtered_mean];
+                              AQUA_DailyStatMatrix(count).angstrom_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).angstrom_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% poc
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).poc_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).poc_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.poc_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.poc_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6457,30 +7100,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).poc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).poc_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).poc_filtered_mean = [AQUA_Data_used(cond_1t_aux).poc_filtered_mean];
+                              data_aux = [AQUA_Data_used.poc_filtered_mean];
+                              AQUA_DailyStatMatrix(count).poc_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).poc_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% ag_412_mlrc
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.ag_412_mlrc_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.ag_412_mlrc_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6488,30 +7136,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = [AQUA_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean];
+                              data_aux = [AQUA_Data_used.ag_412_mlrc_filtered_mean];
+                              AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% chlor_a
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).chlor_a_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).chlor_a_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.chlor_a_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.chlor_a_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6519,30 +7172,35 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).chlor_a_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).chlor_a_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = [AQUA_Data_used(cond_1t_aux).chlor_a_filtered_mean];
+                              data_aux = [AQUA_Data_used.chlor_a_filtered_mean];
+                              AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).chlor_a_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                         %% brdf
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [AQUA_Data_used(cond_1t_aux).brdf_filtered_mean]<0;
-                        cond_area = [AQUA_Data_used(cond_1t_aux).brdf_valid_pixel_count]<total_px_GOCI/4/ratio_from_the_total;
+                        data_aux = [AQUA_Data_used.brdf_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [AQUA_Data_used.brdf_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([AQUA_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [AQUA_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6550,24 +7208,25 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        AQUA_DailyStatMatrix(count).brdf_median_CV = [AQUA_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).brdf_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              AQUA_DailyStatMatrix(count).brdf_filtered_mean = [AQUA_Data_used(cond_1t_aux).brdf_filtered_mean];
+                              data_aux = [AQUA_Data_used.brdf_filtered_mean];
+                              AQUA_DailyStatMatrix(count).brdf_filtered_mean = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).brdf_filtered_mean = nan;
                         end
-                        clear cond_1t_aux
+                        clear cond_1t_aux data_aux
                         
                   end
             end
       end
 end
-
-% Daily statistics for VIIRS
+close(h1)
+%% Daily statistics for VIIRS
 
 count = 0;
-
 
 CV_lim = nanmean([VIIRS_Data.median_CV])+nanstd([VIIRS_Data.median_CV]);
 
@@ -6575,12 +7234,13 @@ if process_data_flag
       clear VIIRS_DailyStatMatrix
       clear cond_1t cond1 cond2 cond_used
       
-      
-      
       first_day = datetime(VIIRS_Data(1).datetime.Year,VIIRS_Data(1).datetime.Month,VIIRS_Data(1).datetime.Day);
       last_day = datetime(VIIRS_Data(end).datetime.Year,VIIRS_Data(end).datetime.Month,VIIRS_Data(end).datetime.Day);
       
       date_idx = first_day:last_day;
+      
+      count_per_proc = 0;
+      h1 = waitbar(0,'Initializing ...');
       
       for idx_brdf = 1:size(brdf_opt_vec,2)
             
@@ -6591,12 +7251,19 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             VIIRS_Data_used = VIIRS_Data(cond_used);
-            
-            [Year,Month,Day] = datevec([VIIRS_Data(cond_used).datetime]);
+
+            datetime_aux = [VIIRS_Data.datetime];
+            datetime_aux = datetime_aux(cond_used);            
+
+            [Year,Month,Day] = datevec(datetime_aux);
             
             clear cond_used
             
             for idx=1:size(date_idx,2)
+                  count_per_proc = count_per_proc +1;
+                  per_proc = count_per_proc/(size(brdf_opt_vec,2)*size(date_idx,2));
+                  str1 = sprintf('%3.2f',100*per_proc);
+                  waitbar(per_proc,h1,['Processing VIIRS Daily Data: ' str1 '%'])
                   
                   % identify all the images for a specific day
                   cond_1t = date_idx(idx).Year==Year...
@@ -6616,17 +7283,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_410_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_410_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.Rrs_410_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.Rrs_410_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6634,10 +7304,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).Rrs_410_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).Rrs_410_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_410_filtered_mean];
+                              data_aux = [VIIRS_Data_used.Rrs_410_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_410_filtered_mean = nan;
                         end
@@ -6647,17 +7319,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_443_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_443_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.Rrs_443_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.Rrs_443_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6665,10 +7340,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).Rrs_443_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).Rrs_443_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_443_filtered_mean];
+                              data_aux = [VIIRS_Data_used.Rrs_443_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_443_filtered_mean = nan;
                         end
@@ -6678,17 +7355,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_486_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_486_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.Rrs_486_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.Rrs_486_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6696,10 +7376,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).Rrs_486_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).Rrs_486_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_486_filtered_mean];
+                              data_aux = [VIIRS_Data_used.Rrs_486_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_486_filtered_mean = nan;
                         end
@@ -6709,17 +7391,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_551_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_551_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.Rrs_551_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.Rrs_551_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6727,10 +7412,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).Rrs_551_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).Rrs_551_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_551_filtered_mean];
+                              data_aux = [VIIRS_Data_used.Rrs_551_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_551_filtered_mean = nan;
                         end
@@ -6740,17 +7427,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).Rrs_671_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).Rrs_671_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.Rrs_671_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.Rrs_671_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6758,10 +7448,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).Rrs_671_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).Rrs_671_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = [VIIRS_Data_used(cond_1t_aux).Rrs_671_filtered_mean];
+                              data_aux = [VIIRS_Data_used.Rrs_671_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).Rrs_671_filtered_mean = nan;
                         end
@@ -6771,17 +7463,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).aot_862_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).aot_862_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.aot_862_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.aot_862_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6789,10 +7484,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).aot_862_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).aot_862_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = [VIIRS_Data_used(cond_1t_aux).aot_862_filtered_mean];
+                              data_aux = [VIIRS_Data_used.aot_862_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).aot_862_filtered_mean = nan;
                         end
@@ -6802,17 +7499,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).angstrom_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).angstrom_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.angstrom_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6820,10 +7520,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).angstrom_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).angstrom_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = [VIIRS_Data_used(cond_1t_aux).angstrom_filtered_mean];
+                              data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = nan;
                         end
@@ -6833,17 +7535,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).poc_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).poc_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.poc_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.poc_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6851,10 +7556,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).poc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).poc_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).poc_filtered_mean = [VIIRS_Data_used(cond_1t_aux).poc_filtered_mean];
+                              data_aux = [VIIRS_Data_used.poc_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).poc_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).poc_filtered_mean = nan;
                         end
@@ -6864,17 +7571,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.ag_412_mlrc_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.ag_412_mlrc_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6882,10 +7592,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).ag_412_mlrc_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = [VIIRS_Data_used(cond_1t_aux).ag_412_mlrc_filtered_mean];
+                              data_aux = [VIIRS_Data_used.ag_412_mlrc_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).ag_412_mlrc_filtered_mean = nan;
                         end
@@ -6895,17 +7607,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).chlor_a_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).chlor_a_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.chlor_a_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.chlor_a_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6913,10 +7628,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).chlor_a_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).chlor_a_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = [VIIRS_Data_used(cond_1t_aux).chlor_a_filtered_mean];
+                              data_aux = [VIIRS_Data_used.chlor_a_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).chlor_a_filtered_mean = nan;
                         end
@@ -6926,17 +7643,20 @@ if process_data_flag
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
-                        cond_neg = [VIIRS_Data_used(cond_1t_aux).brdf_filtered_mean]<0;
-                        cond_area = [VIIRS_Data_used(cond_1t_aux).brdf_valid_pixel_count]<total_px_GOCI/2.25/ratio_from_the_total;
+                        data_aux = [VIIRS_Data_used.brdf_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<0;
+                        data_aux = [VIIRS_Data_used.brdf_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
-                        clear idx_aux cond_area cond_neg
+                        clear idx_aux data_aux cond_area cond_neg
                         
                         % best geometry if there is more than one image
                         if sum(cond_1t_aux)>1
                               I = find(cond_1t_aux);
-                              [~,Itemp] = min([VIIRS_Data_used(cond_1t_aux).solz_center_value]);
+                              data_aux = [VIIRS_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
                               Imin = I(Itemp);
                               cond_1t_aux = 0.*cond_1t_aux;
                               cond_1t_aux(Imin) = 1;
@@ -6944,10 +7664,12 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        VIIRS_DailyStatMatrix(count).brdf_median_CV = [VIIRS_Data_used(cond_1t_aux).median_CV];
+                        data_aux = [VIIRS_Data_used.median_CV];
+                        VIIRS_DailyStatMatrix(count).brdf_median_CV = data_aux(cond_1t_aux);
                         
                         if sum(cond_1t_aux)~=0 % there is at least one image
-                              VIIRS_DailyStatMatrix(count).brdf_filtered_mean = [VIIRS_Data_used(cond_1t_aux).brdf_filtered_mean];
+                              data_aux = [VIIRS_Data_used.brdf_filtered_mean];
+                              VIIRS_DailyStatMatrix(count).brdf_filtered_mean = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).brdf_filtered_mean = nan;
                         end
@@ -6956,14 +7678,15 @@ if process_data_flag
             end
       end
 end
+close(h1)
 %
-% save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
+% save('GOCI_TempAnly.mat','ClimatologyMatrix','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Monthly statistics for GOCI
+%% Monthly statistics for GOCI
 if process_data_flag
       
       clear GOCI_MonthlyStatMatrix
@@ -6991,70 +7714,85 @@ if process_data_flag
                         GOCI_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
                         GOCI_MonthlyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_first_six]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_412_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_412_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_first_six]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_443_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_443_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_first_six]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_490_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_490_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_first_six]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_555_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_555_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_first_six]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_660_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_660_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_first_six]));
-                        
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_412_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_443_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_490_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_555_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_660_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).Rrs_680_mean_mid_three]));
-                        
-                        GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).aot_865_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).aot_865_mean_mid_three]));
+                        % data_aux = [GOCI_DailyStatMatrix.Rrs_680_mean_first_six];
+                        % GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six = nanmean(data_aux((cond_1t)));
+                        % GOCI_MonthlyStatMatrix(count).Rrs_680_mean_first_six_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         
-                        GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).angstrom_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).angstrom_mean_mid_three]));
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_412_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_412_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).poc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).poc_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).poc_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).poc_mean_mid_three]));
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_443_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_443_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).ag_412_mlrc_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).ag_412_mlrc_mean_mid_three]));
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_490_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_490_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).chlor_a_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).chlor_a_mean_mid_three]));
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_555_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_555_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three = nanmean([GOCI_DailyStatMatrix(cond_1t).brdf_mean_mid_three]);
-                        GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three_N = nansum(isfinite([GOCI_DailyStatMatrix(cond_1t).brdf_mean_mid_three]));
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_660_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_660_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+                        
+                        data_aux = [GOCI_DailyStatMatrix.Rrs_680_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+                        
+                        data_aux = [GOCI_DailyStatMatrix.aot_865_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         
+                        data_aux = [GOCI_DailyStatMatrix.angstrom_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).angstrom_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
+                        data_aux = [GOCI_DailyStatMatrix.poc_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).poc_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).poc_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+                        
+                        data_aux = [GOCI_DailyStatMatrix.ag_412_mlrc_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).ag_412_mlrc_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+                        
+                        data_aux = [GOCI_DailyStatMatrix.chlor_a_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).chlor_a_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+                        
+                        data_aux = [GOCI_DailyStatMatrix.brdf_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).brdf_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                   end
             end
       end
 end
 
-% Monthly statistics for AQUA
+%% Monthly statistics for AQUA
 if process_data_flag
       clear AQUA_MonthlyStatMatrix
       clear cond_1t count
@@ -7080,59 +7818,68 @@ if process_data_flag
                         AQUA_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
                         AQUA_MonthlyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_412_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_412_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_412_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_412_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_412_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_412_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_443_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_443_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_443_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_443_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_488_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_488_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_488_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_488_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_488_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_488_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_547_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_547_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_547_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_547_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_547_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_547_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_667_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_667_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_667_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_667_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_667_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_667_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).Rrs_678_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).Rrs_678_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).Rrs_678_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.Rrs_678_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).Rrs_678_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).Rrs_678_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         
-                        AQUA_MonthlyStatMatrix(count).aot_869_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).aot_869_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).aot_869_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).aot_869_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.aot_869_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).aot_869_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).aot_869_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).angstrom_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).angstrom_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).angstrom_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.angstrom_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).angstrom_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).angstrom_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).poc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).poc_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).poc_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).poc_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.poc_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).poc_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).poc_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.ag_412_mlrc_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).ag_412_mlrc_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).chlor_a_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).chlor_a_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.chlor_a_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).chlor_a_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).chlor_a_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        AQUA_MonthlyStatMatrix(count).brdf_mean = nanmean([AQUA_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
-                        AQUA_MonthlyStatMatrix(count).brdf_mean_N = nansum(isfinite([AQUA_DailyStatMatrix(cond_1t).brdf_filtered_mean]));
+                        data_aux = [AQUA_DailyStatMatrix.brdf_filtered_mean];
+                        AQUA_MonthlyStatMatrix(count).brdf_mean = nanmean(data_aux((cond_1t)));
+                        AQUA_MonthlyStatMatrix(count).brdf_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
                   end
             end
       end
 end
 
-% Monthly statistics for VIIRS
+%% Monthly statistics for VIIRS
 if process_data_flag
       clear VIIRS_MonthlyStatMatrix
       clear cond_1t count
       
       [Year,Month,~] = datevec([VIIRS_DailyStatMatrix.datetime]);
-      
-      Year_min = min(Year);
-      Year_max = max(Year);
-      
-      Year_idx = Year_min:Year_max;
+
+      Year_idx =  min(Year):max(Year);
       
       count = 0;
       
@@ -7149,39 +7896,50 @@ if process_data_flag
                         VIIRS_MonthlyStatMatrix(count).datetime = datetime(Year_idx(idx),idx2,1);
                         VIIRS_MonthlyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         
-                        VIIRS_MonthlyStatMatrix(count).Rrs_410_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).Rrs_410_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).Rrs_410_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.Rrs_410_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).Rrs_410_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).Rrs_410_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).Rrs_443_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).Rrs_443_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).Rrs_443_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.Rrs_443_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).Rrs_443_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).Rrs_443_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).Rrs_486_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).Rrs_486_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).Rrs_486_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.Rrs_486_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).Rrs_486_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).Rrs_486_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).Rrs_551_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).Rrs_551_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).Rrs_551_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.Rrs_551_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).Rrs_551_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).Rrs_551_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).Rrs_671_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).Rrs_671_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).Rrs_671_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.Rrs_671_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).Rrs_671_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).Rrs_671_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         
-                        VIIRS_MonthlyStatMatrix(count).aot_862_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).aot_862_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).aot_862_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).aot_862_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.aot_862_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).aot_862_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).aot_862_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).angstrom_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).angstrom_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).angstrom_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).angstrom_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.angstrom_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).angstrom_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).angstrom_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).poc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).poc_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).poc_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).poc_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.poc_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).poc_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).poc_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).ag_412_mlrc_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.ag_412_mlrc_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).ag_412_mlrc_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).chlor_a_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).chlor_a_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).chlor_a_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.chlor_a_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).chlor_a_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).chlor_a_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
-                        VIIRS_MonthlyStatMatrix(count).brdf_mean = nanmean([VIIRS_DailyStatMatrix(cond_1t).brdf_filtered_mean]);
-                        VIIRS_MonthlyStatMatrix(count).brdf_mean_N = nansum(isfinite([VIIRS_DailyStatMatrix(cond_1t).brdf_filtered_mean]));
+                        data_aux = [VIIRS_DailyStatMatrix.brdf_filtered_mean];
+                        VIIRS_MonthlyStatMatrix(count).brdf_mean = nanmean(data_aux((cond_1t)));
+                        VIIRS_MonthlyStatMatrix(count).brdf_mean_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         
                   end
@@ -7189,6 +7947,8 @@ if process_data_flag
       end
 end
 %%
+save('GOCI_TempAnly.mat','ClimatologyMatrix','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
+
 save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
 
 %% mean rrs vs zenith -- filtered
@@ -7198,11 +7958,13 @@ ms = 14;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 
 % Rrs_412
-cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_412_filtered_mean]);
+cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_412_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,1)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_412_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_412_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(412)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7212,7 +7974,9 @@ cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_443_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,2)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_443_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_443_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(443)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7222,7 +7986,9 @@ cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_490_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,3)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_490_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_490_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(490)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7232,7 +7998,9 @@ cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_555_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,4)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_555_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_555_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(555)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7242,7 +8010,9 @@ cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_660_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,5)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_660_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_660_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(660)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7252,7 +8022,9 @@ cond1 = ~isnan([GOCI_DailyStatMatrix.Rrs_680_mean_mid_three]);
 cond_used = cond1;
 
 subplot(2,3,6)
-plot([GOCI_DailyStatMatrix(cond_used).Rrs_680_mean_mid_three],[GOCI_DailyStatMatrix(cond_used).center_ze],'.b','MarkerSize',ms)
+data_x = [GOCI_DailyStatMatrix.Rrs_680_mean_mid_three];
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(680)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
@@ -7269,8 +8041,12 @@ for idx0 = 1:size(wl,2)
       cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
-      data_used_x = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
-      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three];',wl{idx0}))
+
+      data_used_x = [GOCI_MonthlyStatMatrix.datetime];
+      data_used_x = data_used_x(cond_brdf);
+
+      eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_mean_mid_three];',wl{idx0}))
+      data_used_y = data_used_y(cond_brdf);
       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12,'LineWidth',lw)
       eval(sprintf('ylabel(''R_{rs}(%s)'',''FontSize'',fs)',wl{idx0}));
       grid on
@@ -7295,9 +8071,11 @@ for idx0 = 1:size(wl,2)
       eval(sprintf('cond1 = ~isnan([AQUA_MonthlyStatMatrix.Rrs_%s_mean]);',wl_AQUA));
       cond_used = cond1&cond_brdf;
       
-      eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_AQUA));
-      data_used_x = [AQUA_MonthlyStatMatrix(cond_used).datetime];
-      
+      eval(sprintf('data_used_y = [AQUA_MonthlyStatMatrix.Rrs_%s_mean];',wl_AQUA));
+      data_used_y = data_used_y(cond_used);
+      data_used_x = [AQUA_MonthlyStatMatrix.datetime];
+      data_used_x = data_used_x(cond_used);
+
       fs = 25;
       figure(h2)
       hold on
@@ -7320,13 +8098,15 @@ for idx0 = 1:size(wl,2)
             %             wl_VIIRS = '671';
       end
       
-      cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+      cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       eval(sprintf('cond1 = ~isnan([VIIRS_MonthlyStatMatrix.Rrs_%s_mean]);',wl_VIIRS));
       cond_used = cond1&cond_brdf;
       
-      eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix(cond_used).Rrs_%s_mean];',wl_VIIRS));
-      data_used_x = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
+      eval(sprintf('data_used_y = [VIIRS_MonthlyStatMatrix.Rrs_%s_mean];',wl_VIIRS));
+      data_used_y = data_used_y(cond_used);
+      data_used_x = [VIIRS_MonthlyStatMatrix.datetime];
+      data_used_x = data_used_x(cond_used);
       
       fs = 25;
       if ~strcmp(wl{idx0},'680')
@@ -7372,74 +8152,125 @@ savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 fs = 40;
 ms = 5;
 lw = 2;
+
 solz_lim = 75;
 senz_lim = 60;
-CV_lim = 0.3;
+% CV_lim = 0.3;
+CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
-
-N = 0; % total number of points per band
 
 wl_vec = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl_vec,2)
+      N = 0; % total number of points per band
+
       h = figure('Color','white','DefaultAxesFontSize',fs);
       for idx_month = 1:12
-            for idx_hour = 0:7
-                  cond_time = month([GOCI_Data.datetime])==idx_month & ...
-                        hour([GOCI_Data.datetime])==idx_hour;
-                  eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
-                  eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
-                  cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-                  cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-                  cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-                  cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-                  cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-                  
-                  N = N + sum(cond_used);
-                  
-                  eval(sprintf('mean_month_hour = nanmean([GOCI_Data(cond_used).Rrs_%s_filtered_mean]);',wl_vec{idx0}));
-                  
-                  figure(gcf)
-                  hold on
-                  
-                  % 0h
-                  cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''or'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 1h
-                  cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''og'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 2h
-                  cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ob'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 3h
-                  cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''ok'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  % 4h
-                  cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''oc'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 5h
-                  cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''om'',''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 6h
-                  cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[1 0.5 0],''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-                  hold on
-                  % 7h
-                  cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
-                  eval(sprintf('plot([GOCI_Data(cond_used&cond_tod).Rrs_%s_filtered_mean]-mean_month_hour,[GOCI_Data(cond_used&cond_tod).solz_center_value],''o'',''Color'',[0.5 0 0.5],''MarkerSize'',ms,''LineWidth'',lw);',wl_vec{idx0}));
-                  
-            end
+            cond_time = month([GOCI_Data.datetime])==idx_month;
+            eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx0}));
+            eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx0}));
+            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+            figure(gcf)
+            hold on
+            
+            % 0h
+            cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'or','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 1h
+            cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'og','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 2h
+            cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'ob','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 3h
+            cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'ok','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            % 4h
+            cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'oc','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 5h
+            cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'om','MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 6h
+            cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[1 .5 0],'MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
+            hold on
+            % 7h
+            cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+            eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
+            mean_month_hour = nanmean(data_aux(cond_used&cond_tod));
+            eval(sprintf('data_aux_x = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}))
+            data_aux_x = data_aux_x((cond_used&cond_tod));
+            data_aux_y = [GOCI_Data.solz_center_value];
+            data_aux_y = data_aux_y(cond_used&cond_tod);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[0. 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            N = N + sum(cond_used&cond_tod);
+
       end
       
       figure(gcf)
@@ -7457,12 +8288,128 @@ for idx0 = 1:size(wl_vec,2)
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
+%       saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
       
 end
 
+%% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day -- from data created in GOCI_DailtyStatMatrix
 
-% Detrending Data par - subtract monthly hourly means, color coded by time of the day
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 40;
+ms = 5;
+lw = 2;
+% solz_lim = 75;
+% senz_lim = 60;
+% CV_lim = 0.3;
+brdf_opt = 7;
+
+wl_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680'};
+for idx0 = 1:size(wl_vec,2)
+      N = 0; % total number of points per band
+
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      
+      cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+      
+      hold on
+      % 0h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_00_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_00];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'or','MarkerSize',ms,'LineWidth',lw);
+      hold on 
+
+      % 1h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_01_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_01];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'og','MarkerSize',ms,'LineWidth',lw);
+
+      hold on
+      % 2h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_02_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_02];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'ob','MarkerSize',ms,'LineWidth',lw);
+
+      hold on
+      % 3h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_03_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_03];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'ok','MarkerSize',ms,'LineWidth',lw);
+
+      % 4h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_04_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_04];
+      N = N + sum(cond_used);;
+      plot(x_used(cond_used),y_used(cond_used),'oc','MarkerSize',ms,'LineWidth',lw);
+
+      hold on
+      % 5h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_05_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_05];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'om','MarkerSize',ms,'LineWidth',lw);
+
+      hold on
+      % 6h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_06_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_06];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+
+      hold on
+      % 7h
+      eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_07_detrend]);',wl_vec{idx0}));
+      cond_used = cond_brdf&cond_nan;
+      
+      eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+      y_used = [GOCI_DailyStatMatrix.solz_center_value_07];
+      N = N + sum(cond_used);
+      plot(x_used(cond_used),y_used(cond_used),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+      
+      figure(gcf)
+      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      grid on
+      
+      str1 = sprintf('N = %i',N);
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      
+      if idx0==6
+            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      end
+      
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+      % saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
+      
+end
+
+%% Detrending Data par - subtract monthly hourly means, color coded by time of the day
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -7560,7 +8507,7 @@ for idx0 = 1:size(par_vec,2)
       
 end
 
-% Detrending Data Rrs - subtract monthly hourly means, color coded by season
+%% Detrending Data Rrs - subtract monthly hourly means, color coded by season
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -7636,7 +8583,7 @@ for idx0 = 1:size(wl_vec,2)
       
 end
 
-% Detrending Data par - subtract monthly hourly means, color coded by season
+%% Detrending Data par - subtract monthly hourly means, color coded by season
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
@@ -7979,182 +8926,182 @@ ax.XTick = xData;
 datetick('x','yyyy')
 grid on
 
-%% Plot difference from the daily mean for Rrs
-% The difference of the mean
+% %% Plot difference from the daily mean for Rrs
+% % The difference of the mean
+% 
+% wl = {'412','443','490','555','660','680'};
+% 
+% for idx = 1:size(wl,2)
+%       
+%       eval(sprintf('diff_mean_00= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
+%       eval(sprintf('diff_stdv_00= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_01= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
+%       eval(sprintf('diff_stdv_01= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_02= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
+%       eval(sprintf('diff_stdv_02= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_03= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
+%       eval(sprintf('diff_stdv_03= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_04= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
+%       eval(sprintf('diff_stdv_04= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_05= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
+%       eval(sprintf('diff_stdv_05= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_06= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
+%       eval(sprintf('diff_stdv_06= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
+%       
+%       eval(sprintf('diff_mean_07= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
+%       eval(sprintf('diff_stdv_07= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
+%       
+%       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+%       
+%       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+%       
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+%       % plot(1:8,stdv_all,'or','MarkerSize',12)
+%       errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+%       ax = gca;
+%       ax.XTick = 1:8;
+%       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+%       xlim([0 9])
+%       %       ylim([-3e-3 1e-3])
+%       
+%       str1 = sprintf('Difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
+%       
+%       ylabel(str1,'FontSize',fs)
+%       xlabel('Local Time','FontSize',fs)
+%       
+%       grid on
+% end
 
-wl = {'412','443','490','555','660','680'};
+% %% Plot absolute difference from the daily mean for Rrs
+% % The difference of the mean
+% 
+% wl = {'412','443','490','555','660','680'};
+% 
+% for idx = 1:size(wl,2)
+%       
+%       eval(sprintf('abs_diff_mean_00= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_00= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_01= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_01= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_02= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_02= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_03= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_03= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_04= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_04= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_05= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_05= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_06= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_06= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
+%       
+%       eval(sprintf('abs_diff_mean_07= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
+%       eval(sprintf('abs_diff_stdv_07= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
+%       
+%       abs_diff_stdv_all = [abs_diff_stdv_00,abs_diff_stdv_01,abs_diff_stdv_02,abs_diff_stdv_03,abs_diff_stdv_04,abs_diff_stdv_05,abs_diff_stdv_06,abs_diff_stdv_07];
+%       
+%       abs_diff_mean_all = [abs_diff_mean_00,abs_diff_mean_01,abs_diff_mean_02,abs_diff_mean_03,abs_diff_mean_04,abs_diff_mean_05,abs_diff_mean_06,abs_diff_mean_07];
+%       
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+%       % plot(1:8,stdv_all,'or','MarkerSize',12)
+%       errorbar(1:8,abs_diff_mean_all,abs_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+%       ax = gca;
+%       ax.XTick = 1:8;
+%       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+%       xlim([0 9])
+%       %       ylim([-3e-3 1e-3])
+%       
+%       str1 = sprintf('Absolute difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
+%       
+%       ylabel(str1,'FontSize',fs)
+%       xlabel('Local Time','FontSize',fs)
+%       
+%       grid on
+% end
 
-for idx = 1:size(wl,2)
-      
-      eval(sprintf('diff_mean_00= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
-      eval(sprintf('diff_stdv_00= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_01= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
-      eval(sprintf('diff_stdv_01= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_02= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
-      eval(sprintf('diff_stdv_02= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_03= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
-      eval(sprintf('diff_stdv_03= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_04= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
-      eval(sprintf('diff_stdv_04= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_05= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
-      eval(sprintf('diff_stdv_05= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_06= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
-      eval(sprintf('diff_stdv_06= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
-      
-      eval(sprintf('diff_mean_07= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
-      eval(sprintf('diff_stdv_07= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
-      
-      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
-      
-      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
-      
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
-      % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-      ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
-      xlim([0 9])
-      %       ylim([-3e-3 1e-3])
-      
-      str1 = sprintf('Difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
-      
-      ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
-      
-      grid on
-end
-
-%% Plot absolute difference from the daily mean for Rrs
-% The difference of the mean
-
-wl = {'412','443','490','555','660','680'};
-
-for idx = 1:size(wl,2)
-      
-      eval(sprintf('abs_diff_mean_00= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_00= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_01= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_01= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_02= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_02= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_03= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_03= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_04= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_04= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_05= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_05= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_06= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_06= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
-      
-      eval(sprintf('abs_diff_mean_07= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
-      eval(sprintf('abs_diff_stdv_07= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
-      
-      abs_diff_stdv_all = [abs_diff_stdv_00,abs_diff_stdv_01,abs_diff_stdv_02,abs_diff_stdv_03,abs_diff_stdv_04,abs_diff_stdv_05,abs_diff_stdv_06,abs_diff_stdv_07];
-      
-      abs_diff_mean_all = [abs_diff_mean_00,abs_diff_mean_01,abs_diff_mean_02,abs_diff_mean_03,abs_diff_mean_04,abs_diff_mean_05,abs_diff_mean_06,abs_diff_mean_07];
-      
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
-      % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,abs_diff_mean_all,abs_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-      ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
-      xlim([0 9])
-      %       ylim([-3e-3 1e-3])
-      
-      str1 = sprintf('Absolute difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
-      
-      ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
-      
-      grid on
-end
-
-%% Plot relative difference from the daily mean for Rrs
-% The difference of the mean
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-
-
-wl = {'412','443','490','555','660','680'};
-
-brdf_opt = 7;
-
-cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
-
-for idx = 1:size(wl,2)
-      
-      eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_01= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_01= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_02= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_02= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_03= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_03= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_04= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_04= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_05= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_05= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_06= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_06= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      eval(sprintf('rel_diff_mean_07= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      eval(sprintf('rel_diff_stdv_07= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-      
-      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
-      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
-      
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
-      % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-      ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
-      xlim([0 9])
-      
-      disp('======================')
-      disp(wl{idx})
-      rel_diff_mean_all
-      rel_diff_stdv_all
-      %       ylim([-3e-3 1e-3])
-      
-      ax.YAxis.MinorTick = 'on';
-      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      ax.YGrid = 'on';
-      ax.YMinorGrid = 'on';
-      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
-      
-      ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
-      
-      grid on
-      %       grid minor
-      
-      saveas(gcf,[savedirname 'Rel_Diff_Daily_Mean_Rrs' wl{idx}],'epsc')
-end
+% %% Plot relative difference from the daily mean for Rrs
+% % The difference of the mean
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% 
+% 
+% wl = {'412','443','490','555','660','680'};
+% 
+% brdf_opt = 7;
+% 
+% cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% 
+% for idx = 1:size(wl,2)
+%       
+%       eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_01= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_01= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_02= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_02= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_03= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_03= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_04= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_04= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_05= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_05= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_06= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_06= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       eval(sprintf('rel_diff_mean_07= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       eval(sprintf('rel_diff_stdv_07= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
+%       
+%       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+%       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+%       
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+%       % plot(1:8,stdv_all,'or','MarkerSize',12)
+%       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+%       ax = gca;
+%       ax.XTick = 1:8;
+%       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+%       xlim([0 9])
+%       
+%       disp('======================')
+%       disp(wl{idx})
+%       rel_diff_mean_all
+%       rel_diff_stdv_all
+%       %       ylim([-3e-3 1e-3])
+%       
+%       ax.YAxis.MinorTick = 'on';
+%       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       ax.YGrid = 'on';
+%       ax.YMinorGrid = 'on';
+%       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
+%       
+%       ylabel(str1,'FontSize',fs)
+%       xlabel('Local Time','FontSize',fs)
+%       
+%       grid on
+%       %       grid minor
+%       
+%       saveas(gcf,[savedirname 'Rel_Diff_Daily_Mean_Rrs' wl{idx}],'epsc')
+% end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8165,11 +9112,11 @@ savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 wl = {'412','443','490','555','660','680'};
 
 brdf_opt = 7;
-
+clear cond_brdf
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 
 for idx = 1:size(wl,2)
-      
+      %%
       eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]));',wl{idx},wl{idx}))
       eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]));',wl{idx},wl{idx}))
       
@@ -8224,7 +9171,7 @@ for idx = 1:size(wl,2)
       
       grid on
       %       grid minor
-      
+      %%
       saveas(gcf,[savedirname 'Rel_Diff_mid_three_Rrs' wl{idx}],'epsc')
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
