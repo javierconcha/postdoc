@@ -136,7 +136,7 @@ The SeaDAS/l2gen code was modified to support NASA standard atmospheric correcti
 \section{Data and Sensor Characteristics}
 % ============================================================
 \subsection{GOCI Data}
-The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day (from 00:15 GMT to 07:45 GMT at one hour rate) with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. It hast eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm). GOCI operates in a 2D staring-frame capture mode in a geostationary orbit on board of the Communication Ocean and Meteorological Satellite (COMS) of South Korea. The acquisition of the observational coverage area of GOCI is done with a step-and-staring method that divides the image in 16 slots acquired in a sequential fashion with a dedicated CMOS detector array ($1400\times1400$ pixels).
+The Geostationary Ocean Color Imager (GOCI), launched in June 2010, is the only geostationary ocean color sensor currently on space \citep{Ryu2012}. GOCI monitors the Northeast Asian waters surrounding the Korean peninsula, generating up to eight images per day (from 00:15 Greenwich Mean Time (GMT) to 07:45 GMT at one hour rate) with a spatial resolution of 500 m at 130$^o$E and 36$^o$N. It covers an area of about 2500 km$\times$2500 km. It hast eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm). GOCI operates in a 2D staring-frame capture mode in a geostationary orbit on board of the Communication Ocean and Meteorological Satellite (COMS) of South Korea. The acquisition of the observational coverage area of GOCI is done with a step-and-staring method that divides the image in 16 slots acquired in a sequential fashion with a dedicated CMOS detector array ($1400\times1400$ pixels).
 
 The images used in this analysis span from the beginning of the GOCI's mission (June 2010) until December $31^{st}$, 2016\todo{update}, resulting in a total of about 18,000 images. The GOCI Level-1B calibrated top-of-atmosphere (TOA) radiance data were obtained from the Ocean Biology Distributed Active Archive Center (OB.DAAC\todo{correct?}) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG) \todo{or OEL?}. The OB.DAAC acts as a mirror site for the GOCI data provided by the Korea Ocean Satellite Center. These data are freely available for direct download from the OB.DAAC. Each file is provided as a  Hierarchical Data Format Release 5 format (file extension: .he5) and corresponds to one of the eight daily images per day. Each file contains eight images corresponding to the eight spectral bands.
 % ---------------------------------------------------------------
@@ -443,12 +443,12 @@ When all the data are used for the analyses, a good agreement was found between 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Cruises Matchups?}
 % ---------------------------------------------------------------
-\subsection{Time Series}
+\subsection{Time Series}\label{subsec:timeseries}
 As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. 
 
 There some data that passed the exclusion criteria and have negative values for all bands, reflecting a failure on the atmospheric correction. However, these are few for the 412, 443, 490 and 550 nm spectral bands, and most of them were captured at the time of the day equal to 6h and during winter time, when the solar zenith are the largest. As for the 660 and 680 nm spectral bands, there are more negative values, with the 680 nm band having the largest amount. However, from the histogram for these bands, it can be seen that the mean values are close to zero.
 
-\autoref{fig:GOCI_TimeSeries2}.(a-f) shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}.  The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \autoref{fig:GOCI_TimeSeries2}.(g) shows the time series for the solar zenith angle for reference and color coded by time of the day. As expected, there are more data for spring-summer than fall-winter, when the solar zenith angle is larger and the sky conditions are not optimal (e.g. clouds).
+\autoref{fig:GOCI_TimeSeries2}.(a-f) shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}.  The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \autoref{fig:GOCI_TimeSeries2}.(g) shows the time series for the solar zenith angle for reference and color coded by time of the day. As expected, there are more data for spring-summer than fall-winter, when the solar zenith angle is larger and the sky conditions are not optimal (e.g. presence of clouds).
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{0.66\linewidth}
@@ -575,7 +575,9 @@ There some data that passed the exclusion criteria and have negative values for 
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Temporal Homogeneity}
-One assumption for this work is that the area of study stays homogeneous over short periods of time, i.e. the water does not change considerable diurnally (hour to hour) and from day to day.
+One assumption for this work is that the water over the area of study stays homogeneous over short periods of time, i.e. the water does not change considerably diurnally (hour-to-hour) nor from day-to-day. In order to test this assumption, different studies were performed and described below.
+
+\autoref{fig:3dayseq} shows two sets of 3-day sequences (July 28$^{th}$-30$^{th}$, 2012 and September 9$^{th}$-11$^{th}$, 2015), both used as examples to have an estimation of the diurnal and day-to-day variability for the $R_{rs}(\lambda)$ and the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$, and POC products. The data were color coded by time of the day. The diurnal variability for $R_{rs}(\lambda)$ is larger for the September 9$^{th}$-11$^{th}$, 2015 sequence. Overall, the diurnal variability is larger than the day-to-day variability, when comparing the same time of the day across all days. This fact suggests that the diurnal variability is influenced by uncertainties in the instrument, geometry or algorithm and not by the biogeochemical processes occurring on the water. 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
 % \centering
@@ -636,12 +638,17 @@ One assumption for this work is that the area of study stays homogeneous over sh
       \end{overpic}
     \end{minipage}
 
-\caption{ Statistics for two cases. GOCI $R_{rs}(\lambda)$ for 3-day sequences for (a) July 28-30, 2012 and (b) September 9-11, 2015. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by spectral bands (circle: 412 nm, triangle: 443 nm, asterisk: 490 nm and cross: 555 nm).\label{fig:3dayseq} }     
+\caption{ Statistics for two cases. GOCI $R_{rs}(\lambda)$ for 3-day sequences for (a-d) July 28-30, 2012 and (e-h) September 9-11, 2015. (a,e) $R_{rs}(\lambda)$, (b,f) Chlorophyll-{\it a}, (c,g) $a_{g:mlrc}(412)$, and (d,h) POC products. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by spectral bands (circle: 412 nm, triangle: 443 nm, asterisk: 490 nm and cross: 555 nm).\label{fig:3dayseq} }     
 
 % \caption{ GOCI Chlorophyll-{\it a}, $a_{g:mlrc}(412)$, POC products for 3-day sequences for (a-c) July 28-30, 2012 and (d-f) September 9-11, 2015. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h).\label{fig:3dayseq_par} } 
 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+In order to have a quantitative estimation of the homogeneity, statistics were calculated for all 3-day sequences. Out of the 6435 days for the whole GOCI mission, there are only 228 3-day sequences with valid values for the 412, 443, 490 and 555 nm bands and for all times of the days. Note that there is not a single 3-day sequence with valid values for all bands and all times of the days. This shows the difficulty of finding clear sky data in the area of study. 
+
+The mean, standard deviation and coefficient of variation ($CV[\%]=100\times SD/mean$) were calculated for all 3-day sequences . \autoref{fig:3dayseq_stats}.(a) shows the mean of the mean, and the mean of the standard deviation while \autoref{fig:3dayseq_stats}.(b) shows the mean of the coefficient of variation for the 228 3-day sequences for $R_{rs}(\lambda)$. \autoref{fig:3dayseq_stats_par} shows the same parameters for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$, and POC products. The data were color coded by time of the day. It can be seen that the mean values remain similar for the first six hours for all bands. Also, the day-to-day variability is small, which is reflected in the small standard deviation and a mean of CV less than $7\%$  for all cases but the last two images per day.
+
+From this previous analysis, we can conclude that the water over the area of study is homogeneous in short periods of time. However, it also exhibits seasonality, as expected, which is reflected in the time series of \S\ref{subsec:timeseries}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{0.49\linewidth}
@@ -658,7 +665,7 @@ One assumption for this work is that the area of study stays homogeneous over sh
       \end{overpic}
     \end{minipage}
 
-\caption{Global statistics. (a) mean and standard deviation (SD) and (b) coefficient of variation (CV) for the GOCI $R_{rs}(\lambda)$ for the 3-day sequences. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by spectral bands (circle: 412 nm, triangle: 443 nm, asterisk: 490 nm and cross: 555 nm).\label{fig:3dayseq_stats} } 
+\caption{Global statistics for the 3-day sequences for the GOCI $R_{rs}(\lambda)$. (a) mean and standard deviation (SD) and (b) coefficient of variation (CV). Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by spectral bands (circle: 412 nm, triangle: 443 nm, asterisk: 490 nm and cross: 555 nm).\label{fig:3dayseq_stats} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -693,7 +700,7 @@ One assumption for this work is that the area of study stays homogeneous over sh
       \end{overpic}
     \end{minipage}
 
-\caption{ (a-c) mean and standard deviation (SD) and (b) coefficient of variation (CV) for the GOCI Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ , and POC products for the 3-day sequences. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by products (circle: Chlorophyll-{\it a}, triangle: $a_{g:mlrc}(412)$, and asterisk: POC).\label{fig:3dayseq_stats_par} } 
+\caption{Global statistics for the 3-day sequences. (a-c) mean and standard deviation (SD) and (b) coefficient of variation (CV) for the (a) Chlorophyll-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC products for GOCI. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by products (circle: Chlorophyll-{\it a}, triangle: $a_{g:mlrc}(412)$, and asterisk: POC).\label{fig:3dayseq_stats_par} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
@@ -781,7 +788,7 @@ One assumption for this work is that the area of study stays homogeneous over sh
     \caption{(a) Chlor-{\it a}, (b) $a_{g:mlrc}(412)$ and (c) POC versus solar zenith angle, color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:par_vs_zenith} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-Then, the anomalies were calculated in order to remove seasonality. Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 9h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \autoref{fig:Rrs_vs_zenith_detrend} color coded by time of the day.
+Then, the anomalies were calculated in order to remove seasonality. Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 0h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \autoref{fig:Rrs_vs_zenith_detrend} color coded by time of the day.
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
@@ -870,10 +877,11 @@ Then, the anomalies were calculated in order to remove seasonality. Monthly-clim
 A standard deviation (SD) of the eight values per day was calculated. This daily standard deviation is an indicator of the temporal stability of the selected homogeneous ocean region. The hope is to have minimal variation during the day over this region. Then, all of the daily standard deviation were averaged to have a mean value per band. These values are compared to the results obtained from the comparison the AERONET-OC dataset (\autoref{tab:stdev_aero}).
 
 \begin{table}[htbp!]
-\caption{ \label{tab:stdev_aero} } 
+\caption{Standard deviation (SD) of the time series compared with the root mean squared error (RMSE). \label{tab:stdev_aero} } 
 \small
 \centering
 \begin{tabular}{ccc} \hline
+
  \bfseries{Product Name} & \bfseries{SD} & \bfseries{RMSE}\\
  & (Time Series)) & (AERONET-OC) \\ 
  & $[1/sr]$ & $[1/sr]$ \\ \hline \hline
@@ -889,10 +897,10 @@ $R_{rs}(680)$ & $1.94\times10^5$ & N/A \\ \hline
 
 
 % Relative difference
-There are eight images for each day. For every image, the mean of the entire box was calculated. Then, these mean values were averaged to obtain a daily mean, as follow
+For each day, the mean of the three midday images (02, 03 and 04h) was calculated as
 
 \begin{equation}
-	\hat{X} = \frac{1}{N} \sum_{t}^N x_t
+	\hat{X}_{02,03,04h} = \frac{1}{N} \sum_{t}^N x_t,~~~t=02h,03h~\text{and}~04h
 \end{equation}
 
 The difference con respect to a reference is $\Delta_t=x_t-x_{reference}$. Then, the relative difference is defined as
@@ -900,8 +908,11 @@ The difference con respect to a reference is $\Delta_t=x_t-x_{reference}$. Then,
 	RD_t = \frac{\Delta_t}{|x_{reference}|} = \frac{x_t-x_{reference}}{|x_{reference}|}
 	\times 100[\%]
 \end{equation}
-where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the day.
+where $x_t$ is the satellite data at the local time $t=09h,10h\dots16h$ of the day and for this case $x_{reference}=\hat{X}_{02,03,04h}$. In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis.
 
+\autoref{fig:DiffMidThreeMean} shows the mean and the standard deviation of the relative difference with respect to the mean of the three midday images (02, 03 and 04h) for the whole mission for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$ for each time of the day. \autoref{fig:DiffMidThreeMean_detrend} shows the same parameters but for the anomalies. 
+
+\todo{update table!}
 \begin{table}[htbp!]
 \caption{Relative difference with respect to the daily mean.\label{tab:rel_diff} } 
 \scriptsize
@@ -991,7 +1002,7 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
       \end{overpic}
     \end{minipage}  
 
-    \caption{Relative Difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. \label{fig:DiffMidThreeMean} } 
+    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. Error bars represent the standard deviation. \label{fig:DiffMidThreeMean} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -999,14 +1010,14 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
     \begin{minipage}[c]{0.32\linewidth}
       \centering
       \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs412.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_412_detrend.eps}
         \put (25,15) {\colorbox{white}{(a)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs443.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_443_detrend.eps}
         \put (25,15) {\colorbox{white}{(b)}}
       \end{overpic}
     \end{minipage}  
@@ -1014,7 +1025,7 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
     \begin{minipage}[c]{0.32\linewidth}
       \centering
       \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs490.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_490_detrend.eps}
         \put (25,15) {\colorbox{white}{(c)}}
       \end{overpic}
     \end{minipage}  
@@ -1023,7 +1034,7 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs555.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_555_detrend.eps}
         \put (25,15) {\colorbox{white}{(d)}}
       \end{overpic}
     \end{minipage}  
@@ -1031,14 +1042,14 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
     \begin{minipage}[c]{0.32\linewidth}
       \centering
       \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs660.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_660_detrend.eps}
         \put (28,15) {\colorbox{white}{(e)}}
       \end{overpic}
     \end{minipage}   
     \hfill
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs680.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_680_detrend.eps}
         \put (28,15) {\colorbox{white}{(f)}}
       \end{overpic}
     \end{minipage} 
@@ -1047,26 +1058,26 @@ $\lambda$     &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)
 
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_chlor_a.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_chlor_a_detrend.eps}
         \put (28,15) {\colorbox{white}{(g)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_poc.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_poc_detrend.eps}
         \put (28,15) {\colorbox{white}{(h)}}
       \end{overpic}
     \end{minipage}  
     \hfill
     \begin{minipage}[c]{0.32\linewidth}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc.eps}
+      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc_detrend.eps}
         \put (30,15) {\colorbox{white}{(i)}}
       \end{overpic}
     \end{minipage}  
 
-    \caption{Relative Difference for the anomalies with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. \label{fig:DiffMidThreeMean_detrend} } 
+    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$ for the anomalies. Error bars represent the standard deviation. \label{fig:DiffMidThreeMean_detrend} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
@@ -1559,7 +1570,7 @@ The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \a
 
 % Results look really interesting regarding 6h and 7h time points (wonder if it’s related to stray light from sun entering FOV at end of the day).  Very good start on the text. Figures look great – may not need all the figures from Fig. 7-13 are needed – let’s discuss this.  Need more descriptive figure captions for Figs. 16-18.  Do you need Fig. 17 if include Fig. 16.  Fig. 19 is really cool that the values match well for the most part.
 
-% Let’s discuss Fig. 20 and 21.  Not sure I agree with conclusion that results get better from blue to red.  The red looks worse than blue to me.  Can you say something about how spatially and temporally homogeneous the study region is?  The temporal homogeneity is critical for the diurnal analysis.  What about day to day variability for the same time of day (e.g., mean and variance of a 3-day analysis at 0h, 1h, 2h, … 7h).  If you can show that from day 0 to day 2 for each time of day that GOCI Rrs (and other products) are similar to the diurnal mean or the mid 3 time points of the day, then you can establish homogeneity.  Maybe pick a 3-day period for each season of 1 year to test?
+% Let’s discuss Fig. 20 and 21.  Not sure I agree with conclusion that results get better from blue to red.  The red looks worse than blue to me.  Can you say something about how spatially and temporally homogeneous the study region is?  The temporal homogeneity is critical for the diurnal analysis.  What about day-to-day variability for the same time of day (e.g., mean and variance of a 3-day analysis at 0h, 1h, 2h, … 7h).  If you can show that from day 0 to day 2 for each time of day that GOCI Rrs (and other products) are similar to the diurnal mean or the mid 3 time points of the day, then you can establish homogeneity.  Maybe pick a 3-day period for each season of 1 year to test?
 
 %*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 % Antonio's comments on 6/15/17:
