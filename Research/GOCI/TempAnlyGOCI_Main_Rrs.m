@@ -446,7 +446,7 @@ for idx = 1:size(wl_vec,2)
       
       % to create dummy data and create a custon legend
       if idx==1
-            p = zeros(4,1);
+            p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
             p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
@@ -8268,7 +8268,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_x = data_aux_x((cond_used&cond_tod));
             data_aux_y = [GOCI_Data.solz_center_value];
             data_aux_y = data_aux_y(cond_used&cond_tod);
-            plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[0. 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
 
       end
@@ -8282,13 +8282,23 @@ for idx0 = 1:size(wl_vec,2)
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       N = 0;
       
-      if idx0==6
-            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      % to create dummy data and create a custon legend
+      if idx0==6                 
+            p = zeros(8,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       end
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-%       saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
+      saveas(gcf,[savedirname 'Rrs_vs_Zenith_detrend_' wl_vec{idx0} '_2'],'epsc')
       
 end
 
@@ -8359,7 +8369,7 @@ for idx0 = 1:size(wl_vec,2)
       
       eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
       y_used = [GOCI_DailyStatMatrix.solz_center_value_04];
-      N = N + sum(cond_used);;
+      N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'oc','MarkerSize',ms,'LineWidth',lw);
 
       hold on
@@ -8400,8 +8410,18 @@ for idx0 = 1:size(wl_vec,2)
       str1 = sprintf('N = %i',N);
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       
-      if idx0==6
-            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      % to create dummy data and create a custon legend
+      if idx0==6                 
+            p = zeros(8,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       end
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -8498,8 +8518,18 @@ for idx0 = 1:size(par_vec,2)
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       N = 0;
       
-      if idx0==2
-            legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+      % to create dummy data and create a custon legend
+      if idx0==6                 
+            p = zeros(8,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       end
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
