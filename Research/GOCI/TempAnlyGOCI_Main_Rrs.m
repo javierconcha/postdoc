@@ -83,7 +83,8 @@ total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1)
 ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 solz_lim = 75;
 xrange = 0.02;
-startDate = datenum('01-01-2011');
+% startDate = datenum('01-01-2011');
+startDate = datenum('05-15-2011');
 endDate = datenum('01-01-2017');
 xData = startDate:datenum(years(1)):endDate;
 
@@ -678,7 +679,7 @@ savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 fs = 40;
 ms = 5;
 lw = 2;
-solz_lim = 75;
+solz_lim = 90;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
@@ -767,6 +768,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -862,6 +864,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -955,6 +958,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1048,6 +1052,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1141,6 +1146,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1234,6 +1240,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1252,358 +1259,99 @@ saveas(gcf,[savedirname 'Rrs_680_vs_Zenith'],'epsc')
 fs = 40;
 ms = 5;
 lw = 2;
-solz_lim = 75;
+solz_lim = 90;
 senz_lim = 60;
 CV_lim = 0.3;
 brdf_opt = 7;
 
-% Rrs_412
-cond_nan = ~isnan([GOCI_Data.Rrs_412_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_412_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
-h = figure('Color','white','DefaultAxesFontSize',fs);
+for idx_par = 1:size(par_vec,2)
+      eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}))
+      eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}))
+      cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+      cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+      cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+      cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+      cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
 
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_412_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
+      h = figure('Color','white','DefaultAxesFontSize',fs);
 
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_412_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
+      % Spring
+      cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_x = data_x(cond_used&cond_tod);
+      data_y = [GOCI_Data.solz_center_value];
+      data_y = data_y(cond_used&cond_tod);
+      plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
 
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_412_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      % Summer
+      cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_x = data_x(cond_used&cond_tod);
+      data_y = [GOCI_Data.solz_center_value];
+      data_y = data_y(cond_used&cond_tod);
+      plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
 
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_412_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
+      hold on
+      % Fall
+      cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_x = data_x(cond_used&cond_tod);
+      data_y = [GOCI_Data.solz_center_value];
+      data_y = data_y(cond_used&cond_tod);
+      plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
+      hold on
+      % Winter
+      cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_x = data_x(cond_used&cond_tod);
+      data_y = [GOCI_Data.solz_center_value];
+      data_y = data_y(cond_used&cond_tod);
+      plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
+      switch par_vec{idx_par}
+            case 'Rrs_412'
+                  x_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  x_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  x_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  x_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_660'
+                  x_str = 'R_{rs}(660) [sr^{-1}]';
+            case 'Rrs_680'
+                  x_str = 'R_{rs}(680) [sr^{-1}]';   
+            case 'chlor_a'
+                  x_str = 'Chlor-{\ita} [mg m^{-3}]';
+            case 'ag_412_mlrc'
+                  x_str = 'a_{g:mlrc}(412) [m^{-1}]';
+            case 'poc'
+                  x_str = 'POC [mg m^{-3}]';
+      end
 
-legend('Spring','Summer','Fall','Winter','Location','southwest')
+      xlabel(x_str,'FontSize',fs)
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
+      grid on
 
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_412_vs_Zenith_season'],'epsc')
+      str1 = sprintf('N = %i',sum(cond_used));
+      title(str1,'FontSize',fs-2,'FontWeight','Normal')
 
-% Rrs_443
-cond_nan = ~isnan([GOCI_Data.Rrs_443_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_443_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+      legend('Spring','Summer','Fall','Winter','Location','southwest')
 
-h = figure('Color','white','DefaultAxesFontSize',fs);
-
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_443_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_443_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_443_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_443_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
-xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
-
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_443_vs_Zenith_season'],'epsc')
-
-% Rrs_490
-cond_nan = ~isnan([GOCI_Data.Rrs_490_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_490_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
-
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_490_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_490_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_490_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_490_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
-xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
-
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_490_vs_Zenith_season'],'epsc')
-
-% Rrs_555
-cond_nan = ~isnan([GOCI_Data.Rrs_555_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_555_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
-
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_555_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_555_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_555_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_555_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
-xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
-
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_555_vs_Zenith_season'],'epsc')
-
-% Rrs_660
-cond_nan = ~isnan([GOCI_Data.Rrs_660_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_660_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
-
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_660_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_660_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_660_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_660_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
-xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
-
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_660_vs_Zenith_season'],'epsc')
-
-% Rrs_680
-cond_nan = ~isnan([GOCI_Data.Rrs_680_filtered_mean]);
-cond_area = [GOCI_Data.Rrs_680_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
-cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
-cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
-cond_CV = [GOCI_Data.median_CV]<=CV_lim;
-cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
-cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
-h = figure('Color','white','DefaultAxesFontSize',fs);
-
-% Spring
-cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
-data_x = [GOCI_Data.Rrs_680_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Summer
-cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
-data_x = [GOCI_Data.Rrs_680_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Fall
-cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
-data_x = [GOCI_Data.Rrs_680_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
-hold on
-% Winter
-cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
-data_x = [GOCI_Data.Rrs_680_filtered_mean];
-data_x = data_x(cond_used&cond_tod);
-data_y = [GOCI_Data.solz_center_value];
-data_y = data_y(cond_used&cond_tod);
-plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
-xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
-ylabel('Solar Zenith Angle (^o)','FontSize',fs)
-grid on
-
-str1 = sprintf('N = %i',sum(cond_used));
-title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
-set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
-saveas(gcf,[savedirname 'Rrs_680_vs_Zenith_season'],'epsc')
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+      eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_season''],''epsc'')',par_vec{idx_par}))
+end
 
 %% par vs zenith -- color coded by time of the day
 
 fs = 40;
+solz_lim = 90;
 
 % chlor_a
 cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
@@ -1689,6 +1437,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1782,6 +1531,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1877,6 +1627,7 @@ plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 xlabel('POC [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1889,7 +1640,7 @@ saveas(gcf,[savedirname 'Par_vs_Zenith_poc'],'epsc')
 %% par vs zenith -- color coded by season
 
 fs = 40;
-
+solz_lim = 90;
 % chlor_a
 cond_nan = ~isnan([GOCI_Data.chlor_a_filtered_mean]);
 cond_area = [GOCI_Data.chlor_a_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;
@@ -1939,6 +1690,7 @@ plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -1997,6 +1749,7 @@ plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -2058,6 +1811,7 @@ plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
 xlabel('POC [mg m^{-3}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+ylim([0 90])
 grid on
 
 str1 = sprintf('N = %i',sum(cond_used));
@@ -2067,6 +1821,163 @@ set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
 saveas(gcf,[savedirname 'Par_vs_Zenith_poc_season'],'epsc')
 
+
+%% mean Rrs vs zenith -- filtered, by season but color coded by time of the day
+% Spring - from March 1 to May 31; 3, 4, 5
+% Summer - from June 1 to August 31; 6, 7, 8
+% Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
+% Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
+
+fs = 40;
+ms = 5;
+lw = 2;
+solz_lim = 90;
+senz_lim = 60;
+CV_lim = 0.3;
+brdf_opt = 7;
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+par_season = {'Spring','Summer','Fall','Winter'};
+
+for idx_par = 1:size(par_vec,2)
+      eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}))
+      eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}))
+      cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+      cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+      cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+      cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+      cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_y = [GOCI_Data.solz_center_value];
+      
+      for idx_season = 1:size(par_season,2)
+            
+            h = figure('Color','white','DefaultAxesFontSize',fs);
+            title(par_season{idx_season})
+            N = 0;
+            switch par_season{idx_season}
+                  case 'Spring'
+                        cond_season = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+                  case 'Summer'
+                        cond_season = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+                  case 'Fall'
+                        cond_season = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+                  case 'Winter'
+                        cond_season = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+            end
+            
+            for idx_tod = 1:8;
+                  if idx_tod == 1
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==0); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'or','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 2
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'og','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 3
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'ob','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 4
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'ok','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 5
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'oc','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 6
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'om','MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 7
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+                  elseif idx_tod == 8
+                        hold on
+                        cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
+                        data_x_used = data_x(cond_used&cond_season&cond_tod);
+                        data_y_used = data_y(cond_used&cond_season&cond_tod);
+                        plot(data_x_used,data_y_used,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+                  end
+                  N= N + sum(cond_used&cond_season&cond_tod);
+            end
+            
+            switch par_vec{idx_par}
+                  case 'Rrs_412'
+                        x_str = 'R_{rs}(412) [sr^{-1}]';
+                        xlim([-0.01 0.02])
+                  case 'Rrs_443'
+                        x_str = 'R_{rs}(443) [sr^{-1}]';
+                        xlim([-0.01 0.015])
+                  case 'Rrs_490'
+                        x_str = 'R_{rs}(490) [sr^{-1}]';
+                        xlim([-0.01 0.01])
+                  case 'Rrs_555'
+                        x_str = 'R_{rs}(555) [sr^{-1}]';
+                        xlim([-2e-3 3e-3])
+                  case 'Rrs_660'
+                        x_str = 'R_{rs}(660) [sr^{-1}]';
+                        xlim([-20e-4 5e-4])
+                  case 'Rrs_680'
+                        x_str = 'R_{rs}(680) [sr^{-1}]';
+                        xlim([-2.5e-3 0.5e-3])
+                  case 'chlor_a'
+                        x_str = 'Chlor-{\ita} [mg m^{-3}]';
+                        xlim([0.05 0.25])
+                  case 'ag_412_mlrc'
+                        x_str = 'a_{g:mlrc}(412) [m^{-1}]';
+                        xlim([0.005 0.045])
+                  case 'poc'
+                        x_str = 'POC [mg m^{-3}]';
+                        xlim([10 70])
+            end
+            
+            xlabel(x_str,'FontSize',fs)
+            ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+            ylim([0 90])
+            grid on
+            
+            str1 = sprintf('N = %i',N);
+            title([par_season{idx_season} '; ' str1],'FontSize',fs-2,'FontWeight','Normal')
+            
+            % to create dummy data and create a custon legend
+            p = zeros(8,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+            clear p
+            
+            set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+            set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+            eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_%s_tod''],''epsc'')',par_vec{idx_par},par_season{idx_season}))
+                  
+           
+      end
+end
 % % %
 % % %
 %% Capture time analysis
@@ -2089,7 +2000,8 @@ saveas(gcf,[savedirname 'Par_vs_Zenith_poc_season'],'epsc')
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 xrange = 0.02;
-startDate = datenum('01-01-2011');
+% startDate = datenum('01-01-2011');
+startDate = datenum('05-15-2011');
 endDate = datenum('01-01-2017');
 xData = startDate:datenum(years(1)):endDate;
 
@@ -2108,7 +2020,8 @@ brdf_opt_vec = [0 3 7];
 clear cond_1t cond1 cond2 cond_used
 
 
-first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+first_day = datetime(2011,5,20);
 last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
 
 date_idx = first_day:last_day;
@@ -3028,7 +2941,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_412_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -3285,7 +3198,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_443_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -3542,7 +3455,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_490_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -3799,7 +3712,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_555_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -4056,7 +3969,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_660_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -4313,7 +4226,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.Rrs_680_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -4571,7 +4484,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.aot_865_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -4828,7 +4741,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.angstrom_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -5086,7 +4999,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.poc_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -5343,7 +5256,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.ag_412_mlrc_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -5600,7 +5513,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.chlor_a_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -5857,7 +5770,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.brdf_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -6114,7 +6027,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.solz_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -6371,7 +6284,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.senz_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -6628,7 +6541,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.solz_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -6680,7 +6593,7 @@ if process_data_flag
                         data_used = data_used(cond_1t);
                         valid_px_count_used = [GOCI_Data_used.senz_valid_pixel_count];
                         valid_px_count_used = valid_px_count_used(cond_1t);
-                        cond1 = data_used >= 0; % only positive values
+                        cond1 = data_used > 0; % only positive values
                         cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
                         cond_used = cond1&cond2;
                         
@@ -6792,7 +6705,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_412_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_412_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -6828,7 +6741,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_443_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_443_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -6864,7 +6777,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_488_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_488_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -6900,7 +6813,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_547_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -6936,7 +6849,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_667_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_667_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -6972,7 +6885,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_678_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_678_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7008,7 +6921,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.aot_869_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.aot_869_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7044,7 +6957,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.angstrom_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.angstrom_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7080,7 +6993,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.poc_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.poc_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7116,7 +7029,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.ag_412_mlrc_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.ag_412_mlrc_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7152,7 +7065,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.chlor_a_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.chlor_a_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7188,7 +7101,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.brdf_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.brdf_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7284,7 +7197,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.Rrs_410_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_410_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7320,7 +7233,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.Rrs_443_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_443_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7356,7 +7269,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.Rrs_486_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_486_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7392,7 +7305,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.Rrs_551_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_551_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7428,7 +7341,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.Rrs_671_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_671_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7464,7 +7377,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.aot_862_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.aot_862_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7500,7 +7413,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.angstrom_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7536,7 +7449,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.poc_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.poc_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7572,7 +7485,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7608,7 +7521,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.chlor_a_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.chlor_a_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -7644,7 +7557,7 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [VIIRS_Data_used.brdf_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<0;
+                        cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.brdf_valid_pixel_count];
                         cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
@@ -8153,7 +8066,7 @@ fs = 40;
 ms = 5;
 lw = 2;
 
-solz_lim = 75;
+solz_lim = 90;
 senz_lim = 60;
 % CV_lim = 0.3;
 CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
@@ -8276,6 +8189,7 @@ for idx0 = 1:size(wl_vec,2)
       figure(gcf)
       eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
       grid on
       
       str1 = sprintf('N = %i',N);
@@ -8405,6 +8319,7 @@ for idx0 = 1:size(wl_vec,2)
       figure(gcf)
       eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
       grid on
       
       str1 = sprintf('N = %i',N);
@@ -8512,6 +8427,7 @@ for idx0 = 1:size(par_vec,2)
       figure(gcf)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
       grid on
       
       str1 = sprintf('N = %i',N);
@@ -8519,7 +8435,7 @@ for idx0 = 1:size(par_vec,2)
       N = 0;
       
       % to create dummy data and create a custon legend
-      if idx0==6                 
+      if idx0==2                 
             p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
@@ -8592,6 +8508,7 @@ for idx0 = 1:size(wl_vec,2)
       figure(gcf)
       eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
       grid on
       
       str1 = sprintf('N = %i',N);
@@ -8676,6 +8593,7 @@ for idx0 = 1:size(par_vec,2)
       figure(gcf)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+      ylim([0 90])
       grid on
       
       str1 = sprintf('N = %i',N);
@@ -9152,41 +9070,49 @@ for idx = 1:size(wl,2)
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
+      rel_diff_N_00 = sum(cond_filter);
 
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
+      rel_diff_N_01 = sum(cond_filter);
 
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
+      rel_diff_N_02 = sum(cond_filter);
 
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
+      rel_diff_N_03 = sum(cond_filter);
 
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
+      rel_diff_N_04 = sum(cond_filter);
 
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
+      rel_diff_N_05 = sum(cond_filter);
 
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
+      rel_diff_N_06 = sum(cond_filter);
 
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
+      rel_diff_N_07 = sum(cond_filter);
 
 
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
@@ -9198,8 +9124,17 @@ for idx = 1:size(wl,2)
       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
+
+      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
       
       disp('======================')
       disp(wl{idx})
@@ -9215,7 +9150,7 @@ for idx = 1:size(wl,2)
       str1 = sprintf('Relative difference\n w/r to mean middle three\n  Rrs(%s) [%%]',wl{idx});
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
       
       grid on
       %       grid minor
@@ -9285,7 +9220,7 @@ for idx = 1:size(wl,2)
       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
       
       disp('======================')
@@ -9302,7 +9237,7 @@ for idx = 1:size(wl,2)
       str1 = sprintf('Relative difference\n w/r to mean middle three for anomalies\n  Rrs(%s) [%%]',wl{idx});
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
+      xlabel('Time fo the day (GMT)','FontSize',fs)
       
       grid on
       %       grid minor
@@ -9336,41 +9271,51 @@ for idx = 1:size(par_vec,2)
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
+      rel_diff_N_00 = sum(cond_filter);
 
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
+      rel_diff_N_01 = sum(cond_filter);
 
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
+      rel_diff_N_02 = sum(cond_filter);
 
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
+      rel_diff_N_03 = sum(cond_filter);
 
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
+      rel_diff_N_04 = sum(cond_filter);
 
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
+      rel_diff_N_05 = sum(cond_filter);
 
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
+      rel_diff_N_06 = sum(cond_filter);
 
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
-      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));     
+      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));  
+      rel_diff_N_07 = sum(cond_filter);
+
+
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
@@ -9380,8 +9325,17 @@ for idx = 1:size(par_vec,2)
       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
+
+      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
       
       disp('======================')
       disp(par_vec{idx})
@@ -9397,7 +9351,7 @@ for idx = 1:size(par_vec,2)
       str1 = sprintf('Relative difference\n w/r to mean middle three\n  %s [%%]',par_char);
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
       
       grid on
       %       grid minor
@@ -9476,7 +9430,7 @@ for idx = 1:size(par_vec,2)
       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
       
       disp('======================')
@@ -9493,7 +9447,7 @@ for idx = 1:size(par_vec,2)
       str1 = sprintf('Relative difference\n w/r to mean middle three for anomalies\n  %s [%%]',par_char);
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
       
       grid on
       %       grid minor
@@ -9959,19 +9913,26 @@ nanmean([GOCI_DailyStatMatrix.Rrs_660_stdv_mean])
 nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])
 
 
-%% Scatter plots for Rrs -- daily
+%% Scatter plots for Rrs -- daily -- from GOCI_DailyStatMatrix
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+clear GOCI_date VIIRS_date AQUA_date 
+clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec 
+clear GOCI_used VIIRS_used AQUA_used
 
 brdf_opt = 7;
 
-GOCI_date = [GOCI_DailyStatMatrix([GOCI_DailyStatMatrix.brdf_opt]==brdf_opt).datetime];
-VIIRS_date = [VIIRS_DailyStatMatrix([VIIRS_DailyStatMatrix.brdf_opt]==brdf_opt).datetime];
-AQUA_date = [AQUA_DailyStatMatrix([AQUA_DailyStatMatrix.brdf_opt]==brdf_opt).datetime];
+cond_brdf_GOCI = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+GOCI_date = [GOCI_DailyStatMatrix(cond_brdf_GOCI).datetime];
+cond_brdf_VIIRS = [VIIRS_DailyStatMatrix.brdf_opt]==brdf_opt;
+VIIRS_date = [VIIRS_DailyStatMatrix(cond_brdf_VIIRS).datetime];
+cond_brdf_AQUA = [AQUA_DailyStatMatrix.brdf_opt]==brdf_opt;
+AQUA_date = [AQUA_DailyStatMatrix(cond_brdf_AQUA).datetime];
 
-GOCI_used = GOCI_DailyStatMatrix([GOCI_DailyStatMatrix.brdf_opt]==brdf_opt);
-VIIRS_used = VIIRS_DailyStatMatrix([VIIRS_DailyStatMatrix.brdf_opt]==brdf_opt);
-AQUA_used = AQUA_DailyStatMatrix([AQUA_DailyStatMatrix.brdf_opt]==brdf_opt);
+GOCI_used = GOCI_DailyStatMatrix(cond_brdf_GOCI);
+VIIRS_used = VIIRS_DailyStatMatrix(cond_brdf_VIIRS);
+AQUA_used = AQUA_DailyStatMatrix(cond_brdf_AQUA);
 
+% clear cond_brdf_GOCI cond_brdf_VIIRS cond_brdf_AQUA
 
 % all in the same temporal grid
 min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
@@ -10060,6 +10021,121 @@ for idx0 = 1:size(wl,2)
       set(gcf, 'renderer','painters')
       
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
+end
+%% Scatter plots for Rrs -- from GOCI_Data
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+clear GOCI_date VIIRS_date AQUA_date 
+clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec 
+clear GOCI_used VIIRS_used AQUA_used
+
+
+brdf_opt = 7;
+
+GOCI_date = [GOCI_Data([GOCI_Data.brdf_opt]==brdf_opt).datetime];
+VIIRS_date = [VIIRS_Data([VIIRS_Data.brdf_opt]==brdf_opt).datetime];
+AQUA_date = [AQUA_Data([AQUA_Data.brdf_opt]==brdf_opt).datetime];
+
+GOCI_used = GOCI_Data([GOCI_Data.brdf_opt]==brdf_opt);
+VIIRS_used = VIIRS_Data([VIIRS_Data.brdf_opt]==brdf_opt);
+AQUA_used = AQUA_Data([AQUA_Data.brdf_opt]==brdf_opt);
+
+
+% all in the same temporal grid
+min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
+
+max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
+
+date_vec = min_date:max_date;
+
+for idx=1:size(date_vec,2)
+      [~,b] = min(abs(GOCI_date-date_vec(idx)));
+      if GOCI_date(b).Year==date_vec(idx).Year&&...
+                  GOCI_date(b).Month==date_vec(idx).Month&&...
+                  GOCI_date(b).Day==date_vec(idx).Day
+            GOCI_date_vec(idx) = b; % indexes
+      else
+            GOCI_date_vec(idx) = NaN;
+      end
+      [~,b] = min(abs(AQUA_date-date_vec(idx)));
+      if AQUA_date(b).Year==date_vec(idx).Year&&...
+                  AQUA_date(b).Month==date_vec(idx).Month&&...
+                  AQUA_date(b).Day==date_vec(idx).Day
+            AQUA_date_vec(idx) = b; % indexes
+      else
+            AQUA_date_vec(idx) = NaN;
+      end
+      [~,b] = min(abs(VIIRS_date-date_vec(idx)));
+      if VIIRS_date(b).Year==date_vec(idx).Year&&...
+                  VIIRS_date(b).Month==date_vec(idx).Month&&...
+                  VIIRS_date(b).Day==date_vec(idx).Day
+            VIIRS_date_vec(idx) = b; % indexes
+      else
+            VIIRS_date_vec(idx) = NaN;
+      end
+end
+
+cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
+cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
+cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
+
+%
+wl = {'412','443','490','555','660','680'};
+for idx0 = 1:size(wl,2)
+      %% For AQUA
+      if strcmp(wl{idx0},'412')
+            wl_AQUA = '412';
+      elseif strcmp(wl{idx0},'443')
+            wl_AQUA = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_AQUA = '488';
+      elseif strcmp(wl{idx0},'555')
+            wl_AQUA = '547';
+      elseif strcmp(wl{idx0},'660')
+            wl_AQUA = '667';
+      elseif strcmp(wl{idx0},'680')
+            wl_AQUA = '678';
+      end
+      
+      %% For VIIRS
+      if strcmp(wl{idx0},'412')
+            wl_VIIRS = '410';
+      elseif strcmp(wl{idx0},'443')
+            wl_VIIRS = '443';
+      elseif strcmp(wl{idx0},'490')
+            wl_VIIRS = '486';
+      elseif strcmp(wl{idx0},'555')
+            wl_VIIRS = '551';
+      elseif strcmp(wl{idx0},'660')
+            wl_VIIRS = '671';
+      elseif strcmp(wl{idx0},'680') % REPEATING VIIRS-671 band for GOCI-660 and GOCI-680 nm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            wl_VIIRS = '671';
+      end
+      
+      %% GOCI Comparison with VIIRS
+      [h1,ax1,leg1] = plot_sat_vs_sat('Rrs',wl{idx0},wl_VIIRS,'GOCI','VIIRS',...
+            eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_%s_filtered_mean]',wl{idx0})),...
+            eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_%s_filtered_mean]',wl_VIIRS)));
+      legend off
+      set(gcf, 'renderer','painters')
+      
+      
+      % saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_' wl{idx0}],'epsc')
+      %% GOCI Comparison with AQUA
+      [h2,ax2,leg2] = plot_sat_vs_sat('Rrs',wl{idx0},wl_AQUA,'GOCI','AQUA',...
+            eval(sprintf('[GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_%s_filtered_mean]',wl{idx0})),...
+            eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_%s_filtered_mean]',wl_AQUA)));
+      legend off
+      set(gcf, 'renderer','painters')
+      
+      % saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_' wl{idx0}],'epsc')
+      %% VIIRS Comparison with AQUA      % lower boundary
+      [h3,ax3,leg3] = plot_sat_vs_sat('Rrs',wl_VIIRS,wl_AQUA,'VIIRS','AQUA',...
+            eval(sprintf('[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_VIIRS)),...
+            eval(sprintf('[AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_%s_filtered_mean]',wl_AQUA)));
+      legend off
+      set(gcf, 'renderer','painters')
+      
+      % saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
 end
 
 %% Scatter plots for par
@@ -11049,10 +11125,15 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
       %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_06]) && ...
       %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_07]);
       
-      if    cond1&&cond2&&cond3&&cond4... % for bands 412, 443, 490, and 555
-                  &&cond_brdf1&&cond_brdf2&&cond_brdf3
-            three_day_idx(idx)=true;
-            
+      if ~isempty(cond1)&&~isempty(cond1)&&~isempty(cond1)&&~isempty(cond1)...
+                  &&~isempty(cond_brdf1)&&~isempty(cond_brdf2)&&~isempty(cond_brdf3)
+            if cond1&&cond2&&cond3&&cond4... % for bands 412, 443, 490, and 555
+                        &&cond_brdf1&&cond_brdf2&&cond_brdf3
+                  three_day_idx(idx)=true;
+                  
+            else
+                  three_day_idx(idx)=false;
+            end
       else
             three_day_idx(idx)=false;
       end
