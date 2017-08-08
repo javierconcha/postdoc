@@ -474,9 +474,9 @@ When all the data are used for the analyses, a good agreement was found between 
 \subsubsection{Cruises Matchups?}
 % ---------------------------------------------------------------
 \subsection{Time Series}\label{subsec:timeseries}
-As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). The time series exhibit an expected seasonal variability, which is correlated\todo{Check!}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. 
+As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used \citep{Bailey2006}. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). The time series exhibit an expected seasonal variability, which is correlated\todo{Check! Due to Biology?}~to the changes in solar zenith angles throughout the year (\autoref{fig:GOCI_TimeSeries2}.(g)). Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}. 
 
-There some data that passed the exclusion criteria and have negative values for all bands, reflecting a failure on the atmospheric correction. However, these are few for the 412, 443, 490 and 550 nm spectral bands, and most of them were captured at the time of the day equal to 6h and during winter time, when the solar zenith are the largest. As for the 660 and 680 nm spectral bands, there are more negative values, with the 680 nm band having the largest amount. However, from the histogram for these bands, it can be seen that the mean values are close to zero.
+There are some data that passed the exclusion criteria and have negative values for all bands, reflecting a failure on the atmospheric correction. However, these are few for the 412, 443, 490 and 550 nm spectral bands, and most of them were captured at the time of the day equal to 6h and during winter time, when the solar zenith are the largest. As for the 660 and 680 nm spectral bands, there are more negative values, with the 680 nm band having the largest amount. However, from the histogram for these bands, it can be seen that the mean values are close to zero.
 
 \autoref{fig:GOCI_TimeSeries2}.(a-f) shows time series for the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}.  The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \autoref{fig:GOCI_TimeSeries2}.(g) shows the time series for the solar zenith angle for reference and color coded by time of the day. As expected, there are more data for spring-summer than fall-winter, when the solar zenith angle is larger and the sky conditions are not optimal (e.g. presence of clouds).
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -607,7 +607,7 @@ There some data that passed the exclusion criteria and have negative values for 
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Temporal Homogeneity}
-One assumption for this work is that the water over the area of study stays homogeneous over short periods of time, i.e. the water does not change considerably diurnally (hour-to-hour) nor from day-to-day. In order to test this assumption, different studies were performed and described below.
+The primary assumption for this work is that the water over the area of study stays homogeneous over short periods of time, i.e. the water does not change considerably diurnally (hour-to-hour) nor from day-to-day. In order to test this assumption, different studies were performed and described below.
 
 \autoref{fig:3dayseq} shows two sets of 3-day sequences (July 28$^{th}$-30$^{th}$, 2012 and September 9$^{th}$-11$^{th}$, 2015), both used as examples to have an estimation of the diurnal and day-to-day variability for the $R_{rs}(\lambda)$ and the Chlorophyll-{\it a}, $a_{g:mlrc}(412)$, and POC products. The data were color coded by time of the day. The diurnal variability for $R_{rs}(\lambda)$ is larger for the September 9$^{th}$-11$^{th}$, 2015 sequence. Overall, the diurnal variability is larger than the day-to-day variability, when comparing the same time of the day across all days. This fact suggests that the diurnal variability is influenced by uncertainties in the instrument, geometry or algorithm and not by the biogeochemical processes occurring on the water. 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -1064,82 +1064,82 @@ POC & -3.0 (3.8) &    1.0 (4.5) &    0.9 (2.9) &    0.3 (2.2) &   -1.4 (2.4) &  
     \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$. Error bars represent the standard deviation. \label{fig:DiffMidThreeMean} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\todo{should I include this?}\autoref{fig:DiffMidThreeMean_detrend} shows the mean and standard deviation (error bar) of the relative difference with respect to the mean of the three midday images for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_{g:mlrc}(412)$ for the anomalies. The mean of the relative difference are small overall for all the spectral bands and products for all times of the day. However, the standard deviation are considerable large for some cases.
-%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_412_detrend.eps}
-        \put (25,15) {\colorbox{white}{(a)}}
-      \end{overpic}
-    \end{minipage}  
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_443_detrend.eps}
-        \put (25,15) {\colorbox{white}{(b)}}
-      \end{overpic}
-    \end{minipage}  
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_490_detrend.eps}
-        \put (25,15) {\colorbox{white}{(c)}}
-      \end{overpic}
-    \end{minipage}  
+% \todo{should I include this?}\autoref{fig:DiffMidThreeMean_detrend} shows the mean and standard deviation (error bar) of the relative difference with respect to the mean of the three midday images for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_{g:mlrc}(412)$ for the anomalies. The mean of the relative difference are small overall for all the spectral bands and products for all times of the day. However, the standard deviation are considerable large for some cases.
+% %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+% \begin{figure}[H]
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \hspace{1.5cm}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_412_detrend.eps}
+%         \put (25,15) {\colorbox{white}{(a)}}
+%       \end{overpic}
+%     \end{minipage}  
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_443_detrend.eps}
+%         \put (25,15) {\colorbox{white}{(b)}}
+%       \end{overpic}
+%     \end{minipage}  
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \hspace{1.5cm}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_490_detrend.eps}
+%         \put (25,15) {\colorbox{white}{(c)}}
+%       \end{overpic}
+%     \end{minipage}  
 
-    \vspace{0.5cm}
+%     \vspace{0.5cm}
 
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_555_detrend.eps}
-        \put (25,15) {\colorbox{white}{(d)}}
-      \end{overpic}
-    \end{minipage}  
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \hspace{1.5cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_660_detrend.eps}
-        \put (28,15) {\colorbox{white}{(e)}}
-      \end{overpic}
-    \end{minipage}   
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_680_detrend.eps}
-        \put (28,15) {\colorbox{white}{(f)}}
-      \end{overpic}
-    \end{minipage} 
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_555_detrend.eps}
+%         \put (25,15) {\colorbox{white}{(d)}}
+%       \end{overpic}
+%     \end{minipage}  
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \hspace{1.5cm}
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_660_detrend.eps}
+%         \put (28,15) {\colorbox{white}{(e)}}
+%       \end{overpic}
+%     \end{minipage}   
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_Rrs_680_detrend.eps}
+%         \put (28,15) {\colorbox{white}{(f)}}
+%       \end{overpic}
+%     \end{minipage} 
 
-    \vspace{0.5cm}
+%     \vspace{0.5cm}
 
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_chlor_a_detrend.eps}
-        \put (28,15) {\colorbox{white}{(g)}}
-      \end{overpic}
-    \end{minipage}  
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_poc_detrend.eps}
-        \put (28,15) {\colorbox{white}{(h)}}
-      \end{overpic}
-    \end{minipage}  
-    \hfill
-    \begin{minipage}[c]{0.32\linewidth}
-      \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc_detrend.eps}
-        \put (30,15) {\colorbox{white}{(i)}}
-      \end{overpic}
-    \end{minipage}  
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_chlor_a_detrend.eps}
+%         \put (28,15) {\colorbox{white}{(g)}}
+%       \end{overpic}
+%     \end{minipage}  
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_poc_detrend.eps}
+%         \put (28,15) {\colorbox{white}{(h)}}
+%       \end{overpic}
+%     \end{minipage}  
+%     \hfill
+%     \begin{minipage}[c]{0.32\linewidth}
+%       \centering
+%       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Rel_Diff_mid_three_ag_412_mlrc_detrend.eps}
+%         \put (30,15) {\colorbox{white}{(i)}}
+%       \end{overpic}
+%     \end{minipage}  
 
-    \internallinenumbers
-    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$ for the anomalies. Error bars represent the standard deviation. \label{fig:DiffMidThreeMean_detrend} } 
-\end{figure}
+%     \internallinenumbers
+%     \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_{g:mlrc}(412)$ for the anomalies. Error bars represent the standard deviation. \label{fig:DiffMidThreeMean_detrend} } 
+% \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
 \subsection{Sensor Cross-comparison}
@@ -1221,7 +1221,7 @@ Data from the Visible Infrared Imaging Radiometer Suite (VIIRS) on board the Suo
     \caption{Cross-comparison with MODIS and VIIRS for all wavelengths. (a) Rrs, (b) GOCI/MODIS Aqua ratio, (c) GOCI/VIIRS ratio, and (d) MODIS Aqua/VIIRS ratio. \label{fig:CrossCompAllRrs} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\autoref{fig:GOCI_TimeSeriesComp_par} shows the monthly time series comparison for GOCI, MODISA and VIIRS for chlor-{\it a}, $a_{g:mlrc}(412)$ and POC. All the missions follow similar values over time for the three different products.
+\autoref{fig:GOCI_TimeSeriesComp_par} shows the monthly time series comparison for GOCI, MODISA and VIIRS for chlor-{\it a}, $a_{g:mlrc}(412)$ and POC. The values match well for the most part for the three missions and for the three different products.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \begin{minipage}[c]{1.0\linewidth}
@@ -1277,7 +1277,7 @@ Data from the Visible Infrared Imaging Radiometer Suite (VIIRS) on board the Suo
 % \caption{Time Series for derived geophysical paremeters (Angstrom and AOT(865)) and atmospheric correction intermediate (BRDF). \label{fig:GOCI_TimeSeries_intermed_par} } 
 % \end{figure}
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\autoref{fig:scatterRrs} shows the scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODISA and VIIRS. These data are daily values and only values greater than zero are shown. \todo{Check!}The selection of the data over the area of study followed similar procedures to the ones described by \cite{Bailey2006} and only data that passed the exclusion criteria are used. As can be seen in the plots, there are few coincidental data among all missions and specially between MODISA and VIIRS for all bands. This could be caused by the failure of the atmospheric correction or presence of cloud in the scenes. The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease for 490 nm and beyond. There are only a handful of coincidental data for MODISA versus GOCI for the 680 nm band.
+\autoref{fig:scatterRrs} shows the scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODISA and VIIRS. These data are daily values and only values greater than zero are shown. The selection of the data over the area of study followed similar procedures to the ones described by \cite{Bailey2006} and only data that passed the exclusion criteria are used. As it can be seen in the plots, there are few coincidental data among all missions and specially between MODISA and VIIRS for all bands. This could be caused by the failure of the atmospheric correction or presence of cloud in the scenes. The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease for 490 nm and beyond. There are only a handful of coincidental data for MODISA versus GOCI for the 680 nm band.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
     \hspace{2.5cm}
@@ -1423,21 +1423,25 @@ An improvement to the vicarious calibration included in l2gen is needed.
 % 4.2 Time Series........................................ 11
 The time series were analyzed.
 Expected seasonality and trends were observed through the complete mission.
+There is fewer data in the winter season. The reason could be the presence of clouds in the scene or the high SZA.
 % 4.3 Temporal Homogeneity.................................. 14
 The temporal homogeneity of the area of study was tested.
 
 % 4.4 Products versus solar zenith angle ........................... 17
 The behavior of the different products with respect to the solar zenith angle was analyzed in order to determine how much it affects the atmospheric correction.
 The atmospheric correction starts to fail for solar zenith angles larger than 60 degrees producing invalid values (negative). 
-De-seasoned data.
+The data were de-seasoned in order to analyze the presence of trends in the data and the existence of a correlation of these trends with the SZA. 
+There is a slighty trend at higher SZA, specially for the data taken at the 6th abd 7th hour but because fewer data are available for these time of the day, it is not significant to be conclusive. 
+This trend could be related to stray light from the sun entering the field of view (FOV) at the end of the day for extreme SZA. 
+It seems that this behaviour happens to SZA above $60^o$. 
 
 % 4.5 Diurnal Differences and Uncertainties ......................... 21
-\todo{Check!}Uncertainties vary spectrally, being larger in the blue and decreasing towards the red.
-\todo{Wrong now. Check!}Uncertainty patterns are similar for the six first images of the day, increasing for the last two images across all wavelengths
+
+The relative differences are smaller than $10\%$ for the six first images of the day for the blue and green bands, and increasing for the last two images across all wavelengths. A similar behaviour occurs for the geophysical products.
 
 % 4.6 Sensor Cross-comparison................................. 25
-The results from GOCI were compared with heritage sensor (MODISA and VIIRS).
-
+The results from GOCI were compared with heritage sensors (MODISA and VIIRS).
+Based on scatter plots (\autoref{fig:scatterRrs}) for the cross-comparison with the heritage mission, the uncertainties vary spectrally, being smaller in the blue and increasing towards the red. % from scatter plot
 % from OO poster
 
 % future work
@@ -1685,7 +1689,7 @@ The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \a
 % b. Compare means and stdev (or other variance statistic) of each time of day (0h, 1h, etc.) with each other as well as with the mid-3 time points.
 % 3. If the data are supportive of your assumption and conclusions (or confuse the issue), then maybe go further and analyze additional 3-day sequences.
 
-% Transcript: 
+% Transcript meeting of 8/27/17: 
 % - Grand mean and the mean of the standard deviation for the 3-day sequences.
 % - Distribution in time for the 228 3-day sequences.
 % 3-day intervals
