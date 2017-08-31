@@ -2554,6 +2554,47 @@ Studies in the Atmospheric Sciences
 anomalies:
 https://oceancolor.gsfc.nasa.gov/docs/methods/sensor_analysis_methods/
 To evaluate temporal trends in a more quantitative manner, the mean annual cycle for each parameter is subtracted from the respective time series to produce a temporal anomaly trend. An example is shown in Figure 5. The variations observed in these trends may be due to real, geophysical variability, or residual instrument calibration errors. 
+
+--------------------------------------------------
+2017-07-18 Tue
+dimension issue with GOCI_DailyStatMatrix:
+>> whos GOCI_DailyStatMatrix
+  Name                      Size                  Bytes  Class     Attributes
+
+  GOCI_DailyStatMatrix      1x6447            441356627  struct              
+
+>> cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+>> whos cond_brdf
+  Name           Size              Bytes  Class      Attributes
+
+  cond_brdf      1x6435             6435  logical              
+
+>> a=[GOCI_DailyStatMatrix.brdf_opt];
+whos a
+  Name      Size              Bytes  Class     Attributes
+
+  a         1x6435            51480  double              
+
+>> whos cond_nan
+  Name          Size              Bytes  Class      Attributes
+
+  cond_nan      1x6436             6436  logical              
+
+>> cond_used = cond_brdf&cond_nan;
+Matrix dimensions must agree.
+ 
+>> y_used = [GOCI_DailyStatMatrix.solz_center_value_00];
+>> whos y_used
+  Name        Size              Bytes  Class     Attributes
+
+  y_used      1x6435            51480  double              
+
+>> whos x_used
+>> eval(sprintf('x_used = [GOCI_DailyStatMatrix.%s_00_detrend];',wl_vec{idx0}));
+>> whos x_used
+  Name        Size              Bytes  Class     Attributes
+
+  x_used      1x6436            51488  double           
 (END)
 
 

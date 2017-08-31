@@ -149,7 +149,7 @@ figure(h1)
 subplot(6,1,2)
 x_data = [GOCI_Data.datetime];
 x_data = x_data(cond_used);
-plot(x_data,data_used,'.') 
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -192,7 +192,7 @@ figure(h1)
 subplot(6,1,3)
 x_data = [GOCI_Data.datetime];
 x_data = x_data(cond_used);
-plot(x_data,data_used,'.') 
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -235,7 +235,7 @@ figure(h1)
 subplot(6,1,4)
 x_data = [GOCI_Data.datetime];
 x_data = x_data(cond_used);
-plot(x_data,data_used,'.') 
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -278,7 +278,7 @@ figure(h1)
 subplot(6,1,5)
 x_data = [GOCI_Data.datetime];
 x_data = x_data(cond_used);
-plot(x_data,data_used,'.') 
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')
@@ -322,7 +322,7 @@ figure(h1)
 subplot(6,1,6)
 x_data = [GOCI_Data.datetime];
 x_data = x_data(cond_used);
-plot(x_data,data_used,'.') 
+plot(x_data,data_used,'.')
 ax = gca;
 ax.XTick = xData;
 datetick('x','yyyy')%
@@ -387,7 +387,7 @@ for idx = 1:size(wl_vec,2)
             cond_plot = cond_used&cond_tod;
             eval(sprintf('data_used_y = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx}));
             data_used_y = data_used_y(cond_plot);
-
+            
             data_used_x = [GOCI_Data.datetime];
             data_used_x = data_used_x(cond_plot);
             
@@ -472,7 +472,7 @@ for idx = 1:size(wl_vec,2)
       %       set(gcf,'PaperUnits','centimeters','PaperPosition',[0 0 30 20])
       set(gcf,'PaperPositionMode', 'auto')
       %       print('-depsc2', [savedirname 'TimeSerie_Rrs' wl_vec{idx}])
-%       saveas(gcf,[savedirname 'TimeSerie_Rrs' wl_vec{idx}],'epsc')
+      %       saveas(gcf,[savedirname 'TimeSerie_Rrs' wl_vec{idx}],'epsc')
       
       % histogram
       N = nansum(cond_used);
@@ -498,7 +498,7 @@ for idx = 1:size(wl_vec,2)
       text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
       grid on
       
-%       saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
+      %       saveas(gcf,[savedirname 'Hist_Rrs' wl_vec{idx}],'epsc')
       
 end
 
@@ -1274,9 +1274,9 @@ for idx_par = 1:size(par_vec,2)
       cond_CV = [GOCI_Data.median_CV]<=CV_lim;
       cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
       cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
+      
       h = figure('Color','white','DefaultAxesFontSize',fs);
-
+      
       % Spring
       cond_tod = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
       eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
@@ -1284,7 +1284,7 @@ for idx_par = 1:size(par_vec,2)
       data_y = [GOCI_Data.solz_center_value];
       data_y = data_y(cond_used&cond_tod);
       plot(data_x,data_y,'or','MarkerSize',ms,'LineWidth',lw)
-
+      
       hold on
       % Summer
       cond_tod = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
@@ -1293,7 +1293,7 @@ for idx_par = 1:size(par_vec,2)
       data_y = [GOCI_Data.solz_center_value];
       data_y = data_y(cond_used&cond_tod);
       plot(data_x,data_y,'og','MarkerSize',ms,'LineWidth',lw)
-
+      
       hold on
       % Fall
       cond_tod = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
@@ -1302,7 +1302,7 @@ for idx_par = 1:size(par_vec,2)
       data_y = [GOCI_Data.solz_center_value];
       data_y = data_y(cond_used&cond_tod);
       plot(data_x,data_y,'ob','MarkerSize',ms,'LineWidth',lw)
-
+      
       hold on
       % Winter
       cond_tod = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
@@ -1311,7 +1311,7 @@ for idx_par = 1:size(par_vec,2)
       data_y = [GOCI_Data.solz_center_value];
       data_y = data_y(cond_used&cond_tod);
       plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
-
+      
       switch par_vec{idx_par}
             case 'Rrs_412'
                   x_str = 'R_{rs}(412) [sr^{-1}]';
@@ -1324,7 +1324,7 @@ for idx_par = 1:size(par_vec,2)
             case 'Rrs_660'
                   x_str = 'R_{rs}(660) [sr^{-1}]';
             case 'Rrs_680'
-                  x_str = 'R_{rs}(680) [sr^{-1}]';   
+                  x_str = 'R_{rs}(680) [sr^{-1}]';
             case 'chlor_a'
                   x_str = 'Chlor-{\ita} [mg m^{-3}]';
             case 'ag_412_mlrc'
@@ -1332,17 +1332,17 @@ for idx_par = 1:size(par_vec,2)
             case 'poc'
                   x_str = 'POC [mg m^{-3}]';
       end
-
+      
       xlabel(x_str,'FontSize',fs)
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       ylim([0 90])
       grid on
-
+      
       str1 = sprintf('N = %i',sum(cond_used));
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
-
+      
       legend('Spring','Summer','Fall','Winter','Location','southwest')
-
+      
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_season''],''epsc'')',par_vec{idx_par}))
@@ -1827,13 +1827,15 @@ saveas(gcf,[savedirname 'Par_vs_Zenith_poc_season'],'epsc')
 % Summer - from June 1 to August 31; 6, 7, 8
 % Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
 % Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
-fs = 40;
-ms = 5;
+fs = 60;
+ms = 8;
 lw = 2;
 solz_lim = 90;
 senz_lim = 60;
-CV_lim = 0.3;
+% CV_lim = 0.3;
+CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -1847,7 +1849,7 @@ for idx_par = 1:size(par_vec,2)
       cond_CV = [GOCI_Data.median_CV]<=CV_lim;
       cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
       cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
+      
       eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
       data_y = [GOCI_Data.solz_center_value];
       
@@ -1940,10 +1942,10 @@ for idx_par = 1:size(par_vec,2)
                         x_str = 'R_{rs}(680) [sr^{-1}]';
                         xlim([-2.5e-3 0.5e-3])
                   case 'chlor_a'
-                        x_str = 'Chlor-{\ita} [mg m^{-3}]';
+                        x_str = 'Chl-{\ita} [mg m^{-3}]';
                         xlim([0.05 0.25])
                   case 'ag_412_mlrc'
-                        x_str = 'a_{g:mlrc}(412) [m^{-1}]';
+                        x_str = 'a_{g}(412) [m^{-1}]';
                         xlim([0.005 0.045])
                   case 'poc'
                         x_str = 'POC [mg m^{-3}]';
@@ -1974,8 +1976,8 @@ for idx_par = 1:size(par_vec,2)
             set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
             set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
             eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_%s_tod''],''epsc'')',par_vec{idx_par},par_season{idx_season}))
-                  
-           
+            
+            
       end
 end
 % % %
@@ -2044,22 +2046,22 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 %                   for idx_hour = 0:7
 %                         count_per_proc = count_per_proc+1;
 %                         per_proc = count_per_proc/(size(par_vec,2)*size(brdf_opt_vec,2)*12*8);
-%                         str1 = sprintf('%3.2f',100*per_proc);                        
+%                         str1 = sprintf('%3.2f',100*per_proc);
 %                         waitbar(per_proc,h1,['Processing Climatology Data: ' str1 '%'])
 %                         %% detrend
 %                         cond_time_aux = month([GOCI_Data.datetime])==idx_month & ...
 %                               hour([GOCI_Data.datetime])==idx_hour;
 %                         cond_brdf_aux = [GOCI_Data.brdf_opt]==brdf_opt_vec(idx_brdf);
-%                         
+%
 %                         eval(sprintf('cond_area_aux = [GOCI_Data.%s_filtered_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}));
 %                         eval(sprintf('cond_nan_aux = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}));
-%                         
+%
 %                         cond_used_aux = cond_time_aux&cond_nan_aux&cond_area_aux&cond_brdf_aux&cond_solz&cond_senz&cond_CV;
-%                         
+%
 %                         eval(sprintf('data_aux = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}));
 %                         data_aux = data_aux(cond_used_aux);
 %                         mean_month_hour = nanmean(data_aux);
-%                         
+%
 %                         eval(sprintf('ClimatologyMatrix.BRDF(idx_brdf).Month(idx_month).Hour(idx_hour+1).%s.mean_month_hour = mean_month_hour;',par_vec{idx_par}));
 %                   end
 %             end
@@ -2082,815 +2084,816 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 % %%
 tic
 if process_data_flag
-%       %%%%%%%%%%%%%%%%
-%       %% memory preallocation
-%       GOCI_DailyStatMatrix(total_num).datetime =  [];
-%       GOCI_DailyStatMatrix(total_num).images_per_day = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_opt = [];
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_min_mean = nan;
-%       % Rrs_412
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_07_detrend = nan;
-%       % Rrs_443
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_07_detrend = nan;
-%       % Rrs_490
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_07_detrend = nan;
-%       % Rrs_555
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_07_detrend = nan;
-%       % Rrs_660
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_07_detrend = nan;
-%       % Rrs_680
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_07_detrend = nan;
-%       % aot_865
-%       GOCI_DailyStatMatrix(total_num).Rrs_865_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_865_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_865_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_865_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).Rrs_865_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_07_detrend = nan;
-%       % angstrom
-%       GOCI_DailyStatMatrix(total_num).angstrom_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_07_detrend = nan;
-%       % poc
-%       GOCI_DailyStatMatrix(total_num).poc_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_07_detrend = nan;
-%       % ag_412_mlrc
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_07_detrend = nan;
-%       % chlor_a
-%       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_07_detrend = nan;
-%       % brdf
-%       GOCI_DailyStatMatrix(total_num).brdf_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_07_detrend = nan;
-%       % solz
-%       GOCI_DailyStatMatrix(total_num).solz_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_07_detrend = nan;
-%       % senz
-%       GOCI_DailyStatMatrix(total_num).senz_mean_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_stdv_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_N_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_max_mean = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_min_mean = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_mean_first_six = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_mean_mid_three = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_mean_mid_three_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_07_detrend = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_07 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_00 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_01 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_02 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_03 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_04 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_05 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_06 = nan;
-%       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_00 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_01 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_02 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_03 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_04 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_05 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_06 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_07 = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_00_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_01_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_02_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_03_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_04_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_05_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_06_detrend = nan;
-%       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_07_detrend = nan;
-%       %%%%%%%%%%%%%%%%
+      %       %%%%%%%%%%%%%%%%
+      %       %% memory preallocation
+      %       GOCI_DailyStatMatrix(total_num).datetime =  [];
+      %       GOCI_DailyStatMatrix(total_num).images_per_day = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_opt = [];
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_min_mean = nan;
+      %       % Rrs_412
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_412_diff_w_r_mid_three_07_detrend = nan;
+      %       % Rrs_443
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_443_diff_w_r_mid_three_07_detrend = nan;
+      %       % Rrs_490
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_490_diff_w_r_mid_three_07_detrend = nan;
+      %       % Rrs_555
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_555_diff_w_r_mid_three_07_detrend = nan;
+      %       % Rrs_660
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_660_diff_w_r_mid_three_07_detrend = nan;
+      %       % Rrs_680
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_680_diff_w_r_mid_three_07_detrend = nan;
+      %       % aot_865
+      %       GOCI_DailyStatMatrix(total_num).Rrs_865_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_865_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_865_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_865_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).Rrs_865_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).aot_865_diff_w_r_mid_three_07_detrend = nan;
+      %       % angstrom
+      %       GOCI_DailyStatMatrix(total_num).angstrom_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).angstrom_diff_w_r_mid_three_07_detrend = nan;
+      %       % poc
+      %       GOCI_DailyStatMatrix(total_num).poc_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).poc_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).poc_diff_w_r_mid_three_07_detrend = nan;
+      %       % ag_412_mlrc
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).ag_412_mlrc_diff_w_r_mid_three_07_detrend = nan;
+      %       % chlor_a
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).chlor_a_diff_w_r_mid_three_07_detrend = nan;
+      %       % brdf
+      %       GOCI_DailyStatMatrix(total_num).brdf_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).brdf_diff_w_r_mid_three_07_detrend = nan;
+      %       % solz
+      %       GOCI_DailyStatMatrix(total_num).solz_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).solz_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).solz_diff_w_r_mid_three_07_detrend = nan;
+      %       % senz
+      %       GOCI_DailyStatMatrix(total_num).senz_mean_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_stdv_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_N_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_max_mean = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_min_mean = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_mean_first_six = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_mean_mid_three = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_mean_mid_three_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_07_detrend = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_daily_mean_07 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_00 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_01 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_02 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_03 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_04 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_05 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_06 = nan;
+      %       % GOCI_DailyStatMatrix(total_num).senz_diff_w_r_noon_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_00 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_01 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_02 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_03 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_04 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_05 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_06 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_07 = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_00_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_01_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_02_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_03_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_04_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_05_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_06_detrend = nan;
+      %       GOCI_DailyStatMatrix(total_num).senz_diff_w_r_mid_three_07_detrend = nan;
+      %       %%%%%%%%%%%%%%%%
+      clear GOCI_DailyStatMatrix
       count = 0;
       
       h1 = waitbar(0,'Initializing ...');
@@ -2901,7 +2904,7 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             GOCI_Data_used = GOCI_Data(cond_used);
-
+            
             datetime_used = [GOCI_Data.datetime];
             
             [Year,Month,Day] = datevec(datetime_used(cond_used));
@@ -2958,7 +2961,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3216,7 +3219,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3473,7 +3476,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3730,7 +3733,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -3987,7 +3990,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4244,7 +4247,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4502,7 +4505,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -4759,7 +4762,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5017,7 +5020,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5274,7 +5277,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5531,7 +5534,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -5788,7 +5791,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6045,7 +6048,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6302,7 +6305,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6535,7 +6538,7 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).senz_07_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
-
+                        
                         %% solz_center_value
                         data_used = [GOCI_Data_used.solz_center_value];
                         data_used = data_used(cond_1t);
@@ -6547,7 +6550,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6559,7 +6562,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).solz_center_value_04 = nan;
                         GOCI_DailyStatMatrix(count).solz_center_value_05 = nan;
                         GOCI_DailyStatMatrix(count).solz_center_value_06 = nan;
-                        GOCI_DailyStatMatrix(count).solz_center_value_07 = nan;  
+                        GOCI_DailyStatMatrix(count).solz_center_value_07 = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -6587,7 +6590,7 @@ if process_data_flag
                                     GOCI_DailyStatMatrix(count).solz_center_value_07 = data_used_filtered(idx2);
                               end
                         end
-
+                        
                         %% senz_center_value
                         data_used = [GOCI_Data_used.senz_center_value];
                         data_used = data_used(cond_1t);
@@ -6599,7 +6602,7 @@ if process_data_flag
                         
                         time_used = [GOCI_Data_used.datetime];
                         time_used = time_used(cond_1t);
-
+                        
                         data_used_filtered = data_used(cond_used);
                         time_used_filtered = time_used(cond_used);
                         
@@ -6611,7 +6614,7 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).senz_center_value_04 = nan;
                         GOCI_DailyStatMatrix(count).senz_center_value_05 = nan;
                         GOCI_DailyStatMatrix(count).senz_center_value_06 = nan;
-                        GOCI_DailyStatMatrix(count).senz_center_value_07 = nan;  
+                        GOCI_DailyStatMatrix(count).senz_center_value_07 = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -6639,13 +6642,23 @@ if process_data_flag
                                     GOCI_DailyStatMatrix(count).senz_center_value_07 = data_used_filtered(idx2);
                               end
                         end
+                        
+                        %% debugging
+                        if count == 6436
+                              count
+                              cond_1t
+                              idx
+                              idx_brdf
+                        end
+                        
                   end
             end
       end
+     
 end
 close(h1) % closes status message window
 toc
-% Daily statistics for AQUA
+%% Daily statistics for AQUA
 
 count = 0;
 
@@ -6672,10 +6685,10 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             AQUA_Data_used = AQUA_Data(cond_used);
-
+            
             datetime_aux = [AQUA_Data.datetime];
             datetime_aux = datetime_aux(cond_used);
-
+            
             [Year,Month,Day] = datevec(datetime_aux); % only days that satisfy the criteria above
             
             clear cond_used datetime_aux
@@ -7164,10 +7177,10 @@ if process_data_flag
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
             VIIRS_Data_used = VIIRS_Data(cond_used);
-
+            
             datetime_aux = [VIIRS_Data.datetime];
-            datetime_aux = datetime_aux(cond_used);            
-
+            datetime_aux = datetime_aux(cond_used);
+            
             [Year,Month,Day] = datevec(datetime_aux);
             
             clear cond_used
@@ -7791,7 +7804,7 @@ if process_data_flag
       clear cond_1t count
       
       [Year,Month,~] = datevec([VIIRS_DailyStatMatrix.datetime]);
-
+      
       Year_idx =  min(Year):max(Year);
       
       count = 0;
@@ -7876,7 +7889,7 @@ cond_used = cond1;
 
 subplot(2,3,1)
 data_x = [GOCI_DailyStatMatrix.Rrs_412_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(412)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7888,7 +7901,7 @@ cond_used = cond1;
 
 subplot(2,3,2)
 data_x = [GOCI_DailyStatMatrix.Rrs_443_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(443)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7900,7 +7913,7 @@ cond_used = cond1;
 
 subplot(2,3,3)
 data_x = [GOCI_DailyStatMatrix.Rrs_490_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(490)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7912,7 +7925,7 @@ cond_used = cond1;
 
 subplot(2,3,4)
 data_x = [GOCI_DailyStatMatrix.Rrs_555_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(555)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7924,7 +7937,7 @@ cond_used = cond1;
 
 subplot(2,3,5)
 data_x = [GOCI_DailyStatMatrix.Rrs_660_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(660)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7936,7 +7949,7 @@ cond_used = cond1;
 
 subplot(2,3,6)
 data_x = [GOCI_DailyStatMatrix.Rrs_680_mean_mid_three];
-data_y = [GOCI_DailyStatMatrix.solz_center_value_03]; 
+data_y = [GOCI_DailyStatMatrix.solz_center_value_03];
 plot(data_x(cond_used),data_y(cond_used),'.b','MarkerSize',ms)
 xlabel('R_{rs}(680)','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
@@ -7954,10 +7967,10 @@ for idx0 = 1:size(wl,2)
       cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
       
       h2 = figure('Color','white','DefaultAxesFontSize',fs);
-
+      
       data_used_x = [GOCI_MonthlyStatMatrix.datetime];
       data_used_x = data_used_x(cond_brdf);
-
+      
       eval(sprintf('data_used_y = [GOCI_MonthlyStatMatrix.Rrs_%s_mean_mid_three];',wl{idx0}))
       data_used_y = data_used_y(cond_brdf);
       plot(data_used_x(~isnan(data_used_y)),data_used_y(~isnan(data_used_y)),'MarkerSize',12,'LineWidth',lw)
@@ -7988,7 +8001,7 @@ for idx0 = 1:size(wl,2)
       data_used_y = data_used_y(cond_used);
       data_used_x = [AQUA_MonthlyStatMatrix.datetime];
       data_used_x = data_used_x(cond_used);
-
+      
       fs = 25;
       figure(h2)
       hold on
@@ -8058,6 +8071,199 @@ for idx0 = 1:size(wl,2)
       
 end
 
+%% Create DESEASONED data based on GOCI_Data.m
+clear Climatology_GOCI_data
+solz_lim = 90;
+senz_lim = 60;
+% CV_lim = 0.3;
+CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+brdf_opt = 7;
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+for idx_par = 1:size(par_vec,2)
+      for idx_month = 1:12
+            cond_time = month([GOCI_Data.datetime])==idx_month;
+            eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}));
+            eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}));
+            cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+            cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+            cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+            cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+            cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+            
+            
+            for idx_hour = 1:8
+                  cond_tod = (hour([GOCI_Data.datetime])==idx_hour-1); % cond for time of the day
+                  eval(sprintf('data_aux = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}));
+                  eval(sprintf('Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_hour) = nanmean(data_aux(cond_used&cond_tod));',par_vec{idx_par}));
+            end
+            
+      end
+end
+
+%% mean Rrs vs zenith -- DESEASONED filtered, by season but color coded by time of the day
+% Spring - from March 1 to May 31; 3, 4, 5
+% Summer - from June 1 to August 31; 6, 7, 8
+% Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
+% Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+fs = 60;
+ms = 8;
+lw = 2;
+solz_lim = 90;
+senz_lim = 60;
+% CV_lim = 0.3;
+CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+brdf_opt = 7;
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+par_season = {'Spring','Summer','Fall','Winter'};
+
+for idx_par = 1:size(par_vec,2)
+      eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}))
+      eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}))
+      cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
+      cond_senz = [GOCI_Data.senz_center_value] <= senz_lim;
+      cond_CV = [GOCI_Data.median_CV]<=CV_lim;
+      cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
+      cond_used = cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
+      
+      eval(sprintf('data_x = [GOCI_Data.%s_filtered_mean];',par_vec{idx_par}))
+      data_y = [GOCI_Data.solz_center_value];
+      
+      for idx_season = 1:size(par_season,2)
+            
+            h = figure('Color','white','DefaultAxesFontSize',fs);
+            title(par_season{idx_season})
+            N = 0;
+            switch par_season{idx_season}
+                  case 'Spring'
+                        cond_season = month([GOCI_Data.datetime])==3|month([GOCI_Data.datetime])==4|month([GOCI_Data.datetime])==5; % cond for season
+                  case 'Summer'
+                        cond_season = month([GOCI_Data.datetime])==6|month([GOCI_Data.datetime])==7|month([GOCI_Data.datetime])==8; % cond for season
+                  case 'Fall'
+                        cond_season = month([GOCI_Data.datetime])==9|month([GOCI_Data.datetime])==10|month([GOCI_Data.datetime])==11; % cond for season
+                  case 'Winter'
+                        cond_season = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
+            end
+            
+            for idx_month = 1:12
+                  for idx_tod = 1:8;
+                        if idx_tod == 1
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==0 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'or','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 2
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==1 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'og','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 3
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==2 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'ob','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 4
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==3 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'ok','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 5
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==4 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'oc','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 6
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==5 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'om','MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 7
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==6 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+                        elseif idx_tod == 8
+                              hold on
+                              cond_tod = (hour([GOCI_Data.datetime])==7 & month([GOCI_Data.datetime])==idx_month); % cond for time of the day
+                              eval(sprintf('data_x_used = data_x(cond_used&cond_season&cond_tod)-Climatology_GOCI_data.%s.Month(idx_month).Hour(idx_tod);',par_vec{idx_par}))
+                              data_y_used = data_y(cond_used&cond_season&cond_tod);
+                              plot(data_x_used,data_y_used,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+                        end
+                        
+                        N= N + sum(cond_used&cond_season&cond_tod);
+                  end
+            end
+            
+            switch par_vec{idx_par}
+                  case 'Rrs_412'
+                        x_str = 'R_{rs}(412) [sr^{-1}]';
+                        xlim([-6E-3 6E-3])
+                  case 'Rrs_443'
+                        x_str = 'R_{rs}(443) [sr^{-1}]';
+                        xlim([-3E-3 3E-3])
+                  case 'Rrs_490'
+                        x_str = 'R_{rs}(490) [sr^{-1}]';
+                        xlim([-2E-3 2E-3])
+                  case 'Rrs_555'
+                        x_str = 'R_{rs}(555) [sr^{-1}]';
+                        xlim([-1E-3 1E-3])
+                  case 'Rrs_660'
+                        x_str = 'R_{rs}(660) [sr^{-1}]';
+                        xlim([-3E-4 3E-4])
+                  case 'Rrs_680'
+                        x_str = 'R_{rs}(680) [sr^{-1}]';
+                        xlim([-8E-4 8E-4])
+                  case 'chlor_a'
+                        x_str = 'Chl-{\ita} [mg m^{-3}]';
+                        xlim([-0.08 0.08])
+                  case 'ag_412_mlrc'
+                        x_str = 'a_{g}(412) [m^{-1}]';
+                        xlim([-0.015 0.015])
+                  case 'poc'
+                        x_str = 'POC [mg m^{-3}]';
+                        xlim([-20 20])
+            end
+            
+            xlabel(x_str,'FontSize',fs)
+            ylabel('Solar Zenith Angle (^o)','FontSize',fs)
+            ylim([0 90])
+            grid on
+            
+            str1 = sprintf('N = %i',N);
+            title([par_season{idx_season} '; ' str1],'FontSize',fs-2,'FontWeight','Normal')
+            
+            % to create dummy data and create a custon legend
+            p = zeros(8,1);
+            p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
+            p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
+            p(3) = plot(NaN,NaN,'ob','MarkerSize',ms,'LineWidth',lw);
+            p(4) = plot(NaN,NaN,'ok','MarkerSize',ms,'LineWidth',lw);
+            p(5) = plot(NaN,NaN,'oc','MarkerSize',ms,'LineWidth',lw);
+            p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
+            p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
+            p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
+            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+            clear p
+            
+            set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+            set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+            eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_%s_tod_detrend''],''epsc'')',par_vec{idx_par},par_season{idx_season}))
+            
+            
+      end
+end
+% % %
 %% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
@@ -8075,7 +8281,7 @@ brdf_opt = 7;
 wl_vec = {'412','443','490','555','660','680'};
 for idx0 = 1:size(wl_vec,2)
       N = 0; % total number of points per band
-
+      
       h = figure('Color','white','DefaultAxesFontSize',fs);
       for idx_month = 1:12
             cond_time = month([GOCI_Data.datetime])==idx_month;
@@ -8086,7 +8292,7 @@ for idx0 = 1:size(wl_vec,2)
             cond_CV = [GOCI_Data.median_CV]<=CV_lim;
             cond_brdf = [GOCI_Data.brdf_opt] == brdf_opt;
             cond_used = cond_time&cond_nan&cond_area&cond_solz&cond_senz&cond_CV&cond_brdf;
-
+            
             figure(gcf)
             hold on
             
@@ -8100,7 +8306,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'or','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 1h
             cond_tod = (hour([GOCI_Data.datetime])==1); % cond for time of the day
@@ -8112,7 +8318,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'og','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 2h
             cond_tod = (hour([GOCI_Data.datetime])==2); % cond for time of the day
@@ -8124,7 +8330,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'ob','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 3h
             cond_tod = (hour([GOCI_Data.datetime])==3); % cond for time of the day
@@ -8136,7 +8342,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'ok','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             % 4h
             cond_tod = (hour([GOCI_Data.datetime])==4); % cond for time of the day
             eval(sprintf('data_aux = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx0}));
@@ -8147,7 +8353,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'oc','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 5h
             cond_tod = (hour([GOCI_Data.datetime])==5); % cond for time of the day
@@ -8159,7 +8365,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'om','MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 6h
             cond_tod = (hour([GOCI_Data.datetime])==6); % cond for time of the day
@@ -8171,7 +8377,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[1 .5 0],'MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
             hold on
             % 7h
             cond_tod = (hour([GOCI_Data.datetime])==7); % cond for time of the day
@@ -8183,7 +8389,7 @@ for idx0 = 1:size(wl_vec,2)
             data_aux_y = data_aux_y(cond_used&cond_tod);
             plot(data_aux_x-mean_month_hour,data_aux_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             N = N + sum(cond_used&cond_tod);
-
+            
       end
       
       figure(gcf)
@@ -8197,7 +8403,7 @@ for idx0 = 1:size(wl_vec,2)
       N = 0;
       
       % to create dummy data and create a custon legend
-      if idx0==6                 
+      if idx0==6
             p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
@@ -8216,7 +8422,7 @@ for idx0 = 1:size(wl_vec,2)
       
 end
 
-%% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day 
+%% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 % -- from data created in GOCI_DailtyStatMatrix
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
@@ -8232,7 +8438,7 @@ brdf_opt = 7;
 wl_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680'};
 for idx0 = 1:size(wl_vec,2)
       N = 0; % total number of points per band
-
+      
       h = figure('Color','white','DefaultAxesFontSize',fs);
       
       cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
@@ -8246,8 +8452,8 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_00];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'or','MarkerSize',ms,'LineWidth',lw);
-      hold on 
-
+      hold on
+      
       % 1h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_01_detrend]);',wl_vec{idx0}));
       cond_used = cond_brdf&cond_nan;
@@ -8256,7 +8462,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_01];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'og','MarkerSize',ms,'LineWidth',lw);
-
+      
       hold on
       % 2h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_02_detrend]);',wl_vec{idx0}));
@@ -8266,7 +8472,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_02];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'ob','MarkerSize',ms,'LineWidth',lw);
-
+      
       hold on
       % 3h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_03_detrend]);',wl_vec{idx0}));
@@ -8276,7 +8482,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_03];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'ok','MarkerSize',ms,'LineWidth',lw);
-
+      
       % 4h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_04_detrend]);',wl_vec{idx0}));
       cond_used = cond_brdf&cond_nan;
@@ -8285,7 +8491,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_04];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'oc','MarkerSize',ms,'LineWidth',lw);
-
+      
       hold on
       % 5h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_05_detrend]);',wl_vec{idx0}));
@@ -8295,7 +8501,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_05];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'om','MarkerSize',ms,'LineWidth',lw);
-
+      
       hold on
       % 6h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_06_detrend]);',wl_vec{idx0}));
@@ -8305,7 +8511,7 @@ for idx0 = 1:size(wl_vec,2)
       y_used = [GOCI_DailyStatMatrix.solz_center_value_06];
       N = N + sum(cond_used);
       plot(x_used(cond_used),y_used(cond_used),'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
-
+      
       hold on
       % 7h
       eval(sprintf('cond_nan = ~isnan([GOCI_DailyStatMatrix.%s_07_detrend]);',wl_vec{idx0}));
@@ -8326,7 +8532,7 @@ for idx0 = 1:size(wl_vec,2)
       title(str1,'FontSize',fs-2,'FontWeight','Normal')
       
       % to create dummy data and create a custon legend
-      if idx0==6                 
+      if idx0==6
             p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
@@ -8435,7 +8641,7 @@ for idx0 = 1:size(par_vec,2)
       N = 0;
       
       % to create dummy data and create a custon legend
-      if idx0==2                 
+      if idx0==2
             p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
@@ -8877,39 +9083,39 @@ grid on
 
 % %% Plot difference from the daily mean for Rrs
 % % The difference of the mean
-% 
+%
 % wl = {'412','443','490','555','660','680'};
-% 
+%
 % for idx = 1:size(wl,2)
-%       
+%
 %       eval(sprintf('diff_mean_00= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
 %       eval(sprintf('diff_stdv_00= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_01= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
 %       eval(sprintf('diff_stdv_01= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_02= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
 %       eval(sprintf('diff_stdv_02= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_03= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
 %       eval(sprintf('diff_stdv_03= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_04= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
 %       eval(sprintf('diff_stdv_04= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_05= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
 %       eval(sprintf('diff_stdv_05= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_06= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
 %       eval(sprintf('diff_stdv_06= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]);',wl{idx}))
-%       
+%
 %       eval(sprintf('diff_mean_07= nanmean([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
 %       eval(sprintf('diff_stdv_07= nanstd([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]);',wl{idx}))
-%       
+%
 %       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
-%       
+%
 %       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
-%       
+%
 %       fs = 25;
 %       h = figure('Color','white','DefaultAxesFontSize',fs);
 %       % plot(1:8,stdv_all,'or','MarkerSize',12)
@@ -8919,50 +9125,50 @@ grid on
 %       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
 %       xlim([0 9])
 %       %       ylim([-3e-3 1e-3])
-%       
+%
 %       str1 = sprintf('Difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
-%       
+%
 %       ylabel(str1,'FontSize',fs)
 %       xlabel('Local Time','FontSize',fs)
-%       
+%
 %       grid on
 % end
 
 % %% Plot absolute difference from the daily mean for Rrs
 % % The difference of the mean
-% 
+%
 % wl = {'412','443','490','555','660','680'};
-% 
+%
 % for idx = 1:size(wl,2)
-%       
+%
 %       eval(sprintf('abs_diff_mean_00= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_00= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_00]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_01= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_01= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_01]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_02= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_02= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_02]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_03= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_03= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_03]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_04= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_04= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_04]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_05= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_05= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_05]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_06= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_06= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_06]));',wl{idx}))
-%       
+%
 %       eval(sprintf('abs_diff_mean_07= nanmean(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
 %       eval(sprintf('abs_diff_stdv_07= nanstd(abs([GOCI_DailyStatMatrix.Rrs_%s_diff_w_r_daily_mean_07]));',wl{idx}))
-%       
+%
 %       abs_diff_stdv_all = [abs_diff_stdv_00,abs_diff_stdv_01,abs_diff_stdv_02,abs_diff_stdv_03,abs_diff_stdv_04,abs_diff_stdv_05,abs_diff_stdv_06,abs_diff_stdv_07];
-%       
+%
 %       abs_diff_mean_all = [abs_diff_mean_00,abs_diff_mean_01,abs_diff_mean_02,abs_diff_mean_03,abs_diff_mean_04,abs_diff_mean_05,abs_diff_mean_06,abs_diff_mean_07];
-%       
+%
 %       fs = 25;
 %       h = figure('Color','white','DefaultAxesFontSize',fs);
 %       % plot(1:8,stdv_all,'or','MarkerSize',12)
@@ -8972,55 +9178,55 @@ grid on
 %       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
 %       xlim([0 9])
 %       %       ylim([-3e-3 1e-3])
-%       
+%
 %       str1 = sprintf('Absolute difference\n w/r to the daily mean\n  Rrs(%s) (1/sr)',wl{idx});
-%       
+%
 %       ylabel(str1,'FontSize',fs)
 %       xlabel('Local Time','FontSize',fs)
-%       
+%
 %       grid on
 % end
 
 % %% Plot relative difference from the daily mean for Rrs
 % % The difference of the mean
 % savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-% 
-% 
+%
+%
 % wl = {'412','443','490','555','660','680'};
-% 
+%
 % brdf_opt = 7;
-% 
+%
 % cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
-% 
+%
 % for idx = 1:size(wl,2)
-%       
+%
 %       eval(sprintf('rel_diff_mean_00= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_00= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_01= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_01= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_02= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_02= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_03= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_03= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_04= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_04= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_05= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_05= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_06= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_06= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       eval(sprintf('rel_diff_mean_07= nanmean(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
 %       eval(sprintf('rel_diff_stdv_07= nanstd(100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_daily_mean_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mean]));',wl{idx},wl{idx}))
-%       
+%
 %       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
 %       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
-%       
+%
 %       fs = 25;
 %       h = figure('Color','white','DefaultAxesFontSize',fs);
 %       % plot(1:8,stdv_all,'or','MarkerSize',12)
@@ -9029,26 +9235,26 @@ grid on
 %       ax.XTick = 1:8;
 %       ax.XTickLabel = {'09h','10h','11h','12h','13h','14h','15h','16h'};
 %       xlim([0 9])
-%       
+%
 %       disp('======================')
 %       disp(wl{idx})
 %       rel_diff_mean_all
 %       rel_diff_stdv_all
 %       %       ylim([-3e-3 1e-3])
-%       
+%
 %       ax.YAxis.MinorTick = 'on';
 %       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       ax.YGrid = 'on';
 %       ax.YMinorGrid = 'on';
 %       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       str1 = sprintf('Relative difference\n w/r to the daily mean\n  Rrs(%s) [%%]',wl{idx});
-%       
+%
 %       ylabel(str1,'FontSize',fs)
 %       xlabel('Local Time','FontSize',fs)
-%       
+%
 %       grid on
 %       %       grid minor
-%       
+%
 %       saveas(gcf,[savedirname 'Rel_Diff_Daily_Mean_Rrs' wl{idx}],'epsc')
 % end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9071,50 +9277,50 @@ for idx = 1:size(wl,2)
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
       rel_diff_N_00 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
       rel_diff_N_01 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
       rel_diff_N_02 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
       rel_diff_N_03 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
       rel_diff_N_04 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
       rel_diff_N_05 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
       rel_diff_N_06 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
       rel_diff_N_07 = sum(cond_filter);
-
-
+      
+      
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
@@ -9126,7 +9332,7 @@ for idx = 1:size(wl,2)
       ax.XTick = 1:8;
       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
-
+      
       text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
       text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
       text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
@@ -9170,47 +9376,47 @@ brdf_opt = 7;
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 
 for idx = 1:size(wl,2)
-
+      
       eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_00_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
-
+      
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_01_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
-
+      
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_02_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
-
+      
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_03_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
-
+      
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_04_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
-
+      
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_05_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
-
+      
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_06_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
-
+      
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_07_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three_detrend]);',wl{idx},wl{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
-
+      
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
@@ -9272,50 +9478,50 @@ for idx = 1:size(par_vec,2)
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
       rel_diff_N_00 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
       rel_diff_N_01 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
       rel_diff_N_02 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
       rel_diff_N_03 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
       rel_diff_N_04 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
       rel_diff_N_05 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
       rel_diff_N_06 = sum(cond_filter);
-
+      
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
-      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));  
+      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
       rel_diff_N_07 = sum(cond_filter);
-
-
+      
+      
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
@@ -9327,7 +9533,7 @@ for idx = 1:size(par_vec,2)
       ax.XTick = 1:8;
       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
       xlim([0 9])
-
+      
       text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
       text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
       text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
@@ -9386,37 +9592,37 @@ for idx = 1:size(par_vec,2)
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
-
+      
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
-
+      
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
-
+      
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
-
+      
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
-
+      
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
-
+      
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
-
+      
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07_detrend]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three_detrend]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
@@ -9915,8 +10121,8 @@ nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])
 
 %% Scatter plots for Rrs -- daily -- from GOCI_DailyStatMatrix
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-clear GOCI_date VIIRS_date AQUA_date 
-clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec 
+clear GOCI_date VIIRS_date AQUA_date
+clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 clear GOCI_used VIIRS_used AQUA_used
 
 brdf_opt = 7;
@@ -10024,8 +10230,8 @@ for idx0 = 1:size(wl,2)
 end
 %% Scatter plots for Rrs -- from GOCI_Data
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
-clear GOCI_date VIIRS_date AQUA_date 
-clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec 
+clear GOCI_date VIIRS_date AQUA_date
+clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 clear GOCI_used VIIRS_used AQUA_used
 
 
