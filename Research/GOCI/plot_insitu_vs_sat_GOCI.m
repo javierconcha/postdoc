@@ -19,31 +19,10 @@ xlabel(['In situ R_{rs}(' wl_ins ') (sr^{-1})'],'FontSize',fs)
 ylabel(['Satellite R_{rs}(' wl_sat ') (sr^{-1})'],'FontSize',fs)
 axis equal
 
-% Hour 0 and 1 
-cond_used = cond0&(hour(x_data_datetime)==0|hour(x_data_datetime)==1);
-Matchup_ins_0_1 = Matchup_ins(cond_used);
-Matchup_sat_0_1 = Matchup_sat(cond_used);
-
-% station 1: aoc_gageo
-cond_plot = cond_used&station_ID==1;
-Matchup_ins_plot = Matchup_ins(cond_plot);
-Matchup_sat_plot = Matchup_sat(cond_plot);
-figure(gcf)
-hold on
-plot(Matchup_ins_plot,Matchup_sat_plot,'ob','MarkerSize',14,'LineWidth',3)
-
-% station 2: aoc_ieodo
-cond_plot = cond_used&station_ID==2;
-Matchup_ins_plot = Matchup_ins(cond_plot);
-Matchup_sat_plot = Matchup_sat(cond_plot);
-figure(gcf)
-hold on
-plot(Matchup_ins_plot,Matchup_sat_plot,'^b','MarkerSize',14,'LineWidth',3)
-
-% Hour 2 and 3
-cond_used = cond0&(hour(x_data_datetime)==2|hour(x_data_datetime)==3);
-Matchup_ins_2_3 = Matchup_ins(cond_used);
-Matchup_sat_2_3 = Matchup_sat(cond_used);
+% Hour 0
+cond_used = cond0&hour(x_data_datetime)==0;
+Matchup_ins_0 = Matchup_ins(cond_used);
+Matchup_sat_0 = Matchup_sat(cond_used);
 
 % station 1: aoc_gageo
 cond_plot = cond_used&station_ID==1;
@@ -61,10 +40,10 @@ figure(gcf)
 hold on
 plot(Matchup_ins_plot,Matchup_sat_plot,'^r','MarkerSize',14,'LineWidth',3)
 
-% Hour 4 and 5
-cond_used = cond0&(hour(x_data_datetime)==4|hour(x_data_datetime)==4);
-Matchup_ins_4_5 = Matchup_ins(cond_used);
-Matchup_sat_4_5 = Matchup_sat(cond_used);
+% Hour 1 
+cond_used = cond0&hour(x_data_datetime)==1;
+Matchup_ins_1 = Matchup_ins(cond_used);
+Matchup_sat_1 = Matchup_sat(cond_used);
 
 % station 1: aoc_gageo
 cond_plot = cond_used&station_ID==1;
@@ -82,10 +61,52 @@ figure(gcf)
 hold on
 plot(Matchup_ins_plot,Matchup_sat_plot,'^g','MarkerSize',14,'LineWidth',3)
 
-% Hour 6 and 7
-cond_used = cond0&(hour(x_data_datetime)==6|hour(x_data_datetime)==7);
-Matchup_ins_6_7 = Matchup_ins(cond_used);
-Matchup_sat_6_7 = Matchup_sat(cond_used);
+% Hour 2
+cond_used = cond0&hour(x_data_datetime)==2;
+Matchup_ins_2 = Matchup_ins(cond_used);
+Matchup_sat_2 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'ob','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^b','MarkerSize',14,'LineWidth',3)
+
+% Hour 3
+cond_used = cond0&hour(x_data_datetime)==3;
+Matchup_ins_3 = Matchup_ins(cond_used);
+Matchup_sat_3 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'ok','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^k','MarkerSize',14,'LineWidth',3)
+
+% Hour 4
+cond_used = cond0&hour(x_data_datetime)==4;
+Matchup_ins_4 = Matchup_ins(cond_used);
+Matchup_sat_4 = Matchup_sat(cond_used);
 
 % station 1: aoc_gageo
 cond_plot = cond_used&station_ID==1;
@@ -102,6 +123,69 @@ Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
 plot(Matchup_ins_plot,Matchup_sat_plot,'^c','MarkerSize',14,'LineWidth',3)
+
+% Hour 5
+cond_used = cond0&hour(x_data_datetime)==5;
+Matchup_ins_5 = Matchup_ins(cond_used);
+Matchup_sat_5 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'om','MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^m','MarkerSize',14,'LineWidth',3)
+
+% Hour 6
+cond_used = cond0&hour(x_data_datetime)==6;
+Matchup_ins_6 = Matchup_ins(cond_used);
+Matchup_sat_6 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'o','Color',[1 0.5 0],'MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^','Color',[1 0.5 0],'MarkerSize',14,'LineWidth',3)
+
+% Hour 7
+cond_used = cond0&hour(x_data_datetime)==7;
+Matchup_ins_7 = Matchup_ins(cond_used);
+Matchup_sat_7 = Matchup_sat(cond_used);
+
+% station 1: aoc_gageo
+cond_plot = cond_used&station_ID==1;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'o','Color',[0.5 0 0.5],'MarkerSize',14,'LineWidth',3)
+
+% station 2: aoc_ieodo
+cond_plot = cond_used&station_ID==2;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'^','Color',[0.5 0 0.5],'MarkerSize',14,'LineWidth',3)
 
 if min(Matchup_sat_used) <0
       Rrs_sat_min = min(Matchup_sat_used)*1.1;
@@ -135,10 +219,14 @@ ax.YAxis.Exponent = -3;
 
 if sum(isfinite(Matchup_ins_used))    
       
-      [~,~,~] = calc_stat(Matchup_ins_0_1,Matchup_sat_0_1,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_2_3,Matchup_sat_2_3,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_4_5,Matchup_sat_4_5,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_6_7,Matchup_sat_6_7,Rrs_max,wl_sat,wl_ins,FID);
+      [~,~,~] = calc_stat(Matchup_ins_0,Matchup_sat_0,Rrs_max,wl_sat,wl_ins,FID);
+      [~,~,~] = calc_stat(Matchup_ins_1,Matchup_sat_1,Rrs_max,wl_sat,wl_ins,FID);      
+      [~,~,~] = calc_stat(Matchup_ins_2,Matchup_sat_2,Rrs_max,wl_sat,wl_ins,FID);
+      [~,~,~] = calc_stat(Matchup_ins_3,Matchup_sat_3,Rrs_max,wl_sat,wl_ins,FID);      
+      [~,~,~] = calc_stat(Matchup_ins_4,Matchup_sat_4,Rrs_max,wl_sat,wl_ins,FID);
+      [~,~,~] = calc_stat(Matchup_ins_5,Matchup_sat_5,Rrs_max,wl_sat,wl_ins,FID);      
+      [~,~,~] = calc_stat(Matchup_ins_6,Matchup_sat_6,Rrs_max,wl_sat,wl_ins,FID);
+      [~,~,~] = calc_stat(Matchup_ins_7,Matchup_sat_7,Rrs_max,wl_sat,wl_ins,FID);
       [x1,y1,str1] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins,FID);
       
       % plot
@@ -227,13 +315,13 @@ rsq_SS = 1-(SSres/SStot);
 rsq_corr = corr(C_insitu',C_alg')^2; % when OLS rsq_SS and rsq_corr are equal
 
 if a(2)>=0
-      str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+      str1 = sprintf('y: %2.2f x + %2.4f \n R^2: %2.2f; N: %i \n RMSE: %2.4f',...
             a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
-      str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
+      str_reg = sprintf('y: %2.2f x + %2.4f',a(1),abs(a(2)));
 else
-      str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
+      str1 = sprintf('y: %2.2f x - %2.4f \n R^2: %2.2f; N: %i \n RMSE: %2.4f',...
             a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
-      str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
+      str_reg = sprintf('y: %2.2f x - %2.4f',a(1),abs(a(2)));
 end
 
 % display
@@ -260,16 +348,16 @@ disp(['rsq_corr = ' num2str(rsq_corr)])
 % if nargin == 6
       fprintf(FID,'%s & ',wl_sat);
       fprintf(FID,'%s & ',wl_ins);
-      fprintf(FID,'%s & ',num2str(rsq_SS));
+      fprintf(FID,'%2.2f & ',rsq_SS);
       fprintf(FID,'$%s$ & ',str_reg); % regression equation
-      fprintf(FID,'%s & ',num2str(RMSE));
-      fprintf(FID,'%s & ',num2str(size(C_insitu,2)));
-      fprintf(FID,'%s & ',num2str(Mean_APD));
-      fprintf(FID,'%s & ',num2str(Stdv_APD));
-      fprintf(FID,'%s & ',num2str(Median_APD));
-      fprintf(FID,'%s & ',num2str(Percentage_Bias));
-      fprintf(FID,'%s & ',num2str(Median_ratio));
-      fprintf(FID,'%s & ',num2str(SIQR));
-      fprintf(FID,'%s',num2str(rsq_corr));
+      fprintf(FID,'%2.4f & ',RMSE);
+      fprintf(FID,'%2.0f & ',size(C_insitu,2));
+      fprintf(FID,'%2.1f & ',Mean_APD);
+      fprintf(FID,'%2.1f & ',Stdv_APD);
+      fprintf(FID,'%2.1f & ',Median_APD);
+      fprintf(FID,'%2.1f & ',Percentage_Bias);
+      fprintf(FID,'%2.2f & ',Median_ratio);
+      fprintf(FID,'%2.2f & ',SIQR);
+      fprintf(FID,'%2.2f',rsq_corr);
       fprintf(FID,'\\\\ \n');
 % end
