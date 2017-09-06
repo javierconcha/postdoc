@@ -104,4 +104,73 @@ subplot(2,4,8)
 plot(ALL_time,SPEED_data)
 title('SPEED')
 
+%% Read CSV data
+% ASD 
+clear  KORUS_ASD Rrs
+
+KORUS_ASD_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_ASD_rrs_ON.csv',...
+      1,1);
+% reading station names
+filename = '/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_ASD_station_ON.csv';
+fileID = fopen(filename);
+C = textscan(fileID,'%s');
+fclose(fileID);
+
+Rrs = KORUS_ASD_rrs_ON(:,10:end);
+wl = 350:900;
+
+% figure
+% plot(wl,Rrs)
+
+for idx = 1:size(Rrs,1)
+      KORUS_ASD(idx).station = char(C{1}(idx));
+      KORUS_ASD(idx).datetime = datetime(KORUS_ASD_rrs_ON(idx,1),...
+            KORUS_ASD_rrs_ON(idx,2),...
+            KORUS_ASD_rrs_ON(idx,3),...
+            KORUS_ASD_rrs_ON(idx,4),...
+            KORUS_ASD_rrs_ON(idx,5),...
+            KORUS_ASD_rrs_ON(idx,6));
+      KORUS_ASD(idx).lat = KORUS_ASD_rrs_ON(idx,7);
+      KORUS_ASD(idx).lon = KORUS_ASD_rrs_ON(idx,8);
+      KORUS_ASD(idx).Rrs = Rrs(idx,:);
+      KORUS_ASD(idx).wavelength = wl;
+end
+
+clear KORUS_ASD_rrs_ON fileID filename C wl Rrs idx
+
+figure
+plot(KORUS_ASD(1).wavelength,KORUS_ASD(1).Rrs)
+%% TriOS
+clear  KORUS_TRiOS Rrs
+KORUS_TRiOS_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TRiOS_rrs_ON.csv',...
+      1,1);
+% reading station names
+filename = '/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TRiOS_station_ON.csv';
+fileID = fopen(filename);
+C = textscan(fileID,'%s');
+fclose(fileID);
+Rrs = KORUS_TRiOS_rrs_ON(:,10:end);
+wl = 350:900;
+
+% figure
+% plot(wl,Rrs)
+
+for idx = 1:size(Rrs,1)
+      KORUS_TRiOS(idx).station = char(C{1}(idx));
+      KORUS_TRiOS(idx).datetime = datetime(KORUS_TRiOS_rrs_ON(idx,1),...
+            KORUS_TRiOS_rrs_ON(idx,2),...
+            KORUS_TRiOS_rrs_ON(idx,3),...
+            KORUS_TRiOS_rrs_ON(idx,4),...
+            KORUS_TRiOS_rrs_ON(idx,5),...
+            KORUS_TRiOS_rrs_ON(idx,6));
+      KORUS_TRiOS(idx).lat = KORUS_TRiOS_rrs_ON(idx,7);
+      KORUS_TRiOS(idx).lon = KORUS_TRiOS_rrs_ON(idx,8);
+      KORUS_TRiOS(idx).Rrs = Rrs(idx,:);
+      KORUS_TRiOS(idx).wavelength = wl;
+end
+
+clear KORUS_TRiOS_rrs_ON fileID filename C wl Rrs idx
+
+figure
+plot(KORUS_TRiOS(1).wavelength,KORUS_TRiOS(1).Rrs)
 
