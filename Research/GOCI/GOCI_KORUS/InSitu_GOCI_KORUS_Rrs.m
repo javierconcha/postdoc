@@ -135,7 +135,7 @@ xlabel('wavelength [nm]')
 
 %% Read CSV data
 % ASD 
-clear  KORUS_ASD Rrs
+clear  KORUS_InSitu Rrs
 
 KORUS_ASD_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_ASD_rrs_ON.csv',...
       1,1);
@@ -148,19 +148,22 @@ fclose(fileID);
 Rrs = KORUS_ASD_rrs_ON(:,10:end);
 wl = 350:900;
 
+count = 0;
+
 % figure
 % plot(wl,Rrs)
 
 for idx = 1:size(Rrs,1)
-      KORUS_ASD(idx).station = char(C{1}(idx));
-      KORUS_ASD(idx).datetime = datetime(...
+      count = count + 1;
+      KORUS_InSitu(count).station = char(C{1}(idx));
+      KORUS_InSitu(count).datetime = datetime(...
             KORUS_ASD_rrs_ON(idx,1),...
             KORUS_ASD_rrs_ON(idx,2),...
             KORUS_ASD_rrs_ON(idx,3),...
             KORUS_ASD_rrs_ON(idx,4),...
             KORUS_ASD_rrs_ON(idx,5),...
             KORUS_ASD_rrs_ON(idx,6));
-      KORUS_ASD(idx).date = datetime(...
+      KORUS_InSitu(count).date = datetime(...
             KORUS_ASD_rrs_ON(idx,1),...
             KORUS_ASD_rrs_ON(idx,2),...
             KORUS_ASD_rrs_ON(idx,3),...
@@ -168,59 +171,80 @@ for idx = 1:size(Rrs,1)
             KORUS_ASD_rrs_ON(idx,5),...
             KORUS_ASD_rrs_ON(idx,6),...
             'Format','yyyyMMdd'); 
-      KORUS_ASD(idx).lat = KORUS_ASD_rrs_ON(idx,7);
-      KORUS_ASD(idx).lon = KORUS_ASD_rrs_ON(idx,8);
-      KORUS_ASD(idx).Rrs = Rrs(idx,:);
-      KORUS_ASD(idx).wavelength = wl;
+      KORUS_InSitu(count).lat = KORUS_ASD_rrs_ON(idx,7);
+      KORUS_InSitu(count).lon = KORUS_ASD_rrs_ON(idx,8);
+      KORUS_InSitu(count).Rrs = Rrs(idx,:);
+      KORUS_InSitu(count).wavelength = wl;
+      reflec_resp = spect_sampGOCI(KORUS_InSitu(count).wavelength,KORUS_InSitu(count).Rrs);
+      KORUS_InSitu(count).Rrs_412 = reflec_resp(1);
+      KORUS_InSitu(count).Rrs_443 = reflec_resp(2);
+      KORUS_InSitu(count).Rrs_490 = reflec_resp(3);
+      KORUS_InSitu(count).Rrs_555 = reflec_resp(4);
+      KORUS_InSitu(count).Rrs_660 = reflec_resp(5);
+      KORUS_InSitu(count).Rrs_680 = reflec_resp(6);
+      KORUS_InSitu(count).Rrs_745 = reflec_resp(7);
+      KORUS_InSitu(count).Rrs_865 = reflec_resp(8);
 end
 
 clear KORUS_ASD_rrs_ON fileID filename C wl Rrs idx
 
-figure
-plot(KORUS_ASD(1).wavelength,KORUS_ASD(1).Rrs)
-%% TriOS
-clear  KORUS_TRiOS Rrs
-KORUS_TRiOS_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TRiOS_rrs_ON.csv',...
+% TriOS
+clear  Rrs
+KORUS_TriOS_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TriOS_rrs_ON.csv',...
       1,1);
 % reading station names
-filename = '/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TRiOS_station_ON.csv';
+filename = '/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TriOS_station_ON.csv';
 fileID = fopen(filename);
 C = textscan(fileID,'%s');
 fclose(fileID);
-Rrs = KORUS_TRiOS_rrs_ON(:,10:end);
+Rrs = KORUS_TriOS_rrs_ON(:,10:end);
 wl = 350:900;
 
 % figure
 % plot(wl,Rrs)
 
 for idx = 1:size(Rrs,1)
-      KORUS_TRiOS(idx).station = char(C{1}(idx));
-      KORUS_TRiOS(idx).datetime = datetime(...
-            KORUS_TRiOS_rrs_ON(idx,1),...
-            KORUS_TRiOS_rrs_ON(idx,2),...
-            KORUS_TRiOS_rrs_ON(idx,3),...
-            KORUS_TRiOS_rrs_ON(idx,4),...
-            KORUS_TRiOS_rrs_ON(idx,5),...
-            KORUS_TRiOS_rrs_ON(idx,6));
-      KORUS_TRiOS(idx).date = datetime(...
-            KORUS_TRiOS_rrs_ON(idx,1),...
-            KORUS_TRiOS_rrs_ON(idx,2),...
-            KORUS_TRiOS_rrs_ON(idx,3),...
-            KORUS_TRiOS_rrs_ON(idx,4),...
-            KORUS_TRiOS_rrs_ON(idx,5),...
-            KORUS_TRiOS_rrs_ON(idx,6),...
+      count = count + 1;
+      KORUS_InSitu(count).station = char(C{1}(idx));
+      KORUS_InSitu(count).datetime = datetime(...
+            KORUS_TriOS_rrs_ON(idx,1),...
+            KORUS_TriOS_rrs_ON(idx,2),...
+            KORUS_TriOS_rrs_ON(idx,3),...
+            KORUS_TriOS_rrs_ON(idx,4),...
+            KORUS_TriOS_rrs_ON(idx,5),...
+            KORUS_TriOS_rrs_ON(idx,6));
+      KORUS_InSitu(count).date = datetime(...
+            KORUS_TriOS_rrs_ON(idx,1),...
+            KORUS_TriOS_rrs_ON(idx,2),...
+            KORUS_TriOS_rrs_ON(idx,3),...
+            KORUS_TriOS_rrs_ON(idx,4),...
+            KORUS_TriOS_rrs_ON(idx,5),...
+            KORUS_TriOS_rrs_ON(idx,6),...
             'Format','yyyyMMdd'); 
-      KORUS_TRiOS(idx).lat = KORUS_TRiOS_rrs_ON(idx,7);
-      KORUS_TRiOS(idx).lon = KORUS_TRiOS_rrs_ON(idx,8);
-      KORUS_TRiOS(idx).Rrs = Rrs(idx,:);
-      KORUS_TRiOS(idx).wavelength = wl;
+      KORUS_InSitu(count).lat = KORUS_TriOS_rrs_ON(idx,7);
+      KORUS_InSitu(count).lon = KORUS_TriOS_rrs_ON(idx,8);
+      KORUS_InSitu(count).Rrs = Rrs(idx,:);
+      KORUS_InSitu(count).wavelength = wl;
+      reflec_resp = spect_sampGOCI(KORUS_InSitu(count).wavelength,KORUS_InSitu(count).Rrs);
+      KORUS_InSitu(count).Rrs_412 = reflec_resp(1);
+      KORUS_InSitu(count).Rrs_443 = reflec_resp(2);
+      KORUS_InSitu(count).Rrs_490 = reflec_resp(3);
+      KORUS_InSitu(count).Rrs_555 = reflec_resp(4);
+      KORUS_InSitu(count).Rrs_660 = reflec_resp(5);
+      KORUS_InSitu(count).Rrs_680 = reflec_resp(6);
+      KORUS_InSitu(count).Rrs_745 = reflec_resp(7);
+      KORUS_InSitu(count).Rrs_865 = reflec_resp(8);      
 end
 
-clear KORUS_TRiOS_rrs_ON fileID filename C wl Rrs idx
+clear KORUS_TriOS_rrs_ON fileID filename C wl Rrs idx count reflec_resp
 
+reflec_resp = spect_sampGOCI(KORUS_InSitu(end).wavelength,KORUS_InSitu(end).Rrs);
+ 
 figure
-plot(KORUS_TRiOS(1).wavelength,KORUS_TRiOS(1).Rrs)
+plot(KORUS_InSitu(end).wavelength,KORUS_InSitu(end).Rrs), hold on
+plot([412 443 490 555 660 680 745 865],reflec_resp,'*')
+
 %% dates for both instruments
-[[KORUS_ASD.datetime]';[KORUS_TRiOS.datetime]']
+[[KORUS_InSitu.datetime]';[KORUS_InSitu.datetime]']
 
 
