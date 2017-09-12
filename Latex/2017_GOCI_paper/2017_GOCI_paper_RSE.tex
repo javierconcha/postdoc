@@ -497,7 +497,24 @@ A validation analysis was performed by comparing the satellite-derived retrieval
 \noindent where $Q_3$ and $Q_1$ are the $75^{th}$ and $25^{th}$ percentiles for the ratios of the satellite-derived values to the {\it in situ} measurements.  
 
 % Antonio: results show some near-zero values at 412 and 443nm?  clearly, there is a bias where GOCI Rrs is generally lower than AERONET.
-\autoref{fig:GOCI_AERO} shows scatter plots for AERONET-OC data versus GOCI matchups. The data were separated by stations and color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups. The statistics calculated for each time of the day and for all matchups (highlighted in bold cases) are shown in \autoref{tab:val_stats}. Ovearll, the MAPD value is large in the first hours of the day (0h and 1h), decreases towards the midday, becoming the smallest value at 4h, and the increases for last time of the day, for all band. This fact suggests there is an influence of the solar zenith angle. However, the number of matchups decreases throughout the day, having only 1 matchups for the last two hours of the day (6h and 7h), and therefore, there are not enough data to be conclusive. Also, there are some near-zero values at 412 and 443 nm, revealing a bias where GOCI $R_{rs}$ is generally lower than the AERONET-OC values.
+\autoref{fig:GOCI_AERO} shows scatter plots for AERONET-OC data versus GOCI matchups. The data were separated by stations and color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups. The statistics calculated for each time of the day and for all matchups (highlighted in bold cases) are shown in \autoref{tab:val_stats}. The AERONET-OC stations are located in two different kind of waters, which is reflected in the scatter plots, with the Ieodo having greater $R_{rs}$ values than Gaeocho. Ovearll, the MAPD value is large in the first hours of the day (0h and 1h), decreases towards the midday, becoming the smallest value at 4h, and the increases for last time of the day, for all band. This fact suggests there is an influence of the solar zenith angle. However, the number of matchups decreases throughout the day, having only 1 matchup for the last two hours of the day (6h and 7h), and therefore, there are not enough data to be conclusive. 
+
+When all the data are used for the analyses, a good agreement was found between the retrieved $R_{rs}$ and {\it in situ} observations, with $R^2$ values varying from 0.81 to 0.98 for the 412 to 660 nm GOCI bands. 
+The validation statistics indicate that our results show worse agreement than \citet{Ahn2015}, which is reflected in a consistently larger MAPD and RMSE for all bands in this study, even though the $R^2$ values are slightly larger for this study. \citet{Ahn2015} included a vicarious calibration in the atmospheric correction algorithm using {\it in situ} data. This suggests that the vicarious calibration used l2gen need to be improved. Also, GOCI $R_{rs}$ is generally lower than the AERONET-OC values, overall.
+ 
+% , exceeding the values previously reported by \citet{Ahn2015}
+% From Antonio: it's not worthwhile to compare individual statistics metrics from another paper, but rather a group a statistics; our results show better (or worse) agreement than Ahn et al. 2015 based a combination of metrics (R2, RSME, APD, etc.).
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% \subsubsection{Cruises Matchups?}
+% wavelength  APD    APD         RMSE    RMSE       R^2     R^2
+%             (ours) (Ahn's)     (ours)  (Ahn's)    (ours)  (Ahn's)
+% 412         40.1  > 22.3        0.0021 > 0.0015     0.81  >  0.78
+% 443         28.0  > 22.0        0.0017 > 0.0013     0.91  >  0.89
+% 490         25.7  > 12.7        0.0029 > 0.0013     0.95  >  0.93
+% 555         22.8  > 10.4        0.0029 > 0.0015     0.98  >  0.94
+% 660         39.3  > 34.7        0.0007 < 0.0008     0.97  >  0.87
+
 % \begin{table}[htbp!]
 % \internallinenumbers 
 % \caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from the AERONET-OC. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). \label{tab:val_stats} }
@@ -556,7 +573,7 @@ A validation analysis was performed by comparing the satellite-derived retrieval
 
 \begin{table}[htbp!]
 \internallinenumbers
-\caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from the AERONET-OC. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). The statistics for all the matchups are highlighted in bold cases. \label{tab:val_stats} }
+\caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from two AERONET-OC stations. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). The statistics for all the matchups are highlighted in bold cases. \label{tab:val_stats} }
 \tiny
 \centering
 \begin{tabular}{ccccccccccccc} 
@@ -661,25 +678,8 @@ $\lambda_{sat} (\lambda_{\text in situ})$ & Time of & $R^2$ & \multicolumn{2}{c}
     \end{minipage} 
 
     \internallinenumbers
-    \caption{Scatter plots showing the comparison between the satellite-derived GOCI values and AERONET-OC {\it in situ} observations (Gaeocho: circles; Ieodo: triangles). The dashed black line is the 1:1 line, and the Reduced Major Axis (RMA) regression line is drawn in red. Color code: early morning: 0h and 1h (blue circles); early midday: 2h and 3h (red circles); late midday: 4h and 5h (green circles); and late afternoon: 6h and 7h (cyan circles). \label{fig:GOCI_AERO} } 
+    \caption{Scatter plots showing the comparison between the satellite-derived GOCI values and AERONET-OC {\it in situ} observations (Gaeocho: circles; Ieodo: triangles). The dashed black line is the 1:1 line, and the Reduced Major Axis (RMA) regression line is drawn in red. The data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:GOCI_AERO} } 
 \end{figure}
-
-When all the data are used for the analyses, a good agreement was found between the retrieved $R_{rs}$ and {\it in situ} observations, with $R^2$ values varying from 0.81 to 0.98 for the 412 to 660 nm GOCI bands. 
-The validation statistics indicate that our results show worse agreement than \citet{Ahn2015}, which is reflected in a consistently larger MAPD and RMSE for all bands in this study, even though the $R^2$ values are slightly larger for this study. \citet{Ahn2015} included a vicarious calibration in the atmospheric correction algorithm using {\it in situ} data. This suggests that the vicarious calibration used l2gen need to be improved.
- 
-% , exceeding the values previously reported by \citet{Ahn2015}
-% From Antonio: it's not worthwhile to compare individual statistics metrics from another paper, but rather a group a statistics; our results show better (or worse) agreement than Ahn et al. 2015 based a combination of metrics (R2, RSME, APD, etc.).
-%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-% \subsubsection{Cruises Matchups?}
-% wavelength  APD    APD         RMSE    RMSE       R^2     R^2
-%             (ours) (Ahn's)     (ours)  (Ahn's)    (ours)  (Ahn's)
-% 412         40.1  > 22.3        0.0021 > 0.0015     0.81  >  0.78
-% 443         28.0  > 22.0        0.0017 > 0.0013     0.91  >  0.89
-% 490         25.7  > 12.7        0.0029 > 0.0013     0.95  >  0.93
-% 555         22.8  > 10.4        0.0029 > 0.0015     0.98  >  0.94
-% 660         39.3  > 34.7        0.0007 < 0.0008     0.97  >  0.87
-
 % ---------------------------------------------------------------
 \subsection{Time Series}\label{subsec:timeseries}
 As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT. Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}, representing the diurnal variability.  \autoref{fig:GOCI_TimeSeries2}.(g) shows the solar zenith angle (SZA) for reference. The first part mission (before 05-15-2011) looks corrupted and it was not included in the next analyses.
