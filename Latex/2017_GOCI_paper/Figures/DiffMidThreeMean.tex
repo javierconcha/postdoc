@@ -1,0 +1,103 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\scriptsize
+
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs412.eps}
+        \put (25,15) {\colorbox{white}{(a)}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{-0.3cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs443.eps}
+        \put (25,15) {\colorbox{white}{(b)}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{-0.3cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs490.eps}
+        \put (25,15) {\colorbox{white}{(c)}}
+      \end{overpic}
+    \end{minipage}  
+    
+    \vspace{0.1cm}
+
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs555.eps}
+        \put (25,15) {\colorbox{white}{(d)}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{-0.3cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1.5cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs660.eps}
+        \put (28,15) {\colorbox{white}{(e)}}
+      \end{overpic}
+    \end{minipage}   
+    \hspace{-0.3cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_Rrs680.eps}
+        \put (28,15) {\colorbox{white}{(f)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \vspace{0.1cm}
+
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_chlor_a.eps}
+        \put (28,15) {\colorbox{white}{(g)}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{-0.3cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_poc.eps}
+        \put (28,15) {\colorbox{white}{(h)}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{-0.3cm}
+  	\begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.75cm]{./Rel_Diff_mid_three_ag_412_mlrc.eps}
+        \put (30,15) {\colorbox{white}{(i)}}
+      \end{overpic}
+    \end{minipage} 
+\end{document}

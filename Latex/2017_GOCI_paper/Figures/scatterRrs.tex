@@ -1,0 +1,171 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\tiny
+    \hspace{1cm}
+    \begin{minipage}[c]{0.25\linewidth}
+    \vspace{0.5cm}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_412.eps} 
+      \put (20,105) {\colorbox{white}{AQUA vs GOCI}} 
+      \put (77,30) {\colorbox{white}{(a)}} 
+      \put (-50,50) {\colorbox{white}{$R_{rs}(412)$}}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.25\linewidth}
+    \vspace{0.5cm}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_412.eps} 
+      \put (20,105) {\colorbox{white}{VIIRS vs GOCI}} 
+      \put (77,30) {\colorbox{white}{(b)}}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.25\linewidth}
+    \vspace{0.5cm}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_412.eps}
+      \put (20,105) {\colorbox{white}{AQUA vs VIIRS}}  
+      \put (77,30) {\colorbox{white}{(c)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \hspace{1cm}
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_443.eps} 
+      \put (77,30) {\colorbox{white}{(d)}} 
+      \put (-50,50) {\colorbox{white}{$R_{rs}(443)$}}
+      \end{overpic}
+    \end{minipage}   
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_443.eps} 
+      \put (77,30) {\colorbox{white}{(e)}}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_443.eps} 
+      \put (77,30) {\colorbox{white}{(f)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \hspace{1cm}
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_490.eps} 
+      \put (77,30) {\colorbox{white}{(g)}} 
+      \put (-50,50) {\colorbox{white}{$R_{rs}(490)$}}
+      \end{overpic}
+    \end{minipage}   
+    \hspace{-.1cm}    
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_490.eps} 
+      \put (65,35) {\colorbox{white}{(h)}}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_490.eps} 
+      \put (77,30) {\colorbox{white}{(i)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \hspace{0.7cm}
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \hspace{.4cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_555.eps} 
+      \put (23,17) {\colorbox{white}{(j)}} 
+      \put (-48,50) {\colorbox{white}{$R_{rs}(555)$}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{0.2cm}  
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_555.eps} 
+      \put (65,30) {\colorbox{white}{(k)}}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_555.eps} 
+      \put (77,30) {\colorbox{white}{(l)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \hspace{0.7cm}
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \hspace{.4cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_660.eps} 
+      \put (64,57) {\colorbox{white}{(m)}} 
+      \put (-48,50) {\colorbox{white}{$R_{rs}(660)$}}
+      \end{overpic}
+    \end{minipage}  
+    \hspace{0.2cm} 
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_660.eps} 
+      \put (65,32) {\colorbox{white}{(n)}}
+      \end{overpic}
+    \end{minipage}       
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_660.eps} 
+      \put (77,30) {\colorbox{white}{(o)}}
+      \end{overpic}
+    \end{minipage} 
+
+    \hspace{0.7cm}
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \hspace{.4cm}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_AQUA_680.eps} 
+      \put (65,32) {\colorbox{white}{(p)}} 
+      \put (-48,50) {\colorbox{white}{$R_{rs}(680)$}}
+      \end{overpic}
+    \end{minipage}   
+    \hspace{0.2cm} 
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_GOCI_VIIRS_680.eps} 
+      \put (65,32) {\colorbox{white}{(q)}}
+      \end{overpic}
+    \end{minipage}  
+    \begin{minipage}[c]{0.25\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./Scatter_VIIRS_AQUA_680.eps} 
+      \put (77,30) {\colorbox{white}{(r)}}
+      \end{overpic}
+    \end{minipage} 
+\end{document}

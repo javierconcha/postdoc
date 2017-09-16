@@ -1,0 +1,284 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\tiny
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+\vspace{0.4cm}
+  \centering
+\begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_412_vs_Zenith_Spring_tod.eps}    
+  \put (30,66) {\colorbox{white}{Spring}} 
+  \put (-50,30) {\colorbox{white}{$R_{rs}(412)$}} 
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+\vspace{0.4cm}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_412_vs_Zenith_Summer_tod.eps}  
+  \put (25,70) {\colorbox{white}{Summer}} 
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+\vspace{0.4cm}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_412_vs_Zenith_Fall_tod.eps}  
+  \put (35,70) {\colorbox{white}{Fall}} 
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+\vspace{0.4cm}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_412_vs_Zenith_Winter_tod.eps}  
+  \put (25,70) {\colorbox{white}{Winter}} 
+  \end{overpic}
+\end{minipage}  
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_443_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$R_{rs}(443)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_443_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_443_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_443_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage}
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_490_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$R_{rs}(490)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_490_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_490_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_490_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_555_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$R_{rs}(555)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_555_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_555_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm} 
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_555_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage}      
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_660_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$R_{rs}(660)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_660_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_660_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_660_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./Rrs_680_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$R_{rs}(680)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_680_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_680_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./Rrs_680_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./chlor_a_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$\text{Chl-}{\it a}$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./chlor_a_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./chlor_a_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./chlor_a_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./ag_412_mlrc_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{$a_g(412)$}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./ag_412_mlrc_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./ag_412_mlrc_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm} 
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./ag_412_mlrc_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage} 
+
+\vspace{0.1cm}
+\hspace{1.0cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=0 0 0 0,clip,height=1.5cm]{./poc_vs_Zenith_Spring_tod.eps}  
+  \put (-50,30) {\colorbox{white}{POC}}
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./poc_vs_Zenith_Summer_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm}
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./poc_vs_Zenith_Fall_tod.eps}  
+  \end{overpic}
+\end{minipage}
+\hspace{-0.65cm} 
+\begin{minipage}[c]{0.24\linewidth}
+  \centering
+  \begin{overpic}[trim=80 0 0 0,clip,height=1.5cm]{./poc_vs_Zenith_Winter_tod.eps}  
+  \end{overpic}
+\end{minipage}       
+
+
+\end{document}

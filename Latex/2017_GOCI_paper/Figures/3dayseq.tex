@@ -1,0 +1,90 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\scriptsize
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.7cm]{./3days_20120728.eps}
+        \put (20,90) {\colorbox{white}{(a)}}   
+      \end{overpic}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_chlor_a_18.eps}
+        \put (15,15) {\colorbox{white}{(b)}}   
+      \end{overpic}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_ag_412_mlrc_18.eps}
+        \put (20,15) {\colorbox{white}{(c)}}   
+      \end{overpic}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_poc_18.eps}
+        \put (15,15) {\colorbox{white}{(d)}}   
+      \end{overpic}
+    \end{minipage}
+
+    \vspace{0.5cm}
+
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.7cm]{./3days_20150909.eps}
+        \put (20,90) {\colorbox{white}{(e)}}   
+      \end{overpic}
+    \end{minipage}
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_chlor_a_57.eps}
+        \put (15,15) {\colorbox{white}{(f)}}   
+      \end{overpic}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_ag_412_mlrc_57.eps}
+        \put (20,15) {\colorbox{white}{(g)}}   
+      \end{overpic}
+    \end{minipage}
+     \hfill
+    \begin{minipage}[c]{0.24\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.4cm]{./3day_poc_57.eps}
+        \put (15,15) {\colorbox{white}{(h)}}   
+      \end{overpic}
+    \end{minipage}
+
+\end{document}
