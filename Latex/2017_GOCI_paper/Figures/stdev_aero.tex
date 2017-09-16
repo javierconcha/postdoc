@@ -1,0 +1,47 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\small
+\centering
+\begin{tabular}{ccc} \hline
+
+ \bfseries{Product} & \bfseries{Mean Diurnal SD} & \bfseries{RMSE}\\
+ & (GOCI) & (AERONET-OC) \\ 
+ & $[1/sr]$ & $[1/sr]$ \\ \hline \hline
+$R_{rs}(412)$ & $6.84\times10^4$ & $2.1\times10^3$\\ 
+$R_{rs}(443)$ & $4.78\times10^4$ & $1.8\times10^3$\\ 
+$R_{rs}(490)$ & $4.00\times10^4$ & $3.0\times10^3$\\ 
+$R_{rs}(555)$ & $1.73\times10^4$ & $3.0\times10^3$\\ 
+$R_{rs}(660)$ & $2.88\times10^5$ & $7.0\times10^4$\\ 
+$R_{rs}(680)$ & $1.94\times10^5$ & N/A \\ \hline
+ \end{tabular}
+
+\end{document}
