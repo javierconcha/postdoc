@@ -41,6 +41,7 @@
 
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{pdflscape}
 %%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \journal{Remote Sensing of Environment}
@@ -216,7 +217,7 @@ The images used in this analysis span from the beginning of GOCI's mission (June
 % ---------------------------------------------------------------
 \subsection{Area of Study}
 
-The area of study (\autoref{fig:AreaOfStudy}) is an area that covers an open-ocean region of oligotrophic waters located to the south of Japan, with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. The area of study is approximately $2000\times 1000$ GOCI pixels, and therefore, covering approximately two million GOCI pixels, equivalent to $500,000\ km^2$. The reasoning behind the selection of this area of study is the assumption that most of the variability in this region during the day will be caused by physical (e.g. wind, waves) changes and not by biogeochemical processes (e.g. $CO_2$ fixation). In this manner the variability due to water composition will be minimized, and therefore, the variability introduced by the sensor, viewing geometry and algorithm can be analyzed. For this region, the range of solar zenith angle during the acquisition time  varies between approximately $0^o$ to $90^o$ through the year, and between approximately $29^o$ to $37^o$ for the sensor (viewing) zenith angle.
+The area of study (\autoref{fig:AreaOfStudy}) is an area that covers an open-ocean region of oligotrophic waters located to the south of Japan, with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. This area of study will be called GCW (GOCI Clear Water) region hereafter. The GCW region is approximately $2000\times 1000$ GOCI pixels, and therefore, covering approximately two million GOCI pixels, equivalent to $500,000\ km^2$. The reasoning behind the selection of this area of study is the assumption that most of the variability in this region during the day will be caused by physical (e.g. wind, waves) changes and not by biogeochemical processes (e.g. $CO_2$ fixation). In this manner the variability due to water composition will be minimized, and therefore, the variability introduced by the sensor, viewing geometry and algorithm can be analyzed. For this region, the range of solar zenith angle (SZA) during the acquisition time  varies between $0^o$ to $90^o$ through the year, and between approximately $29^o$ to $37^o$ for the sensor (viewing) zenith angle.
 
 % ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels)
 % ---------------------------------------------------------------
@@ -224,7 +225,7 @@ The area of study (\autoref{fig:AreaOfStudy}) is an area that covers an open-oce
 \centering
 \includegraphics[height=5.5cm]{./Figures/GOCI_ROI_footprint.png}
 	%\internallinenumbers
-  \caption{Area of study. GOCI foot print (red box) and the area of study (white box). This area was selected because the assumption that the most of the daily variability is caused by physical factors.}
+  \caption{The study area (GCW region) is located over oligotrophic water to the south of Japan. GOCI foot print (red box) and the GCW region (white box). This area was selected because the assumption that the most of the daily variability is caused by physical factors. The GCW region covers 2000$\times$1000 pixels, which is equivalent to 500,000 $km^2$.}
 	\label{fig:AreaOfStudy}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,11 +264,11 @@ GOCI Level 1B data (radiometric calibrations applied, L1B) was processed to Leve
 
 The atmospheric correction scheme applied for this study was the default algorithm ({\ttfamily aer\_opt=-2}) that uses an estimation of the aerosol contribution described by \citet{Gordon1994}, including a near infrared (NIR) iterative correction by \citet{Bailey2010} and a selection of the aerosol model dependent of the relative humidity by \citet{Ahmad2010}. GOCI's two near infrared (NIR) bands were used for the aerosol models selection. This approach assumes a plane-parallel geometry, ignoring earth curvature, for the vector radiative transfer simulations used for the computation of the look-up tables of Rayleigh reflectance. \todo{include BRDF correction} 
 
-A vicarious calibration specific for GOCI was applied (included in SeaDAS). The calibration coefficients are based on match-up with VIIRS and they were derived by the Naval Research Lab (NRL)\todo{check!} based on AERONET-OC {\it in situ} data.
+A vicarious calibration specific for GOCI was applied (included in SeaDAS). The calibration coefficients are based on match-up with VIIRS and they were derived by the Naval Research Lab (NRL)\todo{check!}~based on AERONET-OC {\it in situ} data.
 % ---------------------------------------------------------------
 \subsection{Data screening}
 % Filtering Criteria
-The mean and standard deviation for the whole area of study are calculated for each level 2 product. In order to assure the quality of the data, an exclusion criteria (filtering) was applied. This criteria was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. In order to avoid the effect of outliers in the calculations, the following screening criteria was applied:
+The mean and standard deviation for the whole GCW region are calculated for each level 2 product. In order to assure the quality of the data, an exclusion criteria (filtering) was applied. This criteria was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. In order to avoid the effect of outliers in the calculations, the following screening criteria was applied:
 \begin{linenomath*}
 \begin{equation}\label{eq:filtered_value}
   (Med-1.5*\sigma) <  X_i < (Med+1.5*\sigma)
@@ -281,7 +282,7 @@ where $X_i$ is the $i^{th}$ filtered pixel within the box, $Med$ is the median v
 \end{linenomath*}
 where $NFP$ is the Number Filtered Pixels, i.e. the number of unflagged values within $\pm 1.5*\sigma$. Note the difference with Equation 4 in \citet{Bailey2006}, where the mean of the unfiltered data was used instead of the median. The use of the median value for the calculation of the filtered mean minimizes the influence of outliers. The filtered mean and standard deviation, among other statistics, were computed operationally using the val-extract tool included in the SeaDAS/l2gen distribution (located on {\ttfamily \$OCSSWROOT/run/bin/macosx\_intel/val\_extract}  for the OSX installation) specifying the latitude and longitude limits as input parameters (slon, elon, slat and elat).
 
-In order to have statistical confidence in the filtered mean value, NFP is required to be at least half the number of total pixels in the box (i.e. $NFP\geq NTP/2 = 998,501$) to be considered into the analysis. This is equivalent to stating that at least half of the area of study has valid pixel values associated with it. Additionally, we excluded data where the solar and viewing zenith angle (SZA and VZA) of the center of the pixel box exceeded $75^o$ and $60^o$ to avoid extreme solar and  viewing geometries \citep{Bailey2006} (\autoref{fig:FilteringCriteria}). However, the VZA is between $29^o$ and $37^o$ for this study region, this criteria for VZA did not exclude any pixels.
+In order to have statistical confidence in the filtered mean value, NFP is required to be at least half the number of total pixels in the box (i.e. $NFP\geq NTP/2 = 998,501$) to be considered into the analysis. This is equivalent to stating that at least half of the GCW region has valid pixel values associated with it. Additionally, we excluded data where the solar and viewing zenith angle (SZA and VZA) of the center of the pixel box exceeded $75^o$ and $60^o$ to avoid extreme solar and  viewing geometries \citep{Bailey2006} (\autoref{fig:FilteringCriteria}). However, the VZA is between $29^o$ and $37^o$ for this study region, this criteria for VZA did not exclude any pixels.
 
 A coefficient of variation (CV), which is defined as the filtered standard deviation divided by the filtered mean, is calculated for all the visible bands and for the aerosol optical thickness at 865 nm, and the median CV is recorded. Then, the mean and standard deviation of the median CV are calculated for the whole mission ($mean_{Median(CV)}=0.23$ and $\sigma_{Median(CV)}=0.26$, respectively). Finally, level 2 products with median CV greater than $mean_{Median(CV)}+\sigma_{Median(CV)}=0.49$ are excluded.
 % ---------------------------------------------------------------
@@ -682,13 +683,22 @@ The validation statistics indicate that our results show worse agreement than \c
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Time Series}\label{subsec:timeseries}
-As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the area of study was calculated. Only values that passed the filtering criteria described previously were used. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT. Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}, representing the diurnal variability. \autoref{fig:GOCI_TimeSeries2}.(g) shows the solar zenith angle (SZA) for reference. The first part of the mission (before 05-15-2011) appears corrupted and was not included in the following set of analyses.
+As mentioned previously (\S\ref{sec:processing}.1-2), the complete GOCI mission was processed to Level 2 and then a filtered mean for the GCW region was calculated. Only values that passed the filtering criteria described previously were used. The filtered mean of the boxed area for each time of the day are shown in \autoref{fig:GOCI_TimeSeries}.(a-l), where results are plotted as a function of time and histograms for the $R_{rs}(\lambda)$ for all GOCI's bands. The data are color coded by time of the day in GMT. Note that for each day there are potentially eight values displayed, which explains the daily spread of the data in \autoref{fig:GOCI_TimeSeries} and \autoref{fig:GOCI_TimeSeries2}, representing the diurnal variability. \autoref{fig:GOCI_TimeSeries2}.(g) shows the solar zenith angle (SZA) for reference. The first part of the mission (before 05-15-2011) appears corrupted and was not included in the following set of analyses.
 
-The time series exhibit an expected seasonal cycle (\autoref{fig:GOCI_TimeSeries}-\ref{fig:GOCI_TimeSeries2}). 
+The time series for the $R_{rs}(\lambda)$ and the biogeochemical products exhibit an expected seasonal cycle (\autoref{fig:GOCI_TimeSeries}-\ref{fig:GOCI_TimeSeries2}). 
 % (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h)
-There are some data that passed the exclusion criteria and have negative values for all bands, reflecting a failure on the atmospheric correction. However, these are few for the 412, 443, 490 and 550 nm spectral bands, and most of them were captured at the time of the day equal to 6h and during winter time, when the solar zenith angles are highest. More negative values were found for $R_{rs}$ at 660 and 680 nm, with the 680 nm band having the largest amount. However, from the histogram for these bands, it can be seen that the mean values are close to zero.
+There are some data that passed the exclusion criteria and have negative values for all bands, reflecting a failure on the atmospheric correction. However, these are few for the 412, 443, 490 and 550 nm spectral bands, and most of them were captured at the time of the day equal to 6h and during winter time, when the solar zenith angles are highest. More negative values were found for $R_{rs}$ at 660 and 680 nm, with the 680 nm band having the largest amount. However, from the histogram for these bands, it can be seen that the mean values are close to zero (\autoref{fig:GOCI_TimeSeries}.(j,l)). 
 
-\autoref{fig:GOCI_TimeSeries2}.(a-f) shows time series for the Chlorophyll-{\it a}, $a_g(412)$ and POC, which were obtained from the filtered mean of $R_{rs}(\lambda)$ using the empirical algorithm described in \S\ref{subsec:bioopalg}. These time series also exhibit an expected seasonal cycle. As expected, there are more data for spring-summer than fall-winter, when the solar zenith angle is larger (\autoref{fig:GOCI_TimeSeries2}.(g)) and the sky conditions are not optimal (e.g. presence of clouds in the scene).
+The histograms for the blue bands (\autoref{fig:GOCI_TimeSeries}.(b,d,f)) exhibit a bimodality due to the seasonal variability of the phytoplankton and possibly CDOM. This behavior is reflected in the biogeochemical products (\autoref{fig:GOCI_TimeSeries2}.(b,d,f)). 
+
+The range of values for the biogeochemical products (\autoref{fig:GOCI_TimeSeries2}) are narrow despite the seasonal variability, they are among the ranges expected for oligotrophic waters\todo{check!}.
+
+As expected, there are more data for spring-summer than fall-winter, when the solar zenith angle is larger (\autoref{fig:GOCI_TimeSeries2}.(g)) and the sky conditions are not optimal (e.g. presence of clouds in the scene). The range of SZA values that passed the exclusion criteria is wide with a minimum and maximum equal to 5.31$^o$ and 72.02$^o$ (\autoref{fig:GOCI_TimeSeries2}.h). The extreme values throughout the day for SZA range from $5^o$ to $70^o$ during summer and from $35^o$ to $85^o$ during winter. For the observations at 2h and 3h, the SZA span from $10^o$ in summer to $50^o$ in winter, whereas SZA exceeds $60^o$ for the 7h observations all year. Observations at 6h exceed $50^o$ in summer and $70^o$ in winter (\autoref{fig:GOCI_TimeSeries2}.g).
+
+% from Antonio:
+% You are not stating anything of value here in this paragraph (other than seasonality exists, but you already mentioned this in Rrs, so of course, you are going to see this in the Rrs results).  Talk about how narrow (or wide) the range of values is despite (because of) the seasonal variability.  The purpose of the text in a results section is to describe (summarize) your results especially aspects that support the conclusions that you present later.  For example, highlight the range of SZA for the various hourly observations.  "Observations at 2h and 3h span from 10? degrees in summer to 50? degrees in winter, whereas SZA exceeds 60? degrees for the 7h observations all year. Observations at 6h exceed 45? degrees in summer and 75? degrees in winter."  etc...
+
+
 % The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \autoref{fig:GOCI_TimeSeries2}.(g) shows the time series for the solar zenith angle for reference and color coded by time of the day. 
 
 \begin{figure}[H]
@@ -696,20 +706,20 @@ There are some data that passed the exclusion criteria and have negative values 
     \includegraphics[height=20cm]{./Figures/GOCI_TimeSeries.pdf}
     %\internallinenumbers
     \vspace{-0.5cm}
-    \caption{Time Series and histograms for the area of study. The complete GOCI mission was processed to Level 2 and a filtered mean was calculated for each image over the area of study. The data are color coded by time of the day  in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:GOCI_TimeSeries} } 
+    \caption{Time Series and histograms for the GCW region. The complete GOCI mission was processed to Level 2 and a filtered mean was calculated for each image over the GCW region. The data are color coded by time of the day  in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). The histograms show the total number (N), mean, maximum, minimum, and standard deviation (SD) of the values that passed the exclusion criteria.\label{fig:GOCI_TimeSeries} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
 
   \centering
-    \includegraphics[width=15cm]{./Figures/GOCI_TimeSeries2.pdf}
+    \includegraphics[width=16cm]{./Figures/GOCI_TimeSeries2.pdf}
     %\internallinenumbers
-    \caption{Time Series and histograms for the (a,b) Chlorophyll-{\it a}, (c,d) $a_g(412)$ , (e,f) POC products, and (g) solar zenith angle for the area of study. The data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:GOCI_TimeSeries2} } 
+    \caption{Time Series and histograms for the (a,b) Chlorophyll-{\it a}, (c,d) $a_g(412)$ , (e,f) POC products, and (g) solar zenith angle for the GCW region. The data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). The histograms show the total number (N), mean, maximum, minimum, and standard deviation (SD) of the values that passed the exclusion criteria. Labels: sp: spring, su: summer, fa: fall and wi: winter. \label{fig:GOCI_TimeSeries2} } 
 \end{figure}
 % ---------------------------------------------------------------
 \subsection{Temporal Homogeneity}
-\todo{add spatial homegeneity, mean CV for the whole GOCI dataset?}The primary assumption for this work is that the water over the area of study remains homogeneous over short periods of time, i.e. the optical properties of the water do not change considerably during the daytime nor from day-to-day due to biogeochemical processes. Three-day sequences were used in order to test this assumption. First, two cases of three-day sequences are analyzed as examples and then all three-day sequences are used to obtain a quantitative estimation of both the diurnal\todo{create mean CV plot for diurnal variability for three-day seq}~and the day-to-day variability. Under ideal circumstances, i.e. perfect atmospheric correction, if the the water is homogeneous, we would expect that all the values during the day are the same and than the value for all days in the three-day sequences are the same too, at least within the uncertainty of the satellite sensor calibration and algorithms applied. Two sets of three-day sequences (July 28$^{th}$-30$^{th}$, 2012 and September 9$^{th}$-11$^{th}$, 2015, \autoref{fig:3dayseq}) were used as examples to provide a measure of the diurnal and day-to-day variability for the same time of day for the $R_{rs}(\lambda)$ and the Chlorophyll-{\it a}, $a_g(412)$, and POC products. The diurnal variability for $R_{rs}(\lambda)$ is greater for the September 9$^{th}$-11$^{th}$, 2015 sequence. 
+\todo{add spatial homegeneity, mean CV for the whole GOCI dataset?}The primary assumption for this work is that the water over the GCW region remains homogeneous over short periods of time, i.e. the optical properties of the water do not change considerably during the daytime nor from day-to-day due to biogeochemical processes. Three-day sequences were used in order to test this assumption. First, two cases of three-day sequences are analyzed as examples and then all three-day sequences are used to obtain a quantitative estimation of both the diurnal\todo{create mean CV plot for diurnal variability for three-day seq}~and the day-to-day variability. Under ideal circumstances, i.e. perfect atmospheric correction, if the the water is homogeneous, we would expect that all the values during the day are the same and than the value for all days in the three-day sequences are the same too, at least within the uncertainty of the satellite sensor calibration and algorithms applied. Two sets of three-day sequences (July 28$^{th}$-30$^{th}$, 2012 and September 9$^{th}$-11$^{th}$, 2015, \autoref{fig:3dayseq}) were used as examples to provide a measure of the diurnal and day-to-day variability for the same time of day for the $R_{rs}(\lambda)$ and the Chlorophyll-{\it a}, $a_g(412)$, and POC products. The diurnal variability for $R_{rs}(\lambda)$ is greater for the September 9$^{th}$-11$^{th}$, 2015 sequence. 
 
 Overall, the diurnal variability is larger than the day-to-day variability, when comparing the same time of the day across all days. Also, the difference between the last value of the day for day 0 and the first value of day for day 1 is larger than the difference between the first value of the day for day 0 and the first value for day 1 (and day 2). As explained above, one would expect all these values to be similar. These results suggest that the study region is homogeneous through the day with respect to the ocean optical properties and biogeochemical constituents and that the diurnal variability is influenced by uncertainties in the instrument, solar geometry (e.g. SZA) or algorithms and not due to variability in ocean properties.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
@@ -731,7 +741,7 @@ In order to have a quantitative estimation of the homogeneity, statistics were c
 
 The mean, standard deviation and percent coefficient of variation ($CV[\%]=100\times SD/mean$) were calculated for all three-day sequences\todo{add SD of CV}. It can be seen that the mean values remain similar for the first six hours for all bands and for all products (\autoref{fig:3dayseq_stats}.(a) and \autoref{fig:3dayseq_stats_par}), which indicates that the diurnal variability is small. Also, the day-to-day variability is small, which is reflected in the small standard deviation and a mean of $CV[\%]$ less than $4\%$ for the $R_{rs}$ at 412, 443 and 490 nm for all times of the day, except the last time of the day, less than $7\%$ for the $R_{rs}$ at 555 nm, for all times of the day but the last one (\autoref{fig:3dayseq_stats}). For the rest of the products, the mean $CV[\%]$ is less than $7\%$ for all times of the day but the last one (\autoref{fig:3dayseq_stats_par}).
 
-From the previous analysis, we can demonstrate that there is minimal day-to-day and diurnal variability, and therefore, the water over the area of study is homogeneous in short periods of time. Also, the large errors seen at the earliest (0h and 1h) and last two hourly observations of the day (6h and 7h) are due strictly to the instrument performance, errors in radiometric calibration, and uncertainties in processing algorithms, which include atmospheric correction and solar geometry and not due to variability in ocean properties. However, the region of study also exhibits seasonality, as expected, which is reflected in the time series of \S\ref{subsec:timeseries}.
+From the previous analysis, we can demonstrate that there is minimal day-to-day and diurnal variability, and therefore, the water over the GCW region is homogeneous in short periods of time. Also, the large errors seen at the earliest (0h and 1h) and last two hourly observations of the day (6h and 7h) are due strictly to the instrument performance, errors in radiometric calibration, and uncertainties in processing algorithms, which include atmospheric correction and solar geometry and not due to variability in ocean properties. However, the region of study also exhibits seasonality, as expected, which is reflected in the time series of \S\ref{subsec:timeseries}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
 
@@ -763,18 +773,27 @@ The variability in $R_{rs}$ and the Chlor-{\it a}, $a_g(412)$, and POC products 
 
 Summer is fairly uniform with a variability very narrow, meaning the water is pretty stable in the summer regardless of the SZA because the optical properties are not changing. 
 There is a wider range of values for the other seasons, especially in spring due to the higher productivity yielding a wide amplitude in $R_{rs}$ and biogeochemical products (\autoref{fig:Prod_vs_zenith_season_tod}). 
+The largest amount of valid values are from summer, followed by fall, then spring, being the smallest amount in winter.
+In spring there are almost a double of valid values than for winter, three times for fall, and six times for summer.
 For spring, the values for the red band are consistent from about $30^o$ to $60^o$.
 For fall, the values are consistent below $60^o$, and then start to spread.
+
 For winter, there are more limited observations due to the quality screening criteria excluding data as well as a wider range of values at higher SZA. 
-Also for winter, the data for the 412, 443, 555 nm bands have some negative values and for the 660 nm band, some of the data are negative, with a larger spread above $60^o$. 
-The most extreme case is the 680 nm band, where most of the values are negatives for all time of the day and solar zenith angles for both fall and winter. Similarly to $R_{rs}$, the derived biogeochemical products demonstrated a wide range of values during spring and narrower distribution during summer.
+Also for winter, the data for the 412, 443, 555 nm bands have some negative values, and a larger number of negative values for the  660 nm band.
+This begins to occur at SZA larger than $60^o$, where the data have a larger spreading. 
+The most extreme case is the 680 nm band, where most of the values are negatives for all time of the day and solar zenith angles for both fall and winter. 
+Also, the higher the SZA, the larger the negative value.
+These negative values that passed the data quality screening criteria, even though are erroneous, their range in the data distribution is correct.
+These negative values are a reflection of the failure of the atmospheric correction at high SZA.
+
+Similarly to $R_{rs}$, the derived biogeochemical products demonstrated a wide range of values during spring and narrower distribution during summer.
+During winter, there are not values for the biogeochemical products for the last time of day (7h).
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
-  \centering
-  \vspace{-2.5cm}
-  \includegraphics[width=17cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
-
+  \hspace{-0.8cm}
+  \includegraphics[width=17.5cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
+  \vspace{-1.3cm}
   %\internallinenumbers
   \caption{Mean $R_{rs}(\lambda)$ and products versus solar zenith angle for the whole mission. Only data that passed the exclusion criteria were used, but including the negative values and all SZA values ($0^o<SZA<90^o$). The data are separated by season, and color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:Prod_vs_zenith_season_tod} } 
 \end{figure}
@@ -876,7 +895,7 @@ The most extreme case is the 680 nm band, where most of the values are negatives
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
 
-% \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_g(412)$ and POC products versus the solar zenith angle for the area of study. The data are color coded by time of the day. \autoref{fig:par_vs_zenith_season} in the Appendix section shows the same data but color coded by season. 
+% \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_g(412)$ and POC products versus the solar zenith angle for the GCW region. The data are color coded by time of the day. \autoref{fig:par_vs_zenith_season} in the Appendix section shows the same data but color coded by season. 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \begin{figure}[H]
 %  \begin{minipage}[c]{0.49\linewidth}
@@ -927,16 +946,16 @@ The most extreme case is the 680 nm band, where most of the values are negatives
 % \end{figure}
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
-In order to analyze further the effect of the SZA, the data were de-seasoned.
-The anomalies were calculated to remove seasonality (\autoref{fig:Prod_vs_zenith_season_tod_detrend}). Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 0h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. the data become independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ and products versus the solar zenith angle are shown in \autoref{fig:Prod_vs_zenith_season_tod_detrend}, color coded by time of the day (left side panels) and season (right side panels). The anomalies display a slightly larger spread later on the day, which is associated to higher solar zenith angles. However, there is no a strong trend that could be inferred from the plots, which means that the mean values for the anomalies remain close to zero independent of the solar zenith angle or time of the day or season.
+% In order to analyze further the effect of the SZA, the data were de-seasoned.
+% The anomalies were calculated to remove seasonality (\autoref{fig:Prod_vs_zenith_season_tod_detrend}). Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 0h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. the data become independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ and products versus the solar zenith angle are shown in \autoref{fig:Prod_vs_zenith_season_tod_detrend}, color coded by time of the day (left side panels) and season (right side panels). The anomalies display a slightly larger spread later on the day, which is associated to higher solar zenith angles. However, there is no a strong trend that could be inferred from the plots, which means that the mean values for the anomalies remain close to zero independent of the solar zenith angle or time of the day or season.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
-  \centering
-  \vspace{-2.5cm}
-  \includegraphics[width=17cm]{./Figures/Prod_vs_zenith_season_tod_detrend.pdf}
-    %\internallinenumbers
-    \caption{Anomalies of $R_{rs}(\lambda)$ and products versus solar zenith angle separated by season, and color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:Prod_vs_zenith_season_tod_detrend} } 
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \vspace{-2.5cm}
+%   \includegraphics[width=17cm]{./Figures/Prod_vs_zenith_season_tod_detrend.pdf}
+%     %\internallinenumbers
+%     \caption{Anomalies of $R_{rs}(\lambda)$ and products versus solar zenith angle separated by season, and color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:Prod_vs_zenith_season_tod_detrend} } 
+% \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \begin{figure}[H]
@@ -1120,24 +1139,33 @@ The anomalies were calculated to remove seasonality (\autoref{fig:Prod_vs_zenith
 % Daily standard deviation
 The next step was to quantify the uncertainties associated with the instrument, geometry and algorithms , which would affect discerning diurnal variability in ocean properties and biogeochemical constituents. 
 
-First, a standard deviation (SD) of the eight values per day was calculated. This daily standard deviation is an indicator of the temporal stability of the selected homogeneous ocean region. As mentioned before, the hope is to have minimal variation during the day over this region. Then, all of the daily standard deviations were averaged to have a mean value per band. These values are compared to the results obtained from the AERONET-OC dataset (\autoref{tab:stdev_aero})\todo{can they be compared?}. Overall, the diurnal SD values were one order of magnitude smaller than the RMSE from the AERONET-OC dataset for all spectral bands (\autoref{tab:val_stats} and \ref{tab:stdev_aero}). 
+First, a mean and standard deviation (SD) of the eight values per day was calculated for every day for the whole GOCI mission. 
+Then the percent coefficient of variation (CV[\%]), defined as the SD divided by the mean, was calculated for each day.
+This daily CV[\%] is an indicator of the temporal stability of the selected homogeneous ocean region throughout the day. 
+As mentioned before, the hope is to have minimal variation during the day over this region. 
+Then, the statistics for the daily CV[\%] were calculated: minimum, maximum, mean, median and SD (\autoref{tab:val_stats}). 
+% These values are compared to the results obtained from the AERONET-OC dataset (\autoref{tab:stdev_aero})\todo{can they be compared?}. 
+% Overall, the diurnal SD values were one order of magnitude smaller than the RMSE from the AERONET-OC dataset for all spectral bands (\autoref{tab:val_stats} and \ref{tab:stdev_aero}). 
 % This suggest that the uncertainties associated to the diurnal variabilities are smaller than the errors associated to the algorithm and instrument. 
 % We need to consider that the study region for this work is different from the AERONET-OC sites. 
-The GCW (GOCI Clear Water) is low productivity water while the AERONET-OC sites are more productive, and therefore, we cannot have a direct comparison between these two values. However, this comparison gives us a sense of the difference between the error associated to the algorithm (AERONET-OC matchups), and the diurnal variability (mean diurnal SD). 
+% The GCW (GOCI Clear Water) is low productivity water while the AERONET-OC sites are more productive, and therefore, we cannot have a direct comparison between these two values. However, this comparison gives us a sense of the difference between the error associated to the algorithm (AERONET-OC matchups), and the diurnal variability (mean diurnal SD). 
 % From Antonio:
 % Insert this information, ... "GCW mean diurnal values provides an approximate measure of the minimum Rrs difference required to detect diurnal variability", meaning that we cannot use GOCI to detect diurnal Rrs changes less than values shown in Table 2.  Perhaps computations from Table 3 provide a better measure of this?
 % AERONET-OC matchups, provide a measure of the overall GOCI uncertainty, albeit in more heterogeneous coastal waters, but this is for a small dataset.  So, the likely true value of the difference in Rrs required to detect diurnal and day-to-day variability is somewhere in between (as best as we can determine at this time).
-GCW mean of SD diurnal values provides an approximate measure of the minimum $R_{rs}$ difference required to detect diurnal variability.\todo{Check!}
+The mean of the diurnal CV[\%]\todo{or mean diurnal SD?}~values  for the GCW region provides an approximate measure of the minimum $R_{rs}$ difference required to detect diurnal variability.\todo{Check!}
 
-\begin{table}[htbp!]
-%\internallinenumbers
-\caption{Mean of the diurnal standard deviation (SD) of the time series for GOCI compared with the root mean squared error (RMSE) of the matchups from the AERONET-OC dataset. \label{tab:stdev_aero} } 
-\centering
-\includegraphics[width=11cm]{./Figures/stdev_aero.pdf}
-\end{table}
+% from: https://www.quora.com/What-is-an-intuitive-explanation-for-the-ratio-of-standard-deviation-and-mean
+% This is called the Coefficient of variation (CV), and is a relative measure of variability.
+
+% \begin{table}[htbp!]
+% %\internallinenumbers
+% \caption{Mean of the diurnal standard deviation (SD) of the time series for GOCI compared with the root mean squared error (RMSE) of the matchups from the AERONET-OC dataset. \label{tab:stdev_aero} } 
+% \centering
+% \includegraphics[width=14cm]{./Figures/stdev_aero.pdf}
+% \end{table}
 
 % Relative difference
-In other to have a better estimation of the uncertainties, the relative difference of time of the day $t$ with respect to the three midday average ($RD_t$) was calculated. For each day, the mean of the three midday images ($t$ = 2, 3 and 4h) $\bar{X}_{2,3,4h}$ was calculated as
+Second, in other to have a better estimation of the uncertainties, the relative difference of time of the day $t$ with respect to the three midday average ($RD_t$) was calculated. For each day, the mean of the three midday images ($t$ = 2, 3 and 4h) $\bar{X}_{2,3,4h}$ was calculated as
 \begin{linenomath*}
 \begin{equation}
 	\bar{X}_{2,3,4\text{h}} = \frac{x_{2h}+x_{3h}+x_{4h}}{N}
@@ -1153,7 +1181,7 @@ If we define the difference with respect to a reference as $\Delta_t=x_t-x_{refe
 	\times 100[\%]
 \end{equation}
 \end{linenomath*}
-where $x_t$ is the satellite data at the local time $t=\text{0h,1h\dots7h}$ of the day and for this case $x_{reference}=\bar{X}_{2,3,4\text{h}}$. In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis.
+where $x_t$ is the satellite data at the local time $t=\text{0h,1h\dots7h}$ of the day and for this case $x_{reference}=\bar{X}_{2,3,4\text{h}}$. In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis. The $RD_t$ is an indicator of uncertainties that are expected depending of the time of the day.
 
 \autoref{fig:DiffMidThreeMean}\todo{change y axis in plots with $RD_t$}~and \autoref{tab:rel_diff}\todo{update table!}~show the mean and the standard deviation (error bar in the figure) of the $RD_t$ with respect to $\bar{X}_{2,3,4h}$ for each time of the day for the whole mission for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$. 
 The plots also show the number of observations used to compute the statistics, annotated above the error bars. 
@@ -1166,12 +1194,25 @@ For the 412, 443, 490 and 555 nm bands, the first six times of the day have a sm
 Note that the standard deviation of the relative difference is higher for the 6h than the 7h, but also there are fewer observation for the 7h (\autoref{fig:GOCI_TimeSeries2}.(g)).
 
 Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ for each time of the day are less than $10\%$. For all products, the relative difference is less than 5\% for all times of the day but 6h and 7h, which are still less than 10\%. For all three products, the standard deviation of the relative difference is larger for the last two times of the day.
-\begin{table}[htbp!]
-%\internallinenumbers
-\caption{Relative difference $RD_t$ with respect to the mean of the three midday images $\bar{X}_{2,3,4h}$.\label{tab:rel_diff} } 
+
+\begin{landscape}
+  \begin{table}[htbp!]
+  %\internallinenumbers
+  \caption{Difference $\Delta_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:diff_stat} } 
   \centering
-  \includegraphics[width=15cm]{./Figures/rel_diff.pdf}
-\end{table}
+  \includegraphics[width=16cm]{./Figures/diff_stat.pdf}
+  \end{table}
+% \end{landscape}
+
+% \begin{landscape}
+  \begin{table}[htbp!]
+  %\internallinenumbers
+  \caption{The diurnal variability was assessed using the diurnal percent coefficient of variation (CV[\%]) and the relative difference $RD_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:rel_diff} } 
+  \centering
+  \includegraphics[width=21cm]{./Figures/rel_diff.pdf}
+  \end{table}
+\end{landscape}
+
 
 % old data:
 % 412 &  -1.1 (4.7)  & 2.9 (3.8)  &  4.4 (5.2)  &  4.9 (5.9)  &  3.1 (4.2) & -1.1 (7.8) & -10.3 (12.7) & -13.0 (9.5) \\
@@ -1182,10 +1223,10 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % 680 &  29.7 (47.6) & 28.7 (47.8) & -13.3 (38.1) & -26.9 (37.1) & -24.8 (33.9) & -13.1 (42.0) &  -19.8 (47.8) & -6.4 ( 67.5) \\ \hline
                 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\todo{update $ag_412$}
 \begin{figure}[H]
   \centering
   \includegraphics[width=17cm]{./Figures/DiffMidThreeMean.pdf}
-
     %\internallinenumbers
     \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. Error bars represent the standard deviation. Number of observations used for the statistics annotated above the error bars. \label{fig:DiffMidThreeMean} } 
 \end{figure}
@@ -1310,7 +1351,7 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % %\internallinenumbers    
 % \caption{Cross-comparison. \label{fig:CrossComp} } 
 % \end{figure}
-We computed the time series of monthly means for the Visible Infrared Imaging Radiometer Suite (VIIRS)\todo{cite}~on board the Suomi National Polar-orbiting Partnership (Suomi NPP) weather satellite and the Moderate Resolution Imaging Spectroradiometer (MODIS)\todo{cite}~on board the Aqua satellite (MODISA) over the same area of study for cross-comparison with GOCI (\autoref{fig:CrossCompAllRrs}). 
+We computed the time series of monthly means for the Visible Infrared Imaging Radiometer Suite (VIIRS)\todo{cite}~on board the Suomi National Polar-orbiting Partnership (Suomi NPP) weather satellite and the Moderate Resolution Imaging Spectroradiometer (MODIS)\todo{cite}~on board the Aqua satellite (MODISA) over the same GCW region for cross-comparison with GOCI (\autoref{fig:CrossCompAllRrs}). 
 These data were filtered following the same previous exclusion criteria and then averaged by month. 
 For GOCI, the mean of the three midday values were used.
 
@@ -1359,7 +1400,7 @@ GOCI follows a similar trend as MODISA, with GOCI slightly lower, while VIIRS is
 % \caption{Time Series for derived geophysical paremeters (Angstrom and AOT(865)) and atmospheric correction intermediate (BRDF). \label{fig:GOCI_TimeSeries_intermed_par} } 
 % \end{figure}
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\autoref{fig:scatterRrs}\todo{change axis to start from zero}~shows the scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODISA and VIIRS\todo{create table}. These data are daily values and only values greater than zero are shown. The selection of the data over the area of study followed similar procedures to the ones described by \cite{Bailey2006} and only data that passed the exclusion criteria are used. As it can be seen in the plots, there are few coincidental data among all missions and especially between MODISA and VIIRS for all bands. This could be caused by the failure of the atmospheric correction or presence of cloud in the scenes. The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease for 490 nm and beyond. There are only a handful of coincidental data for MODISA and GOCI for the 680 nm band.
+\autoref{fig:scatterRrs}\todo{change axis to start from zero}~shows the scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODISA and VIIRS\todo{create table}. These data are daily values and only values greater than zero are shown. The selection of the data over the GCW region followed similar procedures to the ones described by \cite{Bailey2006} and only data that passed the exclusion criteria are used. As it can be seen in the plots, there are few coincidental data among all missions and especially between MODISA and VIIRS for all bands. This could be caused by the failure of the atmospheric correction or presence of cloud in the scenes. The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease for 490 nm and beyond. There are only a handful of coincidental data for MODISA and GOCI for the 680 nm band.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \centering
@@ -1403,7 +1444,7 @@ This suggest that an improvement to the vicarious calibration included in l2gen 
 Then, the whole GOCI time series for $R_{rs}$ and biogeochemical products were analyzed. 
 An expected seasonal cycle was observed through the whole mission for all products. 
 A few data are negative for the blue and green bands, and they are related to the last two images of the day.
-A larger number of negative values are associated with the red bands, especially for the 680 nm band, for which most of the values are negatives.
+A larger number of negative values are associated with the red bands, especially for the 680 nm band, for which most of the values are negative.
 Also, there are fewer data in the winter season, which could be associated to the presence of clouds in the scenes or high SZA.
 
 % 4.3 Temporal Homogeneity.................................. 14
@@ -1433,7 +1474,7 @@ There is a slightly trend at higher SZA, especially for the data taken at the 6t
 This trend could be related to stray light from the sun entering the field of view (FOV) at the end of the day for extreme SZA. 
 It seems that this behavior happens to SZA above $60^o$. 
 
-From these analyses, it seems that SZA does have a negatively impact in the data. 
+From these analyses, it seems that the time of day, and therefore the SZA, does have a negatively impact in the data, an consequently the atmospheric correction. 
 Additionally, it is known that the algorithms do not work on higher SZA, and the general cut for level 3 (L3) products is $75^o$ for SZA. 
 Clearly, future algorithms should be improved for higher SZA ($<75^o$) because there can be very dramatic changes on the water in the early and latest hours.
 
@@ -1462,7 +1503,7 @@ Additionally, advances in atmospheric correction algorithms are necessary to imp
 The GOCI clear water region is covered by two slots of the GOCI instrument, which is visually noticeable from the images. This introduces uncertainties in the data products. A partial solution from the Korea Institute of Ocean Science and Technology (KIOST)\todo{correct?}~is underway.
 
 % limitations
-\todo{Include the diurnal variability in the open ocean due to the water itself!}
+\todo{Include the diurnal variability in the open ocean due to the water itself (suggested by Ivona)!}
 
 % future work
 Finally, the authors recognize that more study need to be performed. For instance, to study the effect of the BRDF correction in the algorithms, and a plane-parallel versus Pseudo-Spherical geometry comparison study will add value to this study. As a future work, an estimation of changes due to diurnal and day-to-day biogeochemical stocks and processes in coastal oceans using GOCI are planned.

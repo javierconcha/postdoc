@@ -2595,7 +2595,73 @@ Matrix dimensions must agree.
   Name        Size              Bytes  Class     Attributes
 
   x_used      1x6436            51488  double           
+
+--------------------------------------------------
+2017-09-13 Wed
+Convert latex to html:
+- jconchas:~/Documents/Latex/2017_GOCI_paper$ htlatex 2017_GOCI_paper_RSE.tex myxhtml.cfg 
+with:
+jconchas:~/Documents/Latex/2017_GOCI_paper$ cat myxhtml.cfg 
+\Preamble{xhtml}
+  \Configure{graphics*}  
+         {pdf}  
+         {\Needs{"convert -density 300 '\csname Gin@base\endcsname.pdf'  
+                               '\csname Gin@base\endcsname.png'"}%  
+          \Picture[pict]{\csname Gin@base\endcsname.png}%  
+          \special{t4ht+@File: \csname Gin@base\endcsname.png}
+         }  
+\begin{document}
+\EndPreamble
+
+- then open it in chrome
+- save as webpage complete
+- open it in word as html
+- save as docx in word
+
+--------------------------------------------------
+2017-09-14 Thu
+% to externalize tikz:
+
+% https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+
+% \usepackage{tikz} % for flow charts
+%   \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% run RunLatex.sh
+% #!/bin/sh
+% pdflatex -draftmode -shell-escape  -interaction=batchmode $1.tex
+% bibtex $1.aux
+% #makeglossaries 2015_RSofEnv_paper
+% pdflatex -draftmode -shell-escape -interaction=batchmode $1.tex
+% pdflatex  -shell-escape $1.tex
+% open $1.pdf
+
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \tikzsetnextfilename{FilteringCriteria}
+% \begin{figure}[ht]
+% \vspace{1cm}
+%   \centering
+%   % \small
+% \resizebox{16cm}{!}{%
+% % Define block styles
+
+to remove/delete from a list:
+jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ cat file_to_rm.txt | xargs echo rm -r|sh
+
+jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ cat file_to_rm.txt 
+*fls
+*aux
+*fdb_latexmk
+*log
+*out
+*synctex.gz
+
+
 (END)
+
+
 
 
 
