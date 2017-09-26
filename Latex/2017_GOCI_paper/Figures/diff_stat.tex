@@ -1,0 +1,54 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\scriptsize
+\centering
+\setlength\tabcolsep{1.5pt} % default value: 6pt
+\begin{tabular}{ccccccccc} \hline
+   &   \multicolumn{8}{c}{Time of the day (GMT)}    \\ \cline{2-9}
+&    0h    & 1h  &  2h  &  3h  &  4h  &  5h  &  6h   &  7h   \\ 
+   &    $\Delta_t$:    & $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:   &  $\Delta_t$:  \\ 
+Product   &     Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)   &  Mean(SD)  \\ 
+  &  $[sr^{-1}]$($[sr^{-1}]$)    & $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)   &  $[sr^{-1}]$($[sr^{-1}]$)   \\ \hline \hline
+$R_{rs}(412)$ 	& -3.28$\times10^{-4}$ &   -0.10$\times10^{-4}$ &    0.23$\times10^{-4}$ &    0.38$\times10^{-4}$ &   -0.65$\times10^{-4}$ &   -3.16$\times10^{-4}$ &   -9.20$\times10^{-4}$ &   -9.49$\times10^{-4}$ \\
+	& (2.88$\times10^{-4}$) & (2.82$\times10^{-4}$) & (1.72$\times10^{-4}$) & (1.62$\times10^{-4}$) & (1.74$\times10^{-4}$) & (3.99$\times10^{-4}$) & (4.98$\times10^{-4}$) & (3.57$\times10^{-4}$) \\ \hline
+$R_{rs}(443)$ 	& -2.16$\times10^{-4}$ &    0.27$\times10^{-4}$ &    0.23$\times10^{-4}$ &    0.22$\times10^{-4}$ &   -0.50$\times10^{-4}$ &   -2.10$\times10^{-4}$ &   -6.95$\times10^{-4}$ &   -7.47$\times10^{-4}$ \\
+	& (2.39$\times10^{-4}$) & (2.28$\times10^{-4}$) & (1.49$\times10^{-4}$) & (1.33$\times10^{-4}$) & (1.37$\times10^{-4}$) & (3.30$\times10^{-4}$) & (4.51$\times10^{-4}$) & (3.10$\times10^{-4}$) \\ \hline
+$R_{rs}(490)$ 	& -1.13$\times10^{-4}$ &    0.61$\times10^{-4}$ &    0.48$\times10^{-4}$ &    0.20$\times10^{-4}$ &   -0.61$\times10^{-4}$ &   -1.96$\times10^{-4}$ &   -6.18$\times10^{-4}$ &   -5.96$\times10^{-4}$ \\
+	& (1.87$\times10^{-4}$) & (1.80$\times10^{-4}$) & (1.07$\times10^{-4}$) & (0.94$\times10^{-4}$) & (0.83$\times10^{-4}$) & (2.11$\times10^{-4}$) & (3.23$\times10^{-4}$) & (2.32$\times10^{-4}$) \\ \hline
+$R_{rs}(555)$ 	& -0.81$\times10^{-4}$  &   0.14$\times10^{-4}$  &   0.25$\times10^{-4}$  &   0.11$\times10^{-4}$  &  -0.30$\times10^{-4}$  &  -0.97$\times10^{-4}$  &  -2.20$\times10^{-4}$  &  -1.72$\times10^{-4}$ \\
+	& (0.88$\times10^{-4}$) & (0.96$\times10^{-4}$) & (0.63$\times10^{-4}$) & (0.50$\times10^{-4}$) & (0.39$\times10^{-4}$) & (1.04$\times10^{-4}$) & (1.02$\times10^{-4}$) & (1.31$\times10^{-4}$) \\ \hline
+$R_{rs}(660)$ 	& -1.64$\times10^{-5}$ &    0.59$\times10^{-5}$ &    0.34$\times10^{-5}$ &    0.28$\times10^{-5}$ &   -0.58$\times10^{-5}$ &   -1.75$\times10^{-5}$ &   -0.75$\times10^{-5}$ &   -1.42$\times10^{-5}$ \\
+	& (2.28$\times10^{-5}$) & (2.54$\times10^{-5}$) & (1.42$\times10^{-5}$) & (1.63$\times10^{-5}$) & (1.25$\times10^{-5}$) & (2.62$\times10^{-5}$) & (1.95$\times10^{-5}$) & (1.91$\times10^{-5}$) \\ \hline
+$R_{rs}(680)$ 	&  3.26$\times10^{-5}$ &    3.32$\times10^{-5}$ &    0.60$\times10^{-5}$ &   -0.60$\times10^{-5}$ &   -0.29$\times10^{-5}$ &    0.08$\times10^{-5}$ &   -0.43$\times10^{-5}$ &   -0.17$\times10^{-5}$ \\
+	& (3.26$\times10^{-5}$) & (2.84$\times10^{-5}$) & (1.38$\times10^{-5}$) & (1.20$\times10^{-5}$) & (1.20$\times10^{-5}$) & (3.06$\times10^{-5}$) & (4.54$\times10^{-5}$) & (5.65$\times10^{-5}$) \\ \hline
+ \end{tabular}
+\end{document}
