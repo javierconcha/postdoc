@@ -1,0 +1,61 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\scriptsize
+\centering
+\setlength\tabcolsep{1.5pt} % default value: 6pt
+\begin{tabular}{ccccccccccccccccc} \hline
+ &&&&&&  &  &   \multicolumn{8}{c}{Time of the day (GMT)} &   \\ \cline{9-16}
+ &&&&&& &  &    0h    & 1h  &  2h  &  3h  &  4h  &  5h  &  6h   &  7h &   \\ 
+   &  & \bfseries{Min} & \bfseries{Max} & \bfseries{Mean} & \bfseries{Median} & \bfseries{SD} &  &    $RD_t$:    & $RD_t$:  &  $RD_t$:  &  $RD_t$:  &  $RD_t$:  &  $RD_t$:  &  $RD_t$:   &  $RD_t$:  \\ 
+   & \bfseries{$\pm2\cdot$(Mean} & \bfseries{CV[\%]} & \bfseries{CV[\%]} & \bfseries{CV[\%]} & \bfseries{CV[\%]} & \bfseries{CV[\%]} &  &    Mean(SD)    & Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)  &  Mean(SD)   &  Mean(SD) &  \\ 
+Product  & \bfseries{diurnal SD)}  & $[\%]$ & $[\%]$ & $[\%]$ & $[\%]$ & $[\%]$  & \bfseries{N} &    [\%]([\%])    & [\%]([\%])  &  [\%]([\%])  &  [\%]([\%])  &  [\%]([\%])  &  [\%]([\%])  &  [\%]([\%])   &  [\%]([\%])   \\ \hline \hline
+$R_{rs}(412)$ 	& 1.43$\times10^{-3}$ 	& 0.65 	&  45.94	&  7.48 &  5.02 &  6.87 & 606  	&  -2.37 	&  0.55 	& 1.42 		& 1.57 		&  0.00 	& -2.96 	& -9.52  	& -8.98  	\\
+ 				&						&		&			&		&		&		&		& (3.41) 	& (4.02) 	& (3.33) 	& (3.24) 	& (0.00) 	& (4.44) 	& (7.42) 	& (3.04) 	\\ \hline
+$R_{rs}(443)$ 	& 1.02$\times10^{-3}$ 	& 0.41 	&  44.11 	&  6.88 &  4.69 &  6.03 & 606  	&   -1.99  	&  0.97  	& 1.27  	& 1.35   	&  0.00  	&  -2.25   	& -8.90   	& -8.11  	\\ 
+ 				&						&		&			&		&		&		&		&  (3.48) 	&  (3.84) 	&  (3.27) 	&  (3.11) 	&  (0.00) 	&  (4.03) 	&  (7.29) 	&  (3.74) 	\\ \hline
+$R_{rs}(490)$ 	& 8.77$\times10^{-4}$ 	& 0.57 	&  50.64 	&  8.76 &  6.61 &  7.40 & 606  	&   -0.83  	& 2.65   	&  2.70 	&  2.16  	&  0.00   	&  -2.77   	& 11.38   	& 11.50  	\\
+ 				&						&		&			&		&		&		&		&  (4.27) 	&  (4.34) 	&  (3.49) 	&  (3.20) 	&  (0.00) 	&  (3.81) 	&  (8.04) 	&  (4.24) 	\\ \hline   
+$R_{rs}(555)$ 	& 3.54$\times10^{-4}$ 	& 0.24 	&  42.82 	& 13.64 & 12.22 &  8.34 & 606  	&   -3.42   &  4.18   	&  5.42 	&  4.13  	&  0.00   	&  -4.93   	& 15.93   	& 16.24  	\\
+ 				&						&		&			&		&		&		&		&  (8.46) 	&  (8.53) 	&  (7.33) 	&  (5.50) 	&  (0.00) 	&  (6.42) 	&  (8.14) 	&  (9.39) 	\\ \hline   
+$R_{rs}(660)$ 	& 6.12$\times10^{-5}$ 	& 0.94 	& 121.70 	& 32.86 & 30.70 & 19.21 & 577  	&  -10.26  	&  17.91   	& 24.34 	&  23.39 	&  0.00   	& -13.74    &-12.51    	&  0.04    	\\
+ 				&						&		&			&		&		&		&		&  (30.26) 	&  (44.50) 	&  (62.48) 	&  (60.38) 	&   (0.00) 	&  (25.32) 	&  (13.48) 	&   (5.77) 	\\ \hline 
+$R_{rs}(680)$ 	& 5.62$\times10^{-5}$ 	& 5.19 	& 137.34 	& 50.15 & 48.11 & 26.83 & 190  	&  172.24  	& 150.49  	& 60.36  	&  15.77  	&  0.00   	&  38.83    & 17.38    	& 32.26   	\\
+ 				&						&		&			&		&		&		&		& (315.03) 	& (232.46) 	&  (133.07)	&   (94.57)	&    (0.00)	&  (104.94)	& (90.81) 	& (132.37) 	\\ \hline
+Chl-\it{a} 		&  0.0105             	& 0.19 	&  33.04  	&  5.52 &  4.44 &  4.07 & 534  	&  -1.35  	&   -0.47  	&    0.03	&    0.23  	&    0.00  	&    1.65  	&    3.79  	&    9.76  	\\
+ 				&						&		&			&		&		&		&		&  (6.94) 	&  (6.88) 	&  (6.47) 	&  (7.04) 	&  (0.00) 	&  (7.65) 	&  (9.57) 	&  (9.76) 	\\ \hline
+$a_{g}(412)$ 	&  0.0021             	& 0.34 	&  19.58  	&  5.51 &  4.79 &  3.46 & 542  	&  -1.70  	&    2.64  	&    2.61  	&    1.88  	&    0.00  	&   -1.50  	&   -6.63  	&   -7.39  	\\
+ 				&						&		&			&		&		&		&		&  (5.81) 	&  (6.29) 	&  (5.12) 	&  (3.83) 	&  (0.00) 	&  (4.53) 	&  (6.12) 	&  (6.95) 	\\ \hline
+POC 			&  3.9020             	& 0.09 	&  21.86  	&  6.04 &  5.34 &  3.70 & 542  	&  -2.05  	&    2.81  	&    2.87  	&    2.08  	&    0.00  	&   -1.80  	&   -6.94  	&   -7.71  	\\
+ 				&						&		&			&		&		&		&		&  (6.32) 	&  (6.69) 	&  (5.47) 	&  (4.11) 	&  (0.00) 	&  (4.71) 	&  (5.82) 	&  (6.78) 	\\ \hline
+ \end{tabular}
+\end{document}
+

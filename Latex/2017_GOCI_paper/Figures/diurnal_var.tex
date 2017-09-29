@@ -1,0 +1,66 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[x11names]{xcolor}
+\usepackage{fourier}
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+
+\usepackage{cellspace}
+\setlength\cellspacetoplimit{3pt}
+\setlength\cellspacebottomlimit{0pt}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\begin{threeparttable} 
+\normalsize
+\centering
+\setlength\tabcolsep{3pt} % default value: 6pt
+\begin{tabular}{@{\extracolsep{4pt}}Sc ScScScScScScc ScScScScScScSc@{}} \hline
+   & \multicolumn{7}{c}{All Data} & \multicolumn{7}{c}{Only Summer}   \\ \cline{2-8} \cline{9-15}
+   & $\pm2\cdot$(Mean & \multicolumn{6}{c}{CV[\%]} & $\pm2\cdot$(Mean & \multicolumn{6}{c}{CV[\%]} \\ \cline{3-8} \cline{10-15}
+Product  & diurnal SD)\tnote{*}  & Min. & Max. & Mean & Median & SD  & N & diurnal SD) & Min. & Max. & Mean & Median & SD  & N\\ \cline{1-8} \cline{9-15}
+$R_{rs}(412)$ 	& 1.43$\times10^{-3}$ 	& 0.65 	&  45.94	&  7.48 &  5.02 &  6.87 & 606  	& 9.88$\times10^{-4}$ 	& 0.66 	&  11.48 	&    3.76 	&	 3.66 	&   1.76 	& 	268 	\\
+$R_{rs}(443)$ 	& 1.02$\times10^{-3}$ 	& 0.41 	&  44.11 	&  6.88 &  4.69 &  6.03 & 606  	& 6.97$\times10^{-4}$ 	& 0.41 	&  11.30 	&    3.63 	&	 3.42 	&   1.77 	& 	268 	\\ 
+$R_{rs}(490)$ 	& 8.77$\times10^{-4}$ 	& 0.57 	&  50.64 	&  8.76 &  6.61 &  7.40 & 606  	& 6.45$\times10^{-4}$ 	& 0.76 	&  15.54 	&    5.48 	&	 5.36 	&   2.73 	& 	268 	\\   
+$R_{rs}(555)$ 	& 3.54$\times10^{-4}$ 	& 0.24 	&  42.82 	& 13.64 & 12.22 &  8.34 & 606  	& 3.05$\times10^{-4}$ 	& 0.24 	&  35.54 	&  10.88 	&	10.10 	&   5.99 	& 	268 	\\   
+$R_{rs}(660)$ 	& 6.12$\times10^{-5}$ 	& 0.94 	& 121.70 	& 32.86 & 30.70 & 19.21 & 577  	& 6.37$\times10^{-5}$ 	& 0.94 	&  80.22 	&  27.31 	&	27.01 	&  13.33 	& 	268 	\\ 
+$R_{rs}(680)$ 	& 5.62$\times10^{-5}$ 	& 5.19 	& 137.34 	& 50.15 & 48.11 & 26.83 & 190  	& 5.80$\times10^{-5}$ 	& 5.19 	& 137.34 	&  50.70 	&	49.37 	&  27.23 	& 	143 	\\
+Chl-\it{a} 		&  0.0105             	& 0.19 	&  33.04  	&  5.52 &  4.44 &  4.07 & 534  	&  0.0070             	& 1.01 	&  16.19    &    4.70 	&	 3.86 	&   2.95 	& 	244 	\\
+$a_{g}(412)$ 	&  0.0021             	& 0.34 	&  19.58  	&  5.51 &  4.79 &  3.46 & 542  	&  0.0020             	& 0.90 	&  15.79    &    5.83 	&	 5.06 	&   3.43 	& 	248 	\\
+POC 			&  3.9020             	& 0.09 	&  21.86  	&  6.04 &  5.34 &  3.70 & 542  	&  3.7326             	& 0.69 	&  16.91    &    6.28 	&	 5.48 	&   3.66 	& 	248 	\\ \hline
+ \end{tabular}
+\begin{tablenotes}\footnotesize
+\item [*] $R_{rs}$ in $[sr^{-1}]$, $Chl-\it{a}$ in $[mg m^{-3}]$, $a_{g}(412)$ in $[m^{-1}]$, and POC in $[mg m^{-3}]$.
+\end{tablenotes}
+\end{threeparttable} 
+\end{document}
+
