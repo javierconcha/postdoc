@@ -1183,7 +1183,7 @@ If we define the difference with respect to a reference as $\Delta_t=x_t-x_{refe
 \end{linenomath*}
 where $x_t$ is the satellite data at the local time $t=\text{0h,1h\dots7h}$ of the day and for this case $x_{reference}=\bar{X}_{2,3,4\text{h}}$. In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis. The $RD_t$ is an indicator of uncertainties that are expected depending of the time of the day.
 
-\autoref{fig:DiffMidThreeMean}\todo{change y axis in plots with $RD_t$}~and \autoref{tab:rel_diff}\todo{update table!}~show the mean and the standard deviation (error bar in the figure) of the $RD_t$ with respect to $\bar{X}_{2,3,4h}$ for each time of the day for the whole mission for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$. 
+\autoref{fig:DiffMidThreeMean}\todo{change y axis in plots with $RD_t$}~and \autoref{tab:rel_diff}\todo{update table!}~show the mean and the standard deviation (error bar in the figure) of the $RD_t$ with respect to $\bar{X}_{2,3,4h}$ for each time of the day for the whole mission for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$.\todo{include Difference results and filtering (at least 3 valid values to calculate mean)}
 The plots also show the number of observations used to compute the statistics, annotated above the error bars. 
 Overall, all the relative differences are below $20\%$ for all bands except the 680 nm band.
 The relative differences are smaller than $5\%$ for the 412, 443 and 490 nm bands for all times of the day, except for the last two times. 
@@ -1200,7 +1200,7 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
   %\internallinenumbers
   \caption{Difference $\Delta_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:diff_stat} } 
   \centering
-  \includegraphics[width=16cm]{./Figures/diff_stat.pdf}
+  \includegraphics[width=16cm]{./Figures/diurnal_var.pdf}
   \end{table}
 % \end{landscape}
 
@@ -1209,7 +1209,7 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
   %\internallinenumbers
   \caption{The diurnal variability was assessed using the diurnal percent coefficient of variation (CV[\%]) and the relative difference $RD_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:rel_diff} } 
   \centering
-  \includegraphics[width=21cm]{./Figures/rel_diff.pdf}
+  \includegraphics[width=21cm]{./Figures/diff_stat_combined.pdf}
   \end{table}
 \end{landscape}
 
@@ -1223,12 +1223,11 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % 680 &  29.7 (47.6) & 28.7 (47.8) & -13.3 (38.1) & -26.9 (37.1) & -24.8 (33.9) & -13.1 (42.0) &  -19.8 (47.8) & -6.4 ( 67.5) \\ \hline
                 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\todo{update $ag_412$}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=17cm]{./Figures/DiffMidThreeMean.pdf}
+  \includegraphics[width=17cm]{./Figures/Diff4th.pdf}
     %\internallinenumbers
-    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. Error bars represent the standard deviation. Number of observations used for the statistics annotated above the error bars. \label{fig:DiffMidThreeMean} } 
+    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. Error bars represent the standard deviation. Number of observations used for the statistics annotated above the error bars. \label{fig:Diff4th} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \todo{should I include this?}\autoref{fig:DiffMidThreeMean_detrend} shows the mean and standard deviation (error bar) of the relative difference with respect to the mean of the three midday images for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$ for the anomalies. The mean of the relative difference are small overall for all the spectral bands and products for all times of the day. However, the standard deviation are considerable large for some cases.

@@ -1420,7 +1420,7 @@ for idx_par = 1:size(par_vec,2)
             case 'chlor_a'
                   x_str = 'Chlor-{\ita} [mg m^{-3}]';
             case 'ag_412_mlrc'
-                  x_str = 'a_{g:mlrc}(412) [m^{-1}]';
+                  x_str = 'a_{g}(412) [m^{-1}]';
             case 'poc'
                   x_str = 'POC [mg m^{-3}]';
       end
@@ -1621,7 +1621,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+xlabel('a_{g}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1839,7 +1839,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'ok','MarkerSize',ms,'LineWidth',lw)
 
-xlabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+xlabel('a_{g}(412) [m^{-1}]','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -3060,7 +3060,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_412_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = nan;
+                        % GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_02 = nan;
@@ -3069,14 +3069,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_412_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_daily_mean_02 = nan;
@@ -3101,14 +3101,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3121,8 +3129,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+%                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -3134,8 +3142,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -3147,8 +3155,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -3160,8 +3168,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -3173,8 +3181,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -3186,8 +3194,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
@@ -3199,8 +3207,8 @@ if process_data_flag
                                     %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -3212,8 +3220,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_412_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_412.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -3229,61 +3237,85 @@ if process_data_flag
                                     nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02,GOCI_DailyStatMatrix(count).Rrs_412_03,GOCI_DailyStatMatrix(count).Rrs_412_04]);
                         end
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02_detrend,GOCI_DailyStatMatrix(count).Rrs_412_03_detrend,GOCI_DailyStatMatrix(count).Rrs_412_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02_detrend,GOCI_DailyStatMatrix(count).Rrs_412_03_detrend,GOCI_DailyStatMatrix(count).Rrs_412_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02_detrend,GOCI_DailyStatMatrix(count).Rrs_412_03_detrend,GOCI_DailyStatMatrix(count).Rrs_412_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_412_02_detrend,GOCI_DailyStatMatrix(count).Rrs_412_03_detrend,GOCI_DailyStatMatrix(count).Rrs_412_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_00_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_00_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_01_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_01_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_02_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_02_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_03_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_03_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_04_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_04_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_05_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_05_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_06_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_06_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_412_07_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_412_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_412_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_412_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_412_07_detrend - GOCI_DailyStatMatrix(count).Rrs_412_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -3318,7 +3350,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_443_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_02 = nan;
@@ -3327,14 +3359,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_443_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_daily_mean_02 = nan;
@@ -3359,14 +3391,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3379,8 +3419,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -3392,8 +3432,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -3405,8 +3445,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -3418,8 +3458,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -3431,8 +3471,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -3444,21 +3484,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_443_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_daily_mean_06 = ...
+                                          % data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                          % GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_noon_06 = ...
+                                                % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -3470,8 +3510,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_443_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_443.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -3488,60 +3528,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02_detrend,GOCI_DailyStatMatrix(count).Rrs_443_03_detrend,GOCI_DailyStatMatrix(count).Rrs_443_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02_detrend,GOCI_DailyStatMatrix(count).Rrs_443_03_detrend,GOCI_DailyStatMatrix(count).Rrs_443_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02_detrend,GOCI_DailyStatMatrix(count).Rrs_443_03_detrend,GOCI_DailyStatMatrix(count).Rrs_443_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_443_02_detrend,GOCI_DailyStatMatrix(count).Rrs_443_03_detrend,GOCI_DailyStatMatrix(count).Rrs_443_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_00_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_00_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_01_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_01_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_02_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_02_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_03_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_03_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_04_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_04_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_05_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_05_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_06_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_06_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_443_07_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_443_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_443_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_443_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_443_07_detrend - GOCI_DailyStatMatrix(count).Rrs_443_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -3575,7 +3639,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_490_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_02 = nan;
@@ -3584,14 +3648,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_490_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_daily_mean_02 = nan;
@@ -3616,14 +3680,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07_detrend = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -3635,8 +3707,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -3648,8 +3720,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -3661,8 +3733,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -3674,8 +3746,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -3687,8 +3759,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -3700,8 +3772,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
@@ -3713,8 +3785,8 @@ if process_data_flag
                                                 data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -3726,8 +3798,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_490_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_490.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -3744,61 +3816,85 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02_detrend,GOCI_DailyStatMatrix(count).Rrs_490_03_detrend,GOCI_DailyStatMatrix(count).Rrs_490_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02_detrend,GOCI_DailyStatMatrix(count).Rrs_490_03_detrend,GOCI_DailyStatMatrix(count).Rrs_490_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02_detrend,GOCI_DailyStatMatrix(count).Rrs_490_03_detrend,GOCI_DailyStatMatrix(count).Rrs_490_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_490_02_detrend,GOCI_DailyStatMatrix(count).Rrs_490_03_detrend,GOCI_DailyStatMatrix(count).Rrs_490_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_00_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_00_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_01_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_01_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_02_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_02_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_03_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_03_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_04_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_04_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_05_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_05_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_06_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_06_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_490_07_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_490_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_490_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_490_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_490_07_detrend - GOCI_DailyStatMatrix(count).Rrs_490_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -3832,7 +3928,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_555_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_02 = nan;
@@ -3841,14 +3937,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_555_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_daily_mean_02 = nan;
@@ -3873,14 +3969,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -3893,8 +3997,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -3906,8 +4010,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -3919,8 +4023,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -3932,8 +4036,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -3945,8 +4049,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -3958,21 +4062,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_555_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_daily_mean_06 = ...
+%                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                          % GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_noon_06 = ...
+                                                % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -3984,8 +4088,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_555_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_555.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -4002,60 +4106,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02_detrend,GOCI_DailyStatMatrix(count).Rrs_555_03_detrend,GOCI_DailyStatMatrix(count).Rrs_555_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02_detrend,GOCI_DailyStatMatrix(count).Rrs_555_03_detrend,GOCI_DailyStatMatrix(count).Rrs_555_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02_detrend,GOCI_DailyStatMatrix(count).Rrs_555_03_detrend,GOCI_DailyStatMatrix(count).Rrs_555_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_555_02_detrend,GOCI_DailyStatMatrix(count).Rrs_555_03_detrend,GOCI_DailyStatMatrix(count).Rrs_555_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_00_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_00_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_01_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_01_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_02_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_02_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_03_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_03_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_04_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_04_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_05_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_05_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_06_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_06_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_555_07_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_555_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_555_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_555_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_555_07_detrend - GOCI_DailyStatMatrix(count).Rrs_555_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -4089,7 +4217,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_660_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_02 = nan;
@@ -4098,14 +4226,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_660_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_daily_mean_02 = nan;
@@ -4130,14 +4258,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -4150,8 +4286,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -4163,8 +4299,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -4176,8 +4312,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -4189,8 +4325,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -4202,8 +4338,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -4215,21 +4351,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_660_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+%                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_daily_mean_06 = ...
+%                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mean;% error with respect to the daily mean
+%                                     if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+%                                           GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_noon_06 = ...
+%                                                 data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+%                                     end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -4241,8 +4377,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_660_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_660.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -4259,60 +4395,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02_detrend,GOCI_DailyStatMatrix(count).Rrs_660_03_detrend,GOCI_DailyStatMatrix(count).Rrs_660_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02_detrend,GOCI_DailyStatMatrix(count).Rrs_660_03_detrend,GOCI_DailyStatMatrix(count).Rrs_660_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02_detrend,GOCI_DailyStatMatrix(count).Rrs_660_03_detrend,GOCI_DailyStatMatrix(count).Rrs_660_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_660_02_detrend,GOCI_DailyStatMatrix(count).Rrs_660_03_detrend,GOCI_DailyStatMatrix(count).Rrs_660_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_00_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_00_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_01_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_01_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_02_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_02_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_03_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_03_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_04_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_04_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_05_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_05_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_06_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_06_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_660_07_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_660_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_660_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_660_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_660_07_detrend - GOCI_DailyStatMatrix(count).Rrs_660_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -4346,7 +4506,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).Rrs_680_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_00 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_01 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_02 = nan;
@@ -4355,14 +4515,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_680_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_daily_mean_02 = nan;
@@ -4387,14 +4547,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -4407,8 +4575,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -4420,8 +4588,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -4433,8 +4601,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -4446,8 +4614,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -4459,8 +4627,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -4472,21 +4640,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_680_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_daily_mean_06 = ...
+                                          % data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                          % GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_noon_06 = ...
+                                                % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -4498,8 +4666,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).Rrs_680_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).Rrs_680.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -4516,61 +4684,85 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02_detrend,GOCI_DailyStatMatrix(count).Rrs_680_03_detrend,GOCI_DailyStatMatrix(count).Rrs_680_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02_detrend,GOCI_DailyStatMatrix(count).Rrs_680_03_detrend,GOCI_DailyStatMatrix(count).Rrs_680_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02_detrend,GOCI_DailyStatMatrix(count).Rrs_680_03_detrend,GOCI_DailyStatMatrix(count).Rrs_680_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).Rrs_680_02_detrend,GOCI_DailyStatMatrix(count).Rrs_680_03_detrend,GOCI_DailyStatMatrix(count).Rrs_680_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_00_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_00_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_01_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_01_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_02_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_02_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_03_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_03_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_04_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_04_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_05_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_05_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_06_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_06_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).Rrs_680_07_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).Rrs_680_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).Rrs_680_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).Rrs_680_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).Rrs_680_07_detrend - GOCI_DailyStatMatrix(count).Rrs_680_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -4604,7 +4796,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).aot_865_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).aot_865_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).aot_865_00 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_01 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_02 = nan;
@@ -4613,14 +4805,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).aot_865_05 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_06 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_07 = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).aot_865_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).aot_865_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).aot_865_diff_w_r_daily_mean_02 = nan;
@@ -4645,14 +4837,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -4665,8 +4865,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -4678,8 +4878,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -4691,8 +4891,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -4704,8 +4904,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -4717,8 +4917,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -4730,21 +4930,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).aot_865_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).aot_865_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).aot_865_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -4756,8 +4956,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).aot_865_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).aot_865.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).aot_865_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -4774,60 +4974,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).aot_865_02_detrend,GOCI_DailyStatMatrix(count).aot_865_03_detrend,GOCI_DailyStatMatrix(count).aot_865_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).aot_865_02_detrend,GOCI_DailyStatMatrix(count).aot_865_03_detrend,GOCI_DailyStatMatrix(count).aot_865_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).aot_865_02_detrend,GOCI_DailyStatMatrix(count).aot_865_03_detrend,GOCI_DailyStatMatrix(count).aot_865_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).aot_865_02_detrend,GOCI_DailyStatMatrix(count).aot_865_03_detrend,GOCI_DailyStatMatrix(count).aot_865_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_00_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_00_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_01_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_01_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_02_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_02_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_03_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_03_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_04_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_04_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_05_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_05_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_06_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_06_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).aot_865_07_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).aot_865_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).aot_865_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).aot_865_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).aot_865_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).aot_865_07_detrend - GOCI_DailyStatMatrix(count).aot_865_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -4861,7 +5085,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).angstrom_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).angstrom_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).angstrom_00 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_01 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_02 = nan;
@@ -4870,14 +5094,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).angstrom_05 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_06 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_07 = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).angstrom_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).angstrom_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).angstrom_diff_w_r_daily_mean_02 = nan;
@@ -4902,14 +5126,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -4922,8 +5154,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_0g_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_0g_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -4935,8 +5167,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -4948,8 +5180,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -4961,8 +5193,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -4974,8 +5206,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -4987,8 +5219,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
@@ -5000,8 +5232,8 @@ if process_data_flag
                                     %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -5013,8 +5245,8 @@ if process_data_flag
                                     %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).angstrom_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).angstrom.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).angstrom_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -5031,61 +5263,85 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).angstrom_02_detrend,GOCI_DailyStatMatrix(count).angstrom_03_detrend,GOCI_DailyStatMatrix(count).angstrom_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).angstrom_02_detrend,GOCI_DailyStatMatrix(count).angstrom_03_detrend,GOCI_DailyStatMatrix(count).angstrom_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).angstrom_02_detrend,GOCI_DailyStatMatrix(count).angstrom_03_detrend,GOCI_DailyStatMatrix(count).angstrom_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).angstrom_02_detrend,GOCI_DailyStatMatrix(count).angstrom_03_detrend,GOCI_DailyStatMatrix(count).angstrom_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_00_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_00_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_01_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_01_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_02_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_02_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_03_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_03_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_04_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_04_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_05_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_05_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_06_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_06_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).angstrom_07_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).angstrom_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).angstrom_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).angstrom_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).angstrom_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).angstrom_07_detrend - GOCI_DailyStatMatrix(count).angstrom_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -5119,7 +5375,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).poc_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).poc_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).poc_00 = nan;
                         GOCI_DailyStatMatrix(count).poc_01 = nan;
                         GOCI_DailyStatMatrix(count).poc_02 = nan;
@@ -5128,14 +5384,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).poc_05 = nan;
                         GOCI_DailyStatMatrix(count).poc_06 = nan;
                         GOCI_DailyStatMatrix(count).poc_07 = nan;
-                        GOCI_DailyStatMatrix(count).poc_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).poc_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).poc_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).poc_diff_w_r_daily_mean_02 = nan;
@@ -5160,14 +5416,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -5180,8 +5444,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -5193,8 +5457,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -5206,8 +5470,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -5219,8 +5483,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -5232,8 +5496,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -5245,21 +5509,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).poc_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).poc_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).poc_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -5271,8 +5535,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).poc_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).poc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).poc_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -5289,60 +5553,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).poc_02_detrend,GOCI_DailyStatMatrix(count).poc_03_detrend,GOCI_DailyStatMatrix(count).poc_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).poc_02_detrend,GOCI_DailyStatMatrix(count).poc_03_detrend,GOCI_DailyStatMatrix(count).poc_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).poc_02_detrend,GOCI_DailyStatMatrix(count).poc_03_detrend,GOCI_DailyStatMatrix(count).poc_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).poc_02_detrend,GOCI_DailyStatMatrix(count).poc_03_detrend,GOCI_DailyStatMatrix(count).poc_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_00_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_00_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_01_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_01_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_02_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_02_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_03_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_03_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_04_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_04_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_05_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_05_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_06_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_06_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).poc_07_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).poc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).poc_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).poc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).poc_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).poc_07_detrend - GOCI_DailyStatMatrix(count).poc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -5376,7 +5664,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_00 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_01 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_02 = nan;
@@ -5385,14 +5673,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_05 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_06 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_07 = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_daily_mean_02 = nan;
@@ -5417,14 +5705,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -5437,8 +5733,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -5450,8 +5746,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -5463,8 +5759,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -5476,8 +5772,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -5489,8 +5785,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -5502,21 +5798,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -5528,8 +5824,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).ag_412_mlrc.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -5546,60 +5842,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend,GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_00_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_01_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_02_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_03_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_04_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_05_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_06_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).ag_412_mlrc_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).ag_412_mlrc_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).ag_412_mlrc_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).ag_412_mlrc_07_detrend - GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -5633,7 +5953,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).chlor_a_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_00 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_01 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_02 = nan;
@@ -5642,14 +5962,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).chlor_a_05 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_06 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_07 = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_daily_mean_02 = nan;
@@ -5674,14 +5994,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -5694,8 +6022,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -5707,8 +6035,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -5720,8 +6048,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -5733,8 +6061,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -5746,8 +6074,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -5759,21 +6087,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).chlor_a_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -5785,8 +6113,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).chlor_a_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).chlor_a.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).chlor_a_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -5803,60 +6131,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).chlor_a_02_detrend,GOCI_DailyStatMatrix(count).chlor_a_03_detrend,GOCI_DailyStatMatrix(count).chlor_a_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).chlor_a_02_detrend,GOCI_DailyStatMatrix(count).chlor_a_03_detrend,GOCI_DailyStatMatrix(count).chlor_a_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).chlor_a_02_detrend,GOCI_DailyStatMatrix(count).chlor_a_03_detrend,GOCI_DailyStatMatrix(count).chlor_a_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).chlor_a_02_detrend,GOCI_DailyStatMatrix(count).chlor_a_03_detrend,GOCI_DailyStatMatrix(count).chlor_a_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_00_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_00_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_01_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_01_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_02_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_02_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_03_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_03_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_04_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_04_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_05_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_05_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_06_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_06_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).chlor_a_07_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).chlor_a_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).chlor_a_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).chlor_a_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).chlor_a_07_detrend - GOCI_DailyStatMatrix(count).chlor_a_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -5890,7 +6242,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).brdf_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).brdf_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).brdf_00 = nan;
                         GOCI_DailyStatMatrix(count).brdf_01 = nan;
                         GOCI_DailyStatMatrix(count).brdf_02 = nan;
@@ -5899,14 +6251,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).brdf_05 = nan;
                         GOCI_DailyStatMatrix(count).brdf_06 = nan;
                         GOCI_DailyStatMatrix(count).brdf_07 = nan;
-                        GOCI_DailyStatMatrix(count).brdf_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).brdf_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).brdf_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).brdf_diff_w_r_daily_mean_02 = nan;
@@ -5931,14 +6283,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07_detrend = nan;
                         
                         
                         for idx2 =1:size(data_used_filtered,2)
@@ -5951,8 +6311,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -5964,8 +6324,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -5977,8 +6337,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -5990,8 +6350,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -6003,8 +6363,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -6016,21 +6376,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).brdf_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).brdf_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).brdf_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -6042,8 +6402,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).brdf_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).brdf.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).brdf_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -6060,60 +6420,84 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).brdf_02_detrend,GOCI_DailyStatMatrix(count).brdf_03_detrend,GOCI_DailyStatMatrix(count).brdf_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).brdf_02_detrend,GOCI_DailyStatMatrix(count).brdf_03_detrend,GOCI_DailyStatMatrix(count).brdf_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).brdf_02_detrend,GOCI_DailyStatMatrix(count).brdf_03_detrend,GOCI_DailyStatMatrix(count).brdf_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).brdf_02_detrend,GOCI_DailyStatMatrix(count).brdf_03_detrend,GOCI_DailyStatMatrix(count).brdf_04_detrend]);
+                        % end
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_00_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_00_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_01_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_01_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_02_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_02_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_03_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_03_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_04_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_04_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_05_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_05_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_06_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_06_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).brdf_07_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).brdf_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).brdf_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).brdf_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).brdf_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).brdf_07_detrend - GOCI_DailyStatMatrix(count).brdf_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -6147,7 +6531,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).solz_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).solz_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).solz_00 = nan;
                         GOCI_DailyStatMatrix(count).solz_01 = nan;
                         GOCI_DailyStatMatrix(count).solz_02 = nan;
@@ -6156,14 +6540,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).solz_05 = nan;
                         GOCI_DailyStatMatrix(count).solz_06 = nan;
                         GOCI_DailyStatMatrix(count).solz_07 = nan;
-                        GOCI_DailyStatMatrix(count).solz_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).solz_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).solz_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).solz_diff_w_r_daily_mean_02 = nan;
@@ -6188,14 +6572,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07_detrend = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -6207,8 +6599,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -6220,8 +6612,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -6233,8 +6625,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -6246,8 +6638,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -6259,8 +6651,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -6272,21 +6664,21 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).solz_06 = data_used_filtered(idx2);
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_daily_mean_06 = ...
-                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mean;% error with respect to the daily mean
-                                    if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
-                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_noon_06 = ...
-                                                data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
-                                    end
+                                    % GOCI_DailyStatMatrix(count).solz_diff_w_r_daily_mean_06 = ...
+                                    %       data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mean;% error with respect to the daily mean
+                                    % if nansum(time_used_filtered.Hour == 3)~=0 % the noon value exist
+                                    %       GOCI_DailyStatMatrix(count).solz_diff_w_r_noon_06 = ...
+                                    %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
+                                    % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -6298,8 +6690,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).solz_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).solz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).solz_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -6316,61 +6708,85 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).solz_02_detrend,GOCI_DailyStatMatrix(count).solz_03_detrend,GOCI_DailyStatMatrix(count).solz_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).solz_02_detrend,GOCI_DailyStatMatrix(count).solz_03_detrend,GOCI_DailyStatMatrix(count).solz_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).solz_02_detrend,GOCI_DailyStatMatrix(count).solz_03_detrend,GOCI_DailyStatMatrix(count).solz_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).solz_02_detrend,GOCI_DailyStatMatrix(count).solz_03_detrend,GOCI_DailyStatMatrix(count).solz_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_00_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_00_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_01_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_01_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_02_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_02_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_03_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_03_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_04_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_04_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_05_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_05_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_06_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_06_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).solz_07_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).solz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).solz_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).solz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).solz_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).solz_07_detrend - GOCI_DailyStatMatrix(count).solz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -6404,7 +6820,7 @@ if process_data_flag
                         % initialization
                         % GOCI_DailyStatMatrix(count).senz_mean_first_six = nan;
                         GOCI_DailyStatMatrix(count).senz_mean_mid_three = nan;
-                        GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = nan;
                         GOCI_DailyStatMatrix(count).senz_00 = nan;
                         GOCI_DailyStatMatrix(count).senz_01 = nan;
                         GOCI_DailyStatMatrix(count).senz_02 = nan;
@@ -6413,14 +6829,14 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).senz_05 = nan;
                         GOCI_DailyStatMatrix(count).senz_06 = nan;
                         GOCI_DailyStatMatrix(count).senz_07 = nan;
-                        GOCI_DailyStatMatrix(count).senz_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_07_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_07_detrend = nan;
                         % GOCI_DailyStatMatrix(count).senz_diff_w_r_daily_mean_00 = nan;
                         % GOCI_DailyStatMatrix(count).senz_diff_w_r_daily_mean_01 = nan;
                         % GOCI_DailyStatMatrix(count).senz_diff_w_r_daily_mean_02 = nan;
@@ -6445,14 +6861,22 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05 = nan;
                         GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06 = nan;
                         GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07 = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_00_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_01_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_02_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_03_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_04_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06_detrend = nan;
-                        GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07_detrend = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_07 = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_00_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_01_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_02_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_03_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_04_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06_detrend = nan;
+                        %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07_detrend = nan;
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
@@ -6464,8 +6888,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_00_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_00_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 1
@@ -6477,8 +6901,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_01_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_01_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 2
@@ -6490,8 +6914,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_02_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_02_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 3
@@ -6503,8 +6927,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_03_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_03_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 4
@@ -6516,8 +6940,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_04_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_04_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 5
@@ -6529,8 +6953,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_05_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_05_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 6
@@ -6542,8 +6966,8 @@ if process_data_flag
                                     %             data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_06_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_06_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                               if time_used_filtered.Hour(idx2) == 7
@@ -6555,8 +6979,8 @@ if process_data_flag
                                     % data_used_filtered(idx2) - data_used_filtered(time_used_filtered.Hour == 3);
                                     % end
                                     %% detrend
-                                    mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
-                                    GOCI_DailyStatMatrix(count).senz_07_detrend = data_used_filtered(idx2)-mean_month_hour;
+                                    %mean_month_hour = ClimatologyMatrix.BRDF(idx_brdf).Month(time_used_filtered.Month(idx2)).Hour(time_used_filtered.Hour(idx2)+1).senz.mean_month_hour;
+                                    %GOCI_DailyStatMatrix(count).senz_07_detrend = data_used_filtered(idx2)-mean_month_hour;
                                     % clear cond_used_aux cond_time_aux cond_nan_aux cond_area_aux cond_solz cond_senz cond_CV cond_brdf mean_month_hour;
                               end
                         end
@@ -6573,61 +6997,85 @@ if process_data_flag
                         end
                         
                         
-                        if nanmean([GOCI_DailyStatMatrix(count).senz_02_detrend,GOCI_DailyStatMatrix(count).senz_03_detrend,GOCI_DailyStatMatrix(count).senz_04_detrend])==0
-                              GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
-                        else
-                              GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = ...
-                                    nanmean([GOCI_DailyStatMatrix(count).senz_02_detrend,GOCI_DailyStatMatrix(count).senz_03_detrend,GOCI_DailyStatMatrix(count).senz_04_detrend]);
-                        end
+                        %if nanmean([GOCI_DailyStatMatrix(count).senz_02_detrend,GOCI_DailyStatMatrix(count).senz_03_detrend,GOCI_DailyStatMatrix(count).senz_04_detrend])==0
+                              %GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = nan; % to avoid dividing by 0 and Inf result
+                        % else
+                              %GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend = ...
+                                    %nanmean([GOCI_DailyStatMatrix(count).senz_02_detrend,GOCI_DailyStatMatrix(count).senz_03_detrend,GOCI_DailyStatMatrix(count).senz_04_detrend]);
+                        % end
                         
                         for idx2 =1:size(data_used_filtered,2)
                               if time_used_filtered.Hour(idx2) == 0
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_00 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_00_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_00_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_00_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_00_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 1
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_01 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_01_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_01_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_01_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_01_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 2
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_02 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_02_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_02_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_02_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_02_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 3
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_03 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_03_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_03_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_03_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_03_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 4
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_04 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_04_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_04_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_04_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_04_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 5
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_05_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_05_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_05_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 6
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_06_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_06_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_06_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07 = ...
                                           data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_mean_mid_three;% error with respect to the middle three
-                                    GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07_detrend = ...
-                                          GOCI_DailyStatMatrix(count).senz_07_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).senz_04~=0;% error with respect to the 4th            
+                                          GOCI_DailyStatMatrix(count).senz_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).senz_04;
+                                    end
+                                    %GOCI_DailyStatMatrix(count).senz_diff_w_r_mid_three_07_detrend = ...
+                                          %GOCI_DailyStatMatrix(count).senz_07_detrend - GOCI_DailyStatMatrix(count).senz_mean_mid_three_detrend;% error with respect to the middle three
                               end
                         end
                         
@@ -6733,14 +7181,6 @@ if process_data_flag
                               if time_used_filtered.Hour(idx2) == 7
                                     GOCI_DailyStatMatrix(count).senz_center_value_07 = data_used_filtered(idx2);
                               end
-                        end
-                        
-                        %% debugging
-                        if count == 6436
-                              count
-                              cond_1t
-                              idx
-                              idx_brdf
                         end
                         
                   end
@@ -7982,40 +8422,42 @@ cond_chlor_a = [GOCI_DailyStatMatrix.chlor_a_N_mean]>=nvalid;
 cond_ag_412_mlrc = [GOCI_DailyStatMatrix.ag_412_mlrc_N_mean]>=nvalid;
 cond_poc = [GOCI_DailyStatMatrix.poc_N_mean]>=nvalid;
 
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==7;
+
 % N
 clc
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]))
 %% mean SD
 clc
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean])
-nanmean([GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean])
 
-%% SD SD
-clc
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean])
-2*nanstd([GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean])
+% %% SD SD
+% clc
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean])
 %%
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_412_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_412_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_443_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_443_mean_mean])
@@ -8028,63 +8470,183 @@ clc
 % 100*nanmean([GOCI_DailyStatMatrix.poc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.poc_mean_mean])
 %% min CV[%]
 clc
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
 
 %% max CV[%]
 clc
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
 
 %% mean CV[%]
 clc
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
 
 %% median CV[%]
 clc
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
 
 %% SD CV[%]
 clc
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412).Rrs_412_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443).Rrs_443_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490).Rrs_490_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555).Rrs_555_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660).Rrs_660_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680).Rrs_680_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a).chlor_a_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc).ag_412_mlrc_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_poc).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc).poc_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+
+%% Basics stats for GOCI_DailyStatMatrix -- ONLY SUMMER
+nvalid = 3;
+
+cond_Rrs_412 =[GOCI_DailyStatMatrix.Rrs_412_N_mean]>=nvalid; 
+cond_Rrs_443 =[GOCI_DailyStatMatrix.Rrs_443_N_mean]>=nvalid;
+cond_Rrs_490 =[GOCI_DailyStatMatrix.Rrs_490_N_mean]>=nvalid;
+cond_Rrs_555 =[GOCI_DailyStatMatrix.Rrs_555_N_mean]>=nvalid;
+cond_Rrs_660 =[GOCI_DailyStatMatrix.Rrs_660_N_mean]>=nvalid;
+cond_Rrs_680 =[GOCI_DailyStatMatrix.Rrs_680_N_mean]>=nvalid;
+cond_chlor_a = [GOCI_DailyStatMatrix.chlor_a_N_mean]>=nvalid;
+cond_ag_412_mlrc = [GOCI_DailyStatMatrix.ag_412_mlrc_N_mean]>=nvalid;
+cond_poc = [GOCI_DailyStatMatrix.poc_N_mean]>=nvalid;
+
+% Summer
+cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+
+% N
+clc
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]))
+sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]))
+%% mean SD
+clc
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean])
+2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean])
+
+% SD SD
+% clc
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean])
+% 2*nanstd([GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean])
+%%
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_412_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_412_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_443_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_443_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_490_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_490_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_555_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_555_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_660_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_660_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_680_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.chlor_a_stdv_mean])/nanmean([GOCI_DailyStatMatrix.chlor_a_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_mean_mean])
+% 100*nanmean([GOCI_DailyStatMatrix.poc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.poc_mean_mean])
+%% min CV[%]
+clc
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
+nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+
+%% max CV[%]
+clc
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
+nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+
+%% mean CV[%]
+clc
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
+nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+
+%% median CV[%]
+clc
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
+nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+
+%% SD CV[%]
+clc
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
+nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
 
 %% mean rrs vs zenith -- filtered
 
@@ -8774,7 +9336,7 @@ for idx0 = 1:size(par_vec,2)
       if strcmp(par_vec{idx0},'chlor_a')
             par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx0},'ag_412_mlrc')
-            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+            par_char = 'a_{g}(412) [m^{-1}]';
       elseif strcmp(par_vec{idx0},'poc')
             par_char = 'POC [mg m^{-3}]';
       end
@@ -8960,7 +9522,7 @@ for idx0 = 1:size(par_vec,2)
       if strcmp(par_vec{idx0},'chlor_a')
             par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx0},'ag_412_mlrc')
-            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+            par_char = 'a_{g}(412) [m^{-1}]';
       elseif strcmp(par_vec{idx0},'poc')
             par_char = 'POC [mg m^{-3}]';
       end
@@ -9469,61 +10031,84 @@ grid on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Plot relative difference from the three midday for Rrs
+%% Plot relative difference from the three midday for par
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 
-wl = {'412','443','490','555','660','680'};
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
 
 brdf_opt = 7;
 clear cond_brdf
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 
-for idx = 1:size(wl,2)
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412)';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443)';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490)';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555)';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660)';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680)';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita}';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412)';
+            case 'poc'
+                  y_str = 'POC';
+      end      
+      eval(sprintf('mean_mid_three= nanmean(abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]));',par_vec{idx}));
+
       %%
-      eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
       rel_diff_N_00 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
       rel_diff_N_01 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
       rel_diff_N_02 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
       rel_diff_N_03 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
       rel_diff_N_04 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
       rel_diff_N_05 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
       rel_diff_N_06 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_mean_mid_three]);',wl{idx},wl{idx}));
+      eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
@@ -9552,9 +10137,10 @@ for idx = 1:size(wl,2)
       text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
       
       disp('======================')
-      disp(wl{idx})
+      disp(par_vec{idx})
       rel_diff_mean_all
       rel_diff_stdv_all
+      mean_mid_three
       %       ylim([-3e-3 1e-3])
       
       ax.YAxis.MinorTick = 'on';
@@ -9562,7 +10148,7 @@ for idx = 1:size(wl,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Relative difference\n w/r to mean middle three\n  Rrs(%s) [%%]',wl{idx});
+      str1 = sprintf('Relative difference\n w/r to mean middle three\n  %s [%%]',y_str);
       
       ylabel(str1,'FontSize',fs)
       xlabel('Time of the day (GMT)','FontSize',fs)
@@ -9570,67 +10156,219 @@ for idx = 1:size(wl,2)
       grid on
       %       grid minor
       %%
-      saveas(gcf,[savedirname 'Rel_Diff_mid_three_Rrs' wl{idx}],'epsc')
+      saveas(gcf,[savedirname 'Rel_Diff_mid_three_' par_vec{idx}],'epsc')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Plot difference from the three midday for Rrs
+%% Plot relative difference from the three midday for Rrs -- ONLY SUMMER
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 
-wl = {'412','443','490','555','660','680'};
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% Summer
+cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+cond_used = cond_brdf&cond_tod;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412)';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443)';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490)';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555)';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660)';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680)';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita}';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412)';
+            case 'poc'
+                  y_str = 'POC';
+      end      
+      eval(sprintf('mean_mid_three= nanmean(abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]));',par_vec{idx}));
+
+      %%
+      eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_00]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+      rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
+      rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
+      rel_diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_01]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
+      rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
+      rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
+      rel_diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_02]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
+      rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
+      rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
+      rel_diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_03]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
+      rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
+      rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
+      rel_diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_04]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
+      rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
+      rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
+      rel_diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_05]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
+      rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
+      rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
+      rel_diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_06]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
+      rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
+      rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
+      rel_diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_07]./abs([GOCI_DailyStatMatrix(cond_used).%s_mean_mid_three]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
+      rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
+      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
+      rel_diff_N_07 = sum(cond_filter);
+      
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      rel_diff_mean_all
+      rel_diff_stdv_all
+      mean_mid_three
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Relative difference\n w/r to mean middle three\n  %s [%%]',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Rel_Diff_mid_three_' par_vec{idx} '_summer'],'epsc')
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot Difference from the three midday for Rrs
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
 brdf_opt = 7;
 clear cond_brdf
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 
-for idx = 1:size(wl,2)
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660) [sr^{-1}]';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680) [sr^{-1}]';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412) [m^{-1}]';
+            case 'poc'
+                  y_str = 'POC [mg m^{-3}]';
+      end
       %%
-      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_00];',wl{idx}));
+      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_00];',par_vec{idx}));
       cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
       diff_mean_00 = nanmean(diff_00(cond_filter));
       diff_stdv_00 = nanstd(diff_00(cond_filter));
       diff_N_00 = sum(cond_filter);
       
-      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_01];',wl{idx}));
+      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_01];',par_vec{idx}));
       cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
       diff_mean_01 = nanmean(diff_01(cond_filter));
       diff_stdv_01 = nanstd(diff_01(cond_filter));
       diff_N_01 = sum(cond_filter);
       
-      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_02];',wl{idx}));
+      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_02];',par_vec{idx}));
       cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
       diff_mean_02 = nanmean(diff_02(cond_filter));
       diff_stdv_02 = nanstd(diff_02(cond_filter));
       diff_N_02 = sum(cond_filter);
       
-      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_03];',wl{idx}));
+      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_03];',par_vec{idx}));
       cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
       diff_mean_03 = nanmean(diff_03(cond_filter));
       diff_stdv_03 = nanstd(diff_03(cond_filter));
       diff_N_03 = sum(cond_filter);
       
-      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_04];',wl{idx}));
+      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_04];',par_vec{idx}));
       cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
       diff_mean_04 = nanmean(diff_04(cond_filter));
       diff_stdv_04 = nanstd(diff_04(cond_filter));
       diff_N_04 = sum(cond_filter);
       
-      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_05];',wl{idx}));
+      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_05];',par_vec{idx}));
       cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
       diff_mean_05 = nanmean(diff_05(cond_filter));
       diff_stdv_05 = nanstd(diff_05(cond_filter));
       diff_N_05 = sum(cond_filter);
       
-      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_06];',wl{idx}));
+      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_06];',par_vec{idx}));
       cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
       diff_mean_06 = nanmean(diff_06(cond_filter));
       diff_stdv_06 = nanstd(diff_06(cond_filter));
       diff_N_06 = sum(cond_filter);
       
-      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).Rrs_%s_diff_w_r_mid_three_07];',wl{idx}));
+      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_mid_three_07];',par_vec{idx}));
       cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
       diff_mean_07 = nanmean(diff_07(cond_filter));
       diff_stdv_07 = nanstd(diff_07(cond_filter));
@@ -9659,7 +10397,7 @@ for idx = 1:size(wl,2)
       text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
       
       disp('======================')
-      disp(wl{idx})
+      disp(par_vec{idx})
       diff_mean_all
       diff_stdv_all
       %       ylim([-3e-3 1e-3])
@@ -9669,7 +10407,7 @@ for idx = 1:size(wl,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Difference\n w/r to mean middle three\n  Rrs(%s)',wl{idx});
+      str1 = sprintf('Difference\n w/r to mean middle three\n  %s',y_str);
       
       ylabel(str1,'FontSize',fs)
       xlabel('Time of the day (GMT)','FontSize',fs)
@@ -9677,8 +10415,657 @@ for idx = 1:size(wl,2)
       grid on
       %       grid minor
       %%
-      saveas(gcf,[savedirname 'Diff_mid_three_Rrs' wl{idx}],'epsc')
+      saveas(gcf,[savedirname 'Diff_mid_three_' par_vec{idx}],'epsc')
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot Difference from the three midday for Rrs -- ONLY SUMMERS
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% Summer
+cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+cond_used = cond_brdf&cond_tod;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660) [sr^{-1}]';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680) [sr^{-1}]';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412) [m^{-1}]';
+            case 'poc'
+                  y_str = 'POC [mg m^{-3}]';
+      end
+      %%
+      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_00];',par_vec{idx}));
+      cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
+      diff_mean_00 = nanmean(diff_00(cond_filter));
+      diff_stdv_00 = nanstd(diff_00(cond_filter));
+      diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_01];',par_vec{idx}));
+      cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
+      diff_mean_01 = nanmean(diff_01(cond_filter));
+      diff_stdv_01 = nanstd(diff_01(cond_filter));
+      diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_02];',par_vec{idx}));
+      cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
+      diff_mean_02 = nanmean(diff_02(cond_filter));
+      diff_stdv_02 = nanstd(diff_02(cond_filter));
+      diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_03];',par_vec{idx}));
+      cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
+      diff_mean_03 = nanmean(diff_03(cond_filter));
+      diff_stdv_03 = nanstd(diff_03(cond_filter));
+      diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_04];',par_vec{idx}));
+      cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
+      diff_mean_04 = nanmean(diff_04(cond_filter));
+      diff_stdv_04 = nanstd(diff_04(cond_filter));
+      diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_05];',par_vec{idx}));
+      cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
+      diff_mean_05 = nanmean(diff_05(cond_filter));
+      diff_stdv_05 = nanstd(diff_05(cond_filter));
+      diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_06];',par_vec{idx}));
+      cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
+      diff_mean_06 = nanmean(diff_06(cond_filter));
+      diff_stdv_06 = nanstd(diff_06(cond_filter));
+      diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_mid_three_07];',par_vec{idx}));
+      cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
+      diff_mean_07 = nanmean(diff_07(cond_filter));
+      diff_stdv_07 = nanstd(diff_07(cond_filter));
+      diff_N_07 = sum(cond_filter);
+      
+      
+      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,diff_mean_00+1.3*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      diff_mean_all
+      diff_stdv_all
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Difference\n w/r to mean middle three\n  %s',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Diff_mid_three_' par_vec{idx} '_summer'],'epsc')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot relative difference from the 4th time of day for par
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412)';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443)';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490)';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555)';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660)';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680)';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita}';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412)';
+            case 'poc'
+                  y_str = 'POC';
+      end      
+      eval(sprintf('mean_4h= nanmean(abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]));',par_vec{idx}));
+
+      %%
+      eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_00]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+      rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
+      rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
+      rel_diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
+      rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
+      rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
+      rel_diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
+      rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
+      rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
+      rel_diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
+      rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
+      rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
+      rel_diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
+      rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
+      rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
+      rel_diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
+      rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
+      rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
+      rel_diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
+      rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
+      rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
+      rel_diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
+      rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
+      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
+      rel_diff_N_07 = sum(cond_filter);
+      
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      rel_diff_mean_all
+      rel_diff_stdv_all
+      mean_4h
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Relative difference\n w/r to 4h %s [%%]',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot Difference from the 4h for par
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660) [sr^{-1}]';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680) [sr^{-1}]';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412) [m^{-1}]';
+            case 'poc'
+                  y_str = 'POC [mg m^{-3}]';
+      end
+      %%
+      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_00];',par_vec{idx}));
+      cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
+      diff_mean_00 = nanmean(diff_00(cond_filter));
+      diff_stdv_00 = nanstd(diff_00(cond_filter));
+      diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01];',par_vec{idx}));
+      cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
+      diff_mean_01 = nanmean(diff_01(cond_filter));
+      diff_stdv_01 = nanstd(diff_01(cond_filter));
+      diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02];',par_vec{idx}));
+      cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
+      diff_mean_02 = nanmean(diff_02(cond_filter));
+      diff_stdv_02 = nanstd(diff_02(cond_filter));
+      diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03];',par_vec{idx}));
+      cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
+      diff_mean_03 = nanmean(diff_03(cond_filter));
+      diff_stdv_03 = nanstd(diff_03(cond_filter));
+      diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04];',par_vec{idx}));
+      cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
+      diff_mean_04 = nanmean(diff_04(cond_filter));
+      diff_stdv_04 = nanstd(diff_04(cond_filter));
+      diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05];',par_vec{idx}));
+      cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
+      diff_mean_05 = nanmean(diff_05(cond_filter));
+      diff_stdv_05 = nanstd(diff_05(cond_filter));
+      diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06];',par_vec{idx}));
+      cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
+      diff_mean_06 = nanmean(diff_06(cond_filter));
+      diff_stdv_06 = nanstd(diff_06(cond_filter));
+      diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07];',par_vec{idx}));
+      cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
+      diff_mean_07 = nanmean(diff_07(cond_filter));
+      diff_stdv_07 = nanstd(diff_07(cond_filter));
+      diff_N_07 = sum(cond_filter);
+      
+      
+      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,diff_mean_00+1.3*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      diff_mean_all
+      diff_stdv_all
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Difference\n w/r to 4h\n  %s',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx}],'epsc')
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot relative difference from 4th time of day for par -- ONLY SUMMER
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% Summer
+cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+cond_used = cond_brdf&cond_tod;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412)';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443)';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490)';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555)';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660)';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680)';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita}';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412)';
+            case 'poc'
+                  y_str = 'POC';
+      end      
+      eval(sprintf('mean_4th= nanmean(abs([GOCI_DailyStatMatrix(cond_used).%s_04]));',par_vec{idx}));
+
+      %%
+      eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+      rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
+      rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
+      rel_diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
+      rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
+      rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
+      rel_diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
+      rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
+      rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
+      rel_diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
+      rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
+      rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
+      rel_diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
+      rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
+      rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
+      rel_diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
+      rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
+      rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
+      rel_diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
+      rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
+      rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
+      rel_diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
+      rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
+      rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
+      rel_diff_N_07 = sum(cond_filter);
+      
+      
+      rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
+      rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
+
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      rel_diff_mean_all
+      rel_diff_stdv_all
+      mean_4th
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Relative difference\n w/r to mean 4h  %s [%%]',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx} '_summer'],'epsc')
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Plot Difference from the 4th for par -- ONLY SUMMERS
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+
+
+par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+
+brdf_opt = 7;
+clear cond_brdf
+cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% Summer
+cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+cond_used = cond_brdf&cond_tod;
+
+for idx = 1:size(par_vec,2)
+      switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660) [sr^{-1}]';
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680) [sr^{-1}]';
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412) [m^{-1}]';
+            case 'poc'
+                  y_str = 'POC [mg m^{-3}]';
+      end
+      %%
+      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00];',par_vec{idx}));
+      cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
+      diff_mean_00 = nanmean(diff_00(cond_filter));
+      diff_stdv_00 = nanstd(diff_00(cond_filter));
+      diff_N_00 = sum(cond_filter);
+      
+      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01];',par_vec{idx}));
+      cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
+      diff_mean_01 = nanmean(diff_01(cond_filter));
+      diff_stdv_01 = nanstd(diff_01(cond_filter));
+      diff_N_01 = sum(cond_filter);
+      
+      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02];',par_vec{idx}));
+      cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
+      diff_mean_02 = nanmean(diff_02(cond_filter));
+      diff_stdv_02 = nanstd(diff_02(cond_filter));
+      diff_N_02 = sum(cond_filter);
+      
+      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03];',par_vec{idx}));
+      cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
+      diff_mean_03 = nanmean(diff_03(cond_filter));
+      diff_stdv_03 = nanstd(diff_03(cond_filter));
+      diff_N_03 = sum(cond_filter);
+      
+      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04];',par_vec{idx}));
+      cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
+      diff_mean_04 = nanmean(diff_04(cond_filter));
+      diff_stdv_04 = nanstd(diff_04(cond_filter));
+      diff_N_04 = sum(cond_filter);
+      
+      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05];',par_vec{idx}));
+      cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
+      diff_mean_05 = nanmean(diff_05(cond_filter));
+      diff_stdv_05 = nanstd(diff_05(cond_filter));
+      diff_N_05 = sum(cond_filter);
+      
+      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06];',par_vec{idx}));
+      cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
+      diff_mean_06 = nanmean(diff_06(cond_filter));
+      diff_stdv_06 = nanstd(diff_06(cond_filter));
+      diff_N_06 = sum(cond_filter);
+      
+      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07];',par_vec{idx}));
+      cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
+      diff_mean_07 = nanmean(diff_07(cond_filter));
+      diff_stdv_07 = nanstd(diff_07(cond_filter));
+      diff_N_07 = sum(cond_filter);
+      
+      
+      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+      
+      fs = 25;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot(1:8,stdv_all,'or','MarkerSize',12)
+      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      ax = gca;
+      ax.XTick = 1:8;
+      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      xlim([0 9])
+      
+      text(1,diff_mean_00+1.3*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+      text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+      text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+      text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+      text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+      text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      
+      disp('======================')
+      disp(par_vec{idx})
+      diff_mean_all
+      diff_stdv_all
+      %       ylim([-3e-3 1e-3])
+      
+      ax.YAxis.MinorTick = 'on';
+      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      ax.YGrid = 'on';
+      ax.YMinorGrid = 'on';
+      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+      str1 = sprintf('Difference\n w/r to 4th  %s',y_str);
+      
+      ylabel(str1,'FontSize',fs)
+      xlabel('Time of the day (GMT)','FontSize',fs)
+      
+      grid on
+      %       grid minor
+      %%
+      saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx} '_summer'],'epsc')
+end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9784,7 +11171,7 @@ for idx = 1:size(par_vec,2)
       if strcmp(par_vec{idx},'chlor_a')
             par_char = 'Chlor-{\ita}';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-            par_char = 'a_{g:mlrc}(412)';
+            par_char = 'a_{g}(412)';
       elseif strcmp(par_vec{idx},'poc')
             par_char = 'POC';
       end
@@ -9899,7 +11286,7 @@ for idx = 1:size(par_vec,2)
       if strcmp(par_vec{idx},'chlor_a')
             par_char = 'Chlor-{\ita}';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-            par_char = 'a_{g:mlrc}(412)';
+            par_char = 'a_{g}(412)';
       elseif strcmp(par_vec{idx},'poc')
             par_char = 'POC';
       end
@@ -10157,7 +11544,7 @@ for idx = 1:size(par_vec,2)
       if strcmp(par_vec{idx},'chlor_a')
             par_char = 'Chlor-{\ita} [mg m^{-3}]';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-            par_char = 'a_{g:mlrc}(412) [m^{-1}]';
+            par_char = 'a_{g}(412) [m^{-1}]';
       elseif strcmp(par_vec{idx},'poc')
             par_char = 'POC [mg m^{-3}]';
       end
@@ -11083,7 +12470,7 @@ xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).ag_412_mlrc_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
 xlabel('Time')
-ylabel('a_{g:mlrc}(412)')
+ylabel('a_{g}(412)')
 grid on
 legend('GOCI','MODISA','VIIRS')
 screen_size = get(0, 'ScreenSize');
@@ -11954,7 +13341,7 @@ for idx = [18 57]
       
       grid on
       
-      ylabel('a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+      ylabel('a_{g}(412) [m^{-1}]','FontSize',fs)
       xlabel('Time','FontSize',fs)
       
       datetick('x','mm/dd/yy')
@@ -12473,7 +13860,7 @@ plot(7,100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV]),'-^','Color',[0.5 0 0.
 
 % grid on
 
-% ylabel('Mean of CV for a_{g:mlrc}(412) [%]','FontSize',fs)
+% ylabel('Mean of CV for a_{g}(412) [%]','FontSize',fs)
 % xlabel('Time of the day','FontSize',fs)
 
 % ax = gca;
@@ -12506,7 +13893,7 @@ ax = gca;
 ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
 
 hleg = legend('Chlor-{\ita}: 0h','Chlor-{\ita}: 1h','Chlor-{\ita}: 2h','Chlor-{\ita}: 3h','Chlor-{\ita}: 4h','Chlor-{\ita}: 5h','Chlor-{\ita}: 6h','Chlor-{\ita}: 7h',...
-      'a_{g:mlrc}(412): 0h','a_{g:mlrc}(412): 1h','a_{g:mlrc}(412): 2h','a_{g:mlrc}(412): 3h','a_{g:mlrc}(412): 4h','a_{g:mlrc}(412): 5h','a_{g:mlrc}(412): 6h','a_{g:mlrc}(412): 7h',...
+      'a_{g}(412): 0h','a_{g}(412): 1h','a_{g}(412): 2h','a_{g}(412): 3h','a_{g}(412): 4h','a_{g}(412): 5h','a_{g}(412): 6h','a_{g}(412): 7h',...
       'POC: 0h','POC: 1h','POC: 2h','POC: 3h','POC: 4h','POC: 5h','POC: 6h','POC: 7h',...
       'Location','northeastoutside');
 set(hleg,'fontsize',22)
@@ -12558,7 +13945,7 @@ errorbar(5,nanmean([three_day_seq.tod_ag_412_mlrc_05_mean]),nanmean([three_day_s
 errorbar(6,nanmean([three_day_seq.tod_ag_412_mlrc_06_mean]),nanmean([three_day_seq.tod_ag_412_mlrc_06_stdv]),'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 errorbar(7,nanmean([three_day_seq.tod_ag_412_mlrc_07_mean]),nanmean([three_day_seq.tod_ag_412_mlrc_07_stdv]),'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-ylabel('Mean a_{g:mlrc}(412) [m^{-1}]','FontSize',fs)
+ylabel('Mean a_{g}(412) [m^{-1}]','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
 
 ax = gca;
@@ -12568,7 +13955,7 @@ xlim([-1 8])
 ax = gca;
 ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
 
-hleg = legend('a_{g:mlrc}(412): 0h','a_{g:mlrc}(412): 1h','a_{g:mlrc}(412): 2h','a_{g:mlrc}(412): 3h','a_{g:mlrc}(412): 4h','a_{g:mlrc}(412): 5h','a_{g:mlrc}(412): 6h','a_{g:mlrc}(412): 7h',...
+hleg = legend('a_{g}(412): 0h','a_{g}(412): 1h','a_{g}(412): 2h','a_{g}(412): 3h','a_{g}(412): 4h','a_{g}(412): 5h','a_{g}(412): 6h','a_{g}(412): 7h',...
       'Location','southeast');
 set(hleg,'fontsize',22)
 
@@ -12587,7 +13974,7 @@ errorbar(5,nanmean([three_day_seq.tod_poc_05_mean]),nanmean([three_day_seq.tod_p
 errorbar(6,nanmean([three_day_seq.tod_poc_06_mean]),nanmean([three_day_seq.tod_poc_06_stdv]),'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 errorbar(7,nanmean([three_day_seq.tod_poc_07_mean]),nanmean([three_day_seq.tod_poc_07_stdv]),'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-grid on¬
+grid on
 ylabel('Mean POC [mg m^{-3}]','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
 
