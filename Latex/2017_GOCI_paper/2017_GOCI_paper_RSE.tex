@@ -1137,13 +1137,15 @@ During winter, there are not values for the biogeochemical products for the last
 % ---------------------------------------------------------------
 \subsection{Diurnal Differences and Uncertainties}
 % Daily standard deviation
-The next step was to quantify the uncertainties associated with the instrument, geometry and algorithms , which would affect discerning diurnal variability in ocean properties and biogeochemical constituents. 
+The next step was to quantify the uncertainties associated with the instrument, geometry and algorithms, which would affect discerning diurnal variability in ocean properties and biogeochemical constituents. 
 
-First, a mean and standard deviation (SD) of the eight values per day was calculated for every day for the whole GOCI mission. 
-Then the percent coefficient of variation (CV[\%]), defined as the SD divided by the mean, was calculated for each day.
-This daily CV[\%] is an indicator of the temporal stability of the selected homogeneous ocean region throughout the day. 
-As mentioned before, the hope is to have minimal variation during the day over this region. 
-Then, the statistics for the daily CV[\%] were calculated: minimum, maximum, mean, median and SD (\autoref{tab:val_stats}). 
+First, a mean and standard deviation (SD) of the eight values per day was calculated for every day for the whole GOCI mission.  
+The mean of all the diurnal SD is an indicator of the temporal stability of the selected homogeneous ocean region throughout the day. 
+As mentioned before, the hope is to have minimal variation during the day over this region .
+These mean diurnal SD values for the GCW region provides an approximate measure of the minimum $R_{rs}$ difference required to detect diurnal variability (\autoref{tab:diurnal_var}).
+
+Also, the percent coefficient of variation (CV[\%]), defined as the SD divided by the mean, was calculated for each day.
+Then, the statistics for the daily CV[\%] were calculated: minimum, maximum, mean, median and SD (\autoref{tab:diurnal_var}). The diurnal mean and SD were calculated only if at least three values per day were valid. This analysis was performed for all the data and for only summer, when the variability due to change in the water properties are minimal (\autoref{tab:diurnal_var})\todo{include Antonio's comment}\todo{talk about the results in the table}.
 % These values are compared to the results obtained from the AERONET-OC dataset (\autoref{tab:stdev_aero})\todo{can they be compared?}. 
 % Overall, the diurnal SD values were one order of magnitude smaller than the RMSE from the AERONET-OC dataset for all spectral bands (\autoref{tab:val_stats} and \ref{tab:stdev_aero}). 
 % This suggest that the uncertainties associated to the diurnal variabilities are smaller than the errors associated to the algorithm and instrument. 
@@ -1152,7 +1154,7 @@ Then, the statistics for the daily CV[\%] were calculated: minimum, maximum, mea
 % From Antonio:
 % Insert this information, ... "GCW mean diurnal values provides an approximate measure of the minimum Rrs difference required to detect diurnal variability", meaning that we cannot use GOCI to detect diurnal Rrs changes less than values shown in Table 2.  Perhaps computations from Table 3 provide a better measure of this?
 % AERONET-OC matchups, provide a measure of the overall GOCI uncertainty, albeit in more heterogeneous coastal waters, but this is for a small dataset.  So, the likely true value of the difference in Rrs required to detect diurnal and day-to-day variability is somewhere in between (as best as we can determine at this time).
-The mean of the diurnal CV[\%]\todo{or mean diurnal SD?}~values  for the GCW region provides an approximate measure of the minimum $R_{rs}$ difference required to detect diurnal variability.\todo{Check!}
+
 
 % from: https://www.quora.com/What-is-an-intuitive-explanation-for-the-ratio-of-standard-deviation-and-mean
 % This is called the Coefficient of variation (CV), and is a relative measure of variability.
@@ -1165,25 +1167,29 @@ The mean of the diurnal CV[\%]\todo{or mean diurnal SD?}~values  for the GCW reg
 % \end{table}
 
 % Relative difference
-Second, in other to have a better estimation of the uncertainties, the relative difference of time of the day $t$ with respect to the three midday average ($RD_t$) was calculated. For each day, the mean of the three midday images ($t$ = 2, 3 and 4h) $\bar{X}_{2,3,4h}$ was calculated as
-\begin{linenomath*}
-\begin{equation}
-	\bar{X}_{2,3,4\text{h}} = \frac{x_{2h}+x_{3h}+x_{4h}}{N}
-\end{equation}
-\end{linenomath*}
-with $x$ the filtered mean value for the study region for a specific product.
-This mean was chosen because it reflects the value that a heritage sensor would measure with a similar acquisition time and geometry and also because this is the value that should be affected the least by solar geometry (lower solar zenith angle). 
+% Second, in other to have a better estimation of the uncertainties, the relative difference of time of the day $t$ with respect to the 4h time of day ($R\Delta_t[\%]$) was calculated. For each day, the mean of the three midday images ($t$ = 2, 3 and 4h) $\bar{X}_{2,3,4h}$ was calculated as
+% \begin{linenomath*}
+% \begin{equation}
+% 	\bar{X}_{2,3,4\text{h}} = \frac{x_{2h}+x_{3h}+x_{4h}}{N}
+% \end{equation}
+% \end{linenomath*}
+% with $x$ the filtered mean value for the study region for a specific product.
 
+Second, in order to have a better estimation of the uncertainties, the relative difference of time of the day $t$ with respect to the 4h time of day ($R\Delta_t[\%]$) was calculated. 
 If we define the difference with respect to a reference as $\Delta_t=x_t-x_{reference}$, then, the relative difference for time $t$ is defined as
 \begin{linenomath*}
 \begin{equation}
-	RD_t = \frac{\Delta_t}{|x_{reference}|} \times 100[\%] = \frac{x_t-x_{reference}}{|x_{reference}|}
+	R\Delta_t[\%] = \frac{\Delta_t}{|x_{reference}|} \times 100[\%] = \frac{x_t-x_{reference}}{|x_{reference}|}
 	\times 100[\%]
 \end{equation}
 \end{linenomath*}
-where $x_t$ is the satellite data at the local time $t=\text{0h,1h\dots7h}$ of the day and for this case $x_{reference}=\bar{X}_{2,3,4\text{h}}$. In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis. The $RD_t$ is an indicator of uncertainties that are expected depending of the time of the day.
+where $x_t$ is the satellite data at the local time $t=\text{0h,1h\dots7h}$ of the day and for this case the reference is the 4h time of day value $X_{4\text{h}}$  ($x_{reference}=X_{4\text{h}}$). 
+The  $X_{4\text{h}}$ value was chosen as reference because it reflects the value that a heritage sensor would measure with a similar acquisition time and geometry and also because this is the value that should be affected the least by solar geometry (lower solar zenith angle). 
+In order to exclude outliers, only relative differences that were within the mean plus 3 times the standard deviation were included in the analysis. 
+The $R\Delta_t[\%]$ is an indicator of uncertainties that are expected depending of the time of the day.
 
-\autoref{fig:DiffMidThreeMean}\todo{change y axis in plots with $RD_t$}~and \autoref{tab:rel_diff}\todo{update table!}~show the mean and the standard deviation (error bar in the figure) of the $RD_t$ with respect to $\bar{X}_{2,3,4h}$ for each time of the day for the whole mission for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$.\todo{include Difference results and filtering (at least 3 valid values to calculate mean)}
+
+\todo{update values from the table}\autoref{fig:Diff4th} and \autoref{tab:rel_diff} show the mean and the standard deviation (error bar in the figure) of the $R\Delta_t[\%]$ for each time of the day for the whole mission for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$.
 The plots also show the number of observations used to compute the statistics, annotated above the error bars. 
 Overall, all the relative differences are below $20\%$ for all bands except the 680 nm band.
 The relative differences are smaller than $5\%$ for the 412, 443 and 490 nm bands for all times of the day, except for the last two times. 
@@ -1198,7 +1204,8 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 \begin{landscape}
   \begin{table}[htbp!]
   %\internallinenumbers
-  \caption{Difference $\Delta_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:diff_stat} } 
+  \caption{The diurnal variability was quantized by calculating the diurnal mean and standard deviation (SD) for each day. Then, two times the mean of diurnal SD is considered the uncertainty associated with GOCI sensor. The analysis was performed for all the data and for only summer, when there is the smallest variability in the water properties. Also, the diurnal percent coefficient of variation (CV[\%]) was calculated. The root mean squared error (RMSE) from the AERONET-OC data is shown for reference.\label{tab:diurnal_var} } 
+  \vspace{0.1cm}
   \centering
   \includegraphics[width=16cm]{./Figures/diurnal_var.pdf}
   \end{table}
@@ -1207,9 +1214,9 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % \begin{landscape}
   \begin{table}[htbp!]
   %\internallinenumbers
-  \caption{The diurnal variability was assessed using the diurnal percent coefficient of variation (CV[\%]) and the relative difference $RD_t$ with respect to the mean of the three midday values $\bar{X}_{2,3,4h}$.\label{tab:rel_diff} } 
+  \caption{The diurnal variability was assessed with the relative difference $R\Delta_t[\%]$ with respect to the 4h time of the day value. The analysis was performed for all the data and for only summer, when there is the smallest variability in the water properties.\label{tab:rel_diff} } 
   \centering
-  \includegraphics[width=21cm]{./Figures/diff_stat_combined.pdf}
+  \includegraphics[width=19cm]{./Figures/diff_stat_combined.pdf}
   \end{table}
 \end{landscape}
 
@@ -1227,7 +1234,7 @@ Overall, the relative differences for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
   \centering
   \includegraphics[width=17cm]{./Figures/Diff4th.pdf}
     %\internallinenumbers
-    \caption{Mean of the relative difference with respect to the mean of the three midday images for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. Error bars represent the standard deviation. Number of observations used for the statistics annotated above the error bars. \label{fig:Diff4th} } 
+    \caption{Mean of the relative difference $R\Delta_t[\%]$ with respect to the 4h time of day for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. The 4h time of day was selected as reference because it resembles the heritage sensor acquisition time and solar geometry. Error bars represent the standard deviation (SD). Number of observations used for the statistics annotated above the error bars. \label{fig:Diff4th} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \todo{should I include this?}\autoref{fig:DiffMidThreeMean_detrend} shows the mean and standard deviation (error bar) of the relative difference with respect to the mean of the three midday images for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$ for the anomalies. The mean of the relative difference are small overall for all the spectral bands and products for all times of the day. However, the standard deviation are considerable large for some cases.
@@ -1871,4 +1878,12 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 
 
 
+%*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+% Antonio's comments on 9/29/17:
+% If we show data in tabular format then there is no reason to show it in plots, but I really like the plots too.  So, you have to choose how to best present the data.  Data in plots should not be replicated in tables unless the plots include additional information and vice versa.  Plots on page 5 and 6 are really nice (I’m assuming you are showing 1SD on the plots?).  One option would be to tabulate the percent difference from the 4h time point (table), and also include the plots with the Rrs and data product relative difference (plots on page 5 and 6 of your powerpoint).
 
+% The plots have convinced me that the GCW is homogeneous during summer in time and space (no diurnal trend).  Until we understand GOCI better, I suggest using the +/- 2SD from the summer values to represent the threshold value (minimum difference required) for detecting diurnal, day-to-day, etc. variability in GOCI.  This might be too low or high for coastal waters where Rrs magnitudes at different wavelengths differ (lower in blue and higher in green and red).  We could suggest that the GCW summer value represents the minimum and the AERONET-OC as the maximum value for discerning trends?
+
+% VERY IMPORTANT:  Take a look at chapter 3 in the IOCCG report on polar seas.  It contains an excellent discussion on SZA and how high SZA affects atmospheric correction and accuracy in Rrs.  You should cite this report and highlight the key facts that pertain to GOCI.  It’s clear to me that we need to improve atmospheric correction and product retrievals for higher SZA for both geo sensors and for over polar seas from LEO sensors.
+
+% GOCI data generally looks not too bad within <70 SZA (negative Rrs values notwithstanding) except sometimes for the 7h, 6h and possibly 0h, where uncertainties in data are certainly higher.
