@@ -10667,7 +10667,7 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Relative difference\n w/r to 4h %s [%%]',y_str);
+      str1 = sprintf('R\\Delta_t[%%] for %s',y_str);
       
       ylabel(str1,'FontSize',fs)
       xlabel('Time of the day (GMT)','FontSize',fs)
@@ -10925,7 +10925,7 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Relative difference\n w/r to mean 4h  %s [%%]',y_str);
+      str1 = sprintf('R\\Delta_t[%%] for %s',y_str);
       
       ylabel(str1,'FontSize',fs)
       xlabel('Time of the day (GMT)','FontSize',fs)
