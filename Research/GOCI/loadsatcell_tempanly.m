@@ -684,7 +684,41 @@ if exist(fullFileName, 'file')
 
 end
 
-%% Products
+% Rrs_670
+fullFileName = [filepath '.Rrs_670'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.Rrs_670_center_value                    = str2double(s{1}{6});
+      satcell.Rrs_670_valid_pixel_count               = str2double(s{1}{8});
+      satcell.Rrs_670_max                                   = str2double(s{1}{10});
+      satcell.Rrs_670_min                                   = str2double(s{1}{12});
+      satcell.Rrs_670_mean                                  = str2double(s{1}{14});
+      satcell.Rrs_670_median                                = str2double(s{1}{16});
+      satcell.Rrs_670_stddev                                = str2double(s{1}{18});
+      satcell.Rrs_670_rms                                   = str2double(s{1}{20});
+      satcell.Rrs_670_filtered_valid_pixel_count      = str2double(s{1}{22});
+      satcell.Rrs_670_filtered_max                    = str2double(s{1}{24});
+      satcell.Rrs_670_filtered_min                    = str2double(s{1}{26});
+      satcell.Rrs_670_filtered_mean                         = str2double(s{1}{28});
+      satcell.Rrs_670_filtered_median                 = str2double(s{1}{30});
+      satcell.Rrs_670_filtered_stddev                 = str2double(s{1}{32});
+      satcell.Rrs_670_filtered_rms                    = str2double(s{1}{34});
+      satcell.Rrs_670_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.Rrs_670_iqr_max                               = str2double(s{1}{38});
+      satcell.Rrs_670_iqr_min                               = str2double(s{1}{40});
+      satcell.Rrs_670_iqr_mean                              = str2double(s{1}{42});
+      satcell.Rrs_670_iqr_median                            = str2double(s{1}{44});
+      satcell.Rrs_670_iqr_stddev                            = str2double(s{1}{46});
+      satcell.Rrs_670_iqr_rms                               = str2double(s{1}{48});
+      satcell.Rrs_670_CV                                    = satcell.Rrs_670_filtered_stddev/satcell.Rrs_670_filtered_mean;
+
+end
+
 % Rrs_671
 fullFileName = [filepath '.Rrs_671'];
 
@@ -1731,7 +1765,15 @@ elseif strcmp(sensor_id,'VIIRS')
       satcell.Rrs_486_CV,...
       satcell.Rrs_551_CV,...
       satcell.Rrs_671_CV,...
-      satcell.aot_862_CV]);   
+      satcell.aot_862_CV]);
+elseif strcmp(sensor_id,'SEAW')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_490_CV,...
+      satcell.Rrs_555_CV,...
+      satcell.Rrs_670_CV,...
+      satcell.aot_865_CV]); 
 end   
 
 

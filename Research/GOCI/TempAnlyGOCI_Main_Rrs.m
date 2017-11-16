@@ -1,4 +1,4 @@
-%% Script to find Landsat 8 matchups for Rrs_based on in situ data from
+
 cd '/Users/jconchas/Documents/Research/GOCI/';
 
 % AERONET-OC from SeaDAS Matchups
@@ -366,7 +366,7 @@ solz_lim = 75;
 senz_lim = 60;
 
 % CV_lim = 0.3;
-CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+% CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
 
 
@@ -773,7 +773,7 @@ ms = 5;
 lw = 2;
 solz_lim = 90;
 senz_lim = 60;
-CV_lim = 0.3;
+% CV_lim = 0.3;
 brdf_opt = 7;
 
 % Rrs_412
@@ -1353,7 +1353,7 @@ ms = 5;
 lw = 2;
 solz_lim = 90;
 senz_lim = 60;
-CV_lim = 0.3;
+% CV_lim = 0.3; 
 brdf_opt = 7;
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -2092,7 +2092,7 @@ end
 %% Daily statistics for GOCI
 
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
-ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
+ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
 startDate = datenum('05-15-2011');
@@ -2102,7 +2102,8 @@ xData = startDate:datenum(years(1)):endDate;
 tic
 process_data_flag = 1;
 
-CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+% CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+CV_lim = 0.25;
 
 solz_lim = 75;
 senz_lim = 60;
@@ -7190,11 +7191,14 @@ if process_data_flag
 end
 close(h1) % closes status message window
 toc
-%% Daily statistics for AQUA
+% Daily statistics for AQUA
 
 count = 0;
 
-CV_lim = nanmean([AQUA_Data.median_CV])+nanstd([AQUA_Data.median_CV]);
+% ratio_from_the_total = 4;
+
+% CV_lim = nanmean([AQUA_Data.median_CV])+3*nanstd([AQUA_Data.median_CV]);
+% CV_lim = 0.49;
 
 if process_data_flag
       clear AQUA_DailyStatMatrix AQUA_Data_used
@@ -7241,6 +7245,7 @@ if process_data_flag
                         count = count+1;
                         
                         AQUA_DailyStatMatrix(count).datetime =  date_idx(idx);
+                        AQUA_DailyStatMatrix(count).DOY = day(date_idx(idx),'dayofyear');
                         AQUA_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         AQUA_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         AQUA_DailyStatMatrix(count).idx_to_AQUA_Data = find(cond_1t);
@@ -7250,11 +7255,11 @@ if process_data_flag
                         cond_1t_aux = cond_1t;
                         I = find(cond_1t_aux); % indexes to the images per day
                         data_aux = [AQUA_Data_used.Rrs_412_filtered_mean];
-                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        cond_neg = data_aux(cond_1t_aux)<=0; % negative values should NOT be used
                         data_aux = [AQUA_Data_used.Rrs_412_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total; % less than half of the scene is valid, it should NOT be used
                         idx_aux = I(cond_area|cond_neg); % neg values
-                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values or scene with less than half of the area is invalid
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
@@ -7288,7 +7293,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_443_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_443_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7324,7 +7329,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_488_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_488_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7360,7 +7365,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_547_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7396,7 +7401,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_667_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_667_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7432,7 +7437,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_678_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_678_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7468,7 +7473,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.aot_869_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.aot_869_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7504,7 +7509,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.angstrom_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.angstrom_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7540,7 +7545,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.poc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.poc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7576,7 +7581,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.ag_412_mlrc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.ag_412_mlrc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7612,7 +7617,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.chlor_a_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.chlor_a_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7648,7 +7653,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.brdf_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.brdf_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/4/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7686,7 +7691,7 @@ close(h1)
 
 count = 0;
 
-CV_lim = nanmean([VIIRS_Data.median_CV])+nanstd([VIIRS_Data.median_CV]);
+% CV_lim = nanmean([VIIRS_Data.median_CV])+3*nanstd([VIIRS_Data.median_CV]);
 
 if process_data_flag
       clear VIIRS_DailyStatMatrix
@@ -7744,7 +7749,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_410_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_410_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7780,7 +7785,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_443_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_443_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7816,7 +7821,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_486_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_486_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7852,7 +7857,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_551_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_551_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7888,7 +7893,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_671_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_671_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7924,7 +7929,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.aot_862_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.aot_862_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7960,7 +7965,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.angstrom_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7996,7 +8001,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.poc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.poc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8032,7 +8037,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8068,7 +8073,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.chlor_a_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.chlor_a_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8104,7 +8109,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.brdf_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.brdf_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<total_px_GOCI/2.25/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8847,7 +8852,7 @@ clear Climatology_GOCI_data
 solz_lim = 90;
 senz_lim = 60;
 % CV_lim = 0.3;
-CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+% CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -8886,7 +8891,7 @@ lw = 2;
 solz_lim = 90;
 senz_lim = 60;
 % CV_lim = 0.3;
-CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+% CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -9046,7 +9051,7 @@ lw = 2;
 solz_lim = 90;
 senz_lim = 60;
 % CV_lim = 0.3;
-CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
+% CV_lim = nanmean([GOCI_Data.median_CV])+nanstd([GOCI_Data.median_CV]);
 brdf_opt = 7;
 
 wl_vec = {'412','443','490','555','660','680'};
