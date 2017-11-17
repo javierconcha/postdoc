@@ -5,12 +5,18 @@ addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 addpath('/Users/jconchas/Documents/MATLAB')
-%%
-figure
+%% with all brdf!!!
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
 plot([GOCI_DailyStatMatrix.datetime],[GOCI_DailyStatMatrix.Rrs_412_04],'o')
 
 hold on
 plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.Rrs_412_filtered_mean],'or')
+
+legend(['GOCI 4h; N=' num2str(sum(~isnan([GOCI_DailyStatMatrix.Rrs_412_04])))],...
+      ['AQUA; N=' num2str(sum(~isnan([AQUA_DailyStatMatrix.Rrs_412_filtered_mean])))])
+xlabel('Time')
+ylabel('R_{rs}(412)')
 
 
 %% GOCI vcal gains from AQUA and VIIRS -- daily -- from GOCI_DailyStatMatrix
@@ -218,98 +224,142 @@ legend(['All data; N=' num2str(sum(cond_brdf))],...
       ['Region criteria; N=' num2str(sum(cond_used2))],...
       'FontSize',fs)
 
-title([num2str(100/ratio_from_the_total) '% of the GCW'],...
+title(['AQUA; ' num2str(100/ratio_from_the_total) '% of the GCW'],...
       'FontSize',fs)
-%%
-
-hold on
-plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.Rrs_412_filtered_mean],'or')
+xlabel('Time')
+ylabel('R_{rs}(412)')
 %% pixels counts w/r to GOCI area for AQUA
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(3,2,1)
 hist([AQUA_Data.Rrs_412_valid_pixel_count]./(total_px_GOCI/4),50)
 title('AQUA Rrs 412 valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,2)
 hist([AQUA_Data.pixel_count]./(total_px_GOCI/4),50)
 title('AQUA pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,3)
 hist([AQUA_Data.unflagged_pixel_count]./(total_px_GOCI/4),50)
 title('AQUA unflagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,4)
 hist([AQUA_Data.flagged_pixel_count]./(total_px_GOCI/4),50)
 title('AQUA flagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,5)
 hist([AQUA_Data.Rrs_412_filtered_valid_pixel_count]./(total_px_GOCI/4),50)
 title('AQUA Rrs 412 filtered valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,6)
 hist([AQUA_Data.Rrs_412_iqr_valid_pixel_count]./(total_px_GOCI/4),50)
 title('AQUA Rrs 412 iqr valid pixel count')
+xlabel('% of GCW area')
 
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %% pixels counts w/r to GOCI area for GOCI
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(3,2,1)
 hist([GOCI_Data.Rrs_412_valid_pixel_count]./(total_px_GOCI),50)
 title('GOCI Rrs 412 valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,2)
 hist([GOCI_Data.pixel_count]./(total_px_GOCI),50)
 title('GOCI pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,3)
 hist([GOCI_Data.unflagged_pixel_count]./(total_px_GOCI),50)
 title('GOCI unflagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,4)
 hist([GOCI_Data.flagged_pixel_count]./(total_px_GOCI),50)
 title('GOCI flagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,5)
 hist([GOCI_Data.Rrs_412_filtered_valid_pixel_count]./(total_px_GOCI),50)
 title('GOCI Rrs 412 filtered valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,6)
 hist([GOCI_Data.Rrs_412_iqr_valid_pixel_count]./(total_px_GOCI),50)
 title('GOCI Rrs 412 iqr valid pixel count')
+xlabel('% of GCW area')
 
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %% pixels counts w/r to GOCI area for VIIRS
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(3,2,1)
 hist([VIIRS_Data.Rrs_410_valid_pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS Rrs 412 valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,2)
 hist([VIIRS_Data.pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,3)
 hist([VIIRS_Data.unflagged_pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS unflagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,4)
 hist([VIIRS_Data.flagged_pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS flagged pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,5)
 hist([VIIRS_Data.Rrs_410_filtered_valid_pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS Rrs 412 filtered valid pixel count')
+xlabel('% of GCW area')
 
 subplot(3,2,6)
 hist([VIIRS_Data.Rrs_410_iqr_valid_pixel_count]./(total_px_GOCI/2.25),50)
 title('VIIRS Rrs 412 iqr valid pixel count')
+xlabel('% of GCW area')
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %%
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,2,1)
+hist([GOCI_Data.median_CV],100)
+title('GOCI')
+xlabel('Median CV')
+ylabel('Frequency')
+
+subplot(2,2,2)
 hist([AQUA_Data.median_CV],100)
+title('AQUA')
+xlabel('Median CV')
+ylabel('Frequency')
 
+subplot(2,2,3)
+hist([VIIRS_Data.median_CV],100)
+title('VIIRS')
+xlabel('Median CV')
+ylabel('Frequency')
 
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %% Load SeaWiFS data
 clear SEAW_Data
 tic
@@ -329,12 +379,15 @@ for idx0=1:size(s{1},1)
 end
 close(h1)
 toc
-%% Daily statistics for AQUA
+
+save('ValCalGOCI.mat','SEAW_Data')
+%% Daily statistics for SeaWiFS
 
 count = 0;
+process_data_flag = 1;
+ratio_from_the_total = 3;
 
-ratio_from_the_total = 2;
-
+brdf_opt_vec = 7;
 % CV_lim = nanmean([SEAW_Data.median_CV])+3*nanstd([SEAW_Data.median_CV]);
 % CV_lim = 0.49;
 
@@ -789,40 +842,59 @@ if process_data_flag
       end
 end
 close(h1)
+
+save('ValCalGOCI.mat','SEAW_Data','SEAW_DailyStatMatrix')
 %%
-figure,
+fs = 20;
+h = figure('Color','white','DefaultAxesFontSize',fs);
 plot([SEAW_Data.datetime],[SEAW_Data.Rrs_412_filtered_mean],'o')
 hold on
 plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.Rrs_412_filtered_mean],'og')
+title('SeaWiFS')
+xlabel('Time')
+ylabel('R_{rs}(412)')
 
+legend(['All Data; N=' num2str(sum(~isnan([SEAW_Data.Rrs_412_filtered_mean])))],...
+      ['Daily filtered; N=' num2str(sum(~isnan([SEAW_DailyStatMatrix.Rrs_412_filtered_mean])))])
 
 %% pixels counts w/r to GOCI area for SeaWiFS
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 subplot(3,2,1)
-hist([SEAW_Data.Rrs_410_valid_pixel_count]./(total_px_GOCI/4.84),50) %(1.1*1.1)/(0.5*0.5)
+hist([SEAW_Data.Rrs_412_valid_pixel_count]./(total_px_GOCI/4.84),50) %(1.1*1.1)/(0.5*0.5)
 title('SeaWiFS Rrs 412 valid pixel count')
+xlabel('% of GCW area')
+ylabel('Frequency')
 
 subplot(3,2,2)
 hist([SEAW_Data.pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS pixel count')
+xlabel('% of GCW area')
+ylabel('Frequency')
 
 subplot(3,2,3)
 hist([SEAW_Data.unflagged_pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS unflagged pixel count')
+xlabel('% of GCW area')
+ylabel('Frequency')
 
 subplot(3,2,4)
 hist([SEAW_Data.flagged_pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS flagged pixel count')
+xlabel('% of GCW area')
+ylabel('Frequency')
 
 subplot(3,2,5)
-hist([SEAW_Data.Rrs_410_filtered_valid_pixel_count]./(total_px_GOCI/4.84),50)
+hist([SEAW_Data.Rrs_412_filtered_valid_pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS Rrs 412 filtered valid pixel count')
+xlabel('% of GCW area')
+ylabel('Frequency')
 
 subplot(3,2,6)
-hist([SEAW_Data.Rrs_410_iqr_valid_pixel_count]./(total_px_GOCI/4.84),50)
+hist([SEAW_Data.Rrs_412_iqr_valid_pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS Rrs 412 iqr valid pixel count')
-
+xlabel('% of GCW area')
+ylabel('Frequency')
 %% climatology data
 tic
 
@@ -873,7 +945,7 @@ clear cond_used_aux cond_time_aux cond_brdf_aux cond_area_aux cond_nan_aux data_
 close(h1)
 toc
 
-%%
+
 clear ClimatologyBinned
 for idx = 1:size(ClimatologyMatrix,2)
       for idx_bin = 1:26; % ~26 weeks per year
@@ -894,6 +966,7 @@ for idx = 1:size(ClimatologyMatrix,2)
             ClimatologyBinned(idx_bin).Rrs_412_bin_end = idx_bin*14;
       end
 end
+save('ValCalGOCI.mat','ClimatologyMatrix','ClimatologyBinned','-append')
 %%
 lw = 1.5;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -923,7 +996,9 @@ legend('All Data','Mean DOY','Mean siqr 14-day bins','3-element central amoving-
 xlabel('DOY','FontSize',fs)
 ylabel('R_{rs}(412)','FontSize',fs)
 %% smoothed fit
-fit_smooth_clima = conv(repmat(ClimaBinned,1,12),ones(3,1)/3, 'same'); % 12 years
+year_total = 12;
+fourteen_day_periods = 26;
+fit_smooth_clima = conv(repmat(ClimaBinned,1,year_total),ones(3,1)/3, 'same'); % 12 years
 
 startDate = datenum('01-07-1998');
 
@@ -932,7 +1007,8 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.Rrs_412_filtered_mean],'o')
 hold on
 
-date_vec = startDate:14:startDate+14*(26*12)-1;
+% 14-day bins
+date_vec = startDate:14:startDate+14*(fourteen_day_periods*year_total)-1;
 
 plot(date_vec,fit_smooth_clima,'g','LineWidth',lw)
 datetick('x','yyyy','keeplimits')
@@ -944,24 +1020,24 @@ ylabel('R_{rs}(412)','FontSize',fs)
 %%
 
 % Javier,
-% 
-%  
-% 
+%
+%
+%
 % Enclosed is the paper by Werdell et al. on accomplishing a vicarious
 % calibration for OCTS and CZCS using SeaWiFS.  Bryan suggested you can
 % follow this approach for the GOCI Clear Water region.
-% 
-%  
-% 
+%
+%
+%
 % There two possible approaches that you should consider and evaluate:
-% 
+%
 % 1.        Generate an annual daily climatology of the GOCI clear water
 % region from SeaWiFS observations from 1998 to 2009 (11 complete years)
 % and apply this to compute GOCI vicarious gains as Jeremy did for OCTS and
 % CZCS.  You would match the GOCI time point closest in time with SeaWiFS
 % (noonish).  You can then use MODIS, VIIRS and AERONET-OC as independent
 % comparisons (validation) of the GOCI Rrs from 2011 to 2017.
-% 
+%
 % 2.       Apply MODIS-Aqua to accomplish vicarious calibration of GOCI
 % from 2011 through 2015 (or until you have sufficient data points for
 % stable vicarious gains; Bryan does this sound reasonable?) to avoid the
@@ -975,8 +1051,8 @@ ylabel('R_{rs}(412)','FontSize',fs)
 % comparison with MODIS-A is not independent.  Since you already have MODIS
 % data processed, this will be quicker, but I think it?s worth looking at
 % using SeaWiFS too.
-% 
-%  
+%
+%
 % Antonio
 
- 
+
