@@ -130,8 +130,7 @@ for idx0 = 1:size(wl,2)
       
       title(wl{idx0})
       legend(['GOCI, N=' num2str(sum(~isnan([GOCI_used.Rrs_412_04])))],...
-            ['AQUA, N=' num2str(sum(~isnan([AQUA_used.Rrs_412_filtered_mean])))],...
-            'FontSize',fs)
+            ['AQUA, N=' num2str(sum(~isnan([AQUA_used.Rrs_412_filtered_mean])))])
       %%
       datetime_vec = [AQUA_used(AQUA_date_vec(find(cond_AG))).datetime];
       
@@ -171,7 +170,7 @@ for idx0 = 1:size(wl,2)
             ['mean=' num2str(nanmean(g))],...
             ['mean siqr=' num2str(q_siqr_mean)],...
             ['Q1=' num2str(Q1)],...
-            ['Q3=' num2str(Q3)],['siqr data;N=' num2str(sum(~isnan(g_siqr)))],'FontSize',fs)
+            ['Q3=' num2str(Q3)],['siqr data;N=' num2str(sum(~isnan(g_siqr)))])
       
       screen_size = get(0, 'ScreenSize');
       origSize = get(gcf, 'Position'); % grab original on screen size
@@ -197,6 +196,7 @@ end
 
 
 %% Checking low number of AQUA values
+total_px_GOCI = GOCI_Data(1).pixel_count;
 ratio_from_the_total = 3;
 
 solz_lim = 75;
@@ -221,8 +221,7 @@ plot([AQUA_Data(cond_used2).datetime],[AQUA_Data(cond_used2).Rrs_412_filtered_me
 
 legend(['All data; N=' num2str(sum(cond_brdf))],...
       ['Geometry and Mean CV criteria; N=' num2str(sum(cond_used1))],...
-      ['Region criteria; N=' num2str(sum(cond_used2))],...
-      'FontSize',fs)
+      ['Region criteria; N=' num2str(sum(cond_used2))])
 
 title(['AQUA; ' num2str(100/ratio_from_the_total) '% of the GCW'],...
       'FontSize',fs)
@@ -843,7 +842,7 @@ if process_data_flag
 end
 close(h1)
 
-save('ValCalGOCI.mat','SEAW_Data','SEAW_DailyStatMatrix')
+save('ValCalGOCI.mat','SEAW_Data','SEAW_DailyStatMatrix','-append')
 %%
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
@@ -895,10 +894,10 @@ hist([SEAW_Data.Rrs_412_iqr_valid_pixel_count]./(total_px_GOCI/4.84),50)
 title('SeaWiFS Rrs 412 iqr valid pixel count')
 xlabel('% of GCW area')
 ylabel('Frequency')
-%% climatology data
+%% SEAW_climatology data
 tic
 
-clear ClimatologyMatrix
+clear SEAW_Climatology SEAW_ClimatologyBinned
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_670'};
 
@@ -924,7 +923,7 @@ for idx_brdf=1:size(brdf_opt_vec,2)
                   cond_time_aux = [SEAW_DailyStatMatrix.DOY]==idx_DOY;
                   cond_brdf_aux = [SEAW_DailyStatMatrix.brdf_opt]==brdf_opt_vec(idx_brdf);
                   
-                  ClimatologyMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
+                  SEAW_ClimatologyMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                   
                   eval(sprintf('cond_nan_aux = ~isnan([SEAW_DailyStatMatrix.%s_filtered_mean]);',par_vec{idx_par}));
                   
@@ -934,89 +933,187 @@ for idx_brdf=1:size(brdf_opt_vec,2)
                   data_aux = data_aux(cond_used_aux);
                   mean_DOY = nanmean(data_aux);
                   
-                  eval(sprintf('ClimatologyMatrix(count).%s_mean_DOY = mean_DOY;',par_vec{idx_par}));
-                  eval(sprintf('ClimatologyMatrix(count).%s_data = data_aux;',par_vec{idx_par}));
-                  eval(sprintf('ClimatologyMatrix(count).%s_DOY = idx_DOY;',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyMatrix(count).%s_mean_DOY = mean_DOY;',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyMatrix(count).%s_data = data_aux;',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyMatrix(count).%s_DOY = idx_DOY;',par_vec{idx_par}));
             end
       end
 end
 clear idx_par idx_brdf idx_month idx_day per_proc str1 count_per_proc
 clear cond_used_aux cond_time_aux cond_brdf_aux cond_area_aux cond_nan_aux data_aux mean_month_day
 close(h1)
-toc
 
 
-clear ClimatologyBinned
-for idx = 1:size(ClimatologyMatrix,2)
+
+
+for idx = 1:size(SEAW_ClimatologyMatrix,2)
       for idx_bin = 1:26; % ~26 weeks per year
-            cond_bin = [ClimatologyMatrix.Rrs_412_DOY] > (idx_bin-1)*14+1 & [ClimatologyMatrix.Rrs_412_DOY] < idx_bin*14;
-            data_aux = [ClimatologyMatrix(cond_bin).Rrs_412_data];
-            ClimatologyBinned(idx_bin).Rrs_412_data = data_aux;
-            
-            % semi-interquartile range
-            Q1 = quantile(data_aux,0.25);
-            Q3 = quantile(data_aux,0.75);
-            cond_siqr = data_aux >= Q1& data_aux <= Q3;
-            data_aux_siqr = data_aux(cond_siqr);
-            
-            % siqr mean
-            data_aux_siqr_mean = nanmean(data_aux_siqr);
-            ClimatologyBinned(idx_bin).Rrs_412_siqr_mean = data_aux_siqr_mean;
-            ClimatologyBinned(idx_bin).Rrs_412_bin_begin = (idx_bin-1)*14+1;
-            ClimatologyBinned(idx_bin).Rrs_412_bin_end = idx_bin*14;
+            for idx_par = 1:size(par_vec,2)
+                  eval(sprintf('cond_bin = [SEAW_ClimatologyMatrix.%s_DOY] > (idx_bin-1)*14+1 & [SEAW_ClimatologyMatrix.%s_DOY] < idx_bin*14;',par_vec{idx_par},par_vec{idx_par}));
+                  eval(sprintf('data_aux = [SEAW_ClimatologyMatrix(cond_bin).%s_data];',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyBinned(idx_bin).%s_data = data_aux;',par_vec{idx_par}));
+                  
+                  % semi-interquartile range
+                  Q1 = quantile(data_aux,0.25);
+                  Q3 = quantile(data_aux,0.75);
+                  cond_siqr = data_aux >= Q1& data_aux <= Q3;
+                  data_aux_siqr = data_aux(cond_siqr);
+                  
+                  % siqr mean
+                  data_aux_siqr_mean = nanmean(data_aux_siqr);
+                  eval(sprintf('SEAW_ClimatologyBinned(idx_bin).%s_siqr_mean = data_aux_siqr_mean;',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyBinned(idx_bin).%s_bin_begin = (idx_bin-1)*14+1;',par_vec{idx_par}));
+                  eval(sprintf('SEAW_ClimatologyBinned(idx_bin).%s_bin_end = idx_bin*14;',par_vec{idx_par}));
+            end
       end
 end
-save('ValCalGOCI.mat','ClimatologyMatrix','ClimatologyBinned','-append')
-%%
-lw = 1.5;
-h = figure('Color','white','DefaultAxesFontSize',fs);
 
-cond_brdf = [SEAW_DailyStatMatrix.brdf_opt] == 7;
-plot([SEAW_DailyStatMatrix(cond_brdf ).DOY],[SEAW_DailyStatMatrix(cond_brdf ).Rrs_412_filtered_mean],'o')
-hold on
+dlg = msgbox('Save operation in progress...');
 
-cond_brdf = [ClimatologyMatrix.brdf_opt] == 7;
-cond_nan = ~isnan([ClimatologyMatrix.Rrs_412_mean_DOY]);
-cond_used = cond_brdf&cond_nan;
-plot([ClimatologyMatrix(cond_used).Rrs_412_DOY],[ClimatologyMatrix(cond_used).Rrs_412_mean_DOY])
+save('ValCalGOCI.mat','SEAW_ClimatologyMatrix','SEAW_ClimatologyBinned','-append')
 
-hold on
-plot([ClimatologyBinned.Rrs_412_bin_begin]+7,[ClimatologyBinned.Rrs_412_siqr_mean],'g-o','LineWidth',lw)
+if ishghandle(dlg)
+      delete(dlg);
+end
 
+toc
+%% display for Rrs
 
-ClimaBinned = [ClimatologyBinned.Rrs_412_siqr_mean];
-% ClimaBinned(end) = (ClimaBinned(1)+ClimaBinned(end-1))/2;
-% three-element central moving-average
-movingAverage = conv(ClimaBinned, ones(3,1)/3, 'same');
-hold on
-plot([ClimatologyBinned.Rrs_412_bin_begin]+7,movingAverage,'m-o','LineWidth',lw)
-
-legend('All Data','Mean DOY','Mean siqr 14-day bins','3-element central amoving-average','FontSize',fs)
-
-xlabel('DOY','FontSize',fs)
-ylabel('R_{rs}(412)','FontSize',fs)
+for idx_par = 1:size(par_vec,2)
+      clear cond_brdf cond_nan cond_used
+      switch par_vec{idx_par}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_670'
+                  y_str = 'R_{rs}(670) [sr^{-1}]';
+      end
+      
+      lw = 1.5;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      
+      cond_brdf = [SEAW_DailyStatMatrix.brdf_opt] == 7;
+      eval(sprintf('plot([SEAW_DailyStatMatrix(cond_brdf ).DOY],[SEAW_DailyStatMatrix(cond_brdf).%s_filtered_mean],''o'')',par_vec{idx_par}));
+      hold on
+      
+      cond_brdf = [SEAW_ClimatologyMatrix.brdf_opt] == 7;
+      eval(sprintf('cond_nan = ~isnan([SEAW_ClimatologyMatrix.%s_mean_DOY]);',par_vec{idx_par}));
+      cond_used = cond_brdf&cond_nan;
+      eval(sprintf('plot([SEAW_ClimatologyMatrix(cond_used).%s_DOY],[SEAW_ClimatologyMatrix(cond_used).%s_mean_DOY])',par_vec{idx_par},par_vec{idx_par}));
+      
+      hold on
+      eval(sprintf('plot([SEAW_ClimatologyBinned.%s_bin_begin]+7,[SEAW_ClimatologyBinned.%s_siqr_mean],''g-o'',''LineWidth'',lw)',par_vec{idx_par},par_vec{idx_par}));
+      
+      
+      eval(sprintf('ClimaBinned = [SEAW_ClimatologyBinned.%s_siqr_mean];',par_vec{idx_par}));
+      
+      % three-element central moving-average
+      movingAverage = conv(ClimaBinned, ones(3,1)/3, 'same');
+      hold on
+      eval(sprintf('plot([SEAW_ClimatologyBinned.%s_bin_begin]+7,movingAverage,''m-o'',''LineWidth'',lw)',par_vec{idx_par}));
+      
+      legend('All Data','Mean DOY','Mean siqr 14-day bins','3-element central amoving-average')
+      
+      xlabel('DOY','FontSize',fs)
+      
+      ylabel(y_str,'FontSize',fs)
+      
+      screen_size = get(0, 'ScreenSize');
+      origSize = get(gcf, 'Position'); % grab original on screen size
+      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      
+end
 %% smoothed fit
-year_total = 12;
-fourteen_day_periods = 26;
-fit_smooth_clima = conv(repmat(ClimaBinned,1,year_total),ones(3,1)/3, 'same'); % 12 years
+clear SEAW_Clima_Final
 
-startDate = datenum('01-07-1998');
+year_total = 14;
+fourteen_day_periods = 26;
 
 lw = 1.5;
-h = figure('Color','white','DefaultAxesFontSize',fs);
-plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.Rrs_412_filtered_mean],'o')
-hold on
+h2 = figure('Color','white','DefaultAxesFontSize',fs);
 
-% 14-day bins
-date_vec = startDate:14:startDate+14*(fourteen_day_periods*year_total)-1;
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 
-plot(date_vec,fit_smooth_clima,'g','LineWidth',lw)
-datetick('x','yyyy','keeplimits')
+for idx_par = 1:size(par_vec,2)
+      clear cond_brdf cond_nan cond_used
+      switch par_vec{idx_par}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412) [sr^{-1}]';
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443) [sr^{-1}]';
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490) [sr^{-1}]';
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555) [sr^{-1}]';
+            case 'Rrs_670'
+                  y_str = 'R_{rs}(670) [sr^{-1}]';
+      end
+      eval(sprintf('ClimaBinned = [SEAW_ClimatologyBinned.%s_siqr_mean];',par_vec{idx_par}));
+      fit_smooth_clima = conv(repmat(ClimaBinned,1,year_total),ones(3,1)/3, 'same'); % 12 years
+      
+      startDate = datenum('01-07-1997');
+      
+      lw = 1.5;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      eval(sprintf('plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.%s_filtered_mean],''o'')',par_vec{idx_par}));
+      hold on
+      
+      % 14-day bins
+      date_vec = startDate:14:startDate+14*(fourteen_day_periods*year_total)-1;
+      
+      plot(date_vec,fit_smooth_clima,'go','LineWidth',lw)
+      datetick('x','yyyy','keeplimits')
+      
+      legend('Filtered Data','3-element central amoving-average')
+      
+      xlabel('Time','FontSize',fs)
+      ylabel(y_str,'FontSize',fs)
+      
+      hold on
+      
+      date_vec_spline = date_vec(1):1:date_vec(end);
+      cubic_spline_clima = spline(date_vec,fit_smooth_clima,date_vec_spline);
+      plot(date_vec_spline,cubic_spline_clima,'m.','MarkerSize',12)
+      
+      legend('Filtered Data','3-element central amoving-average','Cubic Spline interp.')
+      
+      title('SeaWiFS Climatology')
+      
+      screen_size = get(0, 'ScreenSize');
+      origSize = get(gcf, 'Position'); % grab original on screen size
+      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      
 
-legend('Filtered Data','3-element central amoving-average')
+      %%
 
-xlabel('Time','FontSize',fs)
-ylabel('R_{rs}(412)','FontSize',fs)
+      clima_date_vec = datenum('01-01-2000'):datenum('12-31-2000'); % leap year day
+
+      for idx = 1:size(clima_date_vec,2)
+            SEAW_Clima_Final(idx).datetime = clima_date_vec(idx);
+            
+            cond = date_vec_spline == clima_date_vec(idx);
+            eval(sprintf('SEAW_Clima_Final(idx).%s = cubic_spline_clima(cond);',par_vec{idx_par}));
+      end
+
+      figure(h2)
+      hold on
+      eval(sprintf('plot([SEAW_Clima_Final.datetime],[SEAW_Clima_Final.%s],''LineWidth'',1.5);',par_vec{idx_par}));
+      datetick('x','mmm-yyyy')
+end
+
+figure(h2)
+legend('R_{rs}(412)','R_{rs}(443)','R_{rs}(490)','R_{rs}(555)','R_{rs}(670)')
+ylabel('R_{rs}(\lambda)')
+xlabel('Time')
+
+save('ValCalGOCI.mat','SEAW_Clima_Final','-append')
 %%
 
 % Javier,
