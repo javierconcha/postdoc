@@ -2657,13 +2657,38 @@ jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ cat file_to_rm.txt
 *log
 *out
 *synctex.gz
+--------------------------------------------------
+2017-11-28 Tue
+ticket for processing GOCI w/o vcal:
+sed on ticket #5425:
 
+To process GOCI whole mission over the region:
 
+export L2NORTH=29.4736
+
+export L2SOUTH=24.2842
+
+export L2WEST=131.9067
+
+export L2EAST=142.3193
+
+Run l2gen with the option:
+
+l2prod="default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn"
+
+gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+
+For this test, three runs are requested for the mission: one with the default brdf_opt=7 value, one with brdf_opt=3 and one with brdf_opt=0
+
+Then, run val-extract with the options: elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193
+
+Need to ensure the val-extract tar files for each run are unique to prevent clobbering.
+
+Include "OCCAL" in the output names.
+
+l2gen:
+l2gen ifile=COMS_GOCI_L1B_GA_20111017001642.he5 ofile1=G20111017001642.valregion sline=4144 eline=5142 spixl=3169 epixl=5167 l2prod="default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn"
+
+val-extract:
+jconchas@anly104:~/data2/GOCI/test$ val_extract ifile=G20111017001642.valregion ofile=G20111017001642.valregion.o elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193
 (END)
-
-
-
-
-
-
-
