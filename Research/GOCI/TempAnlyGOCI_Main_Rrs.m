@@ -7191,7 +7191,7 @@ if process_data_flag
 end
 close(h1) % closes status message window
 toc
-% Daily statistics for AQUA
+%% Daily statistics for AQUA
 
 count = 0;
 
@@ -7218,7 +7218,8 @@ if process_data_flag
             cond_senz = [AQUA_Data.senz_center_value]<=60; % criteria for the sensor zenith angle
             cond_solz = [AQUA_Data.solz_center_value]<=75;
             cond_CV = [AQUA_Data.median_CV]<=CV_lim;
-            cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
+            cond_area = [AQUA_Data.pixel_count]>=(total_px_GOCI/4)/ratio_from_the_total;
+            cond_used = cond_brdf&cond_senz&cond_solz&cond_CV&cond_area;
             
             AQUA_Data_used = AQUA_Data(cond_used);
             
@@ -7240,15 +7241,32 @@ if process_data_flag
                         & date_idx.Month(idx)==Month...
                         & date_idx.Day(idx)==Day;
                   
+                  cond_1t_aux = cond_1t;
+                  
+                  % best geometry if there is more than one image
+                  if sum(cond_1t_aux)>1
+                        I = find(cond_1t_aux);
+                        data_aux = [AQUA_Data_used.solz_center_value];
+                        [~,Itemp] = min(data_aux(cond_1t_aux));
+                        Imin = I(Itemp);
+                        cond_1t_aux = 0.*cond_1t_aux;
+                        cond_1t_aux(Imin) = 1;
+                        cond_1t_aux = logical(cond_1t_aux);
+                        cond_1t = cond_1t_aux;
+                        clear Imin Itemp cond_1t_aux
+                  end
+                  
                   if sum(cond_1t) ~= 0 % only days that match the criteria above
                         
                         count = count+1;
                         
-                        AQUA_DailyStatMatrix(count).datetime =  date_idx(idx);
+                        AQUA_DailyStatMatrix(count).date =  date_idx(idx);
+                        AQUA_DailyStatMatrix(count).datetime =  AQUA_Data_used(cond_1t).datetime;
                         AQUA_DailyStatMatrix(count).DOY = day(date_idx(idx),'dayofyear');
                         AQUA_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         AQUA_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         AQUA_DailyStatMatrix(count).idx_to_AQUA_Data = find(cond_1t);
+                        AQUA_DailyStatMatrix(count).ifile = AQUA_Data_used(cond_1t).ifile;
                         
                         %% Rrs_412
                         % only positive values and if more of half of the area is valid
@@ -7263,17 +7281,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_412_median_CV = data_aux(cond_1t_aux);
@@ -7299,17 +7317,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_443_median_CV = data_aux(cond_1t_aux);
@@ -7335,17 +7353,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_488_median_CV = data_aux(cond_1t_aux);
@@ -7371,17 +7389,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_547_median_CV = data_aux(cond_1t_aux);
@@ -7407,17 +7425,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_667_median_CV = data_aux(cond_1t_aux);
@@ -7443,17 +7461,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).Rrs_678_median_CV = data_aux(cond_1t_aux);
@@ -7479,17 +7497,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).aot_869_median_CV = data_aux(cond_1t_aux);
@@ -7515,17 +7533,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).angstrom_median_CV = data_aux(cond_1t_aux);
@@ -7551,17 +7569,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).poc_median_CV = data_aux(cond_1t_aux);
@@ -7587,17 +7605,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).ag_412_mlrc_median_CV = data_aux(cond_1t_aux);
@@ -7623,17 +7641,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).chlor_a_median_CV = data_aux(cond_1t_aux);
@@ -7659,17 +7677,17 @@ if process_data_flag
                         cond_1t_aux = logical(cond_1t_aux);
                         clear idx_aux data_aux cond_area cond_neg
                         
-                        % best geometry if there is more than one image
-                        if sum(cond_1t_aux)>1
-                              I = find(cond_1t_aux);
-                              data_aux = [AQUA_Data_used.solz_center_value];
-                              [~,Itemp] = min(data_aux(cond_1t_aux));
-                              Imin = I(Itemp);
-                              cond_1t_aux = 0.*cond_1t_aux;
-                              cond_1t_aux(Imin) = 1;
-                              cond_1t_aux = logical(cond_1t_aux);
-                              clear Imin Itemp
-                        end
+%                         % best geometry if there is more than one image
+%                         if sum(cond_1t_aux)>1
+%                               I = find(cond_1t_aux);
+%                               data_aux = [AQUA_Data_used.solz_center_value];
+%                               [~,Itemp] = min(data_aux(cond_1t_aux));
+%                               Imin = I(Itemp);
+%                               cond_1t_aux = 0.*cond_1t_aux;
+%                               cond_1t_aux(Imin) = 1;
+%                               cond_1t_aux = logical(cond_1t_aux);
+%                               clear Imin Itemp
+%                         end
                         
                         data_aux = [AQUA_Data_used.median_CV];
                         AQUA_DailyStatMatrix(count).brdf_median_CV = data_aux(cond_1t_aux);
@@ -7687,7 +7705,7 @@ if process_data_flag
       end
 end
 close(h1)
-% Daily statistics for VIIRS
+%% Daily statistics for VIIRS
 
 count = 0;
 

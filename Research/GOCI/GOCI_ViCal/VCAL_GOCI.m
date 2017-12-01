@@ -70,7 +70,7 @@ end
 cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
 % cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
 
-%
+%%
 % wl = {'412'};
 wl = {'412','443','490','555','660','680'};
 
