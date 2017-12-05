@@ -1096,7 +1096,8 @@ for idx_par = 1:size(par_vec,2)
       clima_date_vec = datenum('01-01-2000'):datenum('12-31-2000'); % leap year day
 
       for idx = 1:size(clima_date_vec,2)
-            SEAW_Clima_Final(idx).datetime = clima_date_vec(idx);
+            SEAW_Clima_Final(idx).datetime = datetime(clima_date_vec(idx),'ConvertFrom','datenum')+hours(3)+minutes(30);
+            SEAW_Clima_Final(idx).DOY = day(datetime(clima_date_vec(idx),'ConvertFrom','datenum'),'dayofyear');
             
             cond = date_vec_spline == clima_date_vec(idx);
             eval(sprintf('SEAW_Clima_Final(idx).%s = cubic_spline_clima(cond);',par_vec{idx_par}));

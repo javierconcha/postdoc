@@ -81,3 +81,64 @@ close(h1)
 fclose(fileID);
 
 % type GOCI_MODIS_GCW_matchups.txt
+%% GOCI vcal w/ SeaWiFS Climatology
+
+% seawifs
+% # Wavelengths (nm) % # Extraterrestrial Solar Irradiance (mW/cm^2/um/sr)
+% Lambda(1) = 412    % F0(1) = 172.998
+% Lambda(2) = 443    % F0(2) = 190.154
+% Lambda(3) = 490    % F0(3) = 196.438
+% Lambda(5) = 555    % F0(5) = 182.997
+% Lambda(6) = 670    % F0(6) = 151.139
+% Lambda(7) = 765    % F0(7) = 122.330
+% Lambda(8) = 865    % F0(8) = 96.264
+F0_412 = 172.998;
+F0_443 = 190.154;
+F0_490 = 196.438;
+F0_555 = 182.997;
+F0_670 = 151.1;
+
+
+
+fileID = fopen('GOCI_SEAW_GCW_matchups.txt','w');
+
+count = 0;
+
+h1 = waitbar(0,'Initializing ...');
+
+for idx0 = 1:size(GOCI_Data_used,2)
+      
+      waitbar(idx0/size(GOCI_Data_used,2),h1,'Creating matchups file...')
+      
+      DOY = day(GOCI_Data_used(idx0).datetime,'dayofyear');
+      
+      if abs(timeofday(SEAW_Clima_Final(DOY).datetime)-timeofday(GOCI_Data_used(idx0).datetime))<=hours(3)
+            
+            nLw_412 = SEAW_Clima_Final(DOY).Rrs_412*F0_412;
+            nLw_443 = SEAW_Clima_Final(DOY).Rrs_443*F0_443;
+            nLw_490 = SEAW_Clima_Final(DOY).Rrs_490*F0_490;
+            nLw_555 = SEAW_Clima_Final(DOY).Rrs_555*F0_555;
+            nLw_670 = SEAW_Clima_Final(DOY).Rrs_670*F0_670;
+            
+            vcal_nLw = [nLw_412, nLw_443, nLw_490, nLw_555, nLw_670, nLw_670, 0, 0]; % GOCI band 660 and 680 repeated with SeaWiFS band 670!!!!
+            
+            if ~isnan(vcal_nLw(1))&&~isnan(vcal_nLw(2))&&~isnan(vcal_nLw(3))&&~isnan(vcal_nLw(4))&&...
+                        ~isnan(vcal_nLw(5))&&~isnan(vcal_nLw(6))
+                  if vcal_nLw(1)~=0&&vcal_nLw(2)~=0&&vcal_nLw(3)~=0&&vcal_nLw(4)~=0&&...
+                              vcal_nLw(5)~=0&&vcal_nLw(6)
+                        vcal_nLw_str = sprintf('%2.5f,%2.5f,%2.5f,%2.5f,%2.5f,%2.5f,%2.5f,%2.5f',...
+                              vcal_nLw(1),vcal_nLw(2),vcal_nLw(3),vcal_nLw(4),...
+                              vcal_nLw(5),vcal_nLw(6),vcal_nLw(7),vcal_nLw(8));
+                        
+                        count = count+1;
+                        GOCI_SEAW_GCW_matchups(count).GOCI_ifile = char(GOCI_Data_used(idx0).ifile);
+                        GOCI_SEAW_GCW_matchups(count).SEAW_Clima_DOY = DOY;
+                        fprintf(fileID,[char(GOCI_Data_used(idx0).ifile) '=' vcal_nLw_str '\n']);
+                        
+                  end
+            end
+      end
+end
+
+close(h1)
+fclose(fileID);
