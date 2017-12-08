@@ -8265,7 +8265,7 @@ save('GOCI_TempAnly.mat','ClimatologyMatrix','GOCI_DailyStatMatrix','AQUA_DailyS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Monthly statistics for GOCI
+%% Monthly statistics for GOCI
 if process_data_flag
       
       clear GOCI_MonthlyStatMatrix
