@@ -2713,4 +2713,97 @@ jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS$ cat file_li
 ./A2011140050500.L2_LAC_BRDF0/A2011140050500.L2_LAC_BRDF0_valregion
 ./A2011140050500.L2_LAC_BRDF3/A2011140050500.L2_LAC_BRDF3_valregion
 ./A2011140050500.L2_LAC_BRDF7/A2011140050500.L2_LAC_BRDF7_valregion
+
+
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ val_extract ifile=G20121025011640.OCCAL_valregion_jlt ofile=G20121025011640.OCCAL_valregion.o elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE STRAYLIGHT ATMFAIL"
+G20121025011640.OCCAL_valregion_jlt
+val_extract(3967,0x7fff729dc000) malloc: *** error for object 0x536: pointer being freed was not allocated
+*** set a breakpoint in malloc_error_break to debug
+Abort trap: 6
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ ls
+COMS_GOCI_L1B_GA_20121025011640.he5            G20121025011640.OCCAL_valregion.o.chlor_a
+G20121025011640.OCCAL_valregion.o              G20121025011640.OCCAL_valregion.o.l2_flags
+G20121025011640.OCCAL_valregion.o.Kd_490       G20121025011640.OCCAL_valregion.o.latitude
+G20121025011640.OCCAL_valregion.o.Lw_412       G20121025011640.OCCAL_valregion.o.longitude
+G20121025011640.OCCAL_valregion.o.Lw_443       G20121025011640.OCCAL_valregion.o.nLw_412
+G20121025011640.OCCAL_valregion.o.Lw_490       G20121025011640.OCCAL_valregion.o.nLw_443
+G20121025011640.OCCAL_valregion.o.Lw_555       G20121025011640.OCCAL_valregion.o.nLw_490
+G20121025011640.OCCAL_valregion.o.Lw_660       G20121025011640.OCCAL_valregion.o.nLw_555
+G20121025011640.OCCAL_valregion.o.Lw_680       G20121025011640.OCCAL_valregion.o.nLw_660
+G20121025011640.OCCAL_valregion.o.Lw_745       G20121025011640.OCCAL_valregion.o.nLw_680
+G20121025011640.OCCAL_valregion.o.Lw_865       G20121025011640.OCCAL_valregion.o.nLw_745
+G20121025011640.OCCAL_valregion.o.Rrs_412      G20121025011640.OCCAL_valregion.o.nLw_865
+G20121025011640.OCCAL_valregion.o.Rrs_443      G20121025011640.OCCAL_valregion.o.poc
+G20121025011640.OCCAL_valregion.o.Rrs_490      G20121025011640.OCCAL_valregion.o.sena
+G20121025011640.OCCAL_valregion.o.Rrs_555      G20121025011640.OCCAL_valregion.o.senz
+G20121025011640.OCCAL_valregion.o.Rrs_660      G20121025011640.OCCAL_valregion.o.sola
+G20121025011640.OCCAL_valregion.o.Rrs_680      G20121025011640.OCCAL_valregion.o.solz
+G20121025011640.OCCAL_valregion.o.ag_412_mlrc  G20121025011640.OCCAL_valregion.o.vgain_412
+G20121025011640.OCCAL_valregion.o.angstrom     G20121025011640.OCCAL_valregion.o.vgain_443
+G20121025011640.OCCAL_valregion.o.aot_412      G20121025011640.OCCAL_valregion.o.vgain_490
+G20121025011640.OCCAL_valregion.o.aot_443      G20121025011640.OCCAL_valregion.o.vgain_555
+G20121025011640.OCCAL_valregion.o.aot_490      G20121025011640.OCCAL_valregion.o.vgain_660
+G20121025011640.OCCAL_valregion.o.aot_555      G20121025011640.OCCAL_valregion.o.vgain_680
+G20121025011640.OCCAL_valregion.o.aot_660      G20121025011640.OCCAL_valregion_jlt
+G20121025011640.OCCAL_valregion.o.aot_680      l2gen_test.param
+G20121025011640.OCCAL_valregion.o.aot_745      stats.txt
+G20121025011640.OCCAL_valregion.o.aot_865      stats_metadata.txt
+G20121025011640.OCCAL_valregion.o.brdf         val_extract_test.param
+G20121025011640.OCCAL_valregion.o.chl_ocx
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat G20121025011640.OCCAL_valregion.o.vgain_412
+name=vgain_412
+center_value=-1.000000
+valid_pixel_count=980827
+max=1.340969
+min=0.636838
+mean=1.009613
+median=1.009253
+stddev=0.032237
+rms=1.010128
+filtered_valid_pixel_count=854734
+filtered_max=1.057607
+filtered_min=0.960900
+filtered_mean=1.009788
+filtered_median=1.009391
+filtered_stddev=0.021220
+filtered_rms=1.010011
+iqr_valid_pixel_count=490417
+iqr_max=1.026768
+iqr_min=0.992674
+iqr_mean=1.009619
+iqr_median=1.009254
+iqr_stddev=0.009470
+iqr_rms=1.009663
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ val_extract ifile=G20121025011640.OCCAL_valregion_jlt ofile=G20121025011640.OCCAL_valregion.o elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE LOWLW STRAYLIGHT ATMFAIL"
+G20121025011640.OCCAL_valregion_jlt
+val_extract(3979,0x7fff729dc000) malloc: *** error for object 0x4000020040000200: pointer being freed was not allocated
+*** set a breakpoint in malloc_error_break to debug
+Abort trap: 6
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat G20121025011640.OCCAL_valregion.o.vgain_412
+name=vgain_412
+center_value=-1.000000
+valid_pixel_count=931767
+max=1.340969
+min=0.636838
+mean=1.006642
+median=1.007726
+stddev=0.029497
+rms=1.007074
+filtered_valid_pixel_count=812599
+filtered_max=1.051972
+filtered_min=0.963481
+filtered_mean=1.008671
+filtered_median=1.008541
+filtered_stddev=0.019716
+filtered_rms=1.008863
+iqr_valid_pixel_count=465885
+iqr_max=1.024089
+iqr_min=0.991544
+iqr_mean=1.007990
+iqr_median=1.007726
+iqr_stddev=0.008995
+iqr_rms=1.008030
+
+
+
 (END)
