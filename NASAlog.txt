@@ -2804,6 +2804,89 @@ iqr_median=1.007726
 iqr_stddev=0.008995
 iqr_rms=1.008030
 
+--------------------------------------------------
+2017-12-11 Mon
 
+Different results:
+jconchas@anly104:~/data2/GOCI/test$  cat G2011148011643.L2_COMS_MAOCCAL_valregion.vgain_412 |grep filtered_mean
+filtered_mean=1.008029
+jconchas@anly104:~/data2/GOCI/test$ cat COMS_GOCI_L1B_GA_20110528011643.L2.valregion.vgain_412|grep filtered_mean
+filtered_mean=1.014834
+
+jconchas@anly104:~/data2/GOCI/test$ cat l2gen_test.param 
+ifile=COMS_GOCI_L1B_GA_20110528011643.he5
+ofile1=COMS_GOCI_L1B_GA_20110528011643.L2
+sline=4144 
+eline=5142 
+spixl=3169 
+epixl=5167 
+l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
+gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0] 
+vcal_nLw=2.16849,1.86759,1.26180,0.34174,0.02908,0.03109,0.00000,0.00000
+vcal_opt=2
+
+val_extract ifile=COMS_GOCI_L1B_GA_20110528011643.L2 ofile=COMS_GOCI_L1B_GA_20110528011643.L2.valregion elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE LOWLW STRAYLIGHT ATMFAIL" global_att=1
+
+vcal_nlw are different from .param and .global_atts
+jconchas@anly104:~/data2/GOCI/test$ cat G2011148011643.L2_COMS_MAOCCAL_valregion.param |grep nLw
+vcal_nLw=2.16849,1.86759,1.26180,0.34174,0.02908,0.03109,0.00000,0.00000
+jconchas@anly104:~/data2/GOCI/test$ cat G2011148011643.L2_COMS_MAOCCAL_valregion.global_attrs |grep vcal_nlw
+processing_control/input_parameters/vcal_nlw=2.1725,   1.8451,   1.2136,   0.3020,   0.0183,   0.0197,   0.0000,   0.0000
+
+--------------------------------------------------
+2017-12-12 Tue
+
+val_extract ifile=COMS_GOCI_L1B_GA_20110528011643.L2 ofile=COMS_GOCI_L1B_GA_20110528011643.L2.valregion elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE LOWLW STRAYLIGHT ATMFAIL" global_att=1
+
+jconchas@anly104:~/data2/GOCI/test$ cat G2011148011643.L2_COMS_MAOCCAL_valregion.vgain_412|grep filtered_mean
+filtered_mean=1.007765
+jconchas@anly104:~/data2/GOCI/test$ cat COMS_GOCI_L1B_GA_20110528011643.L2.valregion.vgain_412 |grep filtered_mean
+filtered_mean=1.014834
+
+sending an email from terminal:
+diff COMS_GOCI_L1B_GA_20110528011643.L2.valregion.global_attrs G2011148011643.L2_COMS_MAOCCAL_valregion.global_attrs > diff_out.txt
+
+mail -s "Output diff" "javier.concha@nasa.gov" < diff_out.txt
+
+--------------------------------------------------
+2017-12-13 Wed
+Get ancillary data using getanc.py
+jconchas@anly104:~/data2/GOCI/test$ getanc.py COMS_GOCI_L1B_GA_20110528011643.he5 --curdir
+jconchas@anly104:~/data2/GOCI/test$ getanc.py COMS_GOCI_L1B_GA_20110528011643.he5 --curdir
+Directory /data2/shared/ocssw/var does not exist.
+Using current working directory for storing the ancillary database file: ancillary_data.db
+icefile=./N201114800_SEAICE_NSIDC_24h.hdf
+met1=./N201114800_MET_NCEPR2_6h.hdf
+met2=./N201114806_MET_NCEPR2_6h.hdf
+met3=./N201114806_MET_NCEPR2_6h.hdf
+ozone1=./N201114700_O3_AURAOMI_24h.hdf
+ozone2=./N201114800_O3_AURAOMI_24h.hdf
+ozone3=./N201114800_O3_AURAOMI_24h.hdf
+sstfile=./N2011148_SST_OIV2AVAM_24h.nc
+
+jconchas@anly104:~/data2/GOCI/test$ cat l2gen_test.param 
+ifile=COMS_GOCI_L1B_GA_20110528011643.he5
+ofile1=COMS_GOCI_L1B_GA_20110528011643.L2
+sline=4144 
+eline=5142 
+spixl=3169 
+epixl=5167 
+gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
+vcal_nlw=2.16849,1.86759,1.26180,0.34174,0.02908,0.03109,0.00000,0.00000
+vcal_opt=2
+met1=./N201114800_MET_NCEPR2_6h.hdf
+met2=./N201114806_MET_NCEPR2_6h.hdf
+met3=./N201114806_MET_NCEPR2_6h.hdf
+ozone1=./N201114700_O3_AURAOMI_24h.hdf
+ozone2=./N201114800_O3_AURAOMI_24h.hdf
+ozone3=./N201114800_O3_AURAOMI_24h.hdf
+sstfile=./N2011148_SST_OIV2AVAM_24h.nc
+
+solved:
+jconchas@anly104:~/data2/GOCI/test$ cat COMS_GOCI_L1B_GA_20110528011643.L2.valregion.vgain_412|grep filtered_mean
+filtered_mean=1.007765
+jconchas@anly104:~/data2/GOCI/test$ cat G2011148011643.L2_COMS_MAOCCAL_valregion.vgain_412|grep filtered_mean
+filtered_mean=1.007765
 
 (END)

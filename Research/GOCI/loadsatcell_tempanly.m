@@ -1739,6 +1739,192 @@ if exist(fullFileName, 'file')
       satcell.poc_iqr_rms                            = str2double(s{1}{48});
 end
 
+% vgain_412
+fullFileName = [filepath '.vgain_412'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_412_center_value                       = str2double(s{1}{6});
+      satcell.vgain_412_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_412_max                                = str2double(s{1}{10});
+      satcell.vgain_412_min                                = str2double(s{1}{12});
+      satcell.vgain_412_mean                                     = str2double(s{1}{14});
+      satcell.vgain_412_median                                   = str2double(s{1}{16});
+      satcell.vgain_412_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_412_rms                                = str2double(s{1}{20});
+      satcell.vgain_412_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_412_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_412_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_412_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_412_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_412_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_412_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_412_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_412_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_412_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_412_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_412_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_412_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_412_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_443
+fullFileName = [filepath '.vgain_443'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_443_center_value                       = str2double(s{1}{6});
+      satcell.vgain_443_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_443_max                                = str2double(s{1}{10});
+      satcell.vgain_443_min                                = str2double(s{1}{12});
+      satcell.vgain_443_mean                                     = str2double(s{1}{14});
+      satcell.vgain_443_median                                   = str2double(s{1}{16});
+      satcell.vgain_443_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_443_rms                                = str2double(s{1}{20});
+      satcell.vgain_443_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_443_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_443_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_443_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_443_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_443_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_443_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_443_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_443_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_443_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_443_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_443_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_443_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_443_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_490
+fullFileName = [filepath '.vgain_490'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_490_center_value                       = str2double(s{1}{6});
+      satcell.vgain_490_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_490_max                                = str2double(s{1}{10});
+      satcell.vgain_490_min                                = str2double(s{1}{12});
+      satcell.vgain_490_mean                                     = str2double(s{1}{14});
+      satcell.vgain_490_median                                   = str2double(s{1}{16});
+      satcell.vgain_490_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_490_rms                                = str2double(s{1}{20});
+      satcell.vgain_490_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_490_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_490_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_490_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_490_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_490_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_490_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_490_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_490_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_490_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_490_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_490_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_490_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_490_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_555
+fullFileName = [filepath '.vgain_555'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_555_center_value                       = str2double(s{1}{6});
+      satcell.vgain_555_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_555_max                                = str2double(s{1}{10});
+      satcell.vgain_555_min                                = str2double(s{1}{12});
+      satcell.vgain_555_mean                                     = str2double(s{1}{14});
+      satcell.vgain_555_median                                   = str2double(s{1}{16});
+      satcell.vgain_555_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_555_rms                                = str2double(s{1}{20});
+      satcell.vgain_555_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_555_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_555_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_555_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_555_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_555_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_555_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_555_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_555_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_555_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_555_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_555_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_555_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_555_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_660
+fullFileName = [filepath '.vgain_660'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_660_center_value                       = str2double(s{1}{6});
+      satcell.vgain_660_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_660_max                                = str2double(s{1}{10});
+      satcell.vgain_660_min                                = str2double(s{1}{12});
+      satcell.vgain_660_mean                                     = str2double(s{1}{14});
+      satcell.vgain_660_median                                   = str2double(s{1}{16});
+      satcell.vgain_660_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_660_rms                                = str2double(s{1}{20});
+      satcell.vgain_660_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_660_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_660_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_660_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_660_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_660_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_660_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_660_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_660_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_660_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_660_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_660_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_660_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_660_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_680
+fullFileName = [filepath '.vgain_680'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_680_center_value                       = str2double(s{1}{6});
+      satcell.vgain_680_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_680_max                                = str2double(s{1}{10});
+      satcell.vgain_680_min                                = str2double(s{1}{12});
+      satcell.vgain_680_mean                                     = str2double(s{1}{14});
+      satcell.vgain_680_median                                   = str2double(s{1}{16});
+      satcell.vgain_680_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_680_rms                                = str2double(s{1}{20});
+      satcell.vgain_680_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_680_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_680_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_680_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_680_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_680_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_680_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_680_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_680_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_680_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_680_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_680_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_680_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_680_iqr_rms                            = str2double(s{1}{48});
+end
+
 % CV
 if strcmp(sensor_id,'GOCI')
       satcell.median_CV = nanmedian([...

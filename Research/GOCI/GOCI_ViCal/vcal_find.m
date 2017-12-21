@@ -31,6 +31,7 @@ F0_678 = 148.052;
 F0_748 = 128.065;
 F0_869 = 95.824;
 %% vcal with MODISA
+clear GOCI_MODIS_GCW_matchups
 
 fileID = fopen('GOCI_MODIS_GCW_matchups.txt','w');
 
@@ -70,6 +71,8 @@ for idx0 = 1:size(AQUA_DailyStatMatrix_used,2)
                         count = count+1;
                         GOCI_MODIS_GCW_matchups(count).GOCI_ifile = char(GOCI_Data_used(ind(idx)).ifile);
                         GOCI_MODIS_GCW_matchups(count).AQUA_ifile = AQUA_DailyStatMatrix_used(idx0).ifile;
+                        GOCI_MODIS_GCW_matchups(count).AQUA_datetime = AQUA_DailyStatMatrix_used(idx0).datetime;
+                        GOCI_MODIS_GCW_matchups(count).vcal_nLw = vcal_nLw;
                         fprintf(fileID,[char(GOCI_Data_used(ind(idx)).ifile) '=' vcal_nLw_str '\n']);
                   end
             end
@@ -79,6 +82,8 @@ end
 
 close(h1)
 fclose(fileID);
+
+save('ValCalGOCI.mat','GOCI_MODIS_GCW_matchups','-append')
 
 % type GOCI_MODIS_GCW_matchups.txt
 %% GOCI vcal w/ SeaWiFS Climatology
@@ -98,7 +103,7 @@ F0_490 = 196.438;
 F0_555 = 182.997;
 F0_670 = 151.1;
 
-
+clear GOCI_SEAW_GCW_matchups
 
 fileID = fopen('GOCI_SEAW_GCW_matchups.txt','w');
 
@@ -132,7 +137,9 @@ for idx0 = 1:size(GOCI_Data_used,2)
                         
                         count = count+1;
                         GOCI_SEAW_GCW_matchups(count).GOCI_ifile = char(GOCI_Data_used(idx0).ifile);
+                        GOCI_SEAW_GCW_matchups(count).GOCI_dateline = GOCI_Data_used(idx0).datetime;
                         GOCI_SEAW_GCW_matchups(count).SEAW_Clima_DOY = DOY;
+                        GOCI_SEAW_GCW_matchups(count).vcal_nLw = vcal_nLw;
                         fprintf(fileID,[char(GOCI_Data_used(idx0).ifile) '=' vcal_nLw_str '\n']);
                         
                   end
@@ -142,3 +149,4 @@ end
 
 close(h1)
 fclose(fileID);
+save('ValCalGOCI.mat','GOCI_SEAW_GCW_matchups','-append')

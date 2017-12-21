@@ -1090,11 +1090,11 @@ for idx_par = 1:size(par_vec,2)
       origSize = get(gcf, 'Position'); % grab original on screen size
       set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
       
-
+      
       %%
-
+      
       clima_date_vec = datenum('01-01-2000'):datenum('12-31-2000'); % leap year day
-
+      
       for idx = 1:size(clima_date_vec,2)
             SEAW_Clima_Final(idx).datetime = datetime(clima_date_vec(idx),'ConvertFrom','datenum')+hours(3)+minutes(30);
             SEAW_Clima_Final(idx).DOY = day(datetime(clima_date_vec(idx),'ConvertFrom','datenum'),'dayofyear');
@@ -1102,7 +1102,7 @@ for idx_par = 1:size(par_vec,2)
             cond = date_vec_spline == clima_date_vec(idx);
             eval(sprintf('SEAW_Clima_Final(idx).%s = cubic_spline_clima(cond);',par_vec{idx_par}));
       end
-
+      
       figure(h2)
       hold on
       eval(sprintf('plot([SEAW_Clima_Final.datetime],[SEAW_Clima_Final.%s],''LineWidth'',1.5);',par_vec{idx_par}));
@@ -1115,6 +1115,248 @@ ylabel('R_{rs}(\lambda)')
 xlabel('Time')
 
 save('ValCalGOCI.mat','SEAW_Clima_Final','-append')
+
+
+%% Load GOCI vcal using SeaWiFS data
+clear Gvcal_SW_Data
+tic
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_SW.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+h1 = waitbar(0,'Initializing ...');
+
+sensor_id = 'GOCI';
+for idx0=1:size(s{1},1)
+      waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data using SeaWiFS...')
+      
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/' s{1}{idx0}];
+      Gvcal_SW_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
+      
+end
+close(h1)
+toc
+
+save('ValCalGOCI.mat','Gvcal_SW_Data','-append')
+
+%% Vcal using SeaWiFS climatology
+total_px_GOCI = Gvcal_SW_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
+ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+
+CV_lim = 0.25;
+solz_lim = 75;
+senz_lim = 60;
+
+wl = {'412','443','490','555','660','680'};
+
+for idx0 = 1:size(wl,2)
+      eval(sprintf('cond_area = [Gvcal_SW_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
+      cond_senz = [Gvcal_SW_Data.senz_center_value] <= senz_lim;
+      cond_solz = [Gvcal_SW_Data.solz_center_value] <= solz_lim;
+      cond_used = cond_area&cond_senz&cond_solz;
+      
+      
+      Gvcal_SW_Data_used = Gvcal_SW_Data(cond_used);
+      
+      first_day = datetime(2011,5,20);
+      last_day = datetime(Gvcal_SW_Data_used(end).datetime.Year,Gvcal_SW_Data_used(end).datetime.Month,Gvcal_SW_Data_used(end).datetime.Day);
+      
+      date_idx = first_day:last_day;
+      
+      datetime_used = [Gvcal_SW_Data_used.datetime];
+      
+      [Year,Month,Day] = datevec(datetime_used);
+      
+
+      count = 0;
+      for idx = 1:size(date_idx,2)
+            cond_aux = date_idx(idx).Year==Year...
+                  & date_idx.Month(idx)==Month...
+                  & date_idx.Day(idx)==Day;
+            if sum(cond_aux)~=0
+                  Gvcal_SW_Data_aux = Gvcal_SW_Data_used(cond_aux);
+                  datetim_aux = datetime_used(cond_aux);
+                  [~,I] = min(abs(timeofday(datetim_aux)-(hours(3)+minutes(30))));
+                  count = count+1;
+                  Gvcal_SW_Data_filtered(count) = Gvcal_SW_Data_aux(I);
+            end
+      end
+      clear count idx cond_aux Gvcal_SW_Data_aux datetim_aux I
+      
+      eval(sprintf('g = [Gvcal_SW_Data_filtered.vgain_%s_filtered_mean];',wl{idx0}));
+      datetime_vec = [Gvcal_SW_Data_filtered.datetime];
+      
+      fs = 20;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      
+      % all data
+      plot(datetime_vec', g,'ob')
+      xlabel('Time','FontSize',fs)
+      ylabel('Gain Coefficient','FontSize',fs)
+      title(wl{idx0},'FontSize',fs)
+      
+      % mean all data
+      ax = gca;
+      hold on
+      plot(ax.XLim,[nanmean(g) nanmean(g)],'r--')
+      
+      % semi-interquartile range
+      Q1 = quantile(g(~isnan(g)),0.25);
+      Q3 = quantile(g(~isnan(g)),0.75);
+      cond_siqr = g >= Q1&g <= Q3;
+      g_siqr = g(cond_siqr);
+      
+      % siqr mean
+      q_siqr_mean = nanmean(g_siqr)
+      
+      plot(ax.XLim,[q_siqr_mean q_siqr_mean],'r')
+      plot(ax.XLim,[Q1 Q1],'b')
+      plot(ax.XLim,[Q3 Q3],'b')
+      
+      
+      % plot semi-interquartile range data
+      datetime_siqr = datetime_vec(cond_siqr);
+      plot(datetime_siqr,g_siqr,'ob','MarkerFaceColor', 'b')
+      
+      
+      legend(['all data; N=' num2str(sum(~isnan(g)))],...
+            ['mean=' num2str(nanmean(g),'%1.4f\n')],...
+            ['mean siqr=' num2str(q_siqr_mean,'%1.4f\n')],...
+            ['Q1=' num2str(Q1,'%1.4f\n')],...
+            ['Q3=' num2str(Q3,'%1.4f\n')],['siqr data; N=' num2str(sum(~isnan(g_siqr)))])
+      
+      screen_size = get(0, 'ScreenSize');
+      origSize = get(gcf, 'Position'); % grab original on screen size
+      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      
+      clear Gvcal_SW_Data_filtered screen_size origSize cond_used cond_area cond_senz cond_solz Gvcal_SW_Data_used
+      clear Year Month Day Q1 Q2 cond_siqr g_siqr datetime_siqr
+      clear first_day last_day date_idx datetime_used
+end
+
+%% Load GOCI vcal using MODISA data
+clear Gvcal_MA_Data
+tic
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_MA.txt');
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+h1 = waitbar(0,'Initializing ...');
+
+sensor_id = 'GOCI';
+for idx0=1:size(s{1},1)
+      waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data using MODISA...')
+      
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/' s{1}{idx0}];
+      Gvcal_MA_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
+      
+end
+close(h1)
+toc
+
+save('ValCalGOCI.mat','Gvcal_MA_Data','-append')
+%% Vcal using MODIS
+total_px_GOCI = Gvcal_MA_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
+ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+
+CV_lim = 0.25;
+solz_lim = 75;
+senz_lim = 60;
+
+wl = {'412','443','490','555','660','680'};
+
+for idx0 = 1:size(wl,2)
+      eval(sprintf('cond_area = [Gvcal_MA_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
+      cond_senz = [Gvcal_MA_Data.senz_center_value] <= senz_lim;
+      cond_solz = [Gvcal_MA_Data.solz_center_value] <= solz_lim;
+      cond_used = cond_area&cond_senz&cond_solz;
+      
+      % GOCI vcal file filtered
+      Gvcal_MA_Data_used = Gvcal_MA_Data(cond_used);
+      first_day = datetime(2011,5,20);
+      last_day = datetime(Gvcal_MA_Data_used(end).datetime.Year,Gvcal_MA_Data_used(end).datetime.Month,Gvcal_MA_Data_used(end).datetime.Day);
+      date_idx = first_day:last_day;
+      datetime_used = [Gvcal_MA_Data_used.datetime];
+      [Year,Month,Day] = datevec(datetime_used);
+      
+      % MODIS matchups
+      [YearMA,MonthMA,DayMA] = datevec([GOCI_MODIS_GCW_matchups.AQUA_datetime]);
+
+      count = 0;
+      for idx = 1:size(date_idx,2)
+            cond_aux = date_idx(idx).Year==Year...
+                  & date_idx.Month(idx)==Month...
+                  & date_idx.Day(idx)==Day;
+            
+            if sum(cond_aux)~=0
+                  % MODISA matchups
+                  cond_auxMA = date_idx(idx).Year==YearMA...
+                        & date_idx.Month(idx)==MonthMA...
+                        & date_idx.Day(idx)==DayMA;
+                  
+                  datetime_aux = [GOCI_MODIS_GCW_matchups(cond_auxMA).AQUA_datetime];
+                  
+                  Gvcal_MA_Data_aux = Gvcal_MA_Data_used(cond_aux);
+                  datetim_aux = datetime_used(cond_aux);
+                  [~,I] = min(abs(timeofday(datetim_aux)-timeofday(datetime_aux(1))));
+                  count = count+1;
+                  Gvcal_MA_Data_filtered(count) = Gvcal_MA_Data_aux(I);
+                  
+                  clear datetime_aux cond_auxMA I cond_aux Gvcal_MA_Data_aux
+            end
+      end
+      clear count idx 
+      
+      eval(sprintf('g = [Gvcal_MA_Data_filtered.vgain_%s_filtered_mean];',wl{idx0}));
+      datetime_vec = [Gvcal_MA_Data_filtered.datetime];
+      
+      fs = 20;
+      h = figure('Color','white','DefaultAxesFontSize',fs);
+      
+      % all data
+      plot(datetime_vec', g,'ob')
+      xlabel('Time','FontSize',fs)
+      ylabel('Gain Coefficient','FontSize',fs)
+      title(wl{idx0},'FontSize',fs)
+      
+      % mean all data
+      ax = gca;
+      hold on
+      plot(ax.XLim,[nanmean(g) nanmean(g)],'r--')
+      
+      % semi-interquartile range
+      Q1 = quantile(g(~isnan(g)),0.25);
+      Q3 = quantile(g(~isnan(g)),0.75);
+      cond_siqr = g >= Q1&g <= Q3;
+      g_siqr = g(cond_siqr);
+      
+      % siqr mean
+      q_siqr_mean = nanmean(g_siqr)
+      
+      plot(ax.XLim,[q_siqr_mean q_siqr_mean],'r')
+      plot(ax.XLim,[Q1 Q1],'b')
+      plot(ax.XLim,[Q3 Q3],'b')
+      
+      
+      % plot semi-interquartile range data
+      datetime_siqr = datetime_vec(cond_siqr);
+      plot(datetime_siqr,g_siqr,'ob','MarkerFaceColor', 'b')
+      
+      
+      legend(['all data; N=' num2str(sum(~isnan(g)))],...
+            ['mean=' num2str(nanmean(g),'%1.4f\n')],...
+            ['mean siqr=' num2str(q_siqr_mean,'%1.4f\n')],...
+            ['Q1=' num2str(Q1,'%1.4f\n')],...
+            ['Q3=' num2str(Q3,'%1.4f\n')],['siqr data; N=' num2str(sum(~isnan(g_siqr)))])
+      
+      screen_size = get(0, 'ScreenSize');
+      origSize = get(gcf, 'Position'); % grab original on screen size
+      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      
+      clear Gvcal_MA_Data_filtered screen_size origSize cond_used cond_area cond_senz cond_solz Gvcal_MA_Data_used
+      clear Year Month Day YearMA MonthMA DayMA Q1 Q2 cond_siqr g_siqr datetime_siqr cond_auxMA
+      clear first_day last_day date_idx datetime_used
+end
 %%
 
 % Javier,
