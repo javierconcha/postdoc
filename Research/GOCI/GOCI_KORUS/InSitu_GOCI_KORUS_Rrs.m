@@ -134,7 +134,7 @@ ylabel('RSR')
 xlabel('wavelength [nm]')
 
 %% Read CSV data
-% ASD 
+% ASD from Wonkook
 clear  KORUS_InSitu Rrs
 
 KORUS_ASD_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_ASD_rrs_ON.csv',...
@@ -189,7 +189,7 @@ end
 
 clear KORUS_ASD_rrs_ON fileID filename C wl Rrs idx
 
-% TriOS
+% TriOS from Wonkook
 clear  Rrs
 KORUS_TriOS_rrs_ON = csvread('/Users/jconchas/Documents/Research/InSituData/2017_KORUSOC/KORUS_TriOS_rrs_ON.csv',...
       1,1);

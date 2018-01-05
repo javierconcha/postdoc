@@ -1140,6 +1140,32 @@ toc
 save('ValCalGOCI.mat','Gvcal_SW_Data','-append')
 
 %% Vcal using SeaWiFS climatology
+
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/';
+
+% latex table
+!rm ./Gvcal_SW_Table.tex
+FID = fopen('./Gvcal_SW_Table.tex','w');
+
+% fprintf(FID,'\\begin{tabular}{ccccccccccccc} \n \\hline \n');
+
+% fprintf(FID, 'Sat (nm) ');
+% fprintf(FID, '& InSitu (nm) ');
+% fprintf(FID, '& $R^2$ ');
+% fprintf(FID, '& Regression ');
+% fprintf(FID, '& RMSE ');
+% fprintf(FID, '& N ');
+% fprintf(FID, '& Mean APD ($\\%%$) ');
+% fprintf(FID, '& St.Dev. APD ($\\%%$) ');
+% fprintf(FID, '& Median APD ($\\%%$) ');
+% fprintf(FID, '& Bias ($\\%%$) ');
+% fprintf(FID, '& Median ratio ');
+% fprintf(FID, '& SIQR ');
+% fprintf(FID, '& rsqcorr ');
+% fprintf(FID,'\\\\ \\hline \n');
+
+%
+
 total_px_GOCI = Gvcal_SW_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 
@@ -1150,6 +1176,7 @@ senz_lim = 60;
 wl = {'412','443','490','555','660','680'};
 
 for idx0 = 1:size(wl,2)
+      %%
       eval(sprintf('cond_area = [Gvcal_SW_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
       cond_senz = [Gvcal_SW_Data.senz_center_value] <= senz_lim;
       cond_solz = [Gvcal_SW_Data.solz_center_value] <= solz_lim;
@@ -1167,7 +1194,7 @@ for idx0 = 1:size(wl,2)
       
       [Year,Month,Day] = datevec(datetime_used);
       
-
+      
       count = 0;
       for idx = 1:size(date_idx,2)
             cond_aux = date_idx(idx).Year==Year...
@@ -1186,48 +1213,15 @@ for idx0 = 1:size(wl,2)
       eval(sprintf('g = [Gvcal_SW_Data_filtered.vgain_%s_filtered_mean];',wl{idx0}));
       datetime_vec = [Gvcal_SW_Data_filtered.datetime];
       
-      fs = 20;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot
+      fs = 30;
+      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',wl{idx0});
       
-      % all data
-      plot(datetime_vec', g,'ob')
-      xlabel('Time','FontSize',fs)
-      ylabel('Gain Coefficient','FontSize',fs)
-      title(wl{idx0},'FontSize',fs)
+      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID);
+      type Gvcal_SW_Table.tex
       
-      % mean all data
-      ax = gca;
-      hold on
-      plot(ax.XLim,[nanmean(g) nanmean(g)],'r--')
-      
-      % semi-interquartile range
-      Q1 = quantile(g(~isnan(g)),0.25);
-      Q3 = quantile(g(~isnan(g)),0.75);
-      cond_siqr = g >= Q1&g <= Q3;
-      g_siqr = g(cond_siqr);
-      
-      % siqr mean
-      q_siqr_mean = nanmean(g_siqr)
-      
-      plot(ax.XLim,[q_siqr_mean q_siqr_mean],'r')
-      plot(ax.XLim,[Q1 Q1],'b')
-      plot(ax.XLim,[Q3 Q3],'b')
-      
-      
-      % plot semi-interquartile range data
-      datetime_siqr = datetime_vec(cond_siqr);
-      plot(datetime_siqr,g_siqr,'ob','MarkerFaceColor', 'b')
-      
-      
-      legend(['all data; N=' num2str(sum(~isnan(g)))],...
-            ['mean=' num2str(nanmean(g),'%1.4f\n')],...
-            ['mean siqr=' num2str(q_siqr_mean,'%1.4f\n')],...
-            ['Q1=' num2str(Q1,'%1.4f\n')],...
-            ['Q3=' num2str(Q3,'%1.4f\n')],['siqr data; N=' num2str(sum(~isnan(g_siqr)))])
-      
-      screen_size = get(0, 'ScreenSize');
-      origSize = get(gcf, 'Position'); % grab original on screen size
-      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+      saveas(gcf,[savedirname 'Gvcal_SW_' wl{idx0}],'epsc')
       
       clear Gvcal_SW_Data_filtered screen_size origSize cond_used cond_area cond_senz cond_solz Gvcal_SW_Data_used
       clear Year Month Day Q1 Q2 cond_siqr g_siqr datetime_siqr
@@ -1266,6 +1260,7 @@ senz_lim = 60;
 wl = {'412','443','490','555','660','680'};
 
 for idx0 = 1:size(wl,2)
+      %%
       eval(sprintf('cond_area = [Gvcal_MA_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
       cond_senz = [Gvcal_MA_Data.senz_center_value] <= senz_lim;
       cond_solz = [Gvcal_MA_Data.solz_center_value] <= solz_lim;
@@ -1281,7 +1276,7 @@ for idx0 = 1:size(wl,2)
       
       % MODIS matchups
       [YearMA,MonthMA,DayMA] = datevec([GOCI_MODIS_GCW_matchups.AQUA_datetime]);
-
+      
       count = 0;
       for idx = 1:size(date_idx,2)
             cond_aux = date_idx(idx).Year==Year...
@@ -1305,60 +1300,218 @@ for idx0 = 1:size(wl,2)
                   clear datetime_aux cond_auxMA I cond_aux Gvcal_MA_Data_aux
             end
       end
-      clear count idx 
+      clear count idx
       
       eval(sprintf('g = [Gvcal_MA_Data_filtered.vgain_%s_filtered_mean];',wl{idx0}));
       datetime_vec = [Gvcal_MA_Data_filtered.datetime];
       
-      fs = 20;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
+      % plot
+      fs = 30;
+      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',wl{idx0});
       
-      % all data
-      plot(datetime_vec', g,'ob')
-      xlabel('Time','FontSize',fs)
-      ylabel('Gain Coefficient','FontSize',fs)
-      title(wl{idx0},'FontSize',fs)
+      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0})
       
-      % mean all data
-      ax = gca;
-      hold on
-      plot(ax.XLim,[nanmean(g) nanmean(g)],'r--')
-      
-      % semi-interquartile range
-      Q1 = quantile(g(~isnan(g)),0.25);
-      Q3 = quantile(g(~isnan(g)),0.75);
-      cond_siqr = g >= Q1&g <= Q3;
-      g_siqr = g(cond_siqr);
-      
-      % siqr mean
-      q_siqr_mean = nanmean(g_siqr)
-      
-      plot(ax.XLim,[q_siqr_mean q_siqr_mean],'r')
-      plot(ax.XLim,[Q1 Q1],'b')
-      plot(ax.XLim,[Q3 Q3],'b')
-      
-      
-      % plot semi-interquartile range data
-      datetime_siqr = datetime_vec(cond_siqr);
-      plot(datetime_siqr,g_siqr,'ob','MarkerFaceColor', 'b')
-      
-      
-      legend(['all data; N=' num2str(sum(~isnan(g)))],...
-            ['mean=' num2str(nanmean(g),'%1.4f\n')],...
-            ['mean siqr=' num2str(q_siqr_mean,'%1.4f\n')],...
-            ['Q1=' num2str(Q1,'%1.4f\n')],...
-            ['Q3=' num2str(Q3,'%1.4f\n')],['siqr data; N=' num2str(sum(~isnan(g_siqr)))])
-      
-      screen_size = get(0, 'ScreenSize');
-      origSize = get(gcf, 'Position'); % grab original on screen size
-      set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+      set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+      saveas(gcf,[savedirname 'Gvcal_MA_' wl{idx0}],'epsc')
       
       clear Gvcal_MA_Data_filtered screen_size origSize cond_used cond_area cond_senz cond_solz Gvcal_MA_Data_used
       clear Year Month Day YearMA MonthMA DayMA Q1 Q2 cond_siqr g_siqr datetime_siqr cond_auxMA
       clear first_day last_day date_idx datetime_used
 end
-%%
+%% Re-derivation gain GOCI 745 nm band
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA Angstrom');
 
+subplot(2,1,1)
+% plot([AQUA_Data.datetime],[AQUA_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.angstrom_filtered_mean],'o')
+title('MODIS-Aqua')
+xlabel('Time')
+ylabel('Angstrom')
+
+subplot(2,1,2)
+hist([AQUA_DailyStatMatrix.angstrom_filtered_mean])
+xlabel('Angstrom')
+ylabel('Frequency')
+
+data_used = [AQUA_DailyStatMatrix.angstrom_filtered_mean];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.75*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.6*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+%%
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','SeaWiFS Angstrom');
+subplot(2,1,1)
+% plot([SEAW_Data.datetime],[SEAW_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.angstrom_filtered_mean],'o')
+title('SeaWiFS')
+xlabel('Time')
+ylabel('Angstrom')
+
+subplot(2,1,2)
+hist([SEAW_DailyStatMatrix.angstrom_filtered_mean])
+xlabel('Angstrom')
+ylabel('Frequency')
+
+data_used = [SEAW_DailyStatMatrix.angstrom_filtered_mean];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.73*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.65*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+
+%%
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI 3h Angstrom');
+subplot(2,1,1)
+plot([GOCI_DailyStatMatrix.datetime],[GOCI_DailyStatMatrix.angstrom_03],'o')
+title('GOCI 3h')
+xlabel('Time')
+ylabel('Angstrom')
+
+subplot(2,1,2)
+hist([GOCI_DailyStatMatrix.angstrom_03])
+xlabel('Angstrom')
+ylabel('Frequency')
+
+data_used = [GOCI_DailyStatMatrix.angstrom_03];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.73*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.65*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+%%
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA AOT(869)');
+
+subplot(2,1,1)
+% plot([AQUA_Data.datetime],[AQUA_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.aot_869_filtered_mean],'o')
+title('MODIS-Aqua')
+xlabel('Time')
+ylabel('AOT(869)')
+
+subplot(2,1,2)
+hist([AQUA_DailyStatMatrix.aot_869_filtered_mean])
+xlabel('AOT(869)')
+ylabel('Frequency')
+
+data_used = [AQUA_DailyStatMatrix.aot_869_filtered_mean];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.85*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.61*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+
+%%
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','SeaWiFS AOT(865)');
+
+subplot(2,1,1)
+plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.aot_865_filtered_mean],'o')
+title('SeaWiFS')
+xlabel('Time')
+ylabel('AOT(865)')
+
+subplot(2,1,2)
+hist([SEAW_DailyStatMatrix.aot_865_filtered_mean])
+xlabel('AOT(865)')
+ylabel('Frequency')
+
+data_used = [SEAW_DailyStatMatrix.aot_865_filtered_mean];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.75*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.5*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+
+%%
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI AOT(865)');
+
+subplot(2,1,1)
+plot([GOCI_DailyStatMatrix.datetime],[GOCI_DailyStatMatrix.aot_865_03],'o')
+title('GOCI 3h')
+xlabel('Time')
+ylabel('AOT(865)')
+
+subplot(2,1,2)
+hist([GOCI_DailyStatMatrix.aot_865_03])
+xlabel('AOT(865)')
+ylabel('Frequency')
+
+data_used = [GOCI_DailyStatMatrix.aot_865_03];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.55*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.5*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+%%
 % Javier,
 %
 %

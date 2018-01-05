@@ -741,10 +741,6 @@ for idx = 1:size(par_vec,2)
       
       saveas(gcf,[savedirname 'Hist_' par_vec{idx}],'epsc')
 end
-
-c
-
-
 %% Histogram for filtered solz
 % histogram
 N = nansum(cond_used);
