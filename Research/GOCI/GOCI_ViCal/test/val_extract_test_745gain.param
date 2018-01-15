@@ -1,0 +1,9 @@
+ifile=G20121025011640.OCCAL_valregion 
+ofile=G20121025011640.OCCAL_valregion.o 
+elat=28.4950 
+slat=26.0960 
+slon=137.3380 
+elon=142.0920
+valid_ranges=vgain_=0.5:1.5
+ignore_flags=LAND CLDICE LOWLW STRAYLIGHT ATMFAIL
+global_att=1

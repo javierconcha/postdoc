@@ -2888,5 +2888,87 @@ jconchas@anly104:~/data2/GOCI/test$ cat COMS_GOCI_L1B_GA_20110528011643.L2.valre
 filtered_mean=1.007765
 jconchas@anly104:~/data2/GOCI/test$ cat G2011148011643.L2_COMS_MAOCCAL_valregion.vgain_412|grep filtered_mean
 filtered_mean=1.007765
+--------------------------------------------------
+2018-01-10 Wed
+745 gain
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat l2gen_test_745gain.param 
+ifile=COMS_GOCI_L1B_GA_20121025011640.he5
+ofile1=G20121025011640.OCCAL_745_valregion 
+sline=4309
+eline=4741 
+spixl=4214 
+epixl=5181 
+l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv,vgain_745,rhos_vvv,slot
+vcal_opt=1
+aer_opt=1
+aermodels=r95f10v01
 
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat val_extract_test_745gain.param 
+ifile=G20121025011640.OCCAL_valregion 
+ofile=G20121025011640.OCCAL_valregion.o 
+elat=28.4950 
+slat=26.0960 
+slon=137.3380 
+elon=142.0920
+valid_ranges=vgain_=0.5:1.5
+ignore_flags=LAND CLDICE LOWLW STRAYLIGHT ATMFAIL
+global_att=1
+
+val_extract ifile=G20121025011640.OCCAL_745_valregion ofile=G20121025011640.OCCAL_745_valregion.o elat=28.4950 slat=26.0960 slon=137.3380 elon=142.0920 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE LOWLW STRAYLIGHT ATMFAIL"
+
+G2017292011643.L2_COMS_OC.nc_CHLOR_A
+G2017120011642.L2_COMS_OC.nc_CHLOR_A
+
+to do list:
+- Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
+- 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom  
+- VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
+- GOCI time serie: run GOCI with new vcal gains
+- Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchups
+
+to create PNG image:
+l1brsgen
+
+jconchas:~/.seadas/beam-core/auxdata/rgb_profiles$ cat GOCI_RHOS_LOG.rgb 
+# RGB-Image Profile
+# Created by Daniel Knowles, 2015
+# The coefficients and algorithm form here (but not necessarily the band selection) are commonly used by Norman Kuring for many images found on the oceancolor website.
+# To obtain the desired results, once this profile is loaded, go to the Color Manager and toggle through the 'Red', 'Green', and 'Blue' windows
+# setting the minimum (left-most arrow) to 0.0 and the maximum (right-most arrow) to 1.0.  By default these minimums and maximums are set based
+# on the statistics of the band.
+name=LANDSAT_RHOS_LOG
+blue=(rhos_412 \!\= NaN and rhos_555 \!\= NaN and rhos_660 \!\= NaN) ? log(rhos_412/0.01)/log(1.0/0.01) \: NaN
+green=(rhos_412 \!\= NaN and rhos_555 \!\= NaN and rhos_660 \!\= NaN) ? log(rhos_555/0.01)/log(1.0/0.01) \: NaN
+red=(rhos_412 \!\= NaN and rhos_555 \!\= NaN and rhos_660 \!\= NaN) ? log(rhos_660/0.01)/log(1.0/0.01) \: NaN
+
+Potential clear images:
+COMS_GOCI_L1B_GA_20131124041642.he5
+COMS_GOCI_L1B_GA_20130917031642.he5
+COMS_GOCI_L1B_GA_20130831031641.he5
+COMS_GOCI_L1B_GA_20140921031642.he5
+
+example:
+POLYGON ((134.02871704101562 32.92745590209961, 138.71533203125 32.66956329345703, 
+   138.31524658203125 28.116168975830078, 133.8426055908203 28.36408042907715, 
+   134.02871704101562 32.92745590209961)
+
+Geometry in SeaDAS using Geometry Well-know-Text (WKT):
+
+POLYGON ((137.338 28.495, 137.338 26.096, 142.092 26.096, 142.092 28.495,137.338 28.495))
+POLYGON ((137.338134765625 28.495159149169922, 142.0936279296875 28.494319915771484, 
+   142.0924072265625 26.096393585205078, 137.33694458007812 26.09724235534668, 
+   137.338134765625 28.495159149169922))
+
+MULTIPOINT(
+(137.338 28.495),
+(137.338 26.096), 
+(142.092 26.096),
+(142.092 28.495))
+
+LINESTRING (
+137.338 28.495,
+137.338 26.096,      
+142.092 26.096,
+142.092 28.495,
+137.338 28.495)
 (END)

@@ -1,0 +1,4 @@
+ifile=filename.L2 
+ofile=filename.L2.o 
+ignore_flags=LAND CLDICE LOWLW STRAYLIGHT ATMFAIL
+global_att=1

@@ -1,0 +1,8 @@
+ifile=COMS_GOCI_L1B_GA_20171019011643.he5
+ofile=COMS_GOCI_L1B_GA_20171019011643.png
+oformat=png
+sline=4309
+eline=4741 
+spixl=4214 
+epixl=5181
+subsamp=1 

@@ -1,10 +1,3 @@
-ifile=COMS_GOCI_L1B_GA_20121025011640.he5
-ofile1=G20121025011640.OCCAL_valregion 
-sline=4144 
-eline=5142 
-spixl=3169 
-epixl=5167 
-l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
-gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0] 
-vcal_nLw=2.17247,1.84507,1.21365,0.30201,0.01827,0.01969,0.00000,0.00000
-vcal_opt=2
+ifile=filename.he5
+ofile1=filename.L2 
+l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,rhos_vvv,slot

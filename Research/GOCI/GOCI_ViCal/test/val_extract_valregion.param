@@ -5,4 +5,5 @@ slat=24.2842
 slon=131.9067 
 elon=142.3193
 valid_ranges=vgain_=0.5:1.5
-ignore_flags=LAND CLDICE STRAYLIGHT ATMFAIL
+ignore_flags=LAND CLDICE LOWLW STRAYLIGHT ATMFAIL
+global_att=1

@@ -20,15 +20,17 @@
 %\usepackage[BOE]{express}
 
 \begin{document}
-\title{GOCI's Vicarious Calibration in L2GEN}
+\title{GOCI's Vicarious Calibration in SeaDAS/L2GEN}
 
-\author{Javier Concha,\authormark{1} Author Two,\authormark{2,*} and Author Three\authormark{2,3}}
+\author{Javier Concha\authormark{1,2,*}, Antonio Mannino\authormark{1}, Bryan Franz\authormark{1}, Sean Bailey\authormark{1}, and Wonkook Kim\authormark{3}}
 
-\address{\authormark{1}Peer Review, Publications Department, The Optical Society, 2010 Massachusetts Avenue NW, Washington, DC 20036, USA\\
-\authormark{2}Publications Department, The Optical Society, 2010 Massachusetts Avenue NW, Washington, DC 20036, USA\\
-\authormark{3}Currently with the Department of Electronic Journals, The Optical Society, 2010 Massachusetts Avenue NW, Washington, DC 20036, USA}
+\address{\authormark{1}Ocean Ecology Lab,
+NASA Goddard Space Flight Center,
+8800 Greenbelt Rd, Greenbelt, MD 20771, USA\\
+\authormark{2}Universities Space Research Association, Columbia, MD, USA\\
+\authormark{3}Korea Institute of Ocean Science and Technology, 787 Haean-ro, Ansan, Republic of Korea}
 
-\email{\authormark{*}opex@osa.org} %% email address is required
+\email{\authormark{*}javier.concha@nasa.gov} %% email address is required
 
 % \homepage{http:...} %% author's URL, if desired
 
@@ -36,10 +38,20 @@
 %% [use \begin{abstract*}...\end{abstract*} if exempt from copyright]
 
 \begin{abstract}
-Updated 29 August 2017. A simple template with some examples is provided for preparing \textit{Optics Express}, \textit{Biomedical Optics Express}, and \textit{Optical Materials Express} manuscripts in \LaTeX. For complete instructions, please open the detailed template with formatting guidelines at \href{http://www.overleaf.com/docs?template=osa-opex-guide}{Overleaf}.
+Vicarious calibration for the Geostationary Ocean Color Instrument.
+% Background/motivation/context
+%
+% Aim/objectives(s)/problem statement
+% 
+% Methods
+%
+% Results
+%
+% Conclusions
+%
 \end{abstract}
 
-\ocis{(000.0000) General; (000.2700) General science.} % REPLACE WITH CORRECT OCIS CODES FOR YOUR ARTICLE, MINIMUM OF TWO; Avoid using the OCIS codes for “General” or “General science” whenever possible.
+\ocis{(010.4450) Oceanic optics; (280.4991) Passive remote sensing.} % REPLACE WITH CORRECT OCIS CODES FOR YOUR ARTICLE, MINIMUM OF TWO; Avoid using the OCIS codes for “General” or “General science” whenever possible.
 %For a complete list of OCIS codes, visit: https://www.osapublishing.org/oe/submit/ocis/
 
 %%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,42 +60,175 @@ Updated 29 August 2017. A simple template with some examples is provided for pre
 \bibitem{gallo99} K. Gallo and G. Assanto, ``All-optical diode based on second-harmonic generation in an asymmetric waveguide,'' \josab {\bfseries 16}(2), 267--269 (1999).
 
 \end{thebibliography}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+\subsection{NIR Bands Vicarious Calibration}
+The aerosol model used was r95f10v01 ($\alpha=0.852786$ from the 80 standard models) for an angstrom coefficient ($\alpha$) equal to 0.9.
 
-Standard \LaTeX{} or AMS\TeX{} environments should be used to place tables, figures, and math. Examples are given below.
+\subsection{VIS Bands Vicarious Calibration}
+% jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat l2gen_test.param 
+% ifile=COMS_GOCI_L1B_GA_20121025011640.he5
+% ofile1=G20121025011640.OCCAL_valregion 
+% sline=4144 
+% eline=5142 
+% spixl=3169 
+% epixl=5167 
+% l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
+% gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0] 
+% vcal_nLw=2.17247,1.84507,1.21365,0.30201,0.01827,0.01969,0.00000,0.00000
+% vcal_opt=2
 
-\begin{verbatim}
-\begin{figure}[htbp]
-%\centering\includegraphics[width=7cm]{opexfig1}
-\caption{Sample caption (Ref. \cite{Oron03}, Fig. 2).}
-\end{figure}
 
-\begin{equation}
-H = \frac{1}{2m}(p_x^2 + p_y^2) + \frac{1}{2} M{\Omega}^2
-     (x^2 + y^2) + \omega (x p_y - y p_x).
-\end{equation}
-\end{verbatim}
 
-\section{Conclusion}
-After proofreading the manuscript, compress your .TEX manuscript file and all figures (which should be in EPS format, or PDF format if you are using PDF-\LaTeX) in a ZIP, TAR or TAR-GZIP package. Prism, OSA's article tracking system, will process in \LaTeX mode by default but will use PDF-\LaTeX if PDF figure files are detected. Note: TAR or TAR-GZIP is no longer required. All files must be referenced at the root level (e.g., file \texttt{figure-1.eps}, not \texttt{/myfigs/figure-1.eps}). If there is video or other multimedia, the associated files should be uploaded separately.
+% jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat val_extract_test.param 
+% ifile=G20121025011640.OCCAL_valregion 
+% ofile=G20121025011640.OCCAL_valregion.o 
+% elat=29.4736 
+% slat=24.2842 
+% slon=131.9067 
+% elon=142.3193
+% valid_ranges=vgain_=0.5:1.5
+% ignore_flags=LAND CLDICE STRAYLIGHT ATMFAIL
 
-\section*{Funding}
-Please identify all appropriate funding sources by name and contract number. Funding information should be listed in a separate block preceding any acknowledgments. List only the funding agencies and any associated grants or project numbers, as shown in the example below:\\
-\\
-National Science Foundation (NSF) (1253236, 0868895, 1222301); Program 973 (2014AA014402); Natural National Science Foundation (NSFC) (123456).\\
-\\
-OSA participates in \href{http://www.crossref.org/fundingdata/}{Crossref's Funding Data}, a service that provides a standard way to report funding sources for published scholarly research. To ensure consistency, please enter any funding agencies and contract numbers from the Funding section in Prism during submission or revisions.
 
+% GOCI slot edge area were removed
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments}
-Acknowledgments, if included, should appear at the end of the document. The section title should not follow the numbering scheme of the paper.
-
-\section*{Disclosures}
-For \textit{Biomedical Optics Express} submissions only, disclosures should be listed in a separate nonnumbered section at the end of the manuscript. List the Disclosures codes identified on OSA's \href{http://www.osapublishing.org/submit/review/conflicts-interest-policy.cfm}{Conflict of Interest policy page}, as shown in the examples below:\\
-\\
-ABC: 123 Corporation (I,E,P), DEF: 456 Corporation (R,S). GHI: 789 Corporation (C).\\
-\\
-If there are no disclosures, then list ``The authors declare that there are no conflicts of interest related to this article.''
+We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI), the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. Also, the principal investigator for the AERONET-OC data: Jae-Seol Shim and Joo-Hyung Ryu (Gageocho station), Young-Je Park and Hak-Yeol You (Ieodo station).
 
 \end{document}
+
+% Sean's comments:
+% Javier,
+
+% The 'trick' is to find a reasonably stable body of water that can be assumed to
+% have zero water-leaving radiance in the NIR (i.e. clear, deep ocean) and
+% preferably one where an assumption of the aerosol type can be made.  It is best
+% if the type is primarily maritime, but whatever it is should be non-absorbing
+% and within our available model suite.
+
+% If you have a time series of the angstrom exponent for the region you've been
+% using for the visible gain calculation (from SeaWiFS or MODIS, NOT GOCI - as
+% that is to be considered suspect until verified), you can use that to choose
+% the model.  You *could* let the model vary based on a climatology of angstrom,
+% but that might complicate the process too much...
+
+% With the know model, you set aermodels=<my favorite model> and aer_opt=1,
+% vcal_opt=1 and voila!  vgain_745 can be achieved.
+
+% Sean
+
+% aer_opt	Option for aerosol calculation mode.  (Default=-3) 
+ 
+%   1	Multi-scattering with fixed model (Oceanic, 99% humidity)
+%   2	Multi-scattering with fixed model (Maritime, 50% humidity)
+%   3 	Multi-scattering with fixed model (Maritime, 70% humidity)
+%   4	Multi-scattering with fixed model (Maritime, 90% humidity)
+%   5	Multi-scattering with fixed model (Maritime, 99% humidity)
+%   6	Multi-scattering with fixed model (Coastal, 50% humidity)
+%   7	Multi-scattering with fixed model (Coastal, 70% humidity)
+%   8 	Multi-scattering with fixed model (Coastal, 90% humidity)
+%   9	Multi-scattering with fixed model (Coastal, 99% humidity)
+% 10	Multi-scattering with fixed model (Tropospheric, 50% humidity)
+% 11	Multi-scattering with fixed model (Tropospheric, 90% humidity)
+% 12	Multi-scattering with fixed model (Tropospheric, 99% humidity)
+%   0	Single-scattering white aerosols
+% -1	Multi-scattering with 2-band model selection
+% -3	Multi-scattering with 2-band model selection and NIR correction
+% -9	Multi-scattering with 2-band model selection and SWIR correction(Hi-res MODIS only)
+
+% Calibration control options:
+% vcal_opt	Vicarious calibration option controls whether gain and offset sensor defaults or input parameters are used: 
+ 
+% 0 - sensor defaults 
+% 1 - default offset, parameter gain 
+% 2 - default gain, parameter offset 
+% 3 - parameter gain and offset
+% gain	Calibration gain factors to multiply TOA radiance in each band; the default gain values are read from the $SDSDATA/sensor/sensor_table.dat file. 
+% offset	Calibration offset adjustment to TOA radiance; the default gain values are read from the $SDSDATA/sensor/sensor_table.dat file. 
+
+% aer_opt (int) (default=99) = aerosol mode option
+%       -99: No aerosol subtraction
+%       >0: Multi-scattering with fixed model (provide model number, 1-N,
+%            relative to aermodels list)
+%         0: White aerosol extrapolation.
+%        -1: Multi-scattering with 2-band model selection
+%        -2: Multi-scattering with 2-band, RH-based model selection and
+%            iterative NIR correction
+
+% Wonkook's comments:
+% Hi Concha,
+
+% Here I attached the first review of the manuscript.
+
+% Overall impression of the manuscript to me is that a great amount of work
+% has been done, but the way it is presented can be improved. It would be
+% greatly helpful to readers, if you can summarize what you're going to do
+% afterward, in the beginning of each paragraph. To me, it was difficult to
+% follow the details, because I couldn't catch the
+% direction/approach/intention of each paragraph at the beginning.
+
+% Many comments have been made in the attached file, but here I present 4
+% important issues that I'd like to share with the other co-authors.
+
+% (1) Weak logic in showing the temporal homogeneity of GCW
+% I'm not totally convinced by the overall concept/approach/logic of this
+% section (4.3). GOCI Rrs has been used to show that the GCW region has
+% little variability in constituents. But, GOCI Rrs is already contaminated
+% by imperfect AC (solar zenith angle issue). I think you need independent
+% data source to show that the region has little change in water
+% constituents.
+
+% (2) Source of Rrs variability
+% In the manuscript, the Rrs variability is sometimes attributed to solar
+% zenith angle change (and imperfect AC), and sometimes to variability in
+% water constituents. (Section 4.4. the second paragraph). One can be
+% analyzed when the other is fixed. If solar zenith angle needs to be
+% analyzed, you should either assume that the other factor is constant, or
+% remove the effect of the other factors.
+
+% Also, if any prior knowledge about the local variability in the
+% bio-geochemical environment is to be used, proper reference needs to be
+% added.
+
+% (3) Slot boundary issue
+% As I pointed out a few months ago, there is a great radiometric inflation
+% in the lower part of each slot (GOCI is composed of 16 (4x4) slots, as you
+% know). The inflation has a spatially smooth pattern, and I experienced that
+% outlier removal approaches based on spatial statistics (including
+% coefficient of variation) cannot screen out the pixels contaminated by the
+% inflation. Please verify whether your screening process successfully
+% removed those samples. The inflation is sometimes greater than 20% in TOA
+% radiance (in 680, 865 nm bands), which is large enough to mess up the AC
+% process.
+
+% The cloud edge issue has not been mentioned in the manuscript, but  it is
+% highly likely the proposed screening process screen out the cloud edge
+% pixels which are not recognized as clouds by the default cloud flag. But, I
+% think it is safe to check.
+
+% (4) Vicarious gains and the algorithm coefficients.
+% The Navy vicarious gains seems very low in general. I attached my
+% validation results that I presented 3 years ago in Ocean Optics. Although
+% AC scheme is different, this can give you general ideas of the difference.
+% I'm not sure if it is a good idea to show that OBPG GOCI has significant
+% underestimation in all bands. To non ocean color people, this may seem as
+% inferior performance of GOCI itself (including optics, and data
+% processing), not as just biases in VC gains. If possible, application of
+% correct VC gains would give much better results in the sense of absolute
+% quantification. If relative variation in diurnal cycle is a main focus,
+% this issue may be less important.
+
+% Plus, the coefficients for the Chla, POC, aCDOM algorithms are not tuned
+% for GOCI. Again, this may provide incorrect estimates in an absolute sense.
+% If relative change is to be analyzed, this issue may be less important.
+
+% Best,
+% Wonkook Kim
