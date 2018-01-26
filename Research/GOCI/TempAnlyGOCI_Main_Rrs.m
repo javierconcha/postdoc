@@ -26,10 +26,11 @@ end
 close(h1)
 toc
 
-% Load Aqua data
+%% Load Aqua data
 clear AQUA_Data
 tic
-fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
+% fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
+fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -39,7 +40,7 @@ sensor_id = 'AQUA';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading AQUA Data')
       
-      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS/' s{1}{idx0}];
+      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/' s{1}{idx0}];
       AQUA_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -50,7 +51,7 @@ toc
 % Load VIIRS data
 clear VIIRS_Data
 tic
-fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS/file_list.txt');
+fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -60,7 +61,7 @@ sensor_id = 'VIIRS';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading VIIRS Data')
       
-      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS/' s{1}{idx0}];
+      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/' s{1}{idx0}];
       VIIRS_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -2098,6 +2099,9 @@ end
 %% Daily statistics for GOCI
 
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
+% GCWS width 968
+% GCWS height 433
+% total_px_GOCI = 968*433; % new GCWS
 ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
@@ -2122,7 +2126,7 @@ brdf_opt_vec = 7;
 clear cond_1t cond1 cond2 cond_used
 
 
-%% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
 first_day = datetime(2011,5,20);
 last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
 
@@ -2134,7 +2138,7 @@ cond_senz = [GOCI_Data.senz_center_value]<=senz_lim; % criteria for the sensor z
 cond_solz = [GOCI_Data.solz_center_value]<=solz_lim;
 cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 
-%% climatology data
+% climatology data
 % tic
 % par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','aot_865','angstrom','poc','ag_412_mlrc','chlor_a','brdf','solz','senz'};
 % clear GOCI_DailyStatMatrix
@@ -2181,7 +2185,7 @@ cond_CV = [GOCI_Data.median_CV]<=CV_lim;
 %             end
 %       end
 % end
-%% %%
+% %%
 tic
 if process_data_flag
       %%       %% memory preallocation
@@ -7304,6 +7308,8 @@ if process_data_flag
       end
 end
 close(h1) % closes status message window
+save('GOCI_TempAnly.mat','GOCI_Data','-v7.3','-append')
+save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 toc
 %% Daily statistics for AQUA
 
@@ -7329,8 +7335,8 @@ if process_data_flag
       for idx_brdf = 1:size(brdf_opt_vec,2)
             
             cond_brdf = [AQUA_Data.brdf_opt] == brdf_opt_vec(idx_brdf);
-            cond_senz = [AQUA_Data.senz_center_value]<=60; % criteria for the sensor zenith angle
-            cond_solz = [AQUA_Data.solz_center_value]<=75;
+            cond_senz = [AQUA_Data.senz_center_value]<=senz_lim; % criteria for the sensor zenith angle
+            cond_solz = [AQUA_Data.solz_center_value]<=solz_lim;
             cond_CV = [AQUA_Data.median_CV]<=CV_lim;
             cond_area = [AQUA_Data.pixel_count]>=(total_px_GOCI/4)/ratio_from_the_total;
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV&cond_area;
@@ -7665,8 +7671,11 @@ if process_data_flag
                         if sum(cond_1t_aux)~=0 % there is at least one image
                               data_aux = [AQUA_Data_used.angstrom_filtered_mean];
                               AQUA_DailyStatMatrix(count).angstrom_filtered_mean = data_aux(cond_1t_aux);
+                              data_aux = [AQUA_Data_used.angstrom_filtered_valid_pixel_count];
+                              AQUA_DailyStatMatrix(count).angstrom_filtered_valid_pixel_count = data_aux(cond_1t_aux);
                         else
                               AQUA_DailyStatMatrix(count).angstrom_filtered_mean = nan;
+                              AQUA_DailyStatMatrix(count).angstrom_filtered_valid_pixel_count = nan;
                         end
                         clear cond_1t_aux data_aux
                         
@@ -7840,8 +7849,8 @@ if process_data_flag
       for idx_brdf = 1:size(brdf_opt_vec,2)
             
             cond_brdf = [VIIRS_Data.brdf_opt] == brdf_opt_vec(idx_brdf);
-            cond_senz = [VIIRS_Data.senz_center_value]<=60; % criteria for the sensor zenith angle
-            cond_solz = [VIIRS_Data.solz_center_value]<=75;
+            cond_senz = [VIIRS_Data.senz_center_value]<=senz_lim; % criteria for the sensor zenith angle
+            cond_solz = [VIIRS_Data.solz_center_value]<=solz_lim;
             cond_CV = [VIIRS_Data.median_CV]<=CV_lim;
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
@@ -8115,14 +8124,14 @@ if process_data_flag
                               clear Imin Itemp
                         end
                         
-                        data_aux = [VIIRS_Data_used.median_CV];
-                        VIIRS_DailyStatMatrix(count).angstrom_median_CV = data_aux(cond_1t_aux);
-                        
                         if sum(cond_1t_aux)~=0 % there is at least one image
                               data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
                               VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = data_aux(cond_1t_aux);
+                              data_aux = [VIIRS_Data_used.angstrom_filtered_valid_pixel_count];
+                              VIIRS_DailyStatMatrix(count).angstrom_filtered_valid_pixel_count = data_aux(cond_1t_aux);
                         else
                               VIIRS_DailyStatMatrix(count).angstrom_filtered_mean = nan;
+                              VIIRS_DailyStatMatrix(count).angstrom_filtered_valid_pixel_count = nan;
                         end
                         clear cond_1t_aux
                         
@@ -8485,7 +8494,7 @@ if process_data_flag
       end
 end
 close(h1)
-%% Monthly statistics for VIIRS
+% Monthly statistics for VIIRS
 if process_data_flag
       clear VIIRS_MonthlyStatMatrix
       clear cond_1t count

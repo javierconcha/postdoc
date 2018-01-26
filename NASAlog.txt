@@ -2971,4 +2971,7 @@ LINESTRING (
 142.092 26.096,
 142.092 28.495,
 137.338 28.495)
+
+to resume broken pipe scp:
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ rsync --partial --progress --rsh=ssh jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/A2011091042000.L1A_LAC A2011091042000.L1A_LAC
 (END)

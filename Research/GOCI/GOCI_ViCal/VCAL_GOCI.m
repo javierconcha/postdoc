@@ -1319,6 +1319,7 @@ for idx0 = 1:size(wl,2)
       clear first_day last_day date_idx datetime_used
 end
 %% Re-derivation gain GOCI 745 nm band
+% angstrom AQUA
 fs = 30;
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA Angstrom');
 
@@ -1351,7 +1352,107 @@ text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 screen_size = get(0, 'ScreenSize');
 origSize = get(gcf, 'Position'); % grab original on screen size
 set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
-%%
+%% Angstrom filtered valid pixel count
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA Angstrom');
+
+subplot(2,1,1)
+% plot([AQUA_Data.datetime],[AQUA_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.angstrom_filtered_valid_pixel_count],'o')
+title('MODIS-Aqua')
+xlabel('Time')
+ylabel('Angstrom px count')
+
+subplot(2,1,2)
+hist([AQUA_DailyStatMatrix.angstrom_filtered_valid_pixel_count],100)
+xlabel('Angstrom px count')
+ylabel('Frequency')
+
+data_used = [AQUA_DailyStatMatrix.angstrom_filtered_valid_pixel_count];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.75*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.6*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+
+%% angstrom VIIRS
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','VIIRS Angstrom');
+
+subplot(2,1,1)
+% plot([VIIRS_Data.datetime],[VIIRS_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([VIIRS_DailyStatMatrix.datetime],[VIIRS_DailyStatMatrix.angstrom_filtered_mean],'o')
+title('VIIRS')
+xlabel('Time')
+ylabel('Angstrom')
+
+subplot(2,1,2)
+hist([VIIRS_DailyStatMatrix.angstrom_filtered_mean])
+xlabel('Angstrom')
+ylabel('Frequency')
+
+data_used = [VIIRS_DailyStatMatrix.angstrom_filtered_mean];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.75*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.6*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+%% Angstrom filtered valid pixel count
+fs = 30;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA Angstrom');
+
+subplot(2,1,1)
+% plot([VIIRS_Data.datetime],[VIIRS_Data.angstrom_filtered_mean],'o')
+% hold on
+plot([VIIRS_DailyStatMatrix.datetime],[VIIRS_DailyStatMatrix.angstrom_filtered_valid_pixel_count],'o')
+title('VIIRS')
+xlabel('Time')
+ylabel('Angstrom px count')
+
+subplot(2,1,2)
+hist([VIIRS_DailyStatMatrix.angstrom_filtered_valid_pixel_count],100)
+xlabel('Angstrom px count')
+ylabel('Frequency')
+
+data_used = [VIIRS_DailyStatMatrix.angstrom_filtered_valid_pixel_count];
+str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+      sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
+
+
+xLimits = get(gca,'XLim');
+yLimits = get(gca,'YLim');
+xLoc = xLimits(1)+0.75*(xLimits(2)-xLimits(1));
+yLoc = yLimits(1)+0.6*(yLimits(2)-yLimits(1));
+figure(h)
+hold on
+text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+%% angstrom SEAW
 fs = 30;
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','SeaWiFS Angstrom');
 subplot(2,1,1)

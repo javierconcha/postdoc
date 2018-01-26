@@ -103,14 +103,63 @@ Vicarious calibration for the Geostationary Ocean Color Instrument.
 \normalsize
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+\cite{Franz:07}
+\cite{Werdell:07}
+\cite{Ahn2015}
+\cite{Wang:13}
+\cite{Ahmad2010}
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Approach}
+
+% https://seabass.gsfc.nasa.gov/wiki/validation_description
+
+% - Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
+% - 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom
+% - VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
+% - GOCI time serie: run GOCI with new vcal gains
+% - Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchup
+The GOCI Clear Water Subset (\autoref{fig:GOCI_map}) was used as calibration site because it is a ocean ocean location that is oligotrophic water far from land or active volcanics islands, and therefore, the dominant aerosols result from purely maritime processes \cite{Franz:07}.
+Straight light correction \cite{Kim:2015,Kim:2016}
+to avoid the difference in acquisition time among slots
+
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=0 0 0 0,width=8cm]{./Figures/GOCI_MAP.eps}
+    %\internallinenumbers
+    \caption{Map of the GOCI Clear Water Subset (GCWS) region used as the calibration site indicated as a blue box with limits $26^o 5' 45''N$-$28^o 29' 42''N$ and $137^o 20' 16.8''E$-$142^o 5' 31.2''$. The GOCI coverage is indicated as red box and the slot 13 as black box. The GCWS was chosen as a subset of slot 12 to avoid slot edges distortion and over a low productivity water region. \label{fig:GOCI_map}} 
+\end{figure}
+
+   
+
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
 %-------------------sub-section-----------------------------
 \subsection{Calibration of the Near-Infrared Bands}
 The aerosol model used was r95f10v01 ($\alpha=0.852786$ from the 80 standard models) for an angstrom coefficient ($\alpha$) equal to 0.9.
 The angstrom coefficient was calculated from MODIS-Aqua data over the same region of study.
 %-------------------sub-section-----------------------------
 \subsection{Calibration of the Visible Bands}
+\subsubsection{MODIS-Aqua based}
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/Gvcal_MA.pdf}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on MODIS-Aqua data spanning the mission lifetime from May 2010 to March 2017. The individual calibration gains (circles) are distributed around the mission mean gain line, which is constant for all time. The filled circles are the gains that passed the quality screening process, with the grey and black fill used to distinguish the cases that fell outside or within the semi-interquartile range (SIQR), respectively. The J, M, and S labels indicate January, May, and September, respectively.  \label{fig:Gvcal_MA}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\subsubsection{SeaWiFS based}
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/Gvcal_SW.pdf}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on SeaWiFS data spanning the mission lifetime from May 2010 to March 2017. Color code same as \autoref{fig:Gvcal_MA}.  \label{fig:Gvcal_SW}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
 % jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat l2gen_test.param 
 % ifile=COMS_GOCI_L1B_GA_20121025011640.he5
 % ofile1=G20121025011640.OCCAL_valregion 
@@ -139,7 +188,7 @@ The angstrom coefficient was calculated from MODIS-Aqua data over the same regio
 % GOCI slot edge area were removed
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Verification of the calibraion}
+\section{Verification of the calibration}
 %-------------------sub-section-----------------------------
 \subsection{AERONET-OC}
 The atmospheric correction was validated using {\it in situ} observations from the AErosol RObotic NETwork-Ocean Color (AERONET-OC) as ground truth \cite{Zibordi2009}. The quality-assurance (QA) level used was level 2.0, which is the highest quality for the AERONET-OC data. The dataset from two stations were used for the analysis: Gageocho (N=20; PI: Jae-Seol Shim and Joo-Hyung Ryu) and Ieodo (N=25; PI: Young-Je Park and Hak-Yeol You). \autoref{fig:GOCI_AERO} shows scatter plots for satellite derived $R_{rs}(\lambda)$ versus {\it in situ} measurements. 

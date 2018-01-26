@@ -1,10 +1,10 @@
-ifile=COMS_GOCI_L1B_GA_20171019011643.he5
-ofile1=COMS_GOCI_L1B_GA_20171019011643.L2 
+ifile=filename.he5
+ofile1=filename_745gain.L2 
 sline=4309
 eline=4741 
 spixl=4214 
 epixl=5181 
-l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv,vgain_745,vgain_865,rhos_vvv,slot
+l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,humidity,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv,vgain_745,vgain_865,rhos_vvv,slot
 vcal_opt=1
 aer_opt=1
 aermodels=r95f10v01
