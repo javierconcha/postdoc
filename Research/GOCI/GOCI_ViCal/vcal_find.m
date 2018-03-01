@@ -8,7 +8,7 @@ GOCI_Data_used = GOCI_Data(cond_aux);clear cond_aux;
 
 % cond_aux = [SEAW_Data.brdf_opt]==7;
 % SEAW_Data_used = SEAW_Data(cond_aux);clear cond_aux;
-
+%% vcal with MODISA
 % F0 for MODISA
 % # Wavelengths (um) # Extraterrestrial Solar Irradiance (mW/cm^2/um/sr)
 % #
@@ -30,7 +30,7 @@ F0_667 = 152.255;
 F0_678 = 148.052;
 F0_748 = 128.065;
 F0_869 = 95.824;
-%% vcal with MODISA
+
 clear GOCI_MODIS_GCW_matchups
 
 fileID = fopen('GOCI_MODIS_GCW_matchups.txt','w');
@@ -117,7 +117,7 @@ for idx0 = 1:size(GOCI_Data_used,2)
       
       DOY = day(GOCI_Data_used(idx0).datetime,'dayofyear');
       
-      if abs(timeofday(SEAW_Clima_Final(DOY).datetime)-timeofday(GOCI_Data_used(idx0).datetime))<=hours(3)
+      if abs(timeofday(SEAW_Clima_Final(DOY).datetime)-timeofday(GOCI_Data_used(idx0).datetime))<=hours(3) % SEAW_Clima_Final obtained from VCAL_GOCI.m
             
             nLw_412 = SEAW_Clima_Final(DOY).Rrs_412*F0_412;
             nLw_443 = SEAW_Clima_Final(DOY).Rrs_443*F0_443;

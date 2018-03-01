@@ -27,8 +27,8 @@
 \usepackage{amsmath,epsfig}
 
 % Select what to do with todonotes: 
-\usepackage[disable]{todonotes} % notes not showed
-% \usepackage[draft]{todonotes}   % notes showed
+% \usepackage[disable]{todonotes} % notes not showed
+\usepackage[draft]{todonotes}   % notes showed
 % \usepackage[textwidth=2.0cm]{todonotes}
 \presetkeys{todonotes}{fancyline, size=\scriptsize}{}
 \setlength{\marginparwidth}{3cm}
@@ -52,18 +52,18 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{pdflscape}
+
 %%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-\title{GOCI's Vicarious Calibration in SeaDAS/L2GEN}
+\title{GOCI's Vicarious Calibration for the SeaDAS/l2gen Package}
 
 \author{Javier Concha\authormark{1,2,*}, Antonio Mannino\authormark{1}, Bryan Franz\authormark{1}, Sean Bailey\authormark{1}, and Wonkook Kim\authormark{3}}
 
 \address{\authormark{1}Ocean Ecology Lab,
-NASA Goddard Space Flight Center,
-8800 Greenbelt Rd, Greenbelt, MD 20771, USA\\
+NASA Goddard Space Flight Center, Greenbelt, MD, USA\\
 \authormark{2}Universities Space Research Association, Columbia, MD, USA\\
-\authormark{3}Korea Institute of Ocean Science and Technology, 787 Haean-ro, Ansan, Republic of Korea}
+\authormark{3}Korea Institute of Ocean Science and Technology, Busan, Republic of Korea}
 
 \email{\authormark{*}javier.concha@nasa.gov} %% email address is required
 
@@ -74,19 +74,22 @@ NASA Goddard Space Flight Center,
 
 \begin{abstract}
 % 100 words
-Vicarious calibration for the Geostationary Ocean Color Instrument.
+
 % Background/motivation/context
-%
+Accurate retrieval of satellite-derived biogeochemical products depends upon a correct on-orbit calibration. One big part of this calibration is known as vicarious calibration.
 % Aim/objectives(s)/problem statement
-% 
+A vicarious calibration for the Geostationary Ocean Color Imager (GOCI) specific for the SeaDAS/l2gen package is presented.
 % Methods
-%
+Two different approaches are investigated. 
+One approach is based on concurrent MODIS-Aqua data over an open ocean region with assumed known aerosol properties.
+The second approach uses SeaWiFS climatology over the same region.
 % Results
-%
+A validation using AERONET-OC data shows a good performance of the vicarious calibration.
+A good agreement is found when compared to MODIS-Aqua and VIIRS.
 % Conclusions
 %
 \end{abstract}
-
+\todo{update codes following Ahn's}
 \ocis{(010.4450) Oceanic optics; (280.4991) Passive remote sensing.} % REPLACE WITH CORRECT OCIS CODES FOR YOUR ARTICLE, MINIMUM OF TWO; Avoid using the OCIS codes for “General” or “General science” whenever possible.
 %For a complete list of OCIS codes, visit: https://www.osapublishing.org/oe/submit/ocis/
 
@@ -101,60 +104,134 @@ Vicarious calibration for the Geostationary Ocean Color Instrument.
 \small
 \tableofcontents
 \normalsize
+
+% % Why --  Purpose
+% Present two vicarious calibration schemes for GOCI using SeaDAS/l2gen package as an example to be applied to other sensors.
+% % Who -- Audience
+% GOCI users
+% % What -- Content
+% Vicarious Calibration
+% Validation
+% Comparison
+
+% % When -- Time constraints
+% One week
+% % Where --  Space constraints
+% At Goddard
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\cite{Franz:07}
-\cite{Werdell:07}
-\cite{Ahn2015}
-\cite{Wang:13}
-\cite{Ahmad2010}
+% vcal importance within the big picture
+Satellite Ocean Color (OC) sensors enable our ability to studying the processes that governed the Earth's marine biosphere, an important component of Earth's system, by capturing the solar energy interaction with the water properties.
+These satellite measurements can be then related to environmental properties within certain degree of accuracy and tolerable uncertainties. 
+Even though the calibration efforts before launching and on-board (i.e. lunar and solar calibration) are key for obtaining an estimation of environmental properties, they do not secure an optimal performance because systematic bias caused by the atmospheric correction algorithm, and inherent residual error in instrument calibration are not accounted for. 
+In order to obtain a well-calibrated satellite data, an extra on-orbit calibration known as vicarious calibration needs to be applied. 
+The vicarious calibration is able to adjust the system performance by updating the pre-launch and on-board instrument calibration \cite{Franz:07}. 
+This process ensures the accuracy needed to retrieve the rather small water-leaving signal, which constitutes only $~10\%$ of the total signal reaching the sensor.
+
+% GOCI
+Geostationary (GEO) OC sensors have the advantage of capturing short-term (hours) changes in ocean properties due to their temporal resolution. 
+The high frequency data from GEO OC helps to study these sub-diurnal processes including primary productivity, tidal variability, formation and dissipation of phytoplankton blooms, to name a few \cite{Ruddick2014}. 
+The first, and unfortunately the only to date, geostationary satellite dedicated to Ocean Color, the Geostationary Ocean Color Imager (GOCI) \cite{Ryu2012}, was launched in 2010 by the Republic of Korea. It monitors the Northeast Asian water surrounding the Korean peninsula capturing eight images per day with a spatial resolution of 500 m at nadir and eight spectral bands (6 VIS: 412, 443, 490, 555, 660 and 680 nm; 2 NIR: 745 and 865 nm).
+
+% NASA capavilities
+The Ocean Biology Distributed Active Archive Center (OB.DAAC) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG), acts a mirror-server for the GOCI data, which is provided by the Korea Ocean Satellite Center. In order to have full advantage of these data, the last version the multisensor level 1 level 2 generator ({\ttfamily l2gen}) version distributed with the the SeaWiFS Data Analysis System (SeaDAS) (\url{https://seadas.gsfc.nasa.gov/}) package has the capability of processing GOCI data. The {\ttfamily l2gen} code also includes tools to perform vicarious calibration (described in more details in the \autoref{sec:appendix_a}). 
+
+% vcal definition
+The vicarious calibration here follows the approach described in \cite{Franz:07} and is briefly explained here. The vicarious calibration minimizes the average difference between the expected signal from the water and the retrieved signal by applying multiplicative correction factor or gains to the total top of the atmosphere (TOA) retrieved signal (TOA radiance signal or $L_t$) forcing the retrieved water-leaving signal (water-leaving radiance or $L_w$) to looks like the targeted water-leaving signal (${L_w}^t$). 
+These gain, $g_i$, for the observation sample $i$ is calculated as \cite{Franz:07}:
+\begin{equation}\label{eq:g_i}
+  g_i={L_t}^t/L_t
+\end{equation}
+where ${L_t}^t$ is the targeted total TOA radiance and the $L_t$ is the total sensor-reaching radiance, defined as
+\begin{equation}\label{eq:L_t}
+  L_t=[L_r+L_a+t_{d_v}(L_f+L_w)]t_{g_v}t_{g_s}f_p
+\end{equation}
+where $L_w$ is the water-leaving radiance, which is the quantity of interest. The terms $L_r$, $L_a$, and $L_f$ in \autoref{eq:L_t} are the contributions from air molecules, aerosols, and white-caps or sea foam respectively. The term $t_{d_v}$ is the diffuse transmittance along the surface-sensor, and $t_{g_v}$ and $t_{g_s}$  are the transmittance accounting for the losses due to gaseous absorption in the sun-surface and surface-sensor radiant paths, respectively. The term $L_p$ is a polarization correction factor. All terms in \autoref{eq:g_i} and \autoref{eq:L_t} are spectrally dependent, but this dependency was omitted for brevity\cite{Mobley2016}\todo{check!}. The atmospheric correction scheme \cite{Mobley2016} calculates the unknown terms in \autoref{eq:L_t} in order to retrieve $L_w$.
+
+% summary
+Although the vicarious calibration is independent of the satellite sensor or the source of the targeted data, but it is specific to the atmospheric correction algorithm\cite{Franz:07}. 
+Vicarious calibration for GOCI has been performed for different atmospheric correction schemes \cite{Ahn2015,Wang:13}.
+The primary objective of this work is to provided a vicarious calibration for GOCI specific to the atmospheric correction scheme used by NASA.
+The gain for the short near infrared band ($NIR_S$) is calculated using a aerosol model based on Angstrom Coefficient from the Moderate Resolution Imaging Spectroradiometer (MODIS) Aqua (MODIS-Aqua) \cite{Esaias1998}.
+Then, two different approaches for deriving the gains in the visible bands are tested: one based on MODIS-A data and one based on climatology data from SeaWiFS. The results are validated with data from the AErosol RObotic NETwork-Ocean Color (AERONET-OC)\cite{Zibordi2009} and compared with heritage OC missions.
+
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Approach}
+The vicarious calibration adopted here is based on the standard method used for calibrating polar-orbiting OC sensors \cite{Franz:07}.
+The components of the vicarious calibration are the satellite measurement $L_t$ and the atmospheric algorithm to retrieve $L_w$ from this $L_t$.
+The goal of the vicarious calibration is to minimize the difference between remotely sensed water-leaving radiance retrievals and the expected water-leaving radiance. 
+The expected or targeted values could be based on {\it in situ} data, modeled data, regional climatologies or retrievals from another sensor.
+In this work, two sources of targeted values are explored: retrievals from MODIS-Aqua and a climatology derived from SeaWiFS.
+The vicarious calibration consists of two steps.
+First, the $NIR$ bands are calibrated, and then the visible bands are calibrated using these calibrated $NIR$ bands. In our case, both steps utilize satellite data over the same calibration site with assumed known atmospheric conditions.
 
-% https://seabass.gsfc.nasa.gov/wiki/validation_description
-
-% - Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
-% - 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom
-% - VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
-% - GOCI time serie: run GOCI with new vcal gains
-% - Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchup
-The GOCI Clear Water Subset (\autoref{fig:GOCI_map}) was used as calibration site because it is a ocean ocean location that is oligotrophic water far from land or active volcanics islands, and therefore, the dominant aerosols result from purely maritime processes \cite{Franz:07}.
-Straight light correction \cite{Kim:2015,Kim:2016}
-to avoid the difference in acquisition time among slots
-
-
+%-------------------sub-section-----------------------------
+\subsection{Calibration Site}
+The GOCI Clear Water Subset (GCWS) (\autoref{fig:GOCI_map}) was used as calibration site because it is an open ocean location that is oligotrophic water, and far from land or active volcanics islands, and therefore, the dominant aerosols result from purely maritime processes \cite{Franz:07}.
+The GCWS was chosen a subset of the region used in other studies and a subset of GOCI's slot 13 to avoid slot edges distortion \cite{Kim:2015,Kim:2016} and to avoid the difference in acquisition time among slots.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\todo{change figure without GCW box?}
 \begin{figure}[H]
   \centering
   \includegraphics[trim=0 0 0 0,width=8cm]{./Figures/GOCI_MAP.eps}
     %\internallinenumbers
-    \caption{Map of the GOCI Clear Water Subset (GCWS) region used as the calibration site indicated as a blue box with limits $26^o 5' 45''N$-$28^o 29' 42''N$ and $137^o 20' 16.8''E$-$142^o 5' 31.2''$. The GOCI coverage is indicated as red box and the slot 13 as black box. The GCWS was chosen as a subset of slot 12 to avoid slot edges distortion and over a low productivity water region. \label{fig:GOCI_map}} 
+    \caption{Map of the GOCI Clear Water Subset (GCWS) region used as the calibration site indicated as a blue box with limits $26^o 5' 45''N$-$28^o 29' 42''N$ and $137^o 20' 16.8''E$-$142^o 5' 31.2''$. The GOCI coverage is indicated as red box and the slot 13 as black box. The GCWS was chosen over a low productivity water region and as a subset of GOCI's slot 13 to avoid slot edges distortion. The GOCI Clear Water (GCW) region, indicated as a magenta box, used in other studies is shown for reference. \label{fig:GOCI_map}} 
 \end{figure}
-
-   
-
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-------------------sub-section-----------------------------
+\subsection{Satellite Data and Processing}
+
+All the satellite data from the OB.DAAC used in this study (i.e. MODIS-Aqua, VIIRS and GOCI) include the last reprocessing R2018.0, which incorporates advancements in instrument calibration and updates in the instrument-specific vicarious calibration derived from updated MOBY instrument calibration.
+
+
+
+% https://seabass.gsfc.nasa.gov/wiki/validation_description
+
+
+
+The satellite validation matchup tool {\ttfamily val\_extract} (included in source code for l2gen) was used for the statistic calculations from the L2 files. The {\ttfamily val\_extract} tool can be applied to an specific region, and it can ignored flagged pixels and a valid range can be specified.
+
 
 %-------------------sub-section-----------------------------
 \subsection{Calibration of the Near-Infrared Bands}
-The aerosol model used was r95f10v01 ($\alpha=0.852786$ from the 80 standard models) for an angstrom coefficient ($\alpha$) equal to 0.9.
-The angstrom coefficient was calculated from MODIS-Aqua data over the same region of study.
+% - Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
+
+% - 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom
+The calibration was made with the GOCI image closest in time to the MODIS-Aqua image.
+Two assumptions...
+The aerosol model used was r95f10v01 ($\alpha=0.852786$ from the 80 standard models) for an angstrom coefficient ($\alpha$) equal to 0.9. 
+Aerosol models \cite{Ahmad2010}.
+The angstrom coefficient was calculated from MODIS-Aqua data over the GCWS region. The same angstrom coefficient value for SeaWiFS.
+
+A more detailed explanation focusing on the tools used to calculate the gain for the 745 nm band is described in \autoref{sec:appendix_a}
+
+For the 745 band calibration, at least a third of the region needed to valid to pass. %(there is not median CV for GOCI data used to calculated 745, i.e. not CV for the 400-555 and AOT 865 since not valid values for this products).
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=11cm]{./Figures/Gvcal_745_745.eps}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI band at 745 nm based on MODIS-Aqua data spanning the mission lifetime from May 2010 to March 2017. The individual calibration gains (circles) are distributed around the mission mean gain line, which is constant for all time. The filled circles are the gains that passed the quality screening process, with the grey and black fill used to distinguish the cases that fell outside or within the semi-interquartile range (SIQR), respectively. The J, M, and S labels indicate January, May, and September, respectively.  \label{fig:Gvcal_745}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-------------------sub-section-----------------------------
 \subsection{Calibration of the Visible Bands}
+% - VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
 \subsubsection{MODIS-Aqua based}
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \centering
-  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/Gvcal_MA.pdf}
+  \includegraphics[trim=50 0 0 0,width=13cm]{./Figures/Gvcal_MA.pdf}
     %\internallinenumbers
     \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on MODIS-Aqua data spanning the mission lifetime from May 2010 to March 2017. The individual calibration gains (circles) are distributed around the mission mean gain line, which is constant for all time. The filled circles are the gains that passed the quality screening process, with the grey and black fill used to distinguish the cases that fell outside or within the semi-interquartile range (SIQR), respectively. The J, M, and S labels indicate January, May, and September, respectively.  \label{fig:Gvcal_MA}} 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \subsubsection{SeaWiFS based}
+The SeaWiFS climatology was calculated in a similar fashion described in \cite{Werdell:07}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \centering
-  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/Gvcal_SW.pdf}
+  \includegraphics[trim=50 0 0 0,width=13cm]{./Figures/Gvcal_SW.pdf}
     %\internallinenumbers
     \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on SeaWiFS data spanning the mission lifetime from May 2010 to March 2017. Color code same as \autoref{fig:Gvcal_MA}.  \label{fig:Gvcal_SW}} 
 \end{figure}
@@ -191,6 +268,9 @@ The angstrom coefficient was calculated from MODIS-Aqua data over the same regio
 \section{Verification of the calibration}
 %-------------------sub-section-----------------------------
 \subsection{AERONET-OC}
+
+
+% - Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchup
 The atmospheric correction was validated using {\it in situ} observations from the AErosol RObotic NETwork-Ocean Color (AERONET-OC) as ground truth \cite{Zibordi2009}. The quality-assurance (QA) level used was level 2.0, which is the highest quality for the AERONET-OC data. The dataset from two stations were used for the analysis: Gageocho (N=20; PI: Jae-Seol Shim and Joo-Hyung Ryu) and Ieodo (N=25; PI: Young-Je Park and Hak-Yeol You). \autoref{fig:GOCI_AERO} shows scatter plots for satellite derived $R_{rs}(\lambda)$ versus {\it in situ} measurements. 
 % Antonio: since we focus on diurnal variability, the time window for the AERONET validation should be reduced to +/- 1 hour because it doesn't make sense to use a 6 hour time window if our premise is that coastal waters express diurnal variability.  AERONET-OC sites are located in coastal waters, and we don't have knowledge as to their diurnal variability.   
 
@@ -255,7 +335,7 @@ The validation statistics indicate that our results show worse agreement than \c
  
 % , exceeding the values previously reported by \cite{Ahn2015}
 % From Antonio: it's not worthwhile to compare individual statistics metrics from another paper, but rather a group a statistics; our results show better (or worse) agreement than Ahn et al. 2015 based a combination of metrics (R2, RSME, APD, etc.).
-%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 % \subsubsection{Cruises Matchups?}
 % wavelength  APD    APD         RMSE    RMSE       R^2     R^2
@@ -265,16 +345,17 @@ The validation statistics indicate that our results show worse agreement than \c
 % 490         25.7  > 12.7        0.0029 > 0.0013     0.95  >  0.93
 % 555         22.8  > 10.4        0.0029 > 0.0015     0.98  >  0.94
 % 660         39.3  > 34.7        0.0007 < 0.0008     0.97  >  0.87
-
+%-%-%-%-%-%-%-%-%-%-%-%-%=TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
 \begin{table}[htbp!]
 %\internallinenumbers
 \caption{Satellite validation statistics of the atmospheric correction algorithm for GOCI. Satellite-derived values were compared with {\it in situ} observations from two AERONET-OC stations. Regression line of the form $y=m*x+b$ using the Reduced Major Axis (RMA). The statistics for all the matchups are highlighted in bold cases. \label{tab:val_stats} }
 
   \centering
-    \includegraphics[height=11cm]{./Figures/val_stats.pdf}
+    \includegraphics[height=11cm]{./Figures/val_stats_R2018vcal.pdf}
 
 \end{table}
-
+%-%-%-%-%-%-%-%-%-%-%=END TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+%-%-%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[htbp!]
   \centering
     \includegraphics[height=9cm]{./Figures/GOCI_AERO.pdf}
@@ -282,10 +363,10 @@ The validation statistics indicate that our results show worse agreement than \c
     %\internallinenumbers
     \caption{Scatter plots showing the comparison between the satellite-derived GOCI values and AERONET-OC {\it in situ} observations (Gaeocho: circles; Ieodo: triangles). The dashed black line is the 1:1 line, and the Reduced Major Axis (RMA) regression line is drawn in red. The data were color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:GOCI_AERO} } 
 \end{figure}
-
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-------------------sub-section-----------------------------
 \subsection{Sensor Cross-comparison}
-
+% - GOCI time serie: run GOCI with new vcal gains
 We computed the time series of monthly means for the Visible Infrared Imaging Radiometer Suite (VIIRS)\todo{cite}~on board the Suomi National Polar-orbiting Partnership (Suomi NPP) weather satellite and the Moderate Resolution Imaging Spectroradiometer (MODIS)\todo{cite}~on board the Aqua satellite (MODISA) over the same GCW region for cross-comparison with GOCI (\autoref{fig:CrossCompAllRrs}). 
 These data were filtered following the same previous exclusion criteria and then averaged by month. 
 For GOCI, the mean of the three midday values were used.
@@ -324,10 +405,21 @@ GOCI follows a similar trend as MODISA, with GOCI slightly lower, while VIIRS is
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+
 % Practical applications
 % Disadvantages and Advantages
 % Limitations
 % Challenges
+
+GOCI provides capability of studying coastal and ocean processes at an unprecedented temporal scale.
+
+
+The validation with in situ data exhibit results comparable to heritage satellite sensors (Figure 2\todo{?}).
+
+
+% vicarious calibration
+The vicarious calibration gains are similar but not identical to previous studies \cite{Wang:13}.
+
 
 % General
 % final conclusion
@@ -357,8 +449,49 @@ NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-E
 \section*{Acknowledgments}
 We want to acknowledge the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. Also, the principal investigator for the AERONET-OC data: Jae-Seol Shim and Joo-Hyung Ryu (Gageocho station), Young-Je Park and Hak-Yeol You (Ieodo station).
 
+
+\appendix
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the NIR Bands}\label{sec:appendix_a}
+l2gen
+
+lonlat2pixline
+
+val\_extract
+% \addcontentsline{toc}{section}{Appendix A: Calculation Vicarious Gains for the NIR Bands}
+%-%-%-%-%-%-%-%-%-%-%= FIGURE =%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/angstrom_cal.pdf}
+    %\internallinenumbers
+    \caption{Angstrom coefficient determination.  \label{fig:angstrom_cal}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_745.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the 745 nm band.  \label{fig:chart_vcal_745}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the Visible Bands}\label{sec:appendix_b}
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_vis.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the visible (VIS) bands.  \label{fig:chart_vcal_vis}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
 \end{document}
 
+
+%------------------------------------------------------------------------
 % Sean's comments:
 % Javier,
 
@@ -378,7 +511,7 @@ We want to acknowledge the Korea Ocean Satellite Center for providing the GOCI L
 % vcal_opt=1 and voila!  vgain_745 can be achieved.
 
 % Sean
-
+%------------------------------------------------------------------------
 % aer_opt	Option for aerosol calculation mode.  (Default=-3) 
  
 %   1	Multi-scattering with fixed model (Oceanic, 99% humidity)
@@ -398,6 +531,7 @@ We want to acknowledge the Korea Ocean Satellite Center for providing the GOCI L
 % -3	Multi-scattering with 2-band model selection and NIR correction
 % -9	Multi-scattering with 2-band model selection and SWIR correction(Hi-res MODIS only)
 
+%------------------------------------------------------------------------
 % Calibration control options:
 % vcal_opt	Vicarious calibration option controls whether gain and offset sensor defaults or input parameters are used: 
  
@@ -417,6 +551,38 @@ We want to acknowledge the Korea Ocean Satellite Center for providing the GOCI L
 %        -2: Multi-scattering with 2-band, RH-based model selection and
 %            iterative NIR correction
 
+%------------------------------------------------------------------------
+
+% Hi Concha,
+ 
+% I thank you for sharing the poster. Here are my comments on the poster. 
+ 
+% Best regards,
+% Wonkook Kim
+ 
+ 
+% (1) GOCI L1B areas affected by inter-slot discontinuity
+ 
+% As can be observed in your figure too, there is a discontinuity between slots, and Rrs anomalies in the area can be great particularly for Band 1, 2, and 6, and 8.
+ 
+% IF you do not want to include the sensor calibration and the stray light issues in your evaluation, please refer to the following guidelines.
+% - To avoid sensor calibration : avoid at least 50 pixels from the slot boundary, in both directions (Band 1, and 2)
+% - To avoid stray light anomaly : avoid 400 pixels from the bottom of each slot (Band 5, 6, and 8)
+ 
+% (2)　Availability of diurnal signal in the study area in "winter"
+% I see the area is quite full of cloud particularly in winter season and it's very difficult to find pixels having a full-diurnal cycle without cloud cover. Providing the statistics of available pixels will give readers insight on which season is mostly used for your statistics.
+ 
+% Plus, a single-band or two-band thresholding may not be sufficient to screen all the cloud edge pixels in that area because of time difference between bands for a pixel. (refer to Wayne Robinson's IJRS paper) So, please make sure whether the all cloud-contaminated pixels are removed from the analysis.
+ 
+% (3) SRF difference between different sensors
+% There is SRF difference between sensors, even for the bands with the same center wavelength. Difference between 660 and 665 needs to be resolved in some way, not to give an impression that the inter-satellite difference is from AC and sensor problem.
+ 
+% (4) Conclusion
+% In Conclusion, you have this sentence
+% "The atmospheric correction starts to fail for solar zenith angles larger than 60 degrees producing invalid values (negative)."
+ 
+% Do all bands have negative values in all pixels? Or you mean the chance of having negative values increases for th>60? The sentence is not clear to me.
+%------------------------------------------------------------------------
 % Wonkook's comments:
 % Hi Concha,
 

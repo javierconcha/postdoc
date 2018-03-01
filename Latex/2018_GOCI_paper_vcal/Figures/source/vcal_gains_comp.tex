@@ -1,0 +1,60 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[x11names]{xcolor}
+\usepackage{fourier}
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+
+\usepackage{cellspace}
+\setlength\cellspacetoplimit{3pt}
+\setlength\cellspacebottomlimit{0pt}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\begin{threeparttable}
+
+\normalsize
+\centering
+\begin{tabular}{ccccccccc} 
+ \hline 
+Approach 			& 412 	 & 443 	  & 490    & 555    & 660    & 680    & 745    & 865    \\ \hline
+Concha et al. (2018)\tnote{*} & 0.9893 & 0.9716 & 0.9502 & 0.9171 & 0.9160 & 0.9062 & 0.9474 & 1.0000 \\
+Wang et al. (2012) 	& 0.9862 & 0.9753 & 0.9473 & 0.9149 & 0.9245 & 0.9223 & 0.9430 & 1.0000 \\
+Ahn et al. (2015) 	& 1.0105 & 0.9891 & 0.9611 & 0.9186 & 0.9567 & 0.9659 & 0.9613 & 1.0000 \\
+% Current (NRL) 		& 0.9726 & 0.9520 & 0.9258 & 0.8974 & 0.9007 & 0.8719 & 0.9430 & 1.0000 \\
+
+\hline 
+\end{tabular}
+\begin{tablenotes}\small
+\item [*] This study (in preparation).
+\end{tablenotes}
+\end{threeparttable}
+\end{document}

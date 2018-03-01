@@ -6,10 +6,13 @@ addpath('/Users/jconchas/Documents/Research/LANDSAT8/landsat_matlab/')
 addpath('/Users/jconchas/Documents/Research/')
 addpath('/Users/jconchas/Documents/Research/GOCI/SolarAzEl/')
 addpath('/Users/jconchas/Documents/MATLAB')
+addpath('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal');
 %% Load GOCI data
 clear GOCI_Data
 tic
-fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
+% fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua/file_list_BRDF7.txt'); % new R2018.0 with vcal from AQUA
+
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -17,9 +20,10 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'GOCI';
 for idx0=1:size(s{1},1)
-      waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Data')
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      waitbar(idx0/size(s{1},1),h1,['Uploading GOCI Data: ' str1 '%'])
       
-      filepath = ['./GOCI_TemporalAnly/GOCI_ROI_STATS/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua/' s{1}{idx0}];
       GOCI_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -30,7 +34,7 @@ toc
 clear AQUA_Data
 tic
 % fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
-fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/file_list.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/file_list_BRDF7.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -38,20 +42,21 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'AQUA';
 for idx0=1:size(s{1},1)
-      waitbar(idx0/size(s{1},1),h1,'Uploading AQUA Data')
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      waitbar(idx0/size(s{1},1),h1,['Uploading AQUA Data: ' str1 '%'])
       
-      filepath = ['./GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/' s{1}{idx0}];
       AQUA_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
 
 close(h1)
 toc
-
+save('GOCI_TempAnly.mat','AQUA_Data','-append')
 % Load VIIRS data
 clear VIIRS_Data
 tic
-fileID = fopen('./GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/file_list.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/file_list_BRDF7.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -59,9 +64,10 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'VIIRS';
 for idx0=1:size(s{1},1)
-      waitbar(idx0/size(s{1},1),h1,'Uploading VIIRS Data')
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      waitbar(idx0/size(s{1},1),h1,['Uploading VIIRS Data: ' str1 '%'])
       
-      filepath = ['./GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/' s{1}{idx0}];
       VIIRS_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -80,12 +86,12 @@ load('GOCI_TempAnly.mat','GOCI_Data')
 
 % initialization
 total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
-ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
+ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 solz_lim = 75;
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
 startDate = datenum('05-15-2011');
-endDate = datenum('01-01-2017');
+endDate = datenum('12-31-2017');
 xData = startDate:datenum(years(1)):endDate;
 %% Plot
 lw = 1.5;
@@ -379,7 +385,7 @@ ms = 5;
 wl_vec = {'412','443','490','555','660','680'};
 
 for idx = 1:size(wl_vec,2)
-      
+     %% 
       eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx}));
       eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx}));
       cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
@@ -501,8 +507,9 @@ for idx = 1:size(wl_vec,2)
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
-      xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
-      yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+%       xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
+      xLoc = xLimits(1)+0.65*(xLimits(2)-xLimits(1));
+      yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
       figure(gcf)
       hold on
       text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
@@ -540,8 +547,8 @@ savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 %
 % brdf_opt = 7;
 
-% par_vec = {'chlor_a','ag_412_mlrc', 'poc','solz','senz'};
-par_vec = {'solz'};
+par_vec = {'chlor_a','ag_412_mlrc', 'poc','solz','senz'};
+% par_vec = {'solz'};
 
 for idx = 1:size(par_vec,2)
       
@@ -2023,31 +2030,31 @@ for idx_par = 1:size(par_vec,2)
             switch par_vec{idx_par}
                   case 'Rrs_412'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-0.01 0.02])
+                        xlim([0 0.02])
                   case 'Rrs_443'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-0.01 0.015])
+                        xlim([0 0.015])
                   case 'Rrs_490'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-0.01 0.01])
+                        xlim([0 0.01])
                   case 'Rrs_555'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-2e-3 3e-3])
+                        xlim([0 4e-3])
                   case 'Rrs_660'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-20e-4 5e-4])
+                        xlim([-5e-4 15e-4])
                   case 'Rrs_680'
                         x_str = 'R_{rs}(\lambda)';
-                        xlim([-2.5e-3 0.5e-3])
+                        xlim([-5e-4 1.5e-3])
                   case 'chlor_a'
                         x_str = 'Chl-{\ita}';
-                        xlim([0.05 0.25])
+                        xlim([0.0 0.6])
                   case 'ag_412_mlrc'
                         x_str = 'a_{g}(412)';
-                        xlim([0.005 0.045])
+                        xlim([0.0 0.08])
                   case 'poc'
                         x_str = 'POC';
-                        xlim([10 70])
+                        xlim([0 120])
             end
             
             str1 = sprintf('N = %i',N);
@@ -2098,10 +2105,10 @@ end
 
 %% Daily statistics for GOCI
 
-total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
+% total_px_GOCI = GOCI_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 % GCWS width 968
 % GCWS height 433
-% total_px_GOCI = 968*433; % new GCWS
+total_px_GOCI = 968*433; % new GCWS
 ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
@@ -2126,7 +2133,7 @@ brdf_opt_vec = 7;
 clear cond_1t cond1 cond2 cond_used
 
 
-% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+%% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
 first_day = datetime(2011,5,20);
 last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
 
@@ -7314,8 +7321,10 @@ toc
 %% Daily statistics for AQUA
 
 count = 0;
-
-% ratio_from_the_total = 4;
+brdf_opt_vec = 7;
+% ratio_from_the_total = 3;
+pixel_lim = (total_px_GOCI/4)/ratio_from_the_total;
+% pixel_lim = 15*15;
 
 % CV_lim = nanmean([AQUA_Data.median_CV])+3*nanstd([AQUA_Data.median_CV]);
 % CV_lim = 0.49;
@@ -7338,7 +7347,7 @@ if process_data_flag
             cond_senz = [AQUA_Data.senz_center_value]<=senz_lim; % criteria for the sensor zenith angle
             cond_solz = [AQUA_Data.solz_center_value]<=solz_lim;
             cond_CV = [AQUA_Data.median_CV]<=CV_lim;
-            cond_area = [AQUA_Data.pixel_count]>=(total_px_GOCI/4)/ratio_from_the_total;
+            cond_area = [AQUA_Data.pixel_count]>=pixel_lim;
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV&cond_area;
             
             AQUA_Data_used = AQUA_Data(cond_used);
@@ -7395,7 +7404,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_412_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0; % negative values should NOT be used
                         data_aux = [AQUA_Data_used.Rrs_412_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total; % less than half of the scene is valid, it should NOT be used
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim; % less than half of the scene is valid, it should NOT be used
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values or scene with less than half of the area is invalid
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7431,7 +7440,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_443_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_443_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7467,7 +7476,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_488_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_488_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7503,7 +7512,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_547_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7539,7 +7548,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_667_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_667_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7575,7 +7584,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.Rrs_678_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.Rrs_678_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7611,7 +7620,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.aot_869_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.aot_869_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7647,7 +7656,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.angstrom_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.angstrom_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7686,7 +7695,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.poc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.poc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7722,7 +7731,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.ag_412_mlrc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.ag_412_mlrc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7758,7 +7767,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.chlor_a_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.chlor_a_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7794,7 +7803,7 @@ if process_data_flag
                         data_aux = [AQUA_Data_used.brdf_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [AQUA_Data_used.brdf_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8283,7 +8292,7 @@ if process_data_flag
       end
 end
 close(h1)
-%%
+%
 save('GOCI_TempAnly.mat','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -10736,26 +10745,6 @@ clear cond_brdf
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 
 for idx = 1:size(par_vec,2)
-      switch par_vec{idx}
-            case 'Rrs_412'
-                  y_str = 'R_{rs}(412)';
-            case 'Rrs_443'
-                  y_str = 'R_{rs}(443)';
-            case 'Rrs_490'
-                  y_str = 'R_{rs}(490)';
-            case 'Rrs_555'
-                  y_str = 'R_{rs}(555)';
-            case 'Rrs_660'
-                  y_str = 'R_{rs}(660)';
-            case 'Rrs_680'
-                  y_str = 'R_{rs}(680)';
-            case 'chlor_a'
-                  y_str = 'Chlor-{\ita}';
-            case 'ag_412_mlrc'
-                  y_str = 'a_{g}(412)';
-            case 'poc'
-                  y_str = 'POC';
-      end
       eval(sprintf('mean_4h= nanmean(abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]));',par_vec{idx}));
       
       %%
@@ -10817,14 +10806,46 @@ for idx = 1:size(par_vec,2)
       errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+      ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};ax.YAxis.FontSize
+%       ax.XAxis.FontSize = 18;
+      ax.XTickLabelRotation = -40;
       xlim([0 9])
+      
+            switch par_vec{idx}
+            case 'Rrs_412'
+                  y_str = 'R_{rs}(412)';
+                  ylim([-15 15])
+            case 'Rrs_443'
+                  y_str = 'R_{rs}(443)';
+                  ylim([-15 15])
+            case 'Rrs_490'
+                  y_str = 'R_{rs}(490)';
+                  ylim([-15 15])
+            case 'Rrs_555'
+                  y_str = 'R_{rs}(555)';
+                  ylim([-20 20])
+            case 'Rrs_660'
+                  y_str = 'R_{rs}(660)';
+                  ylim([-60 60])
+            case 'Rrs_680'
+                  y_str = 'R_{rs}(680)';
+                  ylim([-150 150])
+            case 'chlor_a'
+                  y_str = 'Chlor-{\ita}';
+                  ylim([-30 30])
+            case 'ag_412_mlrc'
+                  y_str = 'a_{g}(412)';
+                  ylim([-15 15])
+            case 'poc'
+                  y_str = 'POC';
+                  ylim([-20 20])
+      end
       
       text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
       text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
       text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
       text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+%       text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
       text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
       text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
       text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
@@ -10841,10 +10862,10 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('R\\Delta_t[%%] for %s',y_str);
+      str1 = sprintf('R\\Delta_t[%%]');
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Time of the day (GMT)','FontSize',fs)
+      xlabel('Local Time','FontSize',fs)
       
       grid on
       %       grid minor
@@ -12773,10 +12794,10 @@ ax.YAxis.MinorTick = 'on';
 ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
 ax.YTick = [0.000 0.005 0.010 0.015];
 ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
-xlim(datenum(datetime([2011 2017],[1 1],[1 1])))
+xlim(datenum(datetime([2011 2018],[1 1],[1 1])))
 % ax.XTickLabel = {'2011','2013','2014','2015','2016',''};
 ax.XTick = (datenum([datetime(2011,1,1) datetime(2012,1,1) datetime(2013,1,1) ...
-      datetime(2014,1,1) datetime(2015,1,1) datetime(2016,1,1) datetime(2017,1,1)]));
+      datetime(2014,1,1) datetime(2015,1,1) datetime(2016,1,1) datetime(2017,1,1) datetime(2018,1,1)]));
 
 ax.TickLabelInterpreter = 'none';
 

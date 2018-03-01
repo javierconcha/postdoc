@@ -2920,9 +2920,9 @@ G2017292011643.L2_COMS_OC.nc_CHLOR_A
 G2017120011642.L2_COMS_OC.nc_CHLOR_A
 
 to do list:
-- Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
-- 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom  
-- VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
+- Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination (Task ticket #5495)
+- 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom (Task ticket #5498) 
+- VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain 
 - GOCI time serie: run GOCI with new vcal gains
 - Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchups
 
@@ -2974,4 +2974,55 @@ LINESTRING (
 
 to resume broken pipe scp:
 jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ rsync --partial --progress --rsh=ssh jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/A2011091042000.L1A_LAC A2011091042000.L1A_LAC
+--------------------------------------------------
+2018-01-30 Tue
+Ticket description for the:"GOCI vcal: gains for the VIS bands using MODISA and SEAWIFS."
+Same as ticket #5487, but for new region GCWS:
+
+elat=28.4950 slat=26.0960 slon=137.3380 elon=142.0920
+
+or
+
+sline=4309 eline=4741 spixl=4214 epixl=5181
+
+The GOCI files to be processed are contained in the first column of the attached GOCI_MODIS_GCW_matchups.txt and GOCI_SEAW_GCW_matchups.txt files.
+
+For l2gen:
+
+    line=4309 eline=4741 spixl=4214 epixl=5181
+
+    l2prod=angstrom,humidity,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
+
+    gain=[1.0,1.0,1.0,1.0,1.0,1.0,0.93,1.0]
+
+    vcal_opt=2
+
+    vcal_nlw=
+
+The attached GOCI_MODIS_GCW_matchups.txt and GOCI_SEAW_GCW_matchups.txt files contain the GOCI input files in the first column and the values for "vcal_nlw=" in par file in the second column (after the equal sign =).
+
+For val_extract:
+
+    Run val_extract with options: elat=28.4950 slat=26.0960 slon=137.3380 elon=142.0920 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN" global_att=1
+
+    Need to ensure the val-extract tar files for each run are unique to prevent clobbering.
+
+To include "OCCAL" in the output names and separated by source (MODIS or SeaWiFS), if possible.
+
+--------------------------------------------------
+2018-01-31 Wed
+to obtain a file directly in torii from the system:
+wget "http://svn101.domain.sdps/PROCTEST/raw-attachment/ticket/5495/viirs_valregion_javier.txt"
+
+to transfer to torii using ssh and a list:
+cat goci_ticket_5498_1_5000.txt|tar -T - -cf -|ssh jconchas@obpg-torii.sci.gsfc.nasa.gov "tar -C ./data/ -xvf -"
+
+zip folder:
+jconchas@anly104:~/data2/GOCI/GOCI_ROI$ zip -r GOCI_ROI_STATS_R2018_vcal_aqua.zip GOCI_ROI_STATS_R2018_vcal_vis_aqua/
+unzip folder:
+jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly$ unzip GOCI_ROI_STATS_R2018_vcal_aqua.zip 
+
+GOCI data with vcal values from AQUA:
+jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua$ pwd
+/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua
 (END)

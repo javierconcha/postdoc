@@ -125,6 +125,8 @@ end
 
 %% Products
 
+if ~strcmp(sensor_id,'GOCI_vcal')
+
 % latitude
 fullFileName = [filepath '.latitude'];
 
@@ -821,6 +823,41 @@ if exist(fullFileName, 'file')
       satcell.Rrs_680_iqr_stddev 					= str2double(s{1}{46});
       satcell.Rrs_680_iqr_rms 					= str2double(s{1}{48});
       satcell.Rrs_680_CV                                    = satcell.Rrs_680_filtered_stddev/satcell.Rrs_680_filtered_mean;
+
+end
+
+% humidity
+fullFileName = [filepath '.humidity'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      
+      satcell.humidity_center_value                    = str2double(s{1}{6});
+      satcell.humidity_valid_pixel_count               = str2double(s{1}{8});
+      satcell.humidity_max                                   = str2double(s{1}{10});
+      satcell.humidity_min                                   = str2double(s{1}{12});
+      satcell.humidity_mean                                  = str2double(s{1}{14});
+      satcell.humidity_median                                = str2double(s{1}{16});
+      satcell.humidity_stddev                                = str2double(s{1}{18});
+      satcell.humidity_rms                                   = str2double(s{1}{20});
+      satcell.humidity_filtered_valid_pixel_count      = str2double(s{1}{22});
+      satcell.humidity_filtered_max                    = str2double(s{1}{24});
+      satcell.humidity_filtered_min                    = str2double(s{1}{26});
+      satcell.humidity_filtered_mean                         = str2double(s{1}{28});
+      satcell.humidity_filtered_median                 = str2double(s{1}{30});
+      satcell.humidity_filtered_stddev                 = str2double(s{1}{32});
+      satcell.humidity_filtered_rms                    = str2double(s{1}{34});
+      satcell.humidity_iqr_valid_pixel_count           = str2double(s{1}{36});
+      satcell.humidity_iqr_max                               = str2double(s{1}{38});
+      satcell.humidity_iqr_min                               = str2double(s{1}{40});
+      satcell.humidity_iqr_mean                              = str2double(s{1}{42});
+      satcell.humidity_iqr_median                            = str2double(s{1}{44});
+      satcell.humidity_iqr_stddev                            = str2double(s{1}{46});
+      satcell.humidity_iqr_rms                               = str2double(s{1}{48});
+      satcell.humidity_CV                                    = satcell.humidity_filtered_stddev/satcell.humidity_filtered_mean;
 
 end
 
@@ -1584,36 +1621,7 @@ if exist(fullFileName, 'file')
       satcell.sena_iqr_rms 					= str2double(s{1}{48});
 end
 
-% senz
-fullFileName = [filepath '.senz'];
 
-if exist(fullFileName, 'file')
-      fileID = fopen(fullFileName);
-      s = textscan(fileID,'%s','Delimiter','=');
-      fclose(fileID);
-      satcell.senz_center_value 				= str2double(s{1}{6});
-      satcell.senz_valid_pixel_count 			= str2double(s{1}{8});
-      satcell.senz_max 						= str2double(s{1}{10});
-      satcell.senz_min 						= str2double(s{1}{12});
-      satcell.senz_mean 						= str2double(s{1}{14});
-      satcell.senz_median 						= str2double(s{1}{16});
-      satcell.senz_stddev 						= str2double(s{1}{18});
-      satcell.senz_rms 						= str2double(s{1}{20});
-      satcell.senz_filtered_valid_pixel_count  = str2double(s{1}{22});
-      satcell.senz_filtered_max 				= str2double(s{1}{24});
-      satcell.senz_filtered_min 				= str2double(s{1}{26});
-      satcell.senz_filtered_mean 				= str2double(s{1}{28});
-      satcell.senz_filtered_median 			= str2double(s{1}{30});
-      satcell.senz_filtered_stddev 			= str2double(s{1}{32});
-      satcell.senz_filtered_rms 				= str2double(s{1}{34});
-      satcell.senz_iqr_valid_pixel_count 		= str2double(s{1}{36});
-      satcell.senz_iqr_max 					= str2double(s{1}{38});
-      satcell.senz_iqr_min 					= str2double(s{1}{40});
-      satcell.senz_iqr_mean 					= str2double(s{1}{42});
-      satcell.senz_iqr_median 					= str2double(s{1}{44});
-      satcell.senz_iqr_stddev 					= str2double(s{1}{46});
-      satcell.senz_iqr_rms 					= str2double(s{1}{48});
-end
 
 % sola
 fullFileName = [filepath '.sola'];
@@ -1646,36 +1654,7 @@ if exist(fullFileName, 'file')
       satcell.sola_iqr_rms 					= str2double(s{1}{48});
 end
 
-% solz
-fullFileName = [filepath '.solz'];
 
-if exist(fullFileName, 'file')
-      fileID = fopen(fullFileName);
-      s = textscan(fileID,'%s','Delimiter','=');
-      fclose(fileID);
-      satcell.solz_center_value 				= str2double(s{1}{6});
-      satcell.solz_valid_pixel_count 			= str2double(s{1}{8});
-      satcell.solz_max 						= str2double(s{1}{10});
-      satcell.solz_min 						= str2double(s{1}{12});
-      satcell.solz_mean 						= str2double(s{1}{14});
-      satcell.solz_median 						= str2double(s{1}{16});
-      satcell.solz_stddev 						= str2double(s{1}{18});
-      satcell.solz_rms 						= str2double(s{1}{20});
-      satcell.solz_filtered_valid_pixel_count  = str2double(s{1}{22});
-      satcell.solz_filtered_max 				= str2double(s{1}{24});
-      satcell.solz_filtered_min 				= str2double(s{1}{26});
-      satcell.solz_filtered_mean 				= str2double(s{1}{28});
-      satcell.solz_filtered_median 			= str2double(s{1}{30});
-      satcell.solz_filtered_stddev 			= str2double(s{1}{32});
-      satcell.solz_filtered_rms 				= str2double(s{1}{34});
-      satcell.solz_iqr_valid_pixel_count 		= str2double(s{1}{36});
-      satcell.solz_iqr_max 					= str2double(s{1}{38});
-      satcell.solz_iqr_min 					= str2double(s{1}{40});
-      satcell.solz_iqr_mean 					= str2double(s{1}{42});
-      satcell.solz_iqr_median 					= str2double(s{1}{44});
-      satcell.solz_iqr_stddev 					= str2double(s{1}{46});
-      satcell.solz_iqr_rms 					= str2double(s{1}{48});
-end
 
 % glint_coef
 fullFileName = [filepath '.glint_coef'];
@@ -1739,6 +1718,39 @@ if exist(fullFileName, 'file')
       satcell.poc_iqr_rms                            = str2double(s{1}{48});
 end
 
+% CV
+if strcmp(sensor_id,'GOCI')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_490_CV,...
+      satcell.Rrs_555_CV,...
+      satcell.aot_865_CV]);
+elseif strcmp(sensor_id,'AQUA')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_488_CV,...
+      satcell.Rrs_547_CV,...
+      satcell.aot_869_CV]);
+elseif strcmp(sensor_id,'VIIRS')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_410_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_486_CV,...
+      satcell.Rrs_551_CV,...
+      satcell.aot_862_CV]);
+elseif strcmp(sensor_id,'SEAW')
+      satcell.median_CV = nanmedian([...
+      satcell.Rrs_412_CV,...
+      satcell.Rrs_443_CV,...
+      satcell.Rrs_490_CV,...
+      satcell.Rrs_555_CV,...
+      satcell.aot_865_CV]); 
+end  
+
+else
+        
 % vgain_412
 fullFileName = [filepath '.vgain_412'];
 
@@ -1925,36 +1937,132 @@ if exist(fullFileName, 'file')
       satcell.vgain_680_iqr_rms                            = str2double(s{1}{48});
 end
 
-% CV
-if strcmp(sensor_id,'GOCI')
-      satcell.median_CV = nanmedian([...
-      satcell.Rrs_412_CV,...
-      satcell.Rrs_443_CV,...
-      satcell.Rrs_490_CV,...
-      satcell.Rrs_555_CV,...
-      satcell.aot_865_CV]);
-elseif strcmp(sensor_id,'AQUA')
-      satcell.median_CV = nanmedian([...
-      satcell.Rrs_412_CV,...
-      satcell.Rrs_443_CV,...
-      satcell.Rrs_488_CV,...
-      satcell.Rrs_547_CV,...
-      satcell.aot_869_CV]);
-elseif strcmp(sensor_id,'VIIRS')
-      satcell.median_CV = nanmedian([...
-      satcell.Rrs_410_CV,...
-      satcell.Rrs_443_CV,...
-      satcell.Rrs_486_CV,...
-      satcell.Rrs_551_CV,...
-      satcell.aot_862_CV]);
-elseif strcmp(sensor_id,'SEAW')
-      satcell.median_CV = nanmedian([...
-      satcell.Rrs_412_CV,...
-      satcell.Rrs_443_CV,...
-      satcell.Rrs_490_CV,...
-      satcell.Rrs_555_CV,...
-      satcell.aot_865_CV]); 
-end   
+% vgain_745
+fullFileName = [filepath '.vgain_745'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_745_center_value                       = str2double(s{1}{6});
+      satcell.vgain_745_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_745_max                                = str2double(s{1}{10});
+      satcell.vgain_745_min                                = str2double(s{1}{12});
+      satcell.vgain_745_mean                                     = str2double(s{1}{14});
+      satcell.vgain_745_median                                   = str2double(s{1}{16});
+      satcell.vgain_745_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_745_rms                                = str2double(s{1}{20});
+      satcell.vgain_745_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_745_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_745_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_745_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_745_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_745_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_745_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_745_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_745_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_745_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_745_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_745_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_745_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_745_iqr_rms                            = str2double(s{1}{48});
+end
+
+% vgain_865
+fullFileName = [filepath '.vgain_865'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.vgain_865_center_value                       = str2double(s{1}{6});
+      satcell.vgain_865_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.vgain_865_max                                = str2double(s{1}{10});
+      satcell.vgain_865_min                                = str2double(s{1}{12});
+      satcell.vgain_865_mean                                     = str2double(s{1}{14});
+      satcell.vgain_865_median                                   = str2double(s{1}{16});
+      satcell.vgain_865_stddev                                   = str2double(s{1}{18});
+      satcell.vgain_865_rms                                = str2double(s{1}{20});
+      satcell.vgain_865_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.vgain_865_filtered_max                       = str2double(s{1}{24});
+      satcell.vgain_865_filtered_min                       = str2double(s{1}{26});
+      satcell.vgain_865_filtered_mean                      = str2double(s{1}{28});
+      satcell.vgain_865_filtered_median              = str2double(s{1}{30});
+      satcell.vgain_865_filtered_stddev              = str2double(s{1}{32});
+      satcell.vgain_865_filtered_rms                       = str2double(s{1}{34});
+      satcell.vgain_865_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.vgain_865_iqr_max                            = str2double(s{1}{38});
+      satcell.vgain_865_iqr_min                            = str2double(s{1}{40});
+      satcell.vgain_865_iqr_mean                           = str2double(s{1}{42});
+      satcell.vgain_865_iqr_median                               = str2double(s{1}{44});
+      satcell.vgain_865_iqr_stddev                               = str2double(s{1}{46});
+      satcell.vgain_865_iqr_rms                            = str2double(s{1}{48});
+end
+
+end
+
+% solz
+fullFileName = [filepath '.solz'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.solz_center_value                       = str2double(s{1}{6});
+      satcell.solz_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.solz_max                                = str2double(s{1}{10});
+      satcell.solz_min                                = str2double(s{1}{12});
+      satcell.solz_mean                                     = str2double(s{1}{14});
+      satcell.solz_median                                   = str2double(s{1}{16});
+      satcell.solz_stddev                                   = str2double(s{1}{18});
+      satcell.solz_rms                                = str2double(s{1}{20});
+      satcell.solz_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.solz_filtered_max                       = str2double(s{1}{24});
+      satcell.solz_filtered_min                       = str2double(s{1}{26});
+      satcell.solz_filtered_mean                      = str2double(s{1}{28});
+      satcell.solz_filtered_median              = str2double(s{1}{30});
+      satcell.solz_filtered_stddev              = str2double(s{1}{32});
+      satcell.solz_filtered_rms                       = str2double(s{1}{34});
+      satcell.solz_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.solz_iqr_max                            = str2double(s{1}{38});
+      satcell.solz_iqr_min                            = str2double(s{1}{40});
+      satcell.solz_iqr_mean                           = str2double(s{1}{42});
+      satcell.solz_iqr_median                               = str2double(s{1}{44});
+      satcell.solz_iqr_stddev                               = str2double(s{1}{46});
+      satcell.solz_iqr_rms                            = str2double(s{1}{48});
+end    
+
+% senz
+fullFileName = [filepath '.senz'];
+
+if exist(fullFileName, 'file')
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+      satcell.senz_center_value                       = str2double(s{1}{6});
+      satcell.senz_valid_pixel_count                  = str2double(s{1}{8});
+      satcell.senz_max                                = str2double(s{1}{10});
+      satcell.senz_min                                = str2double(s{1}{12});
+      satcell.senz_mean                                     = str2double(s{1}{14});
+      satcell.senz_median                                   = str2double(s{1}{16});
+      satcell.senz_stddev                                   = str2double(s{1}{18});
+      satcell.senz_rms                                = str2double(s{1}{20});
+      satcell.senz_filtered_valid_pixel_count  = str2double(s{1}{22});
+      satcell.senz_filtered_max                       = str2double(s{1}{24});
+      satcell.senz_filtered_min                       = str2double(s{1}{26});
+      satcell.senz_filtered_mean                      = str2double(s{1}{28});
+      satcell.senz_filtered_median              = str2double(s{1}{30});
+      satcell.senz_filtered_stddev              = str2double(s{1}{32});
+      satcell.senz_filtered_rms                       = str2double(s{1}{34});
+      satcell.senz_iqr_valid_pixel_count        = str2double(s{1}{36});
+      satcell.senz_iqr_max                            = str2double(s{1}{38});
+      satcell.senz_iqr_min                            = str2double(s{1}{40});
+      satcell.senz_iqr_mean                           = str2double(s{1}{42});
+      satcell.senz_iqr_median                               = str2double(s{1}{44});
+      satcell.senz_iqr_stddev                               = str2double(s{1}{46});
+      satcell.senz_iqr_rms                            = str2double(s{1}{48});
+end
+ 
 
 
 % % satcell = get_product(filepath,'ozone',satcell);

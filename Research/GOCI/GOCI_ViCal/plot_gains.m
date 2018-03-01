@@ -29,7 +29,7 @@ g_siqr_mean = nanmean(g_siqr);
 g_siqr_std =  nanstd(g_siqr);
 N_siqr= sum(~isnan(g_siqr));
 
-ylim([0.90 1.10])
+ylim([0.85 1.15])
 
 
 %       legend(['all data; N=' num2str(sum(~isnan(g)))],...
@@ -64,7 +64,7 @@ ax.XTick = xData;
 
 set(gca,'XTickLabel',[]);
 
-if strcmp(wl,'680')
+if strcmp(wl,'680')||strcmp(wl,'745')
       
       datetick(ax,'x','m','keepticks')
       
@@ -122,26 +122,26 @@ set(hl,'FontSize',fs-5);
 
 %% LaTeX
 
-if strcmp(wl,'412')
-      fprintf(FID,'&%s   \n',wl);
-      fprintf(FID,'&%.4f \n',g_siqr_mean);
-      fprintf(FID,'&%.4f \n',g_siqr_std);
-      fprintf(FID,'&%.4f \n',g_siqr_std/sqrt(N_siqr));
-      fprintf(FID,'&%.0f \n',N_siqr);
-      % fprintf(FID,'\\\\ \n');
-end
-
-s2 =  {'&680';'&0.9672';'&0.0035';'&0.0002';'&476'};
-
-fileID = fopen('Gvcal_SW_Table.tex');
-s = textscan(fileID,'%s','Delimiter','\n');
-fclose(fileID);
-
-s{end+1}=s2;
-
-formatSpec = '%s %s\n';
-
-[nrows,ncols] = size(s);
-for row = 1:nrows
-    fprintf(FID,formatSpec,s{row,:});
-end
+% if strcmp(wl,'412')
+%       fprintf(FID,'&%s   \n',wl);
+%       fprintf(FID,'&%.4f \n',g_siqr_mean);
+%       fprintf(FID,'&%.4f \n',g_siqr_std);
+%       fprintf(FID,'&%.4f \n',g_siqr_std/sqrt(N_siqr));
+%       fprintf(FID,'&%.0f \n',N_siqr);
+%       % fprintf(FID,'\\\\ \n');
+% end
+% 
+% s2 =  {'&680';'&0.9672';'&0.0035';'&0.0002';'&476'};
+% 
+% fileID = fopen('Gvcal_SW_Table.tex');
+% s = textscan(fileID,'%s','Delimiter','\n');
+% fclose(fileID);
+% 
+% s{end+1}=s2;
+% 
+% formatSpec = '%s %s\n';
+% 
+% [nrows,ncols] = size(s);
+% for row = 1:nrows
+%     fprintf(FID,formatSpec,s{row,:});
+% end

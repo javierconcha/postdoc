@@ -362,7 +362,7 @@ set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %% Load SeaWiFS data
 clear SEAW_Data
 tic
-fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/SEAWIFS_ROI_STAT/file_list.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/SEAWIFS_ROI_STAT_R2018/file_list_BRDF7.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -372,7 +372,7 @@ sensor_id = 'SEAW';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading SeaWiFS Data')
       
-      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/SEAWIFS_ROI_STAT/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/SEAWIFS_ROI_STAT_R2018/' s{1}{idx0}];
       SEAW_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -387,8 +387,13 @@ process_data_flag = 1;
 ratio_from_the_total = 3;
 
 brdf_opt_vec = 7;
+senz_lim = 60;
+solz_lim = 75;
 % CV_lim = nanmean([SEAW_Data.median_CV])+3*nanstd([SEAW_Data.median_CV]);
-% CV_lim = 0.49;
+CV_lim = 0.25;
+
+% pixel_lim = (total_px_GOCI/4.84)/ratio_from_the_total;
+pixel_lim = 15*15;
 
 if process_data_flag
       clear SEAW_DailyStatMatrix SEAW_Data_used
@@ -405,8 +410,8 @@ if process_data_flag
       for idx_brdf = 1:size(brdf_opt_vec,2)
             
             cond_brdf = [SEAW_Data.brdf_opt] == brdf_opt_vec(idx_brdf);
-            cond_senz = [SEAW_Data.senz_center_value]<=60; % criteria for the sensor zenith angle
-            cond_solz = [SEAW_Data.solz_center_value]<=75;
+            cond_senz = [SEAW_Data.senz_center_value]<=senz_lim; % criteria for the sensor zenith angle
+            cond_solz = [SEAW_Data.solz_center_value]<=solz_lim;
             cond_CV = [SEAW_Data.median_CV]<=CV_lim;
             cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
             
@@ -447,7 +452,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.Rrs_412_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0; % negative values should NOT be used
                         data_aux = [SEAW_Data_used.Rrs_412_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total; % less than half of the scene is valid, it should NOT be used
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim; % less than half of the scene is valid, it should NOT be used
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values or scene with less than half of the area is invalid
                         cond_1t_aux = logical(cond_1t_aux);
@@ -483,7 +488,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.Rrs_443_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.Rrs_443_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -519,7 +524,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.Rrs_490_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.Rrs_490_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -555,7 +560,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.Rrs_555_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.Rrs_555_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -591,7 +596,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.Rrs_670_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.Rrs_670_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -627,7 +632,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.aot_865_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.aot_865_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -663,7 +668,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.angstrom_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.angstrom_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -699,7 +704,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.poc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.poc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -735,7 +740,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.ag_412_mlrc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.ag_412_mlrc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -771,7 +776,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.chlor_a_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.chlor_a_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -807,7 +812,7 @@ if process_data_flag
                         data_aux = [SEAW_Data_used.brdf_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [SEAW_Data_used.brdf_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/4.84)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -1120,17 +1125,19 @@ save('ValCalGOCI.mat','SEAW_Clima_Final','-append')
 %% Load GOCI vcal using SeaWiFS data
 clear Gvcal_SW_Data
 tic
-fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_SW.txt');
+% fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_SW.txt');
+% fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_SW.txt');
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_ROI_STATS_R2018_vcal_vis_seaw/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
 h1 = waitbar(0,'Initializing ...');
 
-sensor_id = 'GOCI';
+sensor_id = 'GOCI_vcal';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data using SeaWiFS...')
       
-      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_ROI_STATS_R2018_vcal_vis_seaw/' s{1}{idx0}];
       Gvcal_SW_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -1141,7 +1148,7 @@ save('ValCalGOCI.mat','Gvcal_SW_Data','-append')
 
 %% Vcal using SeaWiFS climatology
 
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 % latex table
 !rm ./Gvcal_SW_Table.tex
@@ -1168,6 +1175,8 @@ FID = fopen('./Gvcal_SW_Table.tex','w');
 
 total_px_GOCI = Gvcal_SW_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+pixel_lim = total_px_GOCI/ratio_from_the_total;
+% pixel_lim = 15*15;
 
 CV_lim = 0.25;
 solz_lim = 75;
@@ -1177,7 +1186,7 @@ wl = {'412','443','490','555','660','680'};
 
 for idx0 = 1:size(wl,2)
       %%
-      eval(sprintf('cond_area = [Gvcal_SW_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
+      eval(sprintf('cond_area = [Gvcal_SW_Data.vgain_%s_filtered_valid_pixel_count] >= pixel_lim;',wl{idx0}));
       cond_senz = [Gvcal_SW_Data.senz_center_value] <= senz_lim;
       cond_solz = [Gvcal_SW_Data.solz_center_value] <= solz_lim;
       cond_used = cond_area&cond_senz&cond_solz;
@@ -1231,17 +1240,18 @@ end
 %% Load GOCI vcal using MODISA data
 clear Gvcal_MA_Data
 tic
-fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_MA.txt');
+% fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/file_list_MA.txt'); % before R2018.0
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_ROI_STATS_R2018_vcal_vis_aqua/file_list.txt');
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
 h1 = waitbar(0,'Initializing ...');
 
-sensor_id = 'GOCI';
+sensor_id = 'GOCI_vcal';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data using MODISA...')
       
-      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/MA_SW_ROI_STAT/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_ROI_STATS_R2018_vcal_vis_aqua/' s{1}{idx0}];
       Gvcal_MA_Data(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -1253,6 +1263,11 @@ save('ValCalGOCI.mat','Gvcal_MA_Data','-append')
 total_px_GOCI = Gvcal_MA_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
 ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
 
+pixel_lim = total_px_GOCI/ratio_from_the_total;
+% pixel_lim = 15*15;
+
+load('ValCalGOCI.mat','GOCI_MODIS_GCW_matchups'); % from vcal_find.m
+
 CV_lim = 0.25;
 solz_lim = 75;
 senz_lim = 60;
@@ -1261,7 +1276,7 @@ wl = {'412','443','490','555','660','680'};
 
 for idx0 = 1:size(wl,2)
       %%
-      eval(sprintf('cond_area = [Gvcal_MA_Data.vgain_%s_filtered_valid_pixel_count] >= total_px_GOCI/ratio_from_the_total;',wl{idx0}));
+      eval(sprintf('cond_area = [Gvcal_MA_Data.vgain_%s_filtered_valid_pixel_count] >= pixel_lim;',wl{idx0}));
       cond_senz = [Gvcal_MA_Data.senz_center_value] <= senz_lim;
       cond_solz = [Gvcal_MA_Data.solz_center_value] <= solz_lim;
       cond_used = cond_area&cond_senz&cond_solz;
@@ -1288,16 +1303,17 @@ for idx0 = 1:size(wl,2)
                   cond_auxMA = date_idx(idx).Year==YearMA...
                         & date_idx.Month(idx)==MonthMA...
                         & date_idx.Day(idx)==DayMA;
-                  
-                  datetime_aux = [GOCI_MODIS_GCW_matchups(cond_auxMA).AQUA_datetime];
-                  
-                  Gvcal_MA_Data_aux = Gvcal_MA_Data_used(cond_aux);
-                  datetim_aux = datetime_used(cond_aux);
-                  [~,I] = min(abs(timeofday(datetim_aux)-timeofday(datetime_aux(1))));
-                  count = count+1;
-                  Gvcal_MA_Data_filtered(count) = Gvcal_MA_Data_aux(I);
-                  
-                  clear datetime_aux cond_auxMA I cond_aux Gvcal_MA_Data_aux
+                  if sum(cond_auxMA)~=0
+                        datetime_aux = [GOCI_MODIS_GCW_matchups(cond_auxMA).AQUA_datetime];
+                        
+                        Gvcal_MA_Data_aux = Gvcal_MA_Data_used(cond_aux);
+                        datetim_aux = datetime_used(cond_aux);
+                        [~,I] = min(abs(timeofday(datetim_aux)-timeofday(datetime_aux(1))));
+                        count = count+1;
+                        Gvcal_MA_Data_filtered(count) = Gvcal_MA_Data_aux(I);
+                        
+                        clear datetime_aux cond_auxMA I cond_aux Gvcal_MA_Data_aux
+                  end
             end
       end
       clear count idx
@@ -1326,7 +1342,7 @@ h = figure('Color','white','DefaultAxesFontSize',fs,'Name','MODISA Angstrom');
 subplot(2,1,1)
 % plot([AQUA_Data.datetime],[AQUA_Data.angstrom_filtered_mean],'o')
 % hold on
-plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.angstrom_filtered_mean],'o')
+plot([AQUA_DailyStatMatrix.datetime],[AQUA_DailyStatMatrix.angstrom_filtered_mean],'ok')
 title('MODIS-Aqua')
 xlabel('Time')
 ylabel('Angstrom')
@@ -1337,7 +1353,7 @@ xlabel('Angstrom')
 ylabel('Frequency')
 
 data_used = [AQUA_DailyStatMatrix.angstrom_filtered_mean];
-str1 = sprintf('N: %i\nmean: %2.2f [sr^{-1}]\nmax: %2.2f [sr^{-1}]\nmin: %2.2f [sr^{-1}]\nsd: %2.2f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.2f \nmax: %2.2f \nmin: %2.2f \nSD: %2.2f ',...
       sum(~isnan(data_used)),nanmean(data_used),nanmax(data_used),nanmin(data_used),nanstd(data_used));
 
 
@@ -1612,6 +1628,121 @@ text(xLoc,yLoc,str1,'FontSize',fs-3,'FontWeight','normal');
 screen_size = get(0, 'ScreenSize');
 origSize = get(gcf, 'Position'); % grab original on screen size
 set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
+
+%% 745 band gain: loading data
+clear Gvcal_745
+tic
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_aqua/file_list_r95f10v01.txt'); % r50f20v01 r95f10v01
+s = textscan(fileID,'%s','Delimiter','\n');
+fclose(fileID);
+
+h1 = waitbar(0,'Initializing ...');
+
+sensor_id = 'GOCI_vcal';
+for idx0=1:size(s{1},1)
+      waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data for 745 gain calculation...')
+      
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_aqua/' s{1}{idx0}];
+      Gvcal_745(idx0) = loadsatcell_tempanly(filepath,sensor_id);
+      
+end
+close(h1)
+toc
+
+save('ValCalGOCI.mat','Gvcal_745','-append')
+
+%% 745 band gain: loading data
+
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/';
+
+% latex table
+!rm ./Gvcal_745_Table.tex
+FID = fopen('./Gvcal_745_Table.tex','w');
+
+% fprintf(FID,'\\begin{tabular}{ccccccccccccc} \n \\hline \n');
+
+% fprintf(FID, 'Sat (nm) ');
+% fprintf(FID, '& InSitu (nm) ');
+% fprintf(FID, '& $R^2$ ');
+% fprintf(FID, '& Regression ');
+% fprintf(FID, '& RMSE ');
+% fprintf(FID, '& N ');
+% fprintf(FID, '& Mean APD ($\\%%$) ');
+% fprintf(FID, '& St.Dev. APD ($\\%%$) ');
+% fprintf(FID, '& Median APD ($\\%%$) ');
+% fprintf(FID, '& Bias ($\\%%$) ');
+% fprintf(FID, '& Median ratio ');
+% fprintf(FID, '& SIQR ');
+% fprintf(FID, '& rsqcorr ');
+% fprintf(FID,'\\\\ \\hline \n');
+
+%
+
+total_px_GOCI = Gvcal_745(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
+ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+
+pixel_lim=total_px_GOCI/ratio_from_the_total;
+% pixel_lim=15*15;
+
+solz_lim = 75;
+senz_lim = 60;
+CV_lim = 0.15;
+
+wl = {'745'};
+
+for idx0 = 1:size(wl,2)
+      %%
+      eval(sprintf('cond_area = [Gvcal_745.vgain_%s_filtered_valid_pixel_count] >= pixel_lim;',wl{idx0}));
+      cond_senz = [Gvcal_745.senz_center_value] <= senz_lim;
+      cond_solz = [Gvcal_745.solz_center_value] <= solz_lim;
+      cond_CV = [Gvcal_745.vgain_745_filtered_stddev]./[Gvcal_745.vgain_745_filtered_mean]<=CV_lim;
+      cond_used = cond_area&cond_senz&cond_solz&cond_CV;
+      
+      
+      Gvcal_745_used = Gvcal_745(cond_used);
+      
+      first_day = datetime(2011,5,20);
+      last_day = datetime(Gvcal_745_used(end).datetime.Year,Gvcal_745_used(end).datetime.Month,Gvcal_745_used(end).datetime.Day);
+     
+      date_idx = first_day:last_day;
+      
+      datetime_used = [Gvcal_745_used.datetime];
+      
+      [Year,Month,Day] = datevec(datetime_used);
+      
+      
+      count = 0;
+      for idx = 1:size(date_idx,2)
+            cond_aux = date_idx(idx).Year==Year...
+                  & date_idx.Month(idx)==Month...
+                  & date_idx.Day(idx)==Day;
+            if sum(cond_aux)~=0
+                  Gvcal_745_aux = Gvcal_745_used(cond_aux);
+                  datetim_aux = datetime_used(cond_aux);
+                  [~,I] = min(abs(timeofday(datetim_aux)-(hours(3)+minutes(30)))); % 
+                  count = count+1;
+                  Gvcal_745_filtered(count) = Gvcal_745_aux(I);
+            end
+      end
+      clear count idx cond_aux Gvcal_745_aux datetim_aux I
+      
+      eval(sprintf('g = [Gvcal_745_filtered.vgain_%s_filtered_mean];',wl{idx0}));
+      datetime_vec = [Gvcal_745_filtered.datetime];
+      
+      % plot
+      fs = 30;
+      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',wl{idx0});
+      
+      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID);
+      type Gvcal_SW_Table.tex
+      
+      set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+      saveas(gcf,[savedirname 'Gvcal_745_' wl{idx0}],'epsc')
+      
+      clear Gvcal_745_filtered screen_size origSize cond_used cond_area cond_senz cond_solz Gvcal_745_used
+      clear Year Month Day Q1 Q2 cond_siqr g_siqr datetime_siqr
+      clear first_day last_day date_idx datetime_used
+end
 %%
 % Javier,
 %

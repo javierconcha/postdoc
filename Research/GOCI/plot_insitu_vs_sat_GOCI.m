@@ -346,10 +346,10 @@ disp(['rsq_corr = ' num2str(rsq_corr)])
 % latex table
 
 % if nargin == 6
-      fprintf(FID,'%s & ',wl_sat);
-      fprintf(FID,'%s & ',wl_ins);
+      fprintf(FID,'%s (%s) & ',wl_sat,wl_ins);
       fprintf(FID,'%2.2f & ',rsq_SS);
-      fprintf(FID,'$%s$ & ',str_reg); % regression equation
+      fprintf(FID,'%1.2f & ',a(1)); % regression equation
+      fprintf(FID,'%1.4f & ',a(2)); % regression equation
       fprintf(FID,'%2.4f & ',RMSE);
       fprintf(FID,'%2.0f & ',size(C_insitu,2));
       fprintf(FID,'%2.1f & ',Mean_APD);
@@ -357,7 +357,7 @@ disp(['rsq_corr = ' num2str(rsq_corr)])
       fprintf(FID,'%2.1f & ',Median_APD);
       fprintf(FID,'%2.1f & ',Percentage_Bias);
       fprintf(FID,'%2.2f & ',Median_ratio);
-      fprintf(FID,'%2.2f & ',SIQR);
-      fprintf(FID,'%2.2f',rsq_corr);
+      fprintf(FID,'%2.2f ',SIQR);
+%       fprintf(FID,'%2.2f',rsq_corr);
       fprintf(FID,'\\\\ \n');
 % end
