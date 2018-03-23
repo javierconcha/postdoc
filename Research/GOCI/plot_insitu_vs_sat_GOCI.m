@@ -219,14 +219,14 @@ ax.YAxis.Exponent = -3;
 
 if sum(isfinite(Matchup_ins_used))    
       
-      [~,~,~] = calc_stat(Matchup_ins_0,Matchup_sat_0,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_1,Matchup_sat_1,Rrs_max,wl_sat,wl_ins,FID);      
-      [~,~,~] = calc_stat(Matchup_ins_2,Matchup_sat_2,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_3,Matchup_sat_3,Rrs_max,wl_sat,wl_ins,FID);      
-      [~,~,~] = calc_stat(Matchup_ins_4,Matchup_sat_4,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_5,Matchup_sat_5,Rrs_max,wl_sat,wl_ins,FID);      
-      [~,~,~] = calc_stat(Matchup_ins_6,Matchup_sat_6,Rrs_max,wl_sat,wl_ins,FID);
-      [~,~,~] = calc_stat(Matchup_ins_7,Matchup_sat_7,Rrs_max,wl_sat,wl_ins,FID);
+%       [~,~,~] = calc_stat(Matchup_ins_0,Matchup_sat_0,Rrs_max,wl_sat,wl_ins,FID);
+%       [~,~,~] = calc_stat(Matchup_ins_1,Matchup_sat_1,Rrs_max,wl_sat,wl_ins,FID);      
+%       [~,~,~] = calc_stat(Matchup_ins_2,Matchup_sat_2,Rrs_max,wl_sat,wl_ins,FID);
+%       [~,~,~] = calc_stat(Matchup_ins_3,Matchup_sat_3,Rrs_max,wl_sat,wl_ins,FID);      
+%       [~,~,~] = calc_stat(Matchup_ins_4,Matchup_sat_4,Rrs_max,wl_sat,wl_ins,FID);
+%       [~,~,~] = calc_stat(Matchup_ins_5,Matchup_sat_5,Rrs_max,wl_sat,wl_ins,FID);      
+%       [~,~,~] = calc_stat(Matchup_ins_6,Matchup_sat_6,Rrs_max,wl_sat,wl_ins,FID);
+%       [~,~,~] = calc_stat(Matchup_ins_7,Matchup_sat_7,Rrs_max,wl_sat,wl_ins,FID);
       [x1,y1,str1] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins,FID);
       
       % plot
@@ -266,7 +266,7 @@ end
 
 PD = abs(C_insitu-C_alg)./C_insitu; % percent difference
 
-Mean_APD = (100/N)*sum(PD);% mean of the absolute percent difference (APD)
+Mean_APD = 100*mean(PD);% mean of the absolute percent difference (APD)
 
 Stdv_APD = 100*std(PD);% standard deviation of the absolute difference
 

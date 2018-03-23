@@ -52,8 +52,8 @@ end
 
 close(h1)
 toc
-save('GOCI_TempAnly.mat','AQUA_Data','-append')
-% Load VIIRS data
+% save('GOCI_TempAnly.mat','AQUA_Data','-append')
+%% Load VIIRS data
 clear VIIRS_Data
 tic
 fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/file_list_BRDF7.txt');
@@ -73,7 +73,7 @@ for idx0=1:size(s{1},1)
 end
 close(h1)
 toc
-%
+%%
 tic
 save('GOCI_TempAnly.mat','GOCI_Data','-v7.3')
 save('GOCI_TempAnly.mat','AQUA_Data','-append')
@@ -2133,7 +2133,7 @@ brdf_opt_vec = 7;
 clear cond_1t cond1 cond2 cond_used
 
 
-%% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
+% first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
 first_day = datetime(2011,5,20);
 last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
 
@@ -7315,8 +7315,8 @@ if process_data_flag
       end
 end
 close(h1) % closes status message window
-save('GOCI_TempAnly.mat','GOCI_Data','-v7.3','-append')
-save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
+% save('GOCI_TempAnly.mat','GOCI_Data','-v7.3','-append')
+% save('GOCI_TempAnly.mat','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 toc
 %% Daily statistics for AQUA
 
@@ -7540,6 +7540,42 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nan;
                         end
                         clear cond_1t_aux data_aux
+
+                        %% Rrs_555
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.Rrs_547_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).Rrs_555_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.Rrs_547_filtered_mean];
+                              AQUA_DailyStatMatrix(count).Rrs_555_filtered_mean = conv_rrs_to_555(data_aux(cond_1t_aux),547);
+                        else
+                              AQUA_DailyStatMatrix(count).Rrs_555_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
                         
                         %% Rrs_667
                         % only positive values and if more of half of the area is valid
@@ -7613,6 +7649,259 @@ if process_data_flag
                         end
                         clear cond_1t_aux data_aux
                         
+
+                        %% nLw_412
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_412_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0; % negative values should NOT be used
+                        data_aux = [AQUA_Data_used.nLw_412_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim; % less than half of the scene is valid, it should NOT be used
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values or scene with less than half of the area is invalid
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_412_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_412_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_412_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_412_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_443
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_443_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_443_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_443_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_443_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_443_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_443_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_488
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_488_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_488_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_488_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_488_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_488_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_488_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_547
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_547_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_547_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_547_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_547_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_547_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_547_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+
+                        %% nLw_555
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_555_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_555_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_555_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_555_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_555_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_555_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_667
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_667_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_667_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_667_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_667_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_667_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_667_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_678
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [AQUA_Data_used.nLw_678_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [AQUA_Data_used.nLw_678_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<=pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        %                         % best geometry if there is more than one image
+                        %                         if sum(cond_1t_aux)>1
+                        %                               I = find(cond_1t_aux);
+                        %                               data_aux = [AQUA_Data_used.solz_center_value];
+                        %                               [~,Itemp] = min(data_aux(cond_1t_aux));
+                        %                               Imin = I(Itemp);
+                        %                               cond_1t_aux = 0.*cond_1t_aux;
+                        %                               cond_1t_aux(Imin) = 1;
+                        %                               cond_1t_aux = logical(cond_1t_aux);
+                        %                               clear Imin Itemp
+                        %                         end
+                        
+                        data_aux = [AQUA_Data_used.median_CV];
+                        AQUA_DailyStatMatrix(count).nLw_678_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [AQUA_Data_used.nLw_678_filtered_mean];
+                              AQUA_DailyStatMatrix(count).nLw_678_filtered_mean = data_aux(cond_1t_aux);
+                        else
+                              AQUA_DailyStatMatrix(count).nLw_678_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+
                         %% aot_869
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -7843,6 +8132,8 @@ count = 0;
 
 % CV_lim = nanmean([VIIRS_Data.median_CV])+3*nanstd([VIIRS_Data.median_CV]);
 
+pixel_lim = (total_px_GOCI/2.25)/ratio_from_the_total;
+
 if process_data_flag
       clear VIIRS_DailyStatMatrix
       clear cond_1t cond1 cond2 cond_used
@@ -7861,7 +8152,8 @@ if process_data_flag
             cond_senz = [VIIRS_Data.senz_center_value]<=senz_lim; % criteria for the sensor zenith angle
             cond_solz = [VIIRS_Data.solz_center_value]<=solz_lim;
             cond_CV = [VIIRS_Data.median_CV]<=CV_lim;
-            cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
+            cond_area = [VIIRS_Data.pixel_count]>=pixel_lim;
+            cond_used = cond_brdf&cond_senz&cond_solz&cond_CV&cond_area;
             
             VIIRS_Data_used = VIIRS_Data(cond_used);
             
@@ -7886,11 +8178,14 @@ if process_data_flag
                   if sum(cond_1t) ~= 0
                         
                         count = count+1;
-                        
-                        VIIRS_DailyStatMatrix(count).datetime =  date_idx(idx);
+                    
+                        VIIRS_DailyStatMatrix(count).datetime =  VIIRS_Data_used(cond_1t).datetime;
+                        VIIRS_DailyStatMatrix(count).DOY = day(date_idx(idx),'dayofyear');
+                        VIIRS_DailyStatMatrix(count).date =  date_idx(idx);
                         VIIRS_DailyStatMatrix(count).images_per_day = nansum(cond_1t);
                         VIIRS_DailyStatMatrix(count).brdf_opt = brdf_opt_vec(idx_brdf);
                         VIIRS_DailyStatMatrix(count).idx_to_VIIRS_Data = find(cond_1t);
+                        VIIRS_DailyStatMatrix(count).ifile = VIIRS_Data_used(cond_1t).ifile;
                         
                         %% Rrs_410
                         % only positive values and if more of half of the area is valid
@@ -7899,7 +8194,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_410_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_410_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7935,7 +8230,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_443_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_443_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -7971,7 +8266,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_486_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_486_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8007,7 +8302,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_551_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_551_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8043,7 +8338,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.Rrs_671_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.Rrs_671_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8079,7 +8374,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.aot_862_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.aot_862_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8115,7 +8410,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.angstrom_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.angstrom_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8151,7 +8446,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.poc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.poc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8187,7 +8482,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.ag_412_mlrc_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8223,7 +8518,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.chlor_a_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.chlor_a_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8259,7 +8554,7 @@ if process_data_flag
                         data_aux = [VIIRS_Data_used.brdf_filtered_mean];
                         cond_neg = data_aux(cond_1t_aux)<=0;
                         data_aux = [VIIRS_Data_used.brdf_valid_pixel_count];
-                        cond_area = data_aux(cond_1t_aux)<(total_px_GOCI/2.25)/ratio_from_the_total;
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
                         idx_aux = I(cond_area|cond_neg); % neg values
                         cond_1t_aux(idx_aux) = 0; % not to use neg values
                         cond_1t_aux = logical(cond_1t_aux);
@@ -8292,8 +8587,8 @@ if process_data_flag
       end
 end
 close(h1)
-%
-save('GOCI_TempAnly.mat','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
+
+% save('GOCI_TempAnly.mat','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8503,7 +8798,7 @@ if process_data_flag
       end
 end
 close(h1)
-% Monthly statistics for VIIRS
+%% Monthly statistics for VIIRS
 if process_data_flag
       clear VIIRS_MonthlyStatMatrix
       clear cond_1t count
@@ -8589,7 +8884,8 @@ end
 %
 % save('GOCI_TempAnly.mat','ClimatologyMatrix','GOCI_DailyStatMatrix','AQUA_DailyStatMatrix','VIIRS_DailyStatMatrix','-append')
 close(h1)
-save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
+%%
+% save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
 %% Basics stats for GOCI_DailyStatMatrix
 
 nvalid = 3;
@@ -8910,7 +9206,7 @@ ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 grid on
 
 %% Plot Monthly Rrs GOCI vs AQUA and VIIRS
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 save_opt = 0;
 
@@ -12127,7 +12423,7 @@ for idx0 = 1:size(wl,2)
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' wl{idx0}],'epsc')
 end
 %% Scatter plots for Rrs -- from GOCI_Data
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 clear GOCI_date VIIRS_date AQUA_date
 clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 clear GOCI_used VIIRS_used AQUA_used
@@ -12288,19 +12584,23 @@ for idx0 = 1:size(par,2)
 end
 
 %% Rrs ratios -- monthly
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 
 brdf_opt = 7;
 
-GOCI_date = [GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
-VIIRS_date = [VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
-AQUA_date = [AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt).datetime];
+cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+GOCI_date = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
+GOCI_used = GOCI_MonthlyStatMatrix(cond_brdf);
 
-GOCI_used = GOCI_MonthlyStatMatrix([GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt);
-VIIRS_used = VIIRS_MonthlyStatMatrix([VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt);
-AQUA_used = AQUA_MonthlyStatMatrix([AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt);
+cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+VIIRS_date = [VIIRS_MonthlyStatMatrix(cond_brdf).datetime];
+VIIRS_used = VIIRS_MonthlyStatMatrix(cond_brdf);
+
+cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+AQUA_date = [AQUA_MonthlyStatMatrix(cond_brdf).datetime];
+AQUA_used = AQUA_MonthlyStatMatrix(cond_brdf);
 
 
 % all in the same temporal grid
@@ -12576,7 +12876,7 @@ saveas(gcf,[savedirname 'TimeSerie_Angstrom'],'epsc')
 
 brdf_opt = 7;
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 % chlor_a
 fs = 25;
@@ -12730,7 +13030,7 @@ plot([VIIRS_Data.datetime],[VIIRS_Data.sola_center_value],'o')
 title('sola')
 
 %% Time series for all Rrs
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 brdf_opt =7;
 fs = 28;

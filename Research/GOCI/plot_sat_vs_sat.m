@@ -2,7 +2,8 @@ function [h,ax,leg] = plot_sat_vs_sat(parname,wl_x,wl_y,sat_name_x,sat_name_y,x_
 
 %% filtered
 cond0 =  ~isnan(y_data)&~isnan(x_data)&...
-      isfinite(y_data)&isfinite(x_data); % valid values
+      isfinite(y_data)&isfinite(x_data)&...
+      y_data>0&x_data>0; % valid values
 
 %% plot
 x_data_used = x_data(cond0);
@@ -81,7 +82,8 @@ par_y_data_max = max(y_data_used)*1.05;
 % par_x_data_min = min(x_data_used)*0.95;
 par_x_data_max = max(x_data_used)*1.05;
 
-par_min = min([par_y_data_min par_x_data_min]);
+% par_min = min([par_y_data_min par_x_data_min]);
+par_min = 0;
 par_max = max([par_y_data_max par_x_data_max]);
 
 xlim([par_min par_max])

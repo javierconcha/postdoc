@@ -392,8 +392,8 @@ solz_lim = 75;
 % CV_lim = nanmean([SEAW_Data.median_CV])+3*nanstd([SEAW_Data.median_CV]);
 CV_lim = 0.25;
 
-% pixel_lim = (total_px_GOCI/4.84)/ratio_from_the_total;
-pixel_lim = 15*15;
+pixel_lim = (total_px_GOCI/4.84)/ratio_from_the_total;
+% pixel_lim = 15*15;
 
 if process_data_flag
       clear SEAW_DailyStatMatrix SEAW_Data_used
@@ -625,6 +625,187 @@ if process_data_flag
                         end
                         clear cond_1t_aux data_aux
                         
+                       %% nLw_412
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [SEAW_Data_used.nLw_412_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0; % negative values should NOT be used
+                        data_aux = [SEAW_Data_used.nLw_412_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim; % less than half of the scene is valid, it should NOT be used
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values or scene with less than half of the area is invalid
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              data_aux = [SEAW_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                        
+                        data_aux = [SEAW_Data_used.median_CV];
+                        SEAW_DailyStatMatrix(count).nLw_412_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [SEAW_Data_used.nLw_412_filtered_mean];
+                              SEAW_DailyStatMatrix(count).nLw_412_filtered_mean = 0.1*data_aux(cond_1t_aux);
+                        else
+                              SEAW_DailyStatMatrix(count).nLw_412_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_443
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [SEAW_Data_used.nLw_443_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [SEAW_Data_used.nLw_443_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              data_aux = [SEAW_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                        
+                        data_aux = [SEAW_Data_used.median_CV];
+                        SEAW_DailyStatMatrix(count).nLw_443_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [SEAW_Data_used.nLw_443_filtered_mean];
+                              SEAW_DailyStatMatrix(count).nLw_443_filtered_mean = 0.1*data_aux(cond_1t_aux);
+                        else
+                              SEAW_DailyStatMatrix(count).nLw_443_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_490
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [SEAW_Data_used.nLw_490_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [SEAW_Data_used.nLw_490_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              data_aux = [SEAW_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                        
+                        data_aux = [SEAW_Data_used.median_CV];
+                        SEAW_DailyStatMatrix(count).nLw_490_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [SEAW_Data_used.nLw_490_filtered_mean];
+                              SEAW_DailyStatMatrix(count).nLw_490_filtered_mean = 0.1*data_aux(cond_1t_aux);
+                        else
+                              SEAW_DailyStatMatrix(count).nLw_490_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_555
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [SEAW_Data_used.nLw_555_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [SEAW_Data_used.nLw_555_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              data_aux = [SEAW_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                        
+                        data_aux = [SEAW_Data_used.median_CV];
+                        SEAW_DailyStatMatrix(count).nLw_555_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [SEAW_Data_used.nLw_555_filtered_mean];
+                              SEAW_DailyStatMatrix(count).nLw_555_filtered_mean = 0.1*data_aux(cond_1t_aux);
+                        else
+                              SEAW_DailyStatMatrix(count).nLw_555_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+                        %% nLw_670
+                        % only positive values and if more of half of the area is valid
+                        cond_1t_aux = cond_1t;
+                        I = find(cond_1t_aux); % indexes to the images per day
+                        data_aux = [SEAW_Data_used.nLw_670_filtered_mean];
+                        cond_neg = data_aux(cond_1t_aux)<=0;
+                        data_aux = [SEAW_Data_used.nLw_670_valid_pixel_count];
+                        cond_area = data_aux(cond_1t_aux)<pixel_lim;
+                        idx_aux = I(cond_area|cond_neg); % neg values
+                        cond_1t_aux(idx_aux) = 0; % not to use neg values
+                        cond_1t_aux = logical(cond_1t_aux);
+                        clear idx_aux data_aux cond_area cond_neg
+                        
+                        % best geometry if there is more than one image
+                        if sum(cond_1t_aux)>1
+                              I = find(cond_1t_aux);
+                              data_aux = [SEAW_Data_used.solz_center_value];
+                              [~,Itemp] = min(data_aux(cond_1t_aux));
+                              Imin = I(Itemp);
+                              cond_1t_aux = 0.*cond_1t_aux;
+                              cond_1t_aux(Imin) = 1;
+                              cond_1t_aux = logical(cond_1t_aux);
+                              clear Imin Itemp
+                        end
+                        
+                        data_aux = [SEAW_Data_used.median_CV];
+                        SEAW_DailyStatMatrix(count).nLw_670_median_CV = data_aux(cond_1t_aux);
+                        
+                        if sum(cond_1t_aux)~=0 % there is at least one image
+                              data_aux = [SEAW_Data_used.nLw_670_filtered_mean];
+                              SEAW_DailyStatMatrix(count).nLw_670_filtered_mean = 0.1*data_aux(cond_1t_aux);
+                        else
+                              SEAW_DailyStatMatrix(count).nLw_670_filtered_mean = nan;
+                        end
+                        clear cond_1t_aux data_aux
+                        
+
                         %% aot_865
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -851,15 +1032,15 @@ save('ValCalGOCI.mat','SEAW_Data','SEAW_DailyStatMatrix','-append')
 %%
 fs = 20;
 h = figure('Color','white','DefaultAxesFontSize',fs);
-plot([SEAW_Data.datetime],[SEAW_Data.Rrs_412_filtered_mean],'o')
+plot([SEAW_Data.datetime],0.1*[SEAW_Data.nLw_412_filtered_mean],'o')
 hold on
-plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.Rrs_412_filtered_mean],'og')
+plot([SEAW_DailyStatMatrix.datetime],[SEAW_DailyStatMatrix.nLw_412_filtered_mean],'og')
 title('SeaWiFS')
 xlabel('Time')
-ylabel('R_{rs}(412)')
+ylabel('L_{wn}(412)')
 
-legend(['All Data; N=' num2str(sum(~isnan([SEAW_Data.Rrs_412_filtered_mean])))],...
-      ['Daily filtered; N=' num2str(sum(~isnan([SEAW_DailyStatMatrix.Rrs_412_filtered_mean])))])
+legend(['All Data; N=' num2str(sum(~isnan([SEAW_Data.nLw_412_filtered_mean])))],...
+      ['Daily filtered; N=' num2str(sum(~isnan([SEAW_DailyStatMatrix.nLw_412_filtered_mean])))])
 
 %% pixels counts w/r to GOCI area for SeaWiFS
 fs = 20;
@@ -904,7 +1085,7 @@ tic
 
 clear SEAW_Climatology SEAW_ClimatologyBinned
 
-par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_670'};
+par_vec = {'nLw_412','nLw_443','nLw_490','nLw_555','nLw_670'};
 
 h1 = waitbar(0,'Initializing ...');
 
@@ -982,21 +1163,21 @@ if ishghandle(dlg)
 end
 
 toc
-%% display for Rrs
+%% display for nLw
 
 for idx_par = 1:size(par_vec,2)
       clear cond_brdf cond_nan cond_used
       switch par_vec{idx_par}
-            case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
-            case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
-            case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
-            case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
-            case 'Rrs_670'
-                  y_str = 'R_{rs}(670) [sr^{-1}]';
+            case 'nLw_412'
+                  y_str = 'L_{wn}(412)';
+            case 'nLw_443'
+                  y_str = 'L_{wn}(443)';
+            case 'nLw_490'
+                  y_str = 'L_{wn}(490)';
+            case 'nLw_555'
+                  y_str = 'L_{wn}(555)';
+            case 'nLw_670'
+                  y_str = 'L_{wn}(670)';
       end
       
       lw = 1.5;
@@ -1049,16 +1230,16 @@ set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 for idx_par = 1:size(par_vec,2)
       clear cond_brdf cond_nan cond_used
       switch par_vec{idx_par}
-            case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
-            case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
-            case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
-            case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
-            case 'Rrs_670'
-                  y_str = 'R_{rs}(670) [sr^{-1}]';
+            case 'nLw_412'
+                  y_str = 'L_{wn}(412)';
+            case 'nLw_443'
+                  y_str = 'L_{wn}(443)';
+            case 'nLw_490'
+                  y_str = 'L_{wn}(490)';
+            case 'nLw_555'
+                  y_str = 'L_{wn}(555)';
+            case 'nLw_670'
+                  y_str = 'L_{wn}(670)';
       end
       eval(sprintf('ClimaBinned = [SEAW_ClimatologyBinned.%s_siqr_mean];',par_vec{idx_par}));
       fit_smooth_clima = conv(repmat(ClimaBinned,1,year_total),ones(3,1)/3, 'same'); % 12 years
@@ -1115,8 +1296,8 @@ for idx_par = 1:size(par_vec,2)
 end
 
 figure(h2)
-legend('R_{rs}(412)','R_{rs}(443)','R_{rs}(490)','R_{rs}(555)','R_{rs}(670)')
-ylabel('R_{rs}(\lambda)')
+legend('L_{wn}(412)','L_{wn}(443)','L_{wn}(490)','L_{wn}(555)','L_{wn}(670)')
+ylabel('L_{wn}(\lambda)')
 xlabel('Time')
 
 save('ValCalGOCI.mat','SEAW_Clima_Final','-append')
@@ -1226,8 +1407,8 @@ for idx0 = 1:size(wl,2)
       fs = 30;
       h = figure('Color','white','DefaultAxesFontSize',fs,'Name',wl{idx0});
       
-      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID);
-      type Gvcal_SW_Table.tex
+      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID)
+%       type Gvcal_SW_Table.tex
       
       set(gcf,'PaperPositionMode','auto') %set paper pos for printing
       saveas(gcf,[savedirname 'Gvcal_SW_' wl{idx0}],'epsc')

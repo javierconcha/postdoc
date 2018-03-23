@@ -17,9 +17,9 @@
 \usepackage{amsmath,epsfig}
 
 % Select what to do with todonotes: 
-\usepackage[disable]{todonotes} % notes not showed
+% \usepackage[disable]{todonotes} % notes not showed
 % \usepackage[draft]{todonotes}   % notes showed
-% \usepackage[textwidth=2.0cm]{todonotes}
+\usepackage[textwidth=2.0cm]{todonotes}
 \presetkeys{todonotes}{fancyline, size=\scriptsize}{}
 \setlength{\marginparwidth}{3cm}
 
@@ -267,6 +267,7 @@ The atmospheric correction scheme applied for this study was the default algorit
 A vicarious calibration specific for GOCI was applied (included in SeaDAS). The calibration coefficients are based on match-up with VIIRS and they were derived by the Naval Research Lab (NRL)\todo{check!}~based on AERONET-OC {\it in situ} data.
 % ---------------------------------------------------------------
 \subsection{Data screening}
+\todo{do not repeat with OE paper!}
 % Filtering Criteria
 The mean and standard deviation for the whole GCW region are calculated for each level 2 product. In order to assure the quality of the data, an exclusion criteria (filtering) was applied. This criteria was based on the criteria described by \citet{Bailey2006} for the validation of ocean color satellite data products. This exclusion criteria is presented in the flowchart in \autoref{fig:FilteringCriteria}. Pixels flagged by the atmospheric correction algorithm are excluded. In order to avoid the effect of outliers in the calculations, the following screening criteria was applied:
 \begin{linenomath*}

@@ -8,7 +8,8 @@ pos = get(event_obj,'Position');
 I = get(event_obj,'DataIndex');
 output_txt = {['X: ',num2str(pos(1),4)],...
     ['Y: ',num2str(pos(2),4)],...
-    ['I: ',num2str(I)]};
+    ['I: ',num2str(I)],...
+    ['per:',num2str(100*abs(pos(1)-pos(2))/pos(1))]};
 
 % If there is a Z-coordinate in the position, display it as well
 if length(pos) > 2

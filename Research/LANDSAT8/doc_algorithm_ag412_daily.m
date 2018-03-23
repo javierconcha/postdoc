@@ -37,7 +37,7 @@ CONSTANT= -2.6156;
 LN_RRS443 = -1.0670;
 LN_RRS560 = 0.9542;
 
-Y=CONSTANT+LN_RRS443.*log(Rrs_b)+LN_RRS560.*log(Rrs_g); 
+Y=CONSTANT+LN_RRS443.*log(Rrs_b)+LN_RRS560.*log(Rrs_g);
 ag412=exp(Y);
 
 % DOC algorithm coefficients: Fall-Winter-Spring & Summer
@@ -115,7 +115,7 @@ end % noitcnuf
 function Rrs_g_conv = conv_rrs_to_555(Rrs, wave)
 
 if abs(wave-555) > 2
-      if abs(wave-550) <= 2
+      if abs(wave-547) <= 2
             sw = 0.001723;
             a1 = 0.986;
             b1 = 0.081495;

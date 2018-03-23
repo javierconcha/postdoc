@@ -30,7 +30,7 @@ for idx=1:size(data.date,1)
             
             Rrs = [data.rrs410(idx),data.rrs412(idx),data.rrs413(idx),data.rrs443(idx),data.rrs486(idx),data.rrs488(idx),data.rrs490(idx),data.rrs531(idx),data.rrs547(idx),data.rrs551(idx),data.rrs555(idx),data.rrs665(idx),data.rrs667(idx),data.rrs670(idx),data.rrs671(idx),data.rrs678(idx),data.rrs681(idx)];
             wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
-                  
+            
             count = count+1;
             
             time_acquired = datestr(data.time(idx),'HH:MM:ss');
@@ -47,7 +47,7 @@ for idx=1:size(data.date,1)
             InSitu(count).lat = data.latitude(idx);
             InSitu(count).lon = data.longitude(idx);
             InSitu(count).t = t;
-%             InSitu(count).scene_date = datetime(data.date(idx),'Format','yyyyMMdd');
+            %             InSitu(count).scene_date = datetime(data.date(idx),'Format','yyyyMMdd');
             
             %       fprintf('%i %s\n',idx,char(data.date_time(idx)))
             
@@ -61,7 +61,7 @@ A = unique([InSitu(:).scene_date]','rows') % to have only one date per day
 % this list is used to search for the GOCI scene in the in house server
 % from the list goci_l1.txt provided by John Wildings
 %% to process images in anly104
-% [InSitu(:).scene_date]' 
+% [InSitu(:).scene_date]'
 % [InSitu(:).lat]'
 % [InSitu(:).lon]'
 %% figure for plottig the data
@@ -87,7 +87,16 @@ plotm(cell2mat({InSitu.lat}'),cell2mat({InSitu.lon}'),'*r')
 
 %% Load sat data
 clear SatData
-fileID = fopen('./GOCI_AERONET/file_list.txt');
+
+% source = 'AERONET_GOCI_R2018_SW';
+% source = 'AERONET_GOCI_R2018_MA';
+% source = 'AERONET_GOCI_R2018_NO';
+% source = 'AERONET_GOCI_R2018_NR';
+% source = 'AERONET_GOCI_R2018_MA_CV1p5';
+source = 'AERONET_GOCI_R2018_NIRvcal';
+
+fileID = fopen(['/Users/jconchas/Documents/Research/GOCI/GOCI_AERONET/' source '/file_list.txt']);
+
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -96,17 +105,12 @@ fclose(fileID);
 
 for idx0=1:size(s{1},1)
       
-      filepath = ['./GOCI_AERONET/' s{1}{idx0}];
-      SatData(idx0) = loadsatcell(filepath);
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_AERONET/' source '/' s{1}{idx0}];
+      SatData(idx0) = loadsatcell_tempanly(filepath,'GOCI');
       
 end
 
-%% InSitu vs Sat
-% InSituBands =[412,443,490,555,665,681]; or 678
-% GOCIbands =  [412,443,490,555,660,680,745,865];
-%               2   4   7   11  12  17  N/A N/A
-%               1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17 
-% wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
+count = 0;
 
 solz_lim = 75;
 senz_lim = 60;
@@ -114,155 +118,468 @@ CV_lim = 0.15;
 
 total_px_GOCI = 5*5;
 ratio_from_the_total = 2;
-          
+
 clear Matchup
 
-for idx1=1:size(InSitu,2)
-      
-      Matchup(idx1).datetime_ins = InSitu(idx1).t;
-      Matchup(idx1).station_ins = InSitu(idx1).station;
-      
-      station_char = char(InSitu(idx1).station);
-      
-      if strcmp(station_char(1:9),'aoc_gageo')
-            Matchup(idx1).station_ins_ID = 1;
-      elseif strcmp(station_char(1:9),'aoc_ieodo')
-            Matchup(idx1).station_ins_ID = 2;
+cond_solz = [SatData.solz_center_value] < solz_lim;
+cond_senz = [SatData.senz_center_value] < senz_lim;
+cond_median_CV = [SatData.median_CV] < CV_lim;
+cond_used = cond_solz&cond_senz&cond_median_CV;
+SatData_used = SatData(cond_used);
+clear cond_used cond_solz cond_senz cond_median_CV
+
+for idx1=1:size(SatData_used,2)
+      %%
+      cond_time = hours(abs([SatData_used(idx1).datetime]-[InSitu.t]))<0.5;
+      if sum(cond_time)~=0 % only if there are matchups within 30 min window
+            count = count+1;
+            % Rrs_412
+            cond_enough = [SatData_used(idx1).Rrs_412_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_412_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_412_ins = InSitu(idx_aux).Rrs(2);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_412_sat = SatData_used(idx1).Rrs_412_filtered_mean;
+                        Matchup(count).Rrs_412_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_412_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_412_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_412_sat = NaN;
+                  Matchup(count).Rrs_412_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_412_t_diff = hours(0);  
+            end
+
+            % Rrs_443
+            cond_enough = [SatData_used(idx1).Rrs_443_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_443_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_443_ins = InSitu(idx_aux).Rrs(4);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_443_sat = SatData_used(idx1).Rrs_443_filtered_mean;
+                        Matchup(count).Rrs_443_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_443_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_443_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_443_sat = NaN;
+                  Matchup(count).Rrs_443_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_443_t_diff = hours(0);  
+            end
+
+            % Rrs_490
+            cond_enough = [SatData_used(idx1).Rrs_490_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_490_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_490_ins = InSitu(idx_aux).Rrs(7);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_490_sat = SatData_used(idx1).Rrs_490_filtered_mean;
+                        Matchup(count).Rrs_490_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_490_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_490_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_490_sat = NaN;
+                  Matchup(count).Rrs_490_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_490_t_diff = hours(0);  
+            end
+
+            % Rrs_555
+            cond_enough = [SatData_used(idx1).Rrs_555_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_555_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_555_ins = InSitu(idx_aux).Rrs(11);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_555_sat = SatData_used(idx1).Rrs_555_filtered_mean;
+                        Matchup(count).Rrs_555_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_555_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_555_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_555_sat = NaN;
+                  Matchup(count).Rrs_555_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_555_t_diff = hours(0);  
+            end
+
+            % Rrs_660
+            cond_enough = [SatData_used(idx1).Rrs_660_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_660_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_665_ins = InSitu(idx_aux).Rrs(12);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_660_sat = SatData_used(idx1).Rrs_660_filtered_mean;
+                        Matchup(count).Rrs_660_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_660_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_665_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_660_sat = NaN;
+                  Matchup(count).Rrs_660_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_660_t_diff = hours(0);  
+            end
+
+            % Rrs_680
+            cond_enough = [SatData_used(idx1).Rrs_680_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+            cond_pos = [SatData_used(idx1).Rrs_680_filtered_mean] >0;
+            cond_used = cond_enough&cond_pos;
+            clear cond_enough cond_pos
+            if cond_used
+                  
+                  [t_diff,idx_aux] = min(abs([InSitu.t]-[SatData_used(idx1).datetime])); % index to cond1 but not to the original matrix
+                  if hours(abs([InSitu(idx_aux).t]-[SatData_used(idx1).datetime]))<0.5
+                        
+                        Matchup(count).Rrs_680_ins = InSitu(idx_aux).Rrs(16);
+                        Matchup(count).datetime_ins = InSitu(idx_aux).t;
+                        Matchup(count).station_ins = InSitu(idx_aux).station;
+                        
+                        station_char = char(InSitu(idx_aux).station);
+                        
+                        if strcmp(station_char(1:9),'aoc_gageo')
+                              Matchup(count).station_ins_ID = 1;
+                        elseif strcmp(station_char(1:9),'aoc_ieodo')
+                              Matchup(count).station_ins_ID = 2;
+                        end
+                        
+                        Matchup(count).Rrs_680_sat = SatData_used(idx1).Rrs_680_filtered_mean;
+                        Matchup(count).Rrs_680_sat_datetime = SatData_used(idx1).datetime;
+                        Matchup(count).Rrs_680_t_diff = t_diff;
+                  end   
+            else
+                  Matchup(count).Rrs_680_ins = NaN;
+                  Matchup(count).datetime_ins = datetime(0,0,0);
+                  Matchup(count).station_ins = 'NaN';
+                  Matchup(count).station_ins_ID = NaN;
+                  
+                  Matchup(count).Rrs_680_sat = NaN;
+                  Matchup(count).Rrs_680_sat_datetime = datetime(0,0,0);
+                  Matchup(count).Rrs_680_t_diff = hours(0);  
+            end
+
+
       end
-      
-      % Rrs_412
-      
-      Matchup(idx1).Rrs_412_ins = InSitu(idx1).Rrs(2);
-      cond_enough = [SatData.Rrs_412_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_412_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_412_sat = SatData(IdxOrig(idx_aux)).Rrs_412_filtered_mean;
-      else
-            Matchup(idx1).Rrs_412_sat = NaN;
-      end   
-      Matchup(idx1).Rrs_412_sat_datetime = SatData(IdxOrig(idx_aux)).datetime;        
-      Matchup(idx1).Rrs_412_t_diff = t_diff;
-
-      % Rrs_443
-      
-      Matchup(idx1).Rrs_443_ins = InSitu(idx1).Rrs(4);
-      cond_enough = [SatData.Rrs_443_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_443_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_443_sat = SatData(IdxOrig(idx_aux)).Rrs_443_filtered_mean;
-      else
-            Matchup(idx1).Rrs_443_sat = NaN;
-      end   
-      Matchup(idx1).Rrs_443_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
-      Matchup(idx1).Rrs_443_t_diff = t_diff;
-
-       % Rrs_490
-
-      Matchup(idx1).Rrs_490_ins = InSitu(idx1).Rrs(7);
-      cond_enough = [SatData.Rrs_490_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_490_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_490_sat = SatData(IdxOrig(idx_aux)).Rrs_490_filtered_mean;
-      else
-            Matchup(idx1).Rrs_490_sat = NaN;
-      end   
-      Matchup(idx1).Rrs_490_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
-      Matchup(idx1).Rrs_490_t_diff = t_diff;
-
-      % Rrs_555
-      
-      Matchup(idx1).Rrs_555_ins = InSitu(idx1).Rrs(11);
-      cond_enough = [SatData.Rrs_555_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_555_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_555_sat = SatData(IdxOrig(idx_aux)).Rrs_555_filtered_mean;
-      else
-            Matchup(idx1).Rrs_555_sat = NaN;
-      end   
-      Matchup(idx1).Rrs_555_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
-      Matchup(idx1).Rrs_555_t_diff = t_diff;
-
-      % Rrs_660
-      
-      Matchup(idx1).Rrs_665_ins = InSitu(idx1).Rrs(12);
-      cond_enough = [SatData.Rrs_660_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_660_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_660_sat = SatData(IdxOrig(idx_aux)).Rrs_660_filtered_mean;
-      else
-            Matchup(idx1).Rrs_660_sat = NaN;
-      end   
-      Matchup(idx1).Rrs_660_sat_datetime = SatData(IdxOrig(idx_aux)).datetime; 
-      Matchup(idx1).Rrs_660_t_diff = t_diff;
-
-      % Rrs_680
-      % For in situ @ 678 nm
-      Matchup(idx1).Rrs_678_ins = InSitu(idx1).Rrs(16);
-      cond_enough = [SatData.Rrs_680_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      cond_pos = [SatData.Rrs_680_filtered_mean] >0;
-      cond_solz = [SatData.solz_center_value] < solz_lim;
-      cond_senz = [SatData.senz_center_value] < senz_lim;
-      cond_median_CV = [SatData.median_CV] < CV_lim;
-      cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;      
-      [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      IdxOrig = find(cond_used); % to convert to the original matrix
-
-      % % For in situ @ 681 nm
-      % Matchup(idx1).Rrs_681_ins = InSitu(idx1).Rrs(17);
-      % cond_enough = [SatData.Rrs_680_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 7x7 window?     
-      % cond_pos = [SatData.Rrs_412_filtered_mean] >0;% 
-      % cond_solz = [SatData.solz_center_value] <= solz_lim;
-      % cond_senz = [SatData.senz_center_value] <= senz_lim;
-      % cond_median_CV = [SatData.median_CV] <= CV_lim;
-      % cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV;    % % 
-      % % [t_diff,idx_aux] = min(abs([SatData(cond_used).datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
-      % IdxOrig = find(cond_used); % to convert to the original matrix
-      
-      if t_diff<=hours(3)
-            Matchup(idx1).Rrs_680_sat = SatData(IdxOrig(idx_aux)).Rrs_680_filtered_mean;
-      else
-            Matchup(idx1).Rrs_680_sat = NaN;
-      end         
-      Matchup(idx1).Rrs_680_sat_datetime = SatData(IdxOrig(idx_aux)).datetime;        
-      Matchup(idx1).Rrs_680_t_diff = t_diff;
-
 end
-%%
+%
+
+% InSitu vs Sat
+% InSituBands =[412,443,490,555,665,681]; or 678
+% GOCIbands =  [412,443,490,555,660,680,745,865];
+%               2   4   7   11  12  17  N/A N/A
+%               1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
+% wavelength = [410,412,413,443,486,488,490,531,547,551,555,665,667,670,671,678,681];
+
+% count = 0;
+
+% solz_lim = 75;
+% senz_lim = 60;
+% CV_lim = 0.15;
+
+% total_px_GOCI = 5*5;
+% ratio_from_the_total = 2;
+
+% clear Matchup
+
+% for idx1=1:size(InSitu,2)
+
+%       cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+
+%       if sum(cond_time)~=0
+%             count = count+1;
+
+%             Matchup(count).datetime_ins = InSitu(idx1).t;
+%             Matchup(count).station_ins = InSitu(idx1).station;
+
+%             station_char = char(InSitu(idx1).station);
+
+%             if strcmp(station_char(1:9),'aoc_gageo')
+%                   Matchup(count).station_ins_ID = 1;
+%             elseif strcmp(station_char(1:9),'aoc_ieodo')
+%                   Matchup(count).station_ins_ID = 2;
+%             end
+
+%             % Rrs_412
+
+%             Matchup(count).Rrs_412_ins = InSitu(idx1).Rrs(2);
+%             cond_enough = [SatData.Rrs_412_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_412_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+
+%             sum(cond_used)
+
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_412_sat = SatData_used(idx_aux).Rrs_412_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_412_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_412_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_412_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_412_sat = NaN;
+%                   Matchup(count).Rrs_412_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_412_t_diff = hours(0);
+%             end
+
+%             % Rrs_443
+
+%             Matchup(count).Rrs_443_ins = InSitu(idx1).Rrs(4);
+%             cond_enough = [SatData.Rrs_443_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_443_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_443_sat = SatData_used(idx_aux).Rrs_443_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_443_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_443_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_443_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_443_sat = NaN;
+%                   Matchup(count).Rrs_443_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_443_t_diff = hours(0);
+%             end
+
+%             % Rrs_490
+
+%             Matchup(count).Rrs_490_ins = InSitu(idx1).Rrs(7);
+%             cond_enough = [SatData.Rrs_490_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_490_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_490_sat = SatData_used(idx_aux).Rrs_490_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_490_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_490_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_490_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_490_sat = NaN;
+%                   Matchup(count).Rrs_490_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_490_t_diff = hours(0);
+%             end
+
+%             % Rrs_555
+
+%             Matchup(count).Rrs_555_ins = InSitu(idx1).Rrs(11);
+%             cond_enough = [SatData.Rrs_555_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_555_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_555_sat = SatData_used(idx_aux).Rrs_555_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_555_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_555_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_555_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_555_sat = NaN;
+%                   Matchup(count).Rrs_555_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_555_t_diff = hours(0);
+%             end
+
+%             % Rrs_660
+
+%             Matchup(count).Rrs_665_ins = InSitu(idx1).Rrs(12);
+%             cond_enough = [SatData.Rrs_660_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_660_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_660_sat = SatData_used(idx_aux).Rrs_660_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_660_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_660_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_660_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_660_sat = NaN;
+%                   Matchup(count).Rrs_660_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_660_t_diff = hours(0);
+%             end
+
+%             % Rrs_680
+%             % For in situ @ 678 nm
+%             Matchup(count).Rrs_678_ins = InSitu(idx1).Rrs(16);
+%             cond_enough = [SatData.Rrs_680_valid_pixel_count]>1+total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%             cond_pos = [SatData.Rrs_680_filtered_mean] >0;
+%             cond_solz = [SatData.solz_center_value] < solz_lim;
+%             cond_senz = [SatData.senz_center_value] < senz_lim;
+%             cond_median_CV = [SatData.median_CV] < CV_lim;
+%             cond_time = hours(abs([SatData.datetime]-[InSitu(idx1).t]))<0.5;
+%             cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;
+%             SatData_used = SatData(cond_used);
+%             if ~isempty(SatData_used)
+
+%                   [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   % % For in situ @ 681 nm
+%                   % Matchup(count).Rrs_681_ins = InSitu(idx1).Rrs(17);
+%                   % cond_enough = [SatData.Rrs_680_valid_pixel_count]>=total_px_GOCI/ratio_from_the_total; % enough valid pixels for a 5x5 window?
+%                   % cond_pos = [SatData.Rrs_412_filtered_mean] >0;%
+%                   % cond_solz = [SatData.solz_center_value] <= solz_lim;
+%                   % cond_senz = [SatData.senz_center_value] <= senz_lim;
+%                   % cond_median_CV = [SatData.median_CV] <= CV_lim;
+%                   % cond_used = cond_enough&cond_pos&cond_solz&cond_senz&cond_median_CV&cond_time;    % %
+%                   % SatData_used = SatData(cond_used);
+%                   % % [t_diff,idx_aux] = min(abs([SatData_used.datetime]-[InSitu(idx1).t])); % index to cond1 but not to the original matrix
+
+%                   if hours(t_diff)<=3
+%                         Matchup(count).Rrs_680_sat = SatData_used(idx_aux).Rrs_680_filtered_mean;
+%                   else
+%                         Matchup(count).Rrs_680_sat = NaN;
+%                   end
+%                   Matchup(count).Rrs_680_sat_datetime = SatData_used(idx_aux).datetime;
+%                   Matchup(count).Rrs_680_t_diff = t_diff;
+%             else
+%                   Matchup(count).Rrs_680_sat = NaN;
+%                   Matchup(count).Rrs_680_sat_datetime = datetime(0,0,1);
+%                   Matchup(count).Rrs_680_t_diff = hours(0);
+%             end
+%       end
+% end
+%
 
 % latex table
 !rm ./MyTable.tex
@@ -285,7 +602,7 @@ fprintf(FID, '& SIQR ');
 fprintf(FID, '& rsqcorr ');
 fprintf(FID,'\\\\ \\hline \n');
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],FID);
 legend off
@@ -321,9 +638,9 @@ fprintf(FID,'\\end{tabular}\n');
 %%
 
 %% Histograms
-figure,hist([SatData(cond_used).Rrs_490_filtered_mean],20)
+figure,hist([SatData_used.Rrs_490_filtered_mean],20)
 
-figure,hist([SatData(cond_used).angstrom_filtered_mean],20)
+figure,hist([SatData_used.angstrom_filtered_mean],20)
 
-figure,hist([SatData(cond_used).center_az],20)
-figure,hist([SatData(cond_used).center_el],20)
+figure,hist([SatData_used.center_az],20)
+figure,hist([SatData_used.center_el],20)

@@ -3025,4 +3025,7 @@ jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly$ unzip GOCI_ROI_STATS_R2018
 GOCI data with vcal values from AQUA:
 jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua$ pwd
 /Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua
+
+to use wild card with xargs:
+find . -name "201*" -exec echo '{}' \;| cut -d/ -f2-|xargs -I name sh -c 'mv *name* name'
 (END)
