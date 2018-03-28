@@ -88,12 +88,12 @@ plotm(cell2mat({InSitu.lat}'),cell2mat({InSitu.lon}'),'*r')
 %% Load sat data
 clear SatData
 
-% source = 'AERONET_GOCI_R2018_SW';
+source = 'AERONET_GOCI_R2018_SW';
 % source = 'AERONET_GOCI_R2018_MA';
 % source = 'AERONET_GOCI_R2018_NO';
 % source = 'AERONET_GOCI_R2018_NR';
 % source = 'AERONET_GOCI_R2018_MA_CV1p5';
-source = 'AERONET_GOCI_R2018_NIRvcal';
+% source = 'AERONET_GOCI_R2018_NIRvcal';
 
 fileID = fopen(['/Users/jconchas/Documents/Research/GOCI/GOCI_AERONET/' source '/file_list.txt']);
 
@@ -601,7 +601,7 @@ fprintf(FID, '& Median ratio ');
 fprintf(FID, '& SIQR ');
 fprintf(FID, '& rsqcorr ');
 fprintf(FID,'\\\\ \\hline \n');
-
+%%
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],FID);
@@ -636,6 +636,101 @@ fprintf(FID,'\\end{tabular}\n');
 % [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('678','680',[Matchup.Rrs_678_ins],[Matchup.Rrs_680_sat]);
 % [h1,ax1,leg1] = plot_insitu_vs_sat_GOCI('681','680',[Matchup.Rrs_681_ins],[Matchup.Rrs_680_sat]);
 %%
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
+
+fs = 20;
+h_412 = figure('Color','white','DefaultAxesFontSize',fs);
+h_443 = figure('Color','white','DefaultAxesFontSize',fs);
+h_490 = figure('Color','white','DefaultAxesFontSize',fs);
+h_555 = figure('Color','white','DefaultAxesFontSize',fs);
+h_660 = figure('Color','white','DefaultAxesFontSize',fs);
+
+%% Uncalibrated
+color_line = 'b';
+% Rrs_412
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_412,fs,[0 0.02]);
+legend off
+% Rrs_443
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_443,fs,[0 0.02]);
+legend off
+% Rrs_490
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_490,fs,[0 0.03]);
+legend off
+% Rrs_555
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_555,fs,[0 0.04]);
+legend off
+% Rrs_660
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_660,fs,[0 0.02]);
+legend off
+
+%% MA
+color_line = 'r';
+% Rrs_412
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_412,fs,[0 0.02]);
+legend off
+% Rrs_443
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_443,fs,[0 0.02]);
+legend off
+% Rrs_490
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_490,fs,[0 0.03]);
+legend off
+% Rrs_555
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_555,fs,[0 0.04]);
+legend off
+% Rrs_660
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_660,fs,[0 0.02]);
+legend off
+
+%% SW
+color_line = 'k';
+% Rrs_412
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_412,fs,[0 0.02]);
+legend off
+% Rrs_443
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_443,fs,[0 0.02]);
+legend off
+% Rrs_490
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_490,fs,[0 0.03]);
+legend off
+% Rrs_555
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_555,fs,[0 0.04]);
+legend off
+% Rrs_660
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_660,fs,[0 0.02]);
+legend off
+
+%%
+figure(h_412)
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_412_All'],'epsc')
+figure(h_443)
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_443_All'],'epsc')
+figure(h_490)
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_490_All'],'epsc')
+figure(h_555)
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_555_All'],'epsc')
+figure(h_660)
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'GOCI_AERO_660_All'],'epsc')
+
 
 %% Histograms
 figure,hist([SatData_used.Rrs_490_filtered_mean],20)
