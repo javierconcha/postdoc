@@ -173,10 +173,10 @@ end
 
 % bias
 
-DN = log10(C_alg)-log10(C_insitu);
+DN = C_alg-C_insitu;
 
-bias_log10 = 10^mean(DN);
-MAE_log10 = 10^mean(abs(DN));
+Mean_bias = mean(DN);
+MAE = mean(abs(DN));
 
 % MAE
 
@@ -187,19 +187,19 @@ disp('-----------------------------------------')
 %       disp(['ACO scheme = ' L2ext])
 disp(['Sat (nm) = ' wl_sat])
 disp(['InSitu (nm) = ' wl_ins])
-disp(['R^2 = ' num2str(rsq_SS)])
+disp(['R^2 = ' num2str(rsq_SS,'%2.2f')])
 disp(str_reg) % regression equation
-disp(['RMSE = ' num2str(RMSE)])
+disp(['RMSE = ' num2str(RMSE,'%2.4f')])
 disp(['N = ' num2str(size(C_insitu,2))])
-disp(['Mean APD (%) = ' num2str(Mean_APD)])
-disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
-disp(['Median APD (%) = ' num2str(Median_APD)])
-disp(['Bias (%) = ' num2str(Percentage_Bias)])
-disp(['Median ratio = ' num2str(Median_ratio)])
-disp(['SIQR = ' num2str(SIQR)])
-disp(['rsq_corr = ' num2str(rsq_corr)])
-disp(['bias_log10 = ' num2str(bias_log10)])
-disp(['MAE_log10 = ' num2str(MAE_log10)])
+disp(['Mean APD (%) = ' num2str(Mean_APD,'%2.1f')])
+disp(['St.Dev. APD (%) = ' num2str(Stdv_APD,'%2.1f')])
+disp(['Median APD (%) = ' num2str(Median_APD,'%2.2f')])
+disp(['Bias (%) = ' num2str(Percentage_Bias,'%2.1f')])
+disp(['Median ratio = ' num2str(Median_ratio,'%2.2f')])
+disp(['SIQR = ' num2str(SIQR,'%2.2f')])
+disp(['rsq_corr = ' num2str(rsq_corr,'%2.2f')])
+disp(['Mean_bias = ' num2str(Mean_bias,'%2.5f')])
+disp(['MAE = ' num2str(MAE,'%2.5f')])
 
 % latex table
 

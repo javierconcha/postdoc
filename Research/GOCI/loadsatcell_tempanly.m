@@ -36,6 +36,36 @@ else
       satcell.brdf_opt = [];
 end
 
+% Parameters
+% example:
+% navigation_data/gringpointlatitude=28.50002, 28.05545, 26.10150, 26.54053
+% navigation_data/gringpointlongitude=137.33331, 142.30376, 142.08783, 137.20309
+fullFileName = [filepath '.global_attrs'];
+
+if exist(fullFileName, 'file')
+      
+      fileID = fopen(fullFileName);
+      s = textscan(fileID,'%s','Delimiter','=');
+      fclose(fileID);
+
+      % latitude gringpoint
+      idx1 = find(strncmp(s{1},'navigation_data/gringpointlatitude',34));
+      C = textscan(s{1}{idx1+1},'%s','Delimiter',',');
+      satcell.lat_NW = str2double(C{1}{1});
+      satcell.lat_NE = str2double(C{1}{2});
+      satcell.lat_SE = str2double(C{1}{3});
+      satcell.lat_SW = str2double(C{1}{4});
+      
+
+      idx1 = find(strncmp(s{1},'navigation_data/gringpointlongitude',35));
+      C = textscan(s{1}{idx1+1},'%s','Delimiter',',');
+      satcell.lon_NW = str2double(C{1}{1});
+      satcell.lon_NE = str2double(C{1}{2});
+      satcell.lon_SE = str2double(C{1}{3});
+      satcell.lon_SW = str2double(C{1}{4});
+
+end
+
 
 %% .output
 fullFileName = filepath;

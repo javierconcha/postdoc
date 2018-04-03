@@ -88,12 +88,14 @@ plotm(cell2mat({InSitu.lat}'),cell2mat({InSitu.lon}'),'*r')
 %% Load sat data
 clear SatData
 
-source = 'AERONET_GOCI_R2018_SW';
-% source = 'AERONET_GOCI_R2018_MA';
+
 % source = 'AERONET_GOCI_R2018_NO';
-% source = 'AERONET_GOCI_R2018_NR';
 % source = 'AERONET_GOCI_R2018_MA_CV1p5';
+% source = 'AERONET_GOCI_R2018_SW';
+source = 'AERONET_GOCI_R2018_NR';
+
 % source = 'AERONET_GOCI_R2018_NIRvcal';
+% source = 'AERONET_GOCI_R2018_MA';
 
 fileID = fopen(['/Users/jconchas/Documents/Research/GOCI/GOCI_AERONET/' source '/file_list.txt']);
 
@@ -360,7 +362,7 @@ for idx1=1:size(SatData_used,2)
 end
 %
 
-% InSitu vs Sat
+%% InSitu vs Sat
 % InSituBands =[412,443,490,555,665,681]; or 678
 % GOCIbands =  [412,443,490,555,660,680,745,865];
 %               2   4   7   11  12  17  N/A N/A
@@ -581,7 +583,7 @@ end
 % end
 %
 
-% latex table
+%% latex table
 !rm ./MyTable.tex
 FID = fopen('./MyTable.tex','w');
 
@@ -645,7 +647,7 @@ h_490 = figure('Color','white','DefaultAxesFontSize',fs);
 h_555 = figure('Color','white','DefaultAxesFontSize',fs);
 h_660 = figure('Color','white','DefaultAxesFontSize',fs);
 
-%% Uncalibrated
+% Uncalibrated
 color_line = 'b';
 % Rrs_412
 [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
@@ -714,22 +716,96 @@ legend off
       color_line,h_660,fs,[0 0.02]);
 legend off
 
+%% NRL
+color_line = 'c';
+% Rrs_412
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_412,fs,[0 0.02]);
+legend off
+% Rrs_443
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_443,fs,[0 0.02]);
+legend off
+% Rrs_490
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_490,fs,[0 0.03]);
+legend off
+% Rrs_555
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_555,fs,[0 0.04]);
+legend off
+% Rrs_660
+[ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
+      color_line,h_660,fs,[0 0.02]);
+legend off
+
 %%
 figure(h_412)
+axis([0 15E-3 0 15E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_412_All'],'epsc')
+
 figure(h_443)
+axis([0 16E-3 0 16E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_443_All'],'epsc')
+
 figure(h_490)
+axis([0 22E-3 0 22E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_490_All'],'epsc')
+
 figure(h_555)
+axis([0 25E-3 0 25E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_555_All'],'epsc')
+
 figure(h_660)
+axis([0 10E-3 0 10E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_660_All'],'epsc')
+%%
+figure('Color','white');
+
+subplot(5,2,1)
+hist([Matchup.Rrs_412_ins])
+xlabel('In situ R_{rs}(412)')
+
+subplot(5,2,2)
+hist([Matchup.Rrs_412_sat])
+xlabel('Satellite R_{rs}(412)')
+
+subplot(5,2,3)
+hist([Matchup.Rrs_443_ins])
+xlabel('In situ R_{rs}(443)')
+
+subplot(5,2,4)
+hist([Matchup.Rrs_443_sat])
+xlabel('Satellite R_{rs}(443)')
+
+subplot(5,2,5)
+hist([Matchup.Rrs_490_ins])
+xlabel('In situ R_{rs}(490)')
+
+subplot(5,2,6)
+hist([Matchup.Rrs_490_sat])
+xlabel('Satellite R_{rs}(490)')
+
+subplot(5,2,7)
+hist([Matchup.Rrs_555_ins])
+xlabel('In situ R_{rs}(555)')
+
+subplot(5,2,8)
+hist([Matchup.Rrs_555_sat])
+xlabel('Satellite R_{rs}(555)')
+
+subplot(5,2,9)
+hist([Matchup.Rrs_665_ins])
+xlabel('In situ R_{rs}(665)')
+
+subplot(5,2,10)
+hist([Matchup.Rrs_660_sat])
+xlabel('Satellite R_{rs}(660)')
 
 
 %% Histograms

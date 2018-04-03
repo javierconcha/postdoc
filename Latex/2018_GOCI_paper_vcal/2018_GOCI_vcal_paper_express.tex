@@ -76,15 +76,14 @@ NASA Goddard Space Flight Center, Greenbelt, MD, USA\\
 % 100 words
 
 % Background/motivation/context
-Accurate retrieval of satellite-derived biogeochemical products depends upon a correct on-orbit calibration. One big part of this calibration is known as vicarious calibration.
+Accurate retrieval of satellite-derived biogeochemical products depends upon a correct on-orbit calibration. 
 % Aim/objectives(s)/problem statement
-A vicarious calibration for the Geostationary Ocean Color Imager (GOCI) specific for the SeaDAS/l2gen package is presented.
+Two approaches for vicarious calibration for the Geostationary Ocean Color Imager (GOCI) specific for the SeaDAS/l2gen package is presented.
 % Methods
-Two different approaches are investigated. 
 One approach is based on concurrent MODIS-Aqua data over an open ocean region with assumed known aerosol properties.
 The second approach uses SeaWiFS climatology over the same region.
 % Results
-A validation using AERONET-OC data shows a good performance of the vicarious calibration.
+A validation using AERONET-OC data shows an improvement the sensor performance for both approaches when compared with the current vicarious gains.
 A good agreement is found when compared to MODIS-Aqua and VIIRS.
 % Conclusions
 %
@@ -239,7 +238,7 @@ In this work, two sources of ${L_{wn}}^t$ are explored: retrievals from the MODI
 \caption{GOCI $\bar{g}$ and standard deviations (in parentheses) calculated using the ${L_{wn}}^t$ from MODIS-Aqua (MODISA) and SeaWIFS climatology. The vicarious gains derived by Wang et al. (2012) \cite{Wang:13} and Ahn et al. (2015) \cite{Ahn2015} were included for comparison. \label{tab:vcal_gains_comp}}
 
   \centering
-    \includegraphics[width=22cm]{./Figures/vcal_gains_comp.pdf}
+    \includegraphics[width=23cm]{./Figures/vcal_gains_comp.pdf}
 
 \end{table}
 \end{landscape}
@@ -379,25 +378,38 @@ A validation analysis was performed by comparing the satellite-derived retrieval
 \end{equation}
 % \end{linenomath*}
 \noindent where $Q_3$ and $Q_1$ are the $75^{th}$ and $25^{th}$ percentiles for the ratios of the satellite-derived values to the {\it in situ} measurements.  
+Also, two more performance metrics suggested by \cite{Seegers:18} were included: the mean bias and the mean absolute error (MAE). The mean bias is defined as
+\begin{equation}
+    \text{Mean bias} = \frac{1}{N}*\sum_{n=1}^N(R_{rs:ret}^n-R_{rs:in}^n)
+\end{equation}
+and the MAE is defined as
+\begin{equation}
+    \text{MAE} = \frac{1}{N}*\sum_{n=1}^N\left|R_{rs:ret}^n-R_{rs:in}^n\right|
+\end{equation}
+These metrics are suggested when the data is non-Gaussian, as in this case, and to minimize the influence of outliers \cite{Seegers:18}. Both the mean bias and the MAE have the same units as the variable under consideration.
 
 % Antonio: results show some near-zero values at 412 and 443nm?  clearly, there is a bias where GOCI Rrs is generally lower than AERONET.
 % Fig. \ref{fig:GOCI_AERO} shows scatter plots for AERONET-OC data versus GOCI matchups. 
-% The data were separated by stations and color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups. 
+% The data were separated by stations and color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups. {}
 % The statistics calculated for each time of the day and for all matchups (highlighted in bold cases) are shown in \autoref{tab:val_stats}.
-The two approaches for the source of ${L_{wn}}^t$, i.e. from MODIS-Aqua and Climatology from SeaWiFS, were analyzed using these statistical parameters and compared with results without vicarious calibration (uncalibrated) (\autoref{tab:val_stats}).
+The two approaches for the source of ${L_{wn}}^t$, i.e. from MODIS-Aqua and Climatology from SeaWiFS, were analyzed using these statistical parameters and compared with results without vicarious cal{}ibration (uncalibrated) and the current vicarious calibration included in SeaDAS/l2gen (\autoref{tab:val_stats}).
+The current vicarious calibration included in SeaDAS/l2gen are based on matchups with VIIRS and they were derived by the Naval Research Lab (NRL) based on AERONET-OC {\it in situ} data.
+
 A good agreement was found between the retrieved $R_{rs}$ and {\it in situ} observations, with $R^2$ values varying from 0.83 to 0.98 for the 412 to 660 nm GOCI bands for both approaches. 
+When both approaches for targeted values for the vicarious calibration of the visible bands are compared, they perform similar in all bands based on the $Median~APD(\%)$ and $RMSE$ values.
 When compared with the uncalibrated data, both approaches improve the results for the 412 nm based on the $Median~APD(\%)$, while having similar values for 443 nm and greater values for the 490, 555 and 660 nm bands.
-The validation statistics indicate that our results show worse agreement than \cite{Ahn2015} in all visible bands, except the 660 nm band, which is reflected in a larger MAPD, even though the $R^2$ values are slightly larger for this study. 
+Overall, the two test approaches perform better than the current calibration gains, which is reflected in a smaller mean bias and MAE.
+The validation statistics indicate that our results show worse agreement than Ahn et {\it al.} (2015) \cite{Ahn2015} in all visible bands, except the 660 nm band, which is reflected in a larger MAPD, even though the $R^2$ values are slightly larger for this study. 
 Also, GOCI $R_{rs}$ is lower than the AERONET-OC values for the 490, 555, and 660 nm bands.
 
-When both approaches for targeted values for the vicarious calibration of the visible bands are compared, they perform similar in all bands based on the $Median~APD(\%)$ and $RMSE$ values.
+
  
 % , exceeding the values previously reported by \cite{Ahn2015}
 % From Antonio: it's not worthwhile to compare individual statistics metrics from another paper, but rather a group a statistics; our results show better (or worse) agreement than Ahn et al. 2015 based a combination of metrics (R2, RSME, APD, etc.).
 %-%-%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[htbp!]
   \centering
-    \includegraphics[height=8cm]{./Figures/GOCI_AERO.pdf}
+    \includegraphics[height=9cm]{./Figures/GOCI_AERO.pdf}
 
     %\internallinenumbers
     \caption{Scatter plots showing the comparison between the satellite-derived GOCI values and AERONET-OC {\it in situ} observations (Gaeocho: circles; Ieodo: triangles) for the uncalibrated data (blue markers) and for vicarious calibration based on MODIS-Aqua (red markers) and SeaWiFS (black markers) data. The dashed black line is the 1:1 line, and the Reduced Major Axis (RMA) regression line is drawn in red. \label{fig:GOCI_AERO} } 
@@ -419,7 +431,7 @@ When both approaches for targeted values for the vicarious calibration of the vi
 \caption{Statistics of the atmospheric correction validation with and without the vicarious calibration. \label{tab:val_stats} }
 
   \centering
-    \includegraphics[width=23cm]{./Figures/val_stats_R2018vcal_All_Final.pdf}
+    \includegraphics[width=22cm]{./Figures/val_stats_R2018vcal_All_Final.pdf}
 
 \end{table}
 \end{landscape}
@@ -445,11 +457,11 @@ GOCI displays a consistent behavior from year to year and a no evident relative 
   \centering
   \includegraphics[width=14cm]{./Figures/CrossCompAllRrs.pdf}
     %\internallinenumbers
-    \caption{Cross-comparison with MODIS and VIIRS for all wavelengths. (a) Rrs, (b) GOCI/MODIS Aqua ratio, (c) GOCI/VIIRS ratio, and (d) MODIS Aqua/VIIRS ratio. \label{fig:CrossCompAllRrs} } 
+    \caption{Cross-comparison with MODIS and VIIRS for all wavelengths. (a) Rrs, (b) GOCI/MODIS-Aqua ratio, (c) GOCI/VIIRS ratio, and (d) MODIS-Aqua/VIIRS ratio. \label{fig:CrossCompAllRrs} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-The satellite-derived products Chlorophyll-{\it a} \cite{OReilly1998_Chl}, $a_g(412)$ \cite{Mannino2014} and POC \cite{Stramski2008} (Fig. \ref{fig:GOCI_TimeSeriesComp_par}\todo{change axis for $a_g$}) follow similar seasonal trends.
-A good consistency in range of the retrieved values was found, for the most part, for the three missions and for the three different products, and a good consistency in phasing of seasonal cycles.
+The satellite-derived products Chlorophyll-{\it a} \cite{OReilly1998_Chl}, the absorption coefficient for chromophoric dissolved organic matter (CDOM) at 412 nm  ($a_g(412)$) \cite{Mannino2014} and particulate organic carbon (POC) \cite{Stramski2008} (Fig. \ref{fig:GOCI_TimeSeriesComp_par}) follow similar seasonal trends.
+A good consistency in range of the retrieved values was found, for the most part, for the three missions and for the three different products, and a good consistency in phasing of seasonal cycles. Note that certain discrepancy occur for MODIS-Aqua and GOCI on 2017. This could be caused by problem in the instrument calibration.\todo{correct?}
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \centering
@@ -469,7 +481,7 @@ The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease fo
   \centering
   \includegraphics[width=15cm]{./Figures/scatterRrs.pdf}
     %\internallinenumbers
-    \caption{Scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODIS Aqua and VIIRS. Linear regression in solid red line. \label{fig:scatterRrs} } 
+    \caption{Scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODIS-Aqua and VIIRS. Linear regression in solid red line. \label{fig:scatterRrs} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
@@ -486,7 +498,7 @@ The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease fo
 % ----------------------------
 % 1 Introduction 2
 % GOCI provides capability of studying coastal and ocean processes at an unprecedented temporal scale.
-The evaluation of the vicarious calibration for GOCI was performed in this study.
+Two approaches for the vicarious calibration for GOCI are evaluated in this study.
 This calibration is particular to the atmospheric correction scheme included in the SeaDAS/l2gen package developed by the Ocean Biology Processing Group (OBPG) at the NASA Goddard Space Flight Center.
 
 % 2 Approach 3
@@ -506,13 +518,14 @@ The use of climatology for the calibration of the visible bands yields similar r
 
 % 3 Verification of the calibration 9
 % 3.1 ValidationusingAERONET-OC ............................... 10 
-The derived vicarious gains were validated using {\it in situ} data from the AERONET-OC over two stations within GOCI's footprint.
+The derived vicarious gains for both approaches were validated using {\it in situ} data from the AERONET-OC data over two stations within GOCI's footprint.
+The mean bias and the mean absolute error (MAE) are smaller for both approaches compared with the current vicarious gains included in the SeaDAS/l2gen package, which proved to be an improvement in the sensor performance.
 % The validation with {\it in situ} data exhibit results comparable to heritage satellite sensors (Fig. \ref{fig:GOCI_AERO}).
-A good agreement was found between the GOCI $R_{rs}$ retrievals and {\it in situ} data, reflected in $R^2$ values varying from 0.83 to 0.98 for the 412 to 660 nm bands.
-When the atmospheric correction scheme and vicarious calibration are compared in a statistical sense with the scheme used by \cite{Ahn2015}, our results agree less with the AERONET-OC dataset.
+A good agreement was found between the GOCI $R_{rs}$ retrievals and {\it in situ} data for both approaches, reflected in $R^2$ values varying from 0.83 to 0.98 for the 412 to 660 nm bands.
+When the atmospheric correction scheme and vicarious calibration are compared in a statistical sense with the scheme used by \cite{Ahn2015}, our results agree less with the AERONET-OC dataset. However, a direct comparison is not possible because \cite{Ahn2015} used different kind of data from the AERONET-OC.
 
 % 3.2 SensorCross-comparison................................... 13
-The monthly time series for GOCI was cross-compared with the time series for the heritage sensors MODIS Aqua and {}VIIRS (Fig. \ref{fig:CrossCompAllRrs} and Fig. \ref{fig:GOCI_TimeSeriesComp_par}).
+Lastly, monthly time series for GOCI-derived products with the vicarious calibration from MODIS-Aqua were cross-compared with the time series for the heritage sensors MODIS-Aqua and VIIRS (Fig. \ref{fig:CrossCompAllRrs} and Fig. \ref{fig:GOCI_TimeSeriesComp_par}).
 % from Bryan's ppt
 Some seasonally varying differences in $R_{rs}$ are observed, with a larger discrepancy for the red bands. 
 The mission present a consistent behavior from year to year without a evident relative drift.

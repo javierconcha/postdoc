@@ -30,7 +30,7 @@ end
 close(h1)
 toc
 
-%% Load Aqua data
+% Load Aqua data
 clear AQUA_Data
 tic
 % fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
@@ -53,7 +53,7 @@ end
 close(h1)
 toc
 % save('GOCI_TempAnly.mat','AQUA_Data','-append')
-%% Load VIIRS data
+% Load VIIRS data
 clear VIIRS_Data
 tic
 fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/file_list_BRDF7.txt');
@@ -8126,7 +8126,7 @@ if process_data_flag
       end
 end
 close(h1)
-%% Daily statistics for VIIRS
+% Daily statistics for VIIRS
 
 count = 0;
 
@@ -8709,7 +8709,7 @@ if process_data_flag
       end
 end
 close(h1)
-%% Monthly statistics for AQUA
+% Monthly statistics for AQUA
 if process_data_flag
       clear AQUA_MonthlyStatMatrix
       clear cond_1t count
@@ -8798,7 +8798,7 @@ if process_data_flag
       end
 end
 close(h1)
-%% Monthly statistics for VIIRS
+% Monthly statistics for VIIRS
 if process_data_flag
       clear VIIRS_MonthlyStatMatrix
       clear cond_1t count
