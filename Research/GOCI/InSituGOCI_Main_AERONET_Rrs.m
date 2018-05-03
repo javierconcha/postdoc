@@ -91,11 +91,12 @@ clear SatData
 
 % source = 'AERONET_GOCI_R2018_NO';
 % source = 'AERONET_GOCI_R2018_MA_CV1p5';
-% source = 'AERONET_GOCI_R2018_SW';
-source = 'AERONET_GOCI_R2018_NR';
+source = 'AERONET_GOCI_R2018_SW_CV1p5';
+% source = 'AERONET_GOCI_R2018_NR';
 
 % source = 'AERONET_GOCI_R2018_NIRvcal';
 % source = 'AERONET_GOCI_R2018_MA';
+% source = 'AERONET_GOCI_R2018_SW';
 
 fileID = fopen(['/Users/jconchas/Documents/Research/GOCI/GOCI_AERONET/' source '/file_list.txt']);
 

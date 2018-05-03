@@ -9208,6 +9208,10 @@ grid on
 %% Plot Monthly Rrs GOCI vs AQUA and VIIRS
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
+fs = 25;
+ms = 14;
+lw = 2;
+
 save_opt = 0;
 
 brdf_opt = 7;
@@ -9675,7 +9679,7 @@ end
 %% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 % -- from data created in GOCI_DailtyStatMatrix
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 fs = 40;
 ms = 5;
@@ -12583,153 +12587,6 @@ for idx0 = 1:size(par,2)
       saveas(gcf,[savedirname 'Scatter_VIIRS_AQUA_' par{idx0}],'epsc')
 end
 
-%% Rrs ratios -- monthly
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
-
-clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
-
-brdf_opt = 7;
-
-cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
-GOCI_date = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
-GOCI_used = GOCI_MonthlyStatMatrix(cond_brdf);
-
-cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt;
-VIIRS_date = [VIIRS_MonthlyStatMatrix(cond_brdf).datetime];
-VIIRS_used = VIIRS_MonthlyStatMatrix(cond_brdf);
-
-cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt;
-AQUA_date = [AQUA_MonthlyStatMatrix(cond_brdf).datetime];
-AQUA_used = AQUA_MonthlyStatMatrix(cond_brdf);
-
-
-% all in the same temporal grid
-min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
-
-max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
-
-date_vec = min_date:calmonths(1):max_date;
-
-for idx=1:size(date_vec,2)
-      if ~isempty(find(GOCI_date==date_vec(idx),1))
-            GOCI_date_vec(idx) = find(GOCI_date==date_vec(idx)); % indexes
-      else
-            GOCI_date_vec(idx) = NaN;
-      end
-      if ~isempty(find(AQUA_date==date_vec(idx),1))
-            AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
-      else
-            AQUA_date_vec(idx) = NaN;
-      end
-      if ~isempty(find(VIIRS_date==date_vec(idx),1))
-            VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
-      else
-            VIIRS_date_vec(idx) = NaN;
-      end
-end
-
-cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
-cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
-cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
-
-%
-wl = {'412','443','490','555','660','680'};
-
-% ratio: GOCI/MODISA Rrs(\lambda)
-fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
-
-x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_412_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
-hold on
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_443_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_443_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_490_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_488_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_555_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_547_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_660_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_667_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
-      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
-legend('412','443','490','555','660','680')
-xlabel('Time')
-ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('GOCI/MODISA ratio')
-grid on
-% ylim([-0.001 0.017])
-saveas(gcf,[savedirname 'Ratio_GOCI_MODISA'],'epsc')
-
-% ratio: GOCI/VIIRS Rrs(\lambda)
-fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
-
-x = [GOCI_used(GOCI_date_vec(find(cond_VG))).datetime];
-y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_412_mean_mid_three]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_410_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
-hold on
-y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_443_mean_mid_three]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_443_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_490_mean_mid_three]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_486_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_555_mean_mid_three]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_551_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
-y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_660_mean_mid_three]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
-% y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
-%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
-% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
-legend('412','443','490','555','660')
-xlabel('Time')
-ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('GOCI/VIIRS ratio')
-grid on
-% ylim([-0.001 0.017])
-saveas(gcf,[savedirname 'Ratio_GOCI_VIIRS'],'epsc')
-
-% ratio: AQUA/VIIRS Rrs(\lambda)
-fs = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','AQUA/VIIRS ratio');
-
-x = [AQUA_used(AQUA_date_vec(find(cond_VA))).datetime];
-y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_412_mean]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_410_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
-hold on
-y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_443_mean]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_443_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
-y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_488_mean]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_486_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
-y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_547_mean]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_551_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
-y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_667_mean]...
-      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_671_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
-% y = [AQUA_used(AQUA_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
-%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
-% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
-legend('412','443','490','555','660')
-xlabel('Time')
-ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('MODISA/VIIRS ratio')
-grid on
-% ylim([-0.001 0.017])
-saveas(gcf,[savedirname 'Ratio_MODISA_VIIRS'],'epsc')
 
 %% Daily AOT(865) and Angstrong
 lw = 1.5;
@@ -12877,16 +12734,17 @@ saveas(gcf,[savedirname 'TimeSerie_Angstrom'],'epsc')
 brdf_opt = 7;
 
 % savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 % chlor_a
-fs = 25;
+fs = 40;
+lw = 3.0;
 h1 = figure('Color','white','DefaultAxesFontSize',fs,'Name','Chl-a');
 cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).chlor_a_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
-
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -12900,24 +12758,99 @@ cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).chlor_a_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
 ylabel('Chl-{\ita}')
 grid on
-legend('GOCI','MODISA','VIIRS')
+
+ylim([0. 0.25])
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+hold on
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+set(gca,'XTickLabel',[]);
+
+% % if strcmp(wl,'680')||strcmp(wl,'745')
+%       
+%       datetick(ax,'x','m','keepticks')
+%       
+%       x_labels{1} = sprintf('J \n');
+%       x_labels{2} = sprintf('M\n      2011');
+%       x_labels{3} = sprintf('S \n');
+%       
+%       x_labels{4} = sprintf('J \n');
+%       x_labels{5} = sprintf('M\n      2012');
+%       x_labels{6} = sprintf('S \n');
+%       
+%       x_labels{7} = sprintf('J \n');
+%       x_labels{8} = sprintf('M\n      2013');
+%       x_labels{9} = sprintf('S \n');
+%       
+%       x_labels{10} = sprintf('J \n');
+%       x_labels{11} = sprintf('M\n      2014');
+%       x_labels{12} = sprintf('S \n');
+%       
+%       x_labels{13} = sprintf('J \n');
+%       x_labels{14} = sprintf('M\n      2015');
+%       x_labels{15} = sprintf('S \n');
+%       
+%       x_labels{16} = sprintf('J \n');
+%       x_labels{17} = sprintf('M\n      2016');
+%       x_labels{18} = sprintf('S \n');
+%       
+%       x_labels{19} = sprintf('J \n');
+%       x_labels{20} = sprintf('M\n      2017');
+%       
+%       [~,~] = format_ticks(gca,x_labels);
+         
+% end
+
+grid off
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+legend('GOCI{    }','MODISA{    }','VIIRS',...
+      'Location','north',...
+      'Orientation','horizontal')
+legend boxoff
+
 screen_size = get(0, 'ScreenSize');
 origSize = get(gcf, 'Position'); % grab original on screen size
 set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
 set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerieComp_chlor_a'],'epsc')
 
-% poc
+%% poc
 h2 = figure('Color','white','DefaultAxesFontSize',fs,'Name','POC');
 cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).poc_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -12931,25 +12864,95 @@ cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).poc_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
-xlabel('Time')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
+% xlabel('Time')
 ylabel('POC')
 grid on
-legend('GOCI','MODISA','VIIRS')
+ylim([20 70])
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+hold on
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+set(gca,'XTickLabel',[]);
+
+% if strcmp(wl,'680')||strcmp(wl,'745')
+      
+      datetick(ax,'x','m','keepticks')
+      
+      x_labels{1} = sprintf('J \n');
+      x_labels{2} = sprintf('M\n      2011');
+      x_labels{3} = sprintf('S \n');
+      
+      x_labels{4} = sprintf('J \n');
+      x_labels{5} = sprintf('M\n      2012');
+      x_labels{6} = sprintf('S \n');
+      
+      x_labels{7} = sprintf('J \n');
+      x_labels{8} = sprintf('M\n      2013');
+      x_labels{9} = sprintf('S \n');
+      
+      x_labels{10} = sprintf('J \n');
+      x_labels{11} = sprintf('M\n      2014');
+      x_labels{12} = sprintf('S \n');
+      
+      x_labels{13} = sprintf('J \n');
+      x_labels{14} = sprintf('M\n      2015');
+      x_labels{15} = sprintf('S \n');
+      
+      x_labels{16} = sprintf('J \n');
+      x_labels{17} = sprintf('M\n      2016');
+      x_labels{18} = sprintf('S \n');
+      
+      x_labels{19} = sprintf('J \n');
+      x_labels{20} = sprintf('M\n      2017');
+      
+      [~,~] = format_ticks(gca,x_labels);
+         
+% end
+
+grid off
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+
 screen_size = get(0, 'ScreenSize');
 origSize = get(gcf, 'Position'); % grab original on screen size
 set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
 set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerieComp_poc'],'epsc')
 
-% ag_412_mlrc
+%% ag_412_mlrc
 h3 = figure('Color','white','DefaultAxesFontSize',fs,'Name','ag_412_mlrc');
 cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).ag_412_mlrc_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -12963,14 +12966,82 @@ cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).ag_412_mlrc_mean];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'k','LineWidth',lw)
-xlabel('Time')
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
+% xlabel('Time')
 ylabel('a_{g}(412)')
 grid on
-legend('GOCI','MODISA','VIIRS')
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+hold on
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+set(gca,'XTickLabel',[]);
+
+% % if strcmp(wl,'680')||strcmp(wl,'745')
+%       
+%       datetick(ax,'x','m','keepticks')
+%       
+%       x_labels{1} = sprintf('J \n');
+%       x_labels{2} = sprintf('M\n      2011');
+%       x_labels{3} = sprintf('S \n');
+%       
+%       x_labels{4} = sprintf('J \n');
+%       x_labels{5} = sprintf('M\n      2012');
+%       x_labels{6} = sprintf('S \n');
+%       
+%       x_labels{7} = sprintf('J \n');
+%       x_labels{8} = sprintf('M\n      2013');
+%       x_labels{9} = sprintf('S \n');
+%       
+%       x_labels{10} = sprintf('J \n');
+%       x_labels{11} = sprintf('M\n      2014');
+%       x_labels{12} = sprintf('S \n');
+%       
+%       x_labels{13} = sprintf('J \n');
+%       x_labels{14} = sprintf('M\n      2015');
+%       x_labels{15} = sprintf('S \n');
+%       
+%       x_labels{16} = sprintf('J \n');
+%       x_labels{17} = sprintf('M\n      2016');
+%       x_labels{18} = sprintf('S \n');
+%       
+%       x_labels{19} = sprintf('J \n');
+%       x_labels{20} = sprintf('M\n      2017');
+%       
+%       [~,~] = format_ticks(gca,x_labels);
+         
+% end
+
+grid off
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
 screen_size = get(0, 'ScreenSize');
 origSize = get(gcf, 'Position'); % grab original on screen size
 set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
 set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerieComp_ag_412_mlrc'],'epsc')
@@ -13033,14 +13104,36 @@ title('sola')
 % savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
 
 brdf_opt =7;
-fs = 28;
-lw = 2.0;
-h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3','units','normalized','outerposition',[0 0 1 1]);
+fs = 40;
+lw = 3.5;
+% h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3','units','normalized','outerposition',[0 0 1 1]);
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3');
+
 % GOCI
 cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 x = [GOCI_MonthlyStatMatrix(cond).datetime];
 y = [GOCI_MonthlyStatMatrix(cond).Rrs_412_mean_mid_three];
 plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+
+% AQUA
+cond = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [AQUA_MonthlyStatMatrix(cond).datetime];
+y = [AQUA_MonthlyStatMatrix(cond).Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+
+% VIIRS
+brdf_opt =7;
+cond = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [VIIRS_MonthlyStatMatrix(cond).datetime];
+y = [VIIRS_MonthlyStatMatrix(cond).Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+
+% GOCI
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_MonthlyStatMatrix(cond).datetime];
 hold on
 y = [GOCI_MonthlyStatMatrix(cond).Rrs_443_mean_mid_three];
 plot(x(~isnan(y)),y(~isnan(y)),'b--','LineWidth',lw)
@@ -13056,8 +13149,6 @@ plot(x(~isnan(y)),y(~isnan(y)),'--','Color',[1 0.5 0],'LineWidth',lw)
 % AQUA
 cond = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 x = [AQUA_MonthlyStatMatrix(cond).datetime];
-y = [AQUA_MonthlyStatMatrix(cond).Rrs_412_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
 hold on
 y = [AQUA_MonthlyStatMatrix(cond).Rrs_443_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
@@ -13074,20 +13165,18 @@ plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
 brdf_opt =7;
 cond = [VIIRS_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 x = [VIIRS_MonthlyStatMatrix(cond).datetime];
-y = [VIIRS_MonthlyStatMatrix(cond).Rrs_410_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[0.5 0 0.5],'LineWidth',lw)
 hold on
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_443_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'b-.','LineWidth',lw)
+plot(x(~isnan(y)),y(~isnan(y)),'bo-','LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_486_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[0 0.5 1],'LineWidth',lw)
+plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[0 0.5 1],'LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_551_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[0 0.5 0],'LineWidth',lw)
+plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[0 0.5 0],'LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_671_mean];
-plot(x(~isnan(y)),y(~isnan(y)),'-.','Color',[1 0 0],'LineWidth',lw)
-ylim([-0.001 0.017])
+plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[1 0 0],'LineWidth',lw)
+ylim([-0.002 0.020])
 
-grid on
+grid off
 ax = gca;
 ax.YAxis.Exponent = 0;
 ax.YAxis.MinorTick = 'on';
@@ -13101,19 +13190,588 @@ ax.XTick = (datenum([datetime(2011,1,1) datetime(2012,1,1) datetime(2013,1,1) ..
 
 ax.TickLabelInterpreter = 'none';
 
-xlabel('Time','FontSize',fs+4)
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax.XTickMode = 'manual';
+
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+% xlabel('Time','FontSize',fs+4)
 ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs+4)
 
 % set(gcf, 'renderer','painters')
 
-% set(gcf, 'renderer','painters')
-legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660','GOCI 680',...
-      'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667','MODISA 678',...
-      'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
-      'Location','EastOutside')
+% legend('GOCI 412','GOCI 443','GOCI 490','GOCI 555','GOCI 660','GOCI 680',...
+%       'MODISA 412','MODISA 443','MODISA 488','MODISA 547','MODISA 667','MODISA 678',...
+%       'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
+%       'Location','EastOutside','Orientation','horizontal')
 
-set(gcf,'PaperPositionMode', 'auto')
-% saveas(gcf,[savedirname 'CrossComp_All_Rrs'],'epsc')
+legend('GOCI{    }','MODISA{    }','VIIRS',...
+      'Location','north',...
+      'Orientation','horizontal')
+legend boxoff
+
+% annotations
+% 412
+annotation(h,'textbox',...
+      [0.91 0.75 0.04 0.04],...
+      'Color',[0.5 0 0.5],...
+      'String',{'412'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 443
+annotation(h,'textbox',...
+      [0.91 0.63 0.04 0.04],...
+      'Color',[0 0 1],...
+      'String',{'443'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 490
+annotation(h,'textbox',...
+      [0.91 0.48 0.04 0.04],...
+      'Color',[0 0.5 1],...
+      'String',{'490'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 555
+annotation(h,'textbox',...
+      [0.91 0.36 0.04 0.04],...
+      'Color',[0 0.5 0],...
+      'String',{'555'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 660
+annotation(h,'textbox',...
+      [0.91 0.29 0.04 0.04],...
+      'Color',[1 0 0],...
+      'String',{'660'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 680
+annotation(h,'textbox',...
+      [0.91 0.22 0.04 0.04],...
+      'Color',[1 0.5 0],...
+      'String',{'680'},...
+      'FontSize',fs-5,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'CrossComp_All_Rrs'],'epsc')
+
+%% Rrs ratios -- monthly
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
+
+clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
+
+brdf_opt = 7;
+
+cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+GOCI_date = [GOCI_MonthlyStatMatrix(cond_brdf).datetime];
+GOCI_used = GOCI_MonthlyStatMatrix(cond_brdf);
+
+cond_brdf = [VIIRS_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+VIIRS_date = [VIIRS_MonthlyStatMatrix(cond_brdf).datetime];
+VIIRS_used = VIIRS_MonthlyStatMatrix(cond_brdf);
+
+cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt]==brdf_opt;
+AQUA_date = [AQUA_MonthlyStatMatrix(cond_brdf).datetime];
+AQUA_used = AQUA_MonthlyStatMatrix(cond_brdf);
+
+
+% all in the same temporal grid
+min_date = min([GOCI_date(1) AQUA_date(1) VIIRS_date(1)]);
+
+max_date = max([GOCI_date(end) AQUA_date(end) VIIRS_date(end)]);
+
+date_vec = min_date:calmonths(1):max_date;
+
+for idx=1:size(date_vec,2)
+      if ~isempty(find(GOCI_date==date_vec(idx),1))
+            GOCI_date_vec(idx) = find(GOCI_date==date_vec(idx)); % indexes
+      else
+            GOCI_date_vec(idx) = NaN;
+      end
+      if ~isempty(find(AQUA_date==date_vec(idx),1))
+            AQUA_date_vec(idx) = find(AQUA_date==date_vec(idx));
+      else
+            AQUA_date_vec(idx) = NaN;
+      end
+      if ~isempty(find(VIIRS_date==date_vec(idx),1))
+            VIIRS_date_vec(idx) = find(VIIRS_date==date_vec(idx));
+      else
+            VIIRS_date_vec(idx) = NaN;
+      end
+end
+
+cond_VG = ~isnan(VIIRS_date_vec)&~isnan(GOCI_date_vec);
+cond_AG = ~isnan(AQUA_date_vec)&~isnan(GOCI_date_vec);
+cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
+
+%
+wl = {'412','443','490','555','660','680'};
+
+% ratio: GOCI/MODISA Rrs(\lambda)
+fs = 40;
+lw = 3.5;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
+
+
+
+% 412
+x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+
+% 443
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_443_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+
+% 490
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_490_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_488_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+
+% 555
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_555_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_547_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+
+% 660
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_660_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_667_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+
+% 680
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+
+
+legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
+      'Location','north',...
+      'Orientation','horizontal')
+legend boxoff
+
+
+
+
+% data and regression
+% 412
+disp('Rrs(412)')
+x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_412_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
+
+% 443
+disp('Rrs(443)')
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_443_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
+
+% 490
+disp('Rrs(490)')
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_490_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_488_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
+
+% 555
+disp('Rrs(555)')
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_555_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_547_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
+
+% 660
+disp('Rrs(660)')
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_660_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_667_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
+
+% 680
+disp('Rrs(680)')
+y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
+      ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'r--','LineWidth',lw)
+
+ylim([0 3])
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+% set(gcf, 'renderer','painters')
+
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('GOCI/MODISA ratio')
+
+
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'Ratio_GOCI_MODISA'],'epsc')
+
+% ratio: GOCI/VIIRS Rrs(\lambda)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
+
+% 412
+disp('Rrs(412)')
+x = [GOCI_used(GOCI_date_vec(find(cond_VG))).datetime];
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_412_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
+
+% 443
+disp('Rrs(443)')
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_443_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
+
+% 490
+disp('Rrs(490)')
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_490_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_486_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
+
+% 555
+disp('Rrs(555)')
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_555_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_551_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
+
+% 660
+disp('Rrs(660)')
+y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_660_mean_mid_three]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
+% y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
+%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+
+
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('GOCI/VIIRS ratio')
+
+ylim([0 3])
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'Ratio_GOCI_VIIRS'],'epsc')
+
+% ratio: AQUA/VIIRS Rrs(\lambda)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','AQUA/VIIRS ratio');
+
+% 412
+disp('Rrs(412)')
+x = [AQUA_used(AQUA_date_vec(find(cond_VA))).datetime];
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_412_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_410_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
+
+% 443
+disp('Rrs(443)')
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_443_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_443_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
+
+% 490
+disp('Rrs(490)')
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_488_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_486_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
+
+% 555
+disp('Rrs(555)')
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_547_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_551_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
+
+% 660
+disp('Rrs(660)')
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_667_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_671_mean];
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
+% y = [AQUA_used(AQUA_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
+%       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
+% plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
+
+ylabel('R_{rs}(\lambda) ratio (unitless)')
+title('MODISA/VIIRS ratio')
+
+ylim([0 3])
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017')];
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% if strcmp(wl,'680')||strcmp(wl,'745')
+      
+      datetick(ax,'x','m','keepticks')
+      
+      x_labels{1} = sprintf('J \n');
+      x_labels{2} = sprintf('M\n      2011');
+      x_labels{3} = sprintf('S \n');
+      
+      x_labels{4} = sprintf('J \n');
+      x_labels{5} = sprintf('M\n      2012');
+      x_labels{6} = sprintf('S \n');
+      
+      x_labels{7} = sprintf('J \n');
+      x_labels{8} = sprintf('M\n      2013');
+      x_labels{9} = sprintf('S \n');
+      
+      x_labels{10} = sprintf('J \n');
+      x_labels{11} = sprintf('M\n      2014');
+      x_labels{12} = sprintf('S \n');
+      
+      x_labels{13} = sprintf('J \n');
+      x_labels{14} = sprintf('M\n      2015');
+      x_labels{15} = sprintf('S \n');
+      
+      x_labels{16} = sprintf('J \n');
+      x_labels{17} = sprintf('M\n      2016');
+      x_labels{18} = sprintf('S \n');
+      
+      x_labels{19} = sprintf('J \n');
+      x_labels{20} = sprintf('M\n      2017');
+      
+      [~,~] = format_ticks(gca,x_labels);
+         
+% end
+
+% Major Ticks
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('09-01-2017')])
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'Ratio_MODISA_VIIRS'],'epsc')
+%% Regression Analysis
+
+
+% figure
+% plot(x0,y0)
+% hold on
+
+plot(x0,yCalc2,'--')
+plot(x1,y1,'b-.')
+hold on
+
+
+fs = 20;
+lw= 2.0;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
+
+% x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
+% y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
+%       ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_412_mean];
+
+x = [AQUA_used(AQUA_date_vec(find(cond_VA))).datetime];
+y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_412_mean]...
+      ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_410_mean];;
+
+[b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
+
+plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
+
 
 %%
 

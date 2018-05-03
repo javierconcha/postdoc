@@ -1355,11 +1355,11 @@ FID = fopen('./Gvcal_SW_Table.tex','w');
 %
 
 total_px_GOCI = Gvcal_SW_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
-ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 pixel_lim = total_px_GOCI/ratio_from_the_total;
 % pixel_lim = 15*15;
 
-CV_lim = 0.25;
+CV_lim = 0.15;
 solz_lim = 75;
 senz_lim = 60;
 
@@ -1442,14 +1442,14 @@ toc
 save('ValCalGOCI.mat','Gvcal_MA_Data','-append')
 %% Vcal using MODIS
 total_px_GOCI = Gvcal_MA_Data(1).pixel_count; % FOR THIS ROI!!! ((499*2+1)*(999*2+1))
-ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixels
+ratio_from_the_total = 2; % 2 3 4 % half or third or fourth of the total of pixels
 
 pixel_lim = total_px_GOCI/ratio_from_the_total;
 % pixel_lim = 15*15;
 
 load('ValCalGOCI.mat','GOCI_MODIS_GCW_matchups'); % from vcal_find.m
 
-CV_lim = 0.25;
+CV_lim = 0.15;
 solz_lim = 75;
 senz_lim = 60;
 

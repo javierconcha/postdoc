@@ -60,7 +60,7 @@
 
 %% NODES
 \node (gain_745) [input,text width=1cm] {$\bar{g}(745)$};
-\node (L1B) [input, right of=gain_745, text width=4cm,xshift=2cm] {Select L1B files\\from calibrated sensor \\to be processed to L2};
+\node (L1B) [input, right of=gain_745, text width=4cm,xshift=2cm] {Select GOCI L1B files\\to be processed to L2\\based on matchups\\from Concurrent Sensor\\or Climatology};
 \node (nLw_t) [input, right of=L1B, text width=6cm,xshift=5cm] {Targeted Normalized\\ Water-leaving Radiances ($L_{wn}^t(\lambda)$)\\from Concurrent Sensor\\or Climatology};
 \node (l2gen) [process, below of=L1B,text width=6.5cm,align=left,yshift=-1.5cm] {Process to L2 using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily gain=[1,1,...,$\bar{g}(745)$,1]\\vcal\_opt=2\\vcal\_nLw=[$L_{wn}^t(412)$,...,$L_{wn}^t(680)$,0,0]\\l2prod=vgain\_vvv,senz,solz};
 \node (val_extract) [process, below of=l2gen,xshift=0cm,yshift=-2cm,text width=6cm,align=left] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\{\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"\\valid\_ranges=vgain\_=0.5:1.5}};

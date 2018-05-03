@@ -3,7 +3,8 @@ function [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl,FID)
 fs = 30;
 
 %% all data
-plot(datetime_vec', g,'o','Color',[0.5 0.5 0.5],'MarkerFaceColor',[0.5 0.5 0.5])
+% plot(datetime_vec', g,'o','Color',[0.5 0.5 0.5],'MarkerFaceColor',[0.5 0.5 0.5],'MarkerSize',10)
+plot(datetime_vec', g,'ok','Color',[0.5 0.5 0.5],'MarkerSize',12,'LineWidth',3)
 %       xlabel('Time','FontSize',fs)
 ylabel('Gain Coefficient','FontSize',fs)
 
@@ -22,7 +23,8 @@ g_siqr = g(cond_siqr);
 
 % plot semi-interquartile range data
 datetime_siqr = datetime_vec(cond_siqr);
-plot(datetime_siqr,g_siqr,'ok','MarkerFaceColor', 'k')
+% plot(datetime_siqr,g_siqr,'ok','MarkerFaceColor', 'k','MarkerSize',10)
+plot(datetime_siqr,g_siqr,'ok','MarkerSize',12,'LineWidth',3)
 
 % siqr mean
 g_siqr_mean = nanmean(g_siqr);
@@ -31,19 +33,25 @@ N_siqr= sum(~isnan(g_siqr));
 
 ylim([0.85 1.15])
 
-
-%       legend(['all data; N=' num2str(sum(~isnan(g)))],...
-%             ['mean=' num2str(nanmean(g),'%1.4f\n')],...
-%             ['mean siqr=' num2str(q_siqr_mean,'%1.4f\n')],...
-%             ['Q1=' num2str(Q1,'%1.4f\n')],...
-%             ['Q3=' num2str(Q3,'%1.4f\n')],['siqr data; N=' num2str(sum(~isnan(g_siqr)))])
-
-
-
 % Half screen
 screen_size = get(0, 'ScreenSize');
 %       origSize = get(gcf, 'Position') % grab original on screen size
 set(gcf, 'Position', [1 1 screen_size(3) 0.5*screen_size(4)] ); %set to screen size
+
+
+% Plot SIQR mean
+plot(ax.XLim,[g_siqr_mean g_siqr_mean],'r','LineWidth',2.0)
+%       plot(ax.XLim,[Q1 Q1],'b')
+%       plot(ax.XLim,[Q3 Q3],'b')
+
+hl = legend(['Outside SIQR; N=' num2str(sum(~isnan(g)))],...
+      ['SIQR; N=' num2str(N_siqr)],...
+      ['Mean SIQR=' num2str(g_siqr_mean,'%1.4f\n')],'Location', 'Best');
+
+set(hl,'FontSize',fs-5);
+
+
+
 
 % shrink plot y-axis
 ax.PlotBoxAspectRatio(2)=0.25;
@@ -96,30 +104,25 @@ if strcmp(wl,'680')||strcmp(wl,'745')
       x_labels{20} = sprintf('M\n      2017');
       
       [~,~] = format_ticks(gca,x_labels);
-      
-      % Major Ticks
-      line([datenum('01-01-2012') datenum('01-01-2012')],[0.90 0.92],'Color','k')
-      line([datenum('01-01-2013') datenum('01-01-2013')],[0.90 0.92],'Color','k')
-      line([datenum('01-01-2014') datenum('01-01-2014')],[0.90 0.92],'Color','k')
-      line([datenum('01-01-2015') datenum('01-01-2015')],[0.90 0.92],'Color','k')
-      line([datenum('01-01-2016') datenum('01-01-2016')],[0.90 0.92],'Color','k')
-      line([datenum('01-01-2017') datenum('01-01-2017')],[0.90 0.92],'Color','k')
-      
+         
 end
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[0.85 0.88],'Color','k')
+line([datenum('01-01-2013') datenum('01-01-2013')],[0.85 0.88],'Color','k')
+line([datenum('01-01-2014') datenum('01-01-2014')],[0.85 0.88],'Color','k')
+line([datenum('01-01-2015') datenum('01-01-2015')],[0.85 0.88],'Color','k')
+line([datenum('01-01-2016') datenum('01-01-2016')],[0.85 0.88],'Color','k')
+line([datenum('01-01-2017') datenum('01-01-2017')],[0.85 0.88],'Color','k')
 
 xlim([datenum('01-01-2011') datenum('09-01-2017')])
 
-% Plot SIQR mean
-plot(ax.XLim,[g_siqr_mean g_siqr_mean],'k','LineWidth',1.5)
-%       plot(ax.XLim,[Q1 Q1],'b')
-%       plot(ax.XLim,[Q3 Q3],'b')
+% Plot SIQR mean for correcting display error
+plot(ax.XLim,[g_siqr_mean g_siqr_mean],'r','LineWidth',2.0)
 
-hl = legend(['All Data; N=' num2str(sum(~isnan(g)))],...
-      ['SIQR Data; N=' num2str(N_siqr)],...
-      ['Mean SIQR=' num2str(g_siqr_mean,'%1.4f\n')],'Location', 'Best');
+% reference to 1
 
-set(hl,'FontSize',fs-5);
-
+plot(ax.XLim,[1 1],'--k','LineWidth',1.0)
 %% LaTeX
 
 % if strcmp(wl,'412')
