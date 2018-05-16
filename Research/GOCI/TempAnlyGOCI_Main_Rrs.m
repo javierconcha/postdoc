@@ -30,7 +30,7 @@ end
 close(h1)
 toc
 
-% Load Aqua data
+%% Load Aqua data
 clear AQUA_Data
 tic
 % fileID = fopen('./GOCI_TemporalAnly/AQUA_ROI_STATS/file_list.txt');
@@ -368,7 +368,7 @@ grid on
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 solz_lim = 75;
 senz_lim = 60;
@@ -383,6 +383,7 @@ brdf_opt = 7;
 ms = 5;
 
 wl_vec = {'412','443','490','555','660','680'};
+% wl_vec = {'412'};
 
 for idx = 1:size(wl_vec,2)
      %% 
@@ -507,8 +508,11 @@ for idx = 1:size(wl_vec,2)
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
-%       xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
-      xLoc = xLimits(1)+0.65*(xLimits(2)-xLimits(1));
+      if strcmp(wl_vec{idx},'660')||strcmp(wl_vec{idx},'680')
+            xLoc = xLimits(1)+0.65*(xLimits(2)-xLimits(1));
+      else
+            xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
+      end     
       yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
       figure(gcf)
       hold on
@@ -539,7 +543,7 @@ end
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 % solz_lim = 90;
 % senz_lim = 60;
@@ -726,8 +730,7 @@ for idx = 1:size(par_vec,2)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       % xlim([-1*xrange xrange])
       
-      str1 = sprintf('N: %i\nmean: %2.5f \nmax: %2.5f \nmin: %2.5f \nSD: %2.5f',...
-            N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
+
       
       ax = gca;
       ax.XLim(1)
@@ -738,9 +741,18 @@ for idx = 1:size(par_vec,2)
       if strcmp(par_vec{idx},'solz')
             xLoc = xLimits(1)+0.03*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
+            str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
+                  N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
+      elseif strcmp(par_vec{idx},'poc')            
+            xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
+            yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+            str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
+                  N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));      
       else
             xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
+            str1 = sprintf('N: %i\nmean: %2.5f \nmax: %2.5f \nmin: %2.5f \nSD: %2.5f',...
+                  N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       end
       figure(gcf)
       hold on
@@ -779,7 +791,7 @@ saveas(gcf,[savedirname 'Hist_solz'],'epsc')
 % cond_used = 11064-7:11064+23;
 % cond_used = 1:size(GOCI_Data,2);
 % cond_used = [GOCI_Data.datetime]>datetime(2013,1,1) & [GOCI_Data.datetime]<datetime(2014,1,1);
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 fs = 40;
 ms = 5;
@@ -1932,7 +1944,7 @@ saveas(gcf,[savedirname 'Par_vs_Zenith_poc_season'],'epsc')
 % Summer - from June 1 to August 31; 6, 7, 8
 % Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
 % Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 fs = 80;
 ms = 20;
@@ -9361,7 +9373,7 @@ end
 % Summer - from June 1 to August 31; 6, 7, 8
 % Fall (autumn) - from September 1 to November 30; and, 9, 10, 11
 % Winter - from December 1 to February 28 (February 29 in a leap year). 12, 1, 2
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 fs = 60;
 ms = 8;
@@ -9520,7 +9532,7 @@ end
 % % %
 %% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 fs = 40;
 ms = 5;
@@ -9679,7 +9691,7 @@ end
 %% Detrending Data Rrs - subtract monthly hourly means, color coded by time of the day
 % -- from data created in GOCI_DailtyStatMatrix
 
-% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 fs = 40;
 ms = 5;
@@ -9807,7 +9819,7 @@ end
 
 %% Detrending Data par - subtract monthly hourly means, color coded by time of the day
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 N = 0;
 
@@ -9916,7 +9928,7 @@ end
 
 %% Detrending Data Rrs - subtract monthly hourly means, color coded by season
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 N = 0; % total number of points per band
 
@@ -9993,7 +10005,7 @@ end
 
 %% Detrending Data par - subtract monthly hourly means, color coded by season
 
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 N = 0;
 
@@ -10443,7 +10455,7 @@ grid on
 
 % %% Plot relative difference from the daily mean for Rrs
 % % The difference of the mean
-% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 %
 %
 % wl = {'412','443','490','555','660','680'};
@@ -10515,7 +10527,7 @@ grid on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the three midday for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -10646,7 +10658,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the three midday for Rrs -- ONLY SUMMER
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -10778,7 +10790,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot Difference from the three midday for Rrs
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -10904,7 +10916,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot Difference from the three midday for Rrs -- ONLY SUMMERS
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -11034,7 +11046,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the 4th time of day for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -11177,7 +11189,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot Difference from the 4h for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
@@ -11302,7 +11314,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from 4th time of day for par -- ONLY SUMMER
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -11435,7 +11447,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot Difference from the 4th for par -- ONLY SUMMERS
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
@@ -11565,7 +11577,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the three midday for Rrs -- DETRENDED
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 wl = {'412','443','490','555','660','680'};
 
@@ -11652,7 +11664,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the three midday for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'chlor_a','ag_412_mlrc','poc'};
@@ -11767,7 +11779,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the three midday for par -- DETRENDED
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
 par_vec = {'chlor_a','ag_412_mlrc','poc'};
@@ -12318,7 +12330,7 @@ nanmean([GOCI_DailyStatMatrix.Rrs_680_stdv_mean])
 
 
 %% Scatter plots for Rrs -- daily -- from GOCI_DailyStatMatrix
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 clear GOCI_date VIIRS_date AQUA_date
 clear GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 clear GOCI_used VIIRS_used AQUA_used
@@ -12543,7 +12555,7 @@ for idx0 = 1:size(wl,2)
 end
 
 %% Scatter plots for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 par = {'chlor_a','ag_412_mlrc','poc','angstrom','aot_865','brdf'};
 
@@ -12633,7 +12645,7 @@ set(gcf, 'renderer','painters')
 legend('GOCI','MODISA','VIIRS')
 
 %% Plot Monthly AOT(865) and Angstrong
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 clear GOCI_date VIIRS_date AQUA_date GOCI_used VIIRS_used AQUA_used GOCI_date_vec AQUA_date_vec VIIRS_date_vec
 
@@ -12733,7 +12745,7 @@ saveas(gcf,[savedirname 'TimeSerie_Angstrom'],'epsc')
 
 brdf_opt = 7;
 
-% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 % chlor_a
@@ -13101,7 +13113,7 @@ plot([VIIRS_Data.datetime],[VIIRS_Data.sola_center_value],'o')
 title('sola')
 
 %% Time series for all Rrs
-% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 brdf_opt =7;
 fs = 40;
@@ -14375,7 +14387,7 @@ for idx =      [18 57]
 end
 
 %% 3-day sequences plot -- par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 % for idx = 1:1*sum(three_day_idx)/10
 for idx = [18 57]

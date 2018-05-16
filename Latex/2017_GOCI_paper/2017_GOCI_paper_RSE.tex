@@ -87,7 +87,7 @@ NASA Goddard Space Flight Center,
 % Background/motivation/context
 Short-term (hours) biological and biogeochemical processes cannot be captured by heritage ocean color satellites because their temporal resolution is limited to potentially one clear image per day. 
 %
-Geostationary satellites, such as the Geostationary Ocean Color Imager (GOCI), allow the study of these short-term processes because their orbits permits the collection of multiple images throughout each day. 
+Geostationary satellites, such as the Geostationary Ocean Color Imager (GOCI), allow the study of these short-term processes because their orbits permit the collection of multiple images throughout each day. 
 % Aim/objectives(s)/problem statement
 In order to be able to detect the changes in the water properties caused by these processes, the levels of uncertainties introduced by the instrument and/or algorithms need to be assessed first.
 % 
@@ -100,8 +100,6 @@ Filtering criteria were applied to assure the quality of the data.
 Relative differences with respect to the midday value were calculated for each time of the day. 
 %
 Also, the relationship between the solar zenith angle and remote sensing reflectances was analyzed.
-%
-The GOCI time series was compared to the MODIS/Aqua and Suomi-NPP VIIRS missions.
 % Results
 Results show that the last two images of the day deviate significantly from the prior six hourly images, presenting errors on the order of $30\%$ or higher in the blue and green bands, and higher than $50\%$ in the red bands. 
 %
@@ -223,7 +221,7 @@ The area of study (\autoref{fig:AreaOfStudy}) is an area that covers an open-oce
 % ---------------------------------------------------------------
 \begin{figure}[ht]
 \centering
-\includegraphics[height=5.5cm]{./Figures/GOCI_ROI_footprint.png}
+\includegraphics[height=8cm]{./Figures/GOCI_MAP.eps}
 	%\internallinenumbers
   \caption{The study area (GCW region) is located over oligotrophic water to the south of Japan. GOCI foot print (red box) and the GCW region (white box). This area was selected because the assumption that the most of the daily variability is caused by physical factors. The GCW region covers 2000$\times$1000 pixels, which is equivalent to 500,000 $km^2$.}
 	\label{fig:AreaOfStudy}
@@ -793,7 +791,7 @@ During winter, there are not values for the biogeochemical products for the last
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \hspace{-0.8cm}
-  \includegraphics[width=17.5cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
+  \includegraphics[width=19cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
   \vspace{-1.3cm}
   %\internallinenumbers
   \caption{Mean $R_{rs}(\lambda)$ and products versus solar zenith angle for the whole mission. Only data that passed the exclusion criteria were used, but including the negative values and all SZA values ($0^o<SZA<90^o$). The data are separated by season, and color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:Prod_vs_zenith_season_tod} } 

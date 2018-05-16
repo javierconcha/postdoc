@@ -114,7 +114,7 @@ none             12G     0   12G   0% /run/shm
 /dev/sdf1       2.8T  104G  2.7T   4% /data5
 /dev/sda3       459G  217G  219G  50% /home
 jconchas@anly104:~$ cat .       
-./             ../            .bash_history  .bash_logout   .bashrc        .profile       
+             ../            .bash_history  .bash_logout   .bashrc        .profile       
 jconchas@anly104:~$ cat .profile 
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
@@ -246,17 +246,17 @@ jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201601070
 
 to download from anly104 to torii:
 from anly104:
-jconchas@anly104:/data2/jconchas/GOCI$ scp COMS_GOCI_L1B_GA_201512240*.he5 jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/
+jconchas@anly104:/data2/jconchas/GOCI$ scp COMS_GOCI_L1B_GA_201512240*.he5 jconchas@obpg-torii.sci.gsfc.nasa.gov:data/
 
 to downlaod from torii to my mac:
 from the folder where I want to download to:
-jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ scp jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/* .
+jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ scp jconchas@obpg-torii.sci.gsfc.nasa.gov:data/* .
 
 to copy from a list to a folder/directory:
 jconchas@anly104:~/data2/LANDSAT8$ find . -name "*_L2.nc" -exec cp '{}' artic_L2/ \;
 
 to cp a directory:
-jconchas@anly104:~/data2/LANDSAT8$ scp -rp artic_L2/ jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/  
+jconchas@anly104:~/data2/LANDSAT8$ scp -rp artic_L2/ jconchas@obpg-torii.sci.gsfc.nasa.gov:data/  
 
 --------------------------------------------------
 2016-01-15 Fri
@@ -271,10 +271,10 @@ decompress:
 jconchas@gs616-tidal:~/Documents/Research/GOCI/Images/COMS_GOCI_L1B_GA_201512240x1640$ gunzip COMS_GOCI_L1B_GA_20151224001640.he5.gz 
 
 to change all of them at the same time:
-$ find ./ -name "*he5" -exec mv '{}' '{}'.gz \;
+$ find  -name "*he5" -exec mv '{}' '{}'.gz \;
 
 to unzip all of them at the same time:
-$ find ./ -name "*he5.gz" -exec gunzip '{}' \;
+$ find  -name "*he5.gz" -exec gunzip '{}' \;
 
 Done:
 - Processed GOCI images: COMS_GOCI_L1B_GA_20151224001640_L2.nc in my machine
@@ -302,10 +302,10 @@ to move to same directory name:
 $ find . -type d -name "L*" -exec mv '{}'.tar '{}' \;
 
 to tar file inside a folder:
-$ find . -name "*tar" -print0|xargs -0 -I {} basename {} .tar|xargs -I file tar -xvf ./file/file.tar -C ./file
+$ find . -name "*tar" -print0|xargs -0 -I {} basename {} .tar|xargs -I file tar -xvf file/file.tar -C ./file
 
 to move a file to a directory using basename:
-$ find . -name "*jpg" | xargs -I {} basename {} .jpg| xargs -I file mv ./file.jpg ./file/
+$ find . -name "*jpg" | xargs -I {} basename {} .jpg| xargs -I file mv file.jpg ./file/
 
 --------------------------------------------------
 2016-01-23 Sat
@@ -857,21 +857,21 @@ to convert from dos to unix in vim:
 
 GOCI files retrieved from the server:
 jconchas@anly104:~/data2/GOCI$ du -h
-0       ./COMS_GOCI_L1B_GA_20101130
-0       ./COMS_GOCI_L1B_GA_20101201
-0       ./COMS_GOCI_L1B_GA_20101202
-6.0G    ./COMS_GOCI_L1B_GA_20110409
-6.0G    ./COMS_GOCI_L1B_GA_20110410
-6.0G    ./COMS_GOCI_L1B_GA_20110411
-5.9G    ./COMS_GOCI_L1B_GA_20110412
-5.9G    ./COMS_GOCI_L1B_GA_20110413
-5.9G    ./COMS_GOCI_L1B_GA_20110414
-6.0G    ./COMS_GOCI_L1B_GA_20110415
-6.0G    ./COMS_GOCI_L1B_GA_20110416
-6.0G    ./COMS_GOCI_L1B_GA_20110417
-6.0G    ./COMS_GOCI_L1B_GA_20110810
-6.0G    ./COMS_GOCI_L1B_GA_20110811
-6.0G    ./COMS_GOCI_L1B_GA_20110812
+0       COMS_GOCI_L1B_GA_20101130
+0       COMS_GOCI_L1B_GA_20101201
+0       COMS_GOCI_L1B_GA_20101202
+6.0G    COMS_GOCI_L1B_GA_20110409
+6.0G    COMS_GOCI_L1B_GA_20110410
+6.0G    COMS_GOCI_L1B_GA_20110411
+5.9G    COMS_GOCI_L1B_GA_20110412
+5.9G    COMS_GOCI_L1B_GA_20110413
+5.9G    COMS_GOCI_L1B_GA_20110414
+6.0G    COMS_GOCI_L1B_GA_20110415
+6.0G    COMS_GOCI_L1B_GA_20110416
+6.0G    COMS_GOCI_L1B_GA_20110417
+6.0G    COMS_GOCI_L1B_GA_20110810
+6.0G    COMS_GOCI_L1B_GA_20110811
+6.0G    COMS_GOCI_L1B_GA_20110812
 71G     .
 
 to open matlab from command line:
@@ -1113,7 +1113,7 @@ $svn up
 error at the end of building 3rd party libraries
 ============================
 Testing hdftest 
-/bin/sh: line 1:  6160 Segmentation fault: 11  srcdir="." ./${tname} >> ${log} 2>&1
+/bin/sh: line 1:  6160 Segmentation fault: 11  srcdir="." ${tname} >> ${log} 2>&1
 ----------------------------
 hdftest  Test Log
 ----------------------------
@@ -1184,7 +1184,7 @@ jconchas@anly104:~/ocssw/run/bin/linux_64$ which l2gen
 /home/jconchas/ocssw/run/bin/linux_64/l2gen
 jconchas@anly104:~/ocssw/run/bin/linux_64$ l2gen --version
 l2gen 9.0.2-r12855 (Apr 20 2016 16:02:06)
-jconchas@anly104:~/ocssw/run/bin/linux_64$ ./l2gen --version
+jconchas@anly104:~/ocssw/run/bin/linux_64$ l2gen --version
 l2gen 9.0.2-r12855 (Apr 20 2016 16:02:06)
 jconchas@anly104:~/ocssw/run/bin/linux_64$ echo $LIB3_CHECK
 1
@@ -1229,7 +1229,7 @@ See `config.log' for more details
  1086  env | grep LIB3
  1087  export LIB3_CHECK=0
  1088  env | grep LIB3
- 1089  ./BuildIt 
+ 1089  BuildIt 
 
 ...updated 11428 targets...
 
@@ -1303,7 +1303,7 @@ jconchas@gs616-tidal-128154165007:~$ port search gcc|less
 2016-04-27 Wed
 - with:
 
-jconchas@gs616-tidal-128154165007:src$ ../../../show_var.sh 
+jconchas@gs616-tidal-128154165007:src$ .../../show_var.sh 
 OCSSWROOT=/Users/jconchas/Applications/seadas-7.3.1/ocssw_svnwork
 OCSSW_DEBUG=0
 LIB3_CHECK=0
@@ -1449,7 +1449,7 @@ rhos_469
 to install aqua in SeaDAS 7.3:
 jconchas@gs616-tidal-128154165007:data$ pwd
 /Users/jconchas/Applications/seadas-7.3.1/ocssw/run/data
-jconchas@gs616-tidal-128154165007:data$ ../scripts/install_ocssw.py --aqua --git-branch=v7.3
+jconchas@gs616-tidal-128154165007:data$ .scripts/install_ocssw.py --aqua --git-branch=v7.3
 
 1600  git status
  1601  git pull
@@ -1472,7 +1472,7 @@ jconchas@gs616-tidal-128154165007:data$ ../scripts/install_ocssw.py --aqua --git
  1618  ls
  1619  cd common/
  1620  git pull
- 1621  cd ../goci/
+ 1621  cd .goci/
  1622  git pull
  1623  cd ..
  1624  cd modis/
@@ -1515,10 +1515,10 @@ jconchas@gs616-tidal-128154165007:data$ ../scripts/install_ocssw.py --aqua --git
  1661  cd run/data/
  1662  ls
  1663  rm -rf modis/
- 1664  ./install_ocssw.py --help
- 1665  ../scripts/install_ocssw.py --help
- 1666  ./install_ocssw.py --aqua --git-branch=v7.3
- 1667  ../scripts/install_ocssw.py --aqua --git-branch=v7.3
+ 1664  install_ocssw.py --help
+ 1665  .scripts/install_ocssw.py --help
+ 1666  install_ocssw.py --aqua --git-branch=v7.3
+ 1667  .scripts/install_ocssw.py --aqua --git-branch=v7.3
 
 --------------------------------------------------
 2016-05-24 Tue
@@ -1656,25 +1656,25 @@ find . -not -name idlatlon_list.txt -name "idlatlon_list*"|xargs rm
 2016-06-29 Wed
 
 replace LGN01 or 02 in Matchup.id_scene:
-./LC80130322013177LGN01/LC80130322013177LGN01_MTL.txt
-./LC80400372013142LGN01/LC80400372013142LGN01_MTL.txt
-./LC80410372013133LGN01/LC80410372013133LGN01_MTL.txt
-./LC80120312013106LGN01/LC80120312013106LGN01_MTL.txt
-./LC81950192013140LGN01/LC81950192013140LGN01_MTL.txt
-./LC81810292013106LGN01/LC81810292013106LGN01_MTL.txt
-./LC80120312013138LGN01/LC80120312013138LGN01_MTL.txt
-./LC80110312013131LGN01/LC80110312013131LGN01_MTL.txt
-./LC81870182013132LGN01/LC81870182013132LGN01_MTL.txt
-./LC81810292013122LGN01/LC81810292013122LGN01_MTL.txt
-./LC81880182013139LGN01/LC81880182013139LGN01_MTL.txt
-./LC80120312013122LGN01/LC80120312013122LGN01_MTL.txt
-./LC81910292013112LGN01/LC81910292013112LGN01_MTL.txt
-./LC81810292013138LGN01/LC81810292013138LGN01_MTL.txt
-./LC80400372013110LGN01/LC80400372013110LGN01_MTL.txt
-./LC80410372013101LGN01/LC80410372013101LGN01_MTL.txt
-./LC81890182013178LGN01/LC81890182013178LGN01_MTL.txt
-./LC81920282013135LGN01/LC81920282013135LGN01_MTL.txt
-./LC80410372013117LGN02/LC80410372013117LGN02_MTL.txt
+LC80130322013177LGN01/LC80130322013177LGN01_MTL.txt
+LC80400372013142LGN01/LC80400372013142LGN01_MTL.txt
+LC80410372013133LGN01/LC80410372013133LGN01_MTL.txt
+LC80120312013106LGN01/LC80120312013106LGN01_MTL.txt
+LC81950192013140LGN01/LC81950192013140LGN01_MTL.txt
+LC81810292013106LGN01/LC81810292013106LGN01_MTL.txt
+LC80120312013138LGN01/LC80120312013138LGN01_MTL.txt
+LC80110312013131LGN01/LC80110312013131LGN01_MTL.txt
+LC81870182013132LGN01/LC81870182013132LGN01_MTL.txt
+LC81810292013122LGN01/LC81810292013122LGN01_MTL.txt
+LC81880182013139LGN01/LC81880182013139LGN01_MTL.txt
+LC80120312013122LGN01/LC80120312013122LGN01_MTL.txt
+LC81910292013112LGN01/LC81910292013112LGN01_MTL.txt
+LC81810292013138LGN01/LC81810292013138LGN01_MTL.txt
+LC80400372013110LGN01/LC80400372013110LGN01_MTL.txt
+LC80410372013101LGN01/LC80410372013101LGN01_MTL.txt
+LC81890182013178LGN01/LC81890182013178LGN01_MTL.txt
+LC81920282013135LGN01/LC81920282013135LGN01_MTL.txt
+LC80410372013117LGN02/LC80410372013117LGN02_MTL.txt
 
 to grep from a list:
 cat scene_list.txt | xargs -I {} grep {} idlatlon_listORIGINAL_all.txt |uniq > idlatlon_list.txt
@@ -1756,7 +1756,7 @@ ans =
 
 1 image could not work using scheduler.sh:
 from the L2n2SWIR5x5.nc file (that for some reason worked OK at some point...)
-l2gen ifile=./LC80110312013081LGN01/LC80110312013081LGN01_MTL.txt ofile1=./LC80110312013081LGN01/LC80110312013081LGN01_L2n2SWIR5x5.nc aer_opt=-2 ctl_pt_incr=1 maskglint=1 l2prod=default,ag_412_mlrc,rhos_vvv aer_wave_long=2201 aer_wave_short=1609 filter_file=/home/jconchas/ocssw/run/data/oli/msl12_filterUSER.dat filter_opt=1 sline=3878 eline=3978 spixl=3503 epixl=3603
+l2gen ifile=LC80110312013081LGN01/LC80110312013081LGN01_MTL.txt ofile1=./LC80110312013081LGN01/LC80110312013081LGN01_L2n2SWIR5x5.nc aer_opt=-2 ctl_pt_incr=1 maskglint=1 l2prod=default,ag_412_mlrc,rhos_vvv aer_wave_long=2201 aer_wave_short=1609 filter_file=/home/jconchas/ocssw/run/data/oli/msl12_filterUSER.dat filter_opt=1 sline=3878 eline=3978 spixl=3503 epixl=3603
 
 
 AERONET-OC COVE_SEAPRISM
@@ -2059,7 +2059,7 @@ jconchas@anly104:~/ocssw/run/bin$ svn co svn://svn101/OCSSW/trunk/run/bin/linux_
 --------------------------------------------------
 2016-07-30 Sat
 image not available for AERONET for GOCI:
-./20131201/COMS_GOCI_L1B_GA_20131201021641.he5
+20131201/COMS_GOCI_L1B_GA_20131201021641.he5
 
 
 to use val_extract to calculate stats:
@@ -2241,7 +2241,7 @@ geolocate_viirs ifile=V2016246152400.L1A_SNPP.nc geofile_mod=V2016246152400.GEO-
 l2gen ifile=V2016246152400.L1B-M_SNPP.nc geofile=V2016246152400.GEO-M_SNPP.nc ofile=V2016246152400.L2.nc
 
 to install ocssw in anly104:
-./install_ocssw.py --git-branch=v7.3 --viirsn
+install_ocssw.py --git-branch=v7.3 --viirsn
 
 to process MODIS:
 modis_GEO.py A2016210041500.L1A_LAC
@@ -2250,7 +2250,7 @@ modis_L1B.py A2016210041500.L1A_LAC
 --------------------------------------------------
 2016-10-11 Tue
 to avoid scp to transfer file already transfered:
-find ./ -name "*valregion*"|xargs chmod a-w
+find  -name "*valregion*"|xargs chmod a-w
 
 --------------------------------------------------
 2016-11-02 Wed
@@ -2329,14 +2329,14 @@ spatialResolution=1 km
 2016-12-06 Tue
 Matlab scripts for matchups:
 jconchas:~$ find . -name "*InSitu*.m"|xargs ls -lht
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   2.1K Oct  6 17:25 ./Documents/Research/GOCI/GOCI_KORUS/InSitu_GOCI_KORUS_Rrs.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   9.0K Sep 14 12:49 ./Documents/Research/GOCI/InSituGOCI_Main_AERONET_Rrs.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    45K Aug 30 12:11 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONETOC_Rrs.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    14K Aug  1 12:35 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONET_CDOM.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   8.7K Jul 11 12:44 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara_Rrs.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Jul 11 12:38 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_VIIRS2014.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Apr 20  2016 ./Documents/Research/GOCI/InSitu/InSituGOCI_Main.m
--rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    29K Mar 31  2016 ./Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   2.1K Oct  6 17:25 Documents/Research/GOCI/GOCI_KORUS/InSitu_GOCI_KORUS_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   9.0K Sep 14 12:49 Documents/Research/GOCI/InSituGOCI_Main_AERONET_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    45K Aug 30 12:11 Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONETOC_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    14K Aug  1 12:35 Documents/Research/LANDSAT8/InSituLANDSAT_Main_AERONET_CDOM.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users   8.7K Jul 11 12:44 Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara_Rrs.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Jul 11 12:38 Documents/Research/LANDSAT8/InSituLANDSAT_Main_VIIRS2014.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    28K Apr 20  2016 Documents/Research/GOCI/InSitu/InSituGOCI_Main.m
+-rw-r--r--@ 1 jconchas  NDC\ND-GG-GS FN Users    29K Mar 31  2016 Documents/Research/LANDSAT8/InSituLANDSAT_Main_Tara.m
 
 
 to improve plot axis in MATLAB:
@@ -2704,15 +2704,15 @@ COMS_GOCI_L1B_GA_20110520021641.he5=3.73749,3.01584,1.88578,0.50944,0.03091,0.04
 
 
 jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS$ cat file_list.txt |grep 2011140
-./A2011140032500.L2_LAC_BRDF0/A2011140032500.L2_LAC_BRDF0_valregion
-./A2011140032500.L2_LAC_BRDF3/A2011140032500.L2_LAC_BRDF3_valregion
-./A2011140032500.L2_LAC_BRDF7/A2011140032500.L2_LAC_BRDF7_valregion
-./A2011140050000.L2_LAC_BRDF0/A2011140050000.L2_LAC_BRDF0_valregion
-./A2011140050000.L2_LAC_BRDF3/A2011140050000.L2_LAC_BRDF3_valregion
-./A2011140050000.L2_LAC_BRDF7/A2011140050000.L2_LAC_BRDF7_valregion
-./A2011140050500.L2_LAC_BRDF0/A2011140050500.L2_LAC_BRDF0_valregion
-./A2011140050500.L2_LAC_BRDF3/A2011140050500.L2_LAC_BRDF3_valregion
-./A2011140050500.L2_LAC_BRDF7/A2011140050500.L2_LAC_BRDF7_valregion
+A2011140032500.L2_LAC_BRDF0/A2011140032500.L2_LAC_BRDF0_valregion
+A2011140032500.L2_LAC_BRDF3/A2011140032500.L2_LAC_BRDF3_valregion
+A2011140032500.L2_LAC_BRDF7/A2011140032500.L2_LAC_BRDF7_valregion
+A2011140050000.L2_LAC_BRDF0/A2011140050000.L2_LAC_BRDF0_valregion
+A2011140050000.L2_LAC_BRDF3/A2011140050000.L2_LAC_BRDF3_valregion
+A2011140050000.L2_LAC_BRDF7/A2011140050000.L2_LAC_BRDF7_valregion
+A2011140050500.L2_LAC_BRDF0/A2011140050500.L2_LAC_BRDF0_valregion
+A2011140050500.L2_LAC_BRDF3/A2011140050500.L2_LAC_BRDF3_valregion
+A2011140050500.L2_LAC_BRDF7/A2011140050500.L2_LAC_BRDF7_valregion
 
 
 jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ val_extract ifile=G20121025011640.OCCAL_valregion_jlt ofile=G20121025011640.OCCAL_valregion.o elat=29.4736 slat=24.2842 slon=131.9067 elon=142.3193 valid_ranges=vgain_=0.5:1.5 ignore_flags="LAND CLDICE STRAYLIGHT ATMFAIL"
@@ -2855,14 +2855,14 @@ jconchas@anly104:~/data2/GOCI/test$ getanc.py COMS_GOCI_L1B_GA_20110528011643.he
 jconchas@anly104:~/data2/GOCI/test$ getanc.py COMS_GOCI_L1B_GA_20110528011643.he5 --curdir
 Directory /data2/shared/ocssw/var does not exist.
 Using current working directory for storing the ancillary database file: ancillary_data.db
-icefile=./N201114800_SEAICE_NSIDC_24h.hdf
-met1=./N201114800_MET_NCEPR2_6h.hdf
-met2=./N201114806_MET_NCEPR2_6h.hdf
-met3=./N201114806_MET_NCEPR2_6h.hdf
-ozone1=./N201114700_O3_AURAOMI_24h.hdf
-ozone2=./N201114800_O3_AURAOMI_24h.hdf
-ozone3=./N201114800_O3_AURAOMI_24h.hdf
-sstfile=./N2011148_SST_OIV2AVAM_24h.nc
+icefile=N201114800_SEAICE_NSIDC_24h.hdf
+met1=N201114800_MET_NCEPR2_6h.hdf
+met2=N201114806_MET_NCEPR2_6h.hdf
+met3=N201114806_MET_NCEPR2_6h.hdf
+ozone1=N201114700_O3_AURAOMI_24h.hdf
+ozone2=N201114800_O3_AURAOMI_24h.hdf
+ozone3=N201114800_O3_AURAOMI_24h.hdf
+sstfile=N2011148_SST_OIV2AVAM_24h.nc
 
 jconchas@anly104:~/data2/GOCI/test$ cat l2gen_test.param 
 ifile=COMS_GOCI_L1B_GA_20110528011643.he5
@@ -2875,13 +2875,13 @@ gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
 l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
 vcal_nlw=2.16849,1.86759,1.26180,0.34174,0.02908,0.03109,0.00000,0.00000
 vcal_opt=2
-met1=./N201114800_MET_NCEPR2_6h.hdf
-met2=./N201114806_MET_NCEPR2_6h.hdf
-met3=./N201114806_MET_NCEPR2_6h.hdf
-ozone1=./N201114700_O3_AURAOMI_24h.hdf
-ozone2=./N201114800_O3_AURAOMI_24h.hdf
-ozone3=./N201114800_O3_AURAOMI_24h.hdf
-sstfile=./N2011148_SST_OIV2AVAM_24h.nc
+met1=N201114800_MET_NCEPR2_6h.hdf
+met2=N201114806_MET_NCEPR2_6h.hdf
+met3=N201114806_MET_NCEPR2_6h.hdf
+ozone1=N201114700_O3_AURAOMI_24h.hdf
+ozone2=N201114800_O3_AURAOMI_24h.hdf
+ozone3=N201114800_O3_AURAOMI_24h.hdf
+sstfile=N2011148_SST_OIV2AVAM_24h.nc
 
 solved:
 jconchas@anly104:~/data2/GOCI/test$ cat COMS_GOCI_L1B_GA_20110528011643.L2.valregion.vgain_412|grep filtered_mean
@@ -2973,7 +2973,7 @@ LINESTRING (
 137.338 28.495)
 
 to resume broken pipe scp:
-jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ rsync --partial --progress --rsh=ssh jconchas@obpg-torii.sci.gsfc.nasa.gov:./data/A2011091042000.L1A_LAC A2011091042000.L1A_LAC
+jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ rsync --partial --progress --rsh=ssh jconchas@obpg-torii.sci.gsfc.nasa.gov:data/A2011091042000.L1A_LAC A2011091042000.L1A_LAC
 --------------------------------------------------
 2018-01-30 Tue
 Ticket description for the:"GOCI vcal: gains for the VIS bands using MODISA and SEAWIFS."
@@ -3015,7 +3015,7 @@ to obtain a file directly in torii from the system:
 wget "http://svn101.domain.sdps/PROCTEST/raw-attachment/ticket/5495/viirs_valregion_javier.txt"
 
 to transfer to torii using ssh and a list:
-cat goci_ticket_5498_1_5000.txt|tar -T - -cf -|ssh jconchas@obpg-torii.sci.gsfc.nasa.gov "tar -C ./data/ -xvf -"
+cat goci_ticket_5498_1_5000.txt|tar -T - -cf -|ssh jconchas@obpg-torii.sci.gsfc.nasa.gov "tar -C data/ -xvf -"
 
 zip folder:
 jconchas@anly104:~/data2/GOCI/GOCI_ROI$ zip -r GOCI_ROI_STATS_R2018_vcal_aqua.zip GOCI_ROI_STATS_R2018_vcal_vis_aqua/
@@ -3028,4 +3028,14 @@ jconchas:~/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_a
 
 to use wild card with xargs:
 find . -name "201*" -exec echo '{}' \;| cut -d/ -f2-|xargs -I name sh -c 'mv *name* name'
+ 
+--------------------------------------------------
+2018-05-10 Thu
+- cound how many file in directories:
+du -a | cut -d/ -f2 | sort | uniq -c | sort -nr
+du -a | sed '/.*\.\/.*\/.*/!d' | cut -d/ -f2 | sort | uniq -c
+find -type d -readable -exec sh -c 'printf "%s " "$1"; ls -1UA "$1" | wc -l' sh {} ';'
+
+
+
 (END)

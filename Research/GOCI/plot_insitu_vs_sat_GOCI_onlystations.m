@@ -1,4 +1,4 @@
-function [ax,leg] = plot_insitu_vs_sat_GOCI_onlystations(wl_sat,wl_ins,x_data,y_data,x_data_datetime,station_ID,color_line,h,fs,lim)
+function [ax,leg] = plot_insitu_vs_sat_GOCI_onlystations(wl_sat,wl_ins,x_data,y_data,x_data_datetime,station_ID,color_line,h,fs,lim,source)
 
 %% filtered
 
@@ -24,7 +24,7 @@ Matchup_ins_plot = Matchup_ins(cond_plot);
 Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_plot,Matchup_sat_plot,['o' color_line],'MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'o','Color',color_line,'MarkerSize',8,'LineWidth',0.5)
 
 % station 2: aoc_ieodo
 cond_plot = station_ID==2;
@@ -32,7 +32,15 @@ Matchup_ins_plot = Matchup_ins(cond_plot);
 Matchup_sat_plot = Matchup_sat(cond_plot);
 figure(gcf)
 hold on
-plot(Matchup_ins_plot,Matchup_sat_plot,['^' color_line],'MarkerSize',14,'LineWidth',3)
+plot(Matchup_ins_plot,Matchup_sat_plot,'^','Color',color_line,'MarkerSize',8,'LineWidth',0.5)
+
+% station 3: socheongch
+cond_plot = station_ID==3;
+Matchup_ins_plot = Matchup_ins(cond_plot);
+Matchup_sat_plot = Matchup_sat(cond_plot);
+figure(gcf)
+hold on
+plot(Matchup_ins_plot,Matchup_sat_plot,'x','Color',color_line,'MarkerSize',8,'LineWidth',0.5)
 
 if min(Matchup_sat_used) <0
       Rrs_sat_min = min(Matchup_sat_used)*1.1;
@@ -74,11 +82,11 @@ if sum(isfinite(Matchup_ins_used))
 %       [~,~,~] = calc_stat(Matchup_ins_5,Matchup_sat_5,Rrs_max,wl_sat,wl_ins,FID);      
 %       [~,~,~] = calc_stat(Matchup_ins_6,Matchup_sat_6,Rrs_max,wl_sat,wl_ins,FID);
 %       [~,~,~] = calc_stat(Matchup_ins_7,Matchup_sat_7,Rrs_max,wl_sat,wl_ins,FID);
-      [x1,y1,~] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins);
+      [x1,y1,~] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins,source);
       
       % plot
       figure(h)
-      plot(x1,y1,[color_line '-'],'LineWidth',2.0)
+      plot(x1,y1,'-','Color',color_line,'LineWidth',2.0)
       
       
       % xLimits = get(gca,'XLim');
@@ -95,7 +103,7 @@ end
 
 ax = gca;
 
-function [x1,y1,str1] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins)
+function [x1,y1,str1] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins,source)
 
 %% Statistics
 C_insitu_temp = Matchup_ins_used;
@@ -182,24 +190,44 @@ MAE = mean(abs(DN));
 
 % display
 
-disp('-----------------------------------------')
-%       disp(['Data = ' which_time_range])
-%       disp(['ACO scheme = ' L2ext])
-disp(['Sat (nm) = ' wl_sat])
-disp(['InSitu (nm) = ' wl_ins])
-disp(['R^2 = ' num2str(rsq_SS,'%2.2f')])
-disp(str_reg) % regression equation
-disp(['RMSE = ' num2str(RMSE,'%2.4f')])
-disp(['N = ' num2str(size(C_insitu,2))])
-disp(['Mean APD (%) = ' num2str(Mean_APD,'%2.1f')])
-disp(['St.Dev. APD (%) = ' num2str(Stdv_APD,'%2.1f')])
-disp(['Median APD (%) = ' num2str(Median_APD,'%2.2f')])
-disp(['Bias (%) = ' num2str(Percentage_Bias,'%2.1f')])
-disp(['Median ratio = ' num2str(Median_ratio,'%2.2f')])
-disp(['SIQR = ' num2str(SIQR,'%2.2f')])
-disp(['rsq_corr = ' num2str(rsq_corr,'%2.2f')])
-disp(['Mean_bias = ' num2str(Mean_bias,'%2.5f')])
-disp(['MAE = ' num2str(MAE,'%2.5f')])
+% disp('-----------------------------------------')
+% disp(['Sat (nm) = ' wl_sat])
+% disp(['InSitu (nm) = ' wl_ins])
+% disp(source)
+% disp(['R^2 = ' num2str(rsq_SS,'%2.2f')])
+% disp(['m = ' num2str(a(1),'%2.2f')])
+% disp(['b = ' num2str(a(2),'%2.4f')])
+% disp(['RMSE = ' num2str(RMSE,'%2.4f')])
+% disp(['N = ' num2str(size(C_insitu,2))])
+% disp(['Mean APD (%) = ' num2str(Mean_APD,'%2.1f')])
+% disp(['St.Dev. APD (%) = ' num2str(Stdv_APD,'%2.1f')])
+% disp(['Median APD (%) = ' num2str(Median_APD,'%2.2f')])
+% disp(['Bias (%) = ' num2str(Percentage_Bias,'%2.1f')])
+% disp(['Median ratio = ' num2str(Median_ratio,'%2.2f')])
+% disp(['SIQR = ' num2str(SIQR,'%2.2f')])
+% disp(['Mean_bias = ' num2str(Mean_bias,'%2.5f')])
+% disp(['MAE = ' num2str(MAE,'%2.5f')])
+
+
+% Sat (nm)  & InSitu (nm)  & R^2  & m  & b  & RMSE  & N  & Mean APD (\%)  & St.Dev. APD (%)  & Median APD (%)  & Bias (%)  & Median ratio  & SIQR  & Mean_bias  & MAE 
+fprintf('%s', wl_sat)
+fprintf(' & %s', wl_ins)
+fprintf(' & %s', source)
+fprintf(' & %s', num2str(rsq_SS,'%2.2f'))
+fprintf(' & %s', num2str(a(1),'%2.2f')) 
+fprintf(' & %s', num2str(a(2),'%2.4f'))
+fprintf(' & %s', num2str(RMSE,'%2.4f'))
+fprintf(' & %s', num2str(size(C_insitu,2)))
+fprintf(' & %s', num2str(Mean_APD,'%2.1f'))
+fprintf(' & %s', num2str(Stdv_APD,'%2.1f'))
+fprintf(' & %s', num2str(Median_APD,'%2.2f'))
+fprintf(' & %s', num2str(Percentage_Bias,'%2.1f'))
+fprintf(' & %s', num2str(Median_ratio,'%2.2f'))
+fprintf(' & %s', num2str(SIQR,'%2.2f'))
+fprintf(' & %s', num2str(Mean_bias,'%2.5f'))
+fprintf(' & %s \\\\\n', num2str(MAE,'%2.5f'))
+
+% disp(['rsq_corr = ' num2str(rsq_corr,'%2.2f')])
 
 % latex table
 
