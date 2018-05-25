@@ -743,22 +743,10 @@ The mean, standard deviation and percent coefficient of variation ($CV[\%]=100\t
 From the previous analysis, we can demonstrate that there is minimal day-to-day and diurnal variability, and therefore, the water over the GCW region is homogeneous in short periods of time. Also, the large errors seen at the earliest (0h and 1h) and last two hourly observations of the day (6h and 7h) are due strictly to the instrument performance, errors in radiometric calibration, and uncertainties in processing algorithms, which include atmospheric correction and solar geometry and not due to variability in ocean properties. However, the region of study also exhibits seasonality, as expected, which is reflected in the time series of \S\ref{subsec:timeseries}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
-
 \centering
-\hspace{-0.8cm}
-\includegraphics[width=17cm]{./Figures/3dayseq_stats.pdf}
+\includegraphics[width=16cm]{./Figures/3dayseq_stat_all.pdf}
 %\internallinenumbers
-\caption{Statistics for the 228 three-day diurnal sequences of the GOCI $R_{rs}(\lambda)$. (a) mean and standard deviation (SD) and (b) percent coefficient of variation ($CV[\%]$). Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by spectral bands (circle: 412 nm, triangle: 443 nm, asterisk: 490 nm and cross: 555 nm).\label{fig:3dayseq_stats} } 
-\end{figure}
-%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
-\centering
-\hspace{-0.8cm}
-\includegraphics[width=17cm]{./Figures/3dayseq_stats_par.pdf}
-
-%\internallinenumbers
-\caption{Statistics for the 228 three-day diurnal sequences. (a-c) mean and standard deviation (SD) and (d) percent coefficient of variation ($CV[\%]$) for the (a) Chlorophyll-{\it a}, (b) $a_g(412)$ and (c) POC products for GOCI. Data are color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h) and by products (circle: Chlorophyll-{\it a}, triangle: $a_g(412)$, and asterisk: POC).\label{fig:3dayseq_stats_par} } 
+\caption{Statistics for the 89 three-day diurnal sequences of the GOCI $R_{rs}(\lambda)$. (a) mean and standard deviation (SD) and (b) percent coefficient of variation ($CV[\%]$).\label{fig:3dayseq_stats} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % ---------------------------------------------------------------
@@ -1217,7 +1205,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
   %\internallinenumbers
   \caption{The diurnal variability was also assessed with the relative difference $R\Delta_t[\%]$ with respect to the 4h time of the day value. The analysis was performed for all the data and for only summer, when there is the smallest variability in the water properties. The mean of the 4h time of day ($\overline{X}_{4\text{h}}$) is shown for reference.\label{tab:rel_diff} } 
   \centering
-  \includegraphics[width=19cm]{./Figures/diff_stat_combined.pdf}
+  \includegraphics[width=18cm]{./Figures/diff_stat_combined.pdf}
   \end{table}
 \end{landscape}
 
@@ -1233,7 +1221,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 \begin{figure}[H]
   \centering
-  \includegraphics[width=17cm]{./Figures/Diff4th.pdf}
+  \includegraphics[trim=5 0 30 0,clip,width=17cm]{./Figures/Diff4th.pdf}
     %\internallinenumbers
     \caption{Mean of the relative difference $R\Delta_t[\%]$ with respect to the 4h time of day for (a-f) $R_{rs}(\lambda)$ and (g) Chlorophyll-{\it a}, (h) POC and (i) $a_g(412)$. The 4h time of day was selected as reference because it resembles the heritage sensor acquisition time and solar geometry. Error bars represent the standard deviation (SD). Number of observations used for the statistics annotated above the error bars. \label{fig:Diff4th} } 
 \end{figure}

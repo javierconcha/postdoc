@@ -20,7 +20,7 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'GOCI';
 for idx0=1:size(s{1},1)
-      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));
       waitbar(idx0/size(s{1},1),h1,['Uploading GOCI Data: ' str1 '%'])
       
       filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua/' s{1}{idx0}];
@@ -42,7 +42,7 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'AQUA';
 for idx0=1:size(s{1},1)
-      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));
       waitbar(idx0/size(s{1},1),h1,['Uploading AQUA Data: ' str1 '%'])
       
       filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/AQUA_ROI_STATS_R2018/' s{1}{idx0}];
@@ -64,7 +64,7 @@ h1 = waitbar(0,'Initializing ...');
 
 sensor_id = 'VIIRS';
 for idx0=1:size(s{1},1)
-      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));                  
+      str1 = sprintf('%3.2f',100*idx0/size(s{1},1));
       waitbar(idx0/size(s{1},1),h1,['Uploading VIIRS Data: ' str1 '%'])
       
       filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/VIIRS_ROI_STATS_R2018/' s{1}{idx0}];
@@ -386,7 +386,7 @@ wl_vec = {'412','443','490','555','660','680'};
 % wl_vec = {'412'};
 
 for idx = 1:size(wl_vec,2)
-     %% 
+      %%
       eval(sprintf('cond_nan = ~isnan([GOCI_Data.Rrs_%s_filtered_mean]);',wl_vec{idx}));
       eval(sprintf('cond_area = [GOCI_Data.Rrs_%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',wl_vec{idx}));
       cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
@@ -463,7 +463,7 @@ for idx = 1:size(wl_vec,2)
       grid on
       
       % to create dummy data and create a custon legend
-      if idx==1
+      if idx==1 %  only for 412
             p = zeros(8,1);
             p(1) = plot(NaN,NaN,'or','MarkerSize',ms,'LineWidth',lw);
             p(2) = plot(NaN,NaN,'og','MarkerSize',ms,'LineWidth',lw);
@@ -473,7 +473,10 @@ for idx = 1:size(wl_vec,2)
             p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
             p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
-            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
+            legend(p,'9:00','10:00','11:00','12:00','13:00','14:00','15:00','14:00',...
+                  'Location','northoutside',...
+                  'Orientation','horizontal')
+            legend boxoff
       end
       
       subplot(2,1,2)
@@ -512,7 +515,7 @@ for idx = 1:size(wl_vec,2)
             xLoc = xLimits(1)+0.65*(xLimits(2)-xLimits(1));
       else
             xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
-      end     
+      end
       yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
       figure(gcf)
       hold on
@@ -651,7 +654,10 @@ for idx = 1:size(par_vec,2)
             p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
             p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
-            legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','southeast')
+            legend(p,'9:00','10:00','11:00','12:00','13:00','14:00','15:00','14:00',...
+                  'Location','northoutside',...
+                  'Orientation','horizontal')
+            legend boxoff
       end
       
       subplot(2,1,2)
@@ -730,7 +736,7 @@ for idx = 1:size(par_vec,2)
       eval(sprintf('xlabel(''%s'',''FontSize'',fs)',par_char));
       % xlim([-1*xrange xrange])
       
-
+      
       
       ax = gca;
       ax.XLim(1)
@@ -743,11 +749,11 @@ for idx = 1:size(par_vec,2)
             yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
             str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
                   N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
-      elseif strcmp(par_vec{idx},'poc')            
+      elseif strcmp(par_vec{idx},'poc')
             xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
             str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
-                  N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));      
+                  N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       else
             xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
@@ -1973,7 +1979,7 @@ for idx_par = 1:size(par_vec,2)
       for idx_season = 1:size(par_season,2)
             
             h = figure('Color','white','DefaultAxesFontSize',fs,'Name',par_season{idx_season});
-%             title(par_season{idx_season})
+            %             title(par_season{idx_season})
             N = 0;
             switch par_season{idx_season}
                   case 'Spring'
@@ -2076,7 +2082,7 @@ for idx_par = 1:size(par_vec,2)
             grid on
             
             
-%             title([par_season{idx_season} '; ' str1],'FontSize',fs-2,'FontWeight','Normal')
+            %             title([par_season{idx_season} '; ' str1],'FontSize',fs-2,'FontWeight','Normal')
             
             %             % to create dummy data and create a custon legend
             %             p = zeros(8,1);
@@ -3070,7 +3076,7 @@ if process_data_flag
                         
                         % datetime per hour of day
                         I = find(cond_1t); % indeces to images per day
-
+                        
                         GOCI_DailyStatMatrix(count).datetime_0h = date_idx(idx);
                         GOCI_DailyStatMatrix(count).datetime_1h = date_idx(idx);
                         GOCI_DailyStatMatrix(count).datetime_2h = date_idx(idx);
@@ -7552,7 +7558,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).Rrs_547_filtered_mean = nan;
                         end
                         clear cond_1t_aux data_aux
-
+                        
                         %% Rrs_555
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -7661,7 +7667,7 @@ if process_data_flag
                         end
                         clear cond_1t_aux data_aux
                         
-
+                        
                         %% nLw_412
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -7805,7 +7811,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).nLw_547_filtered_mean = nan;
                         end
                         clear cond_1t_aux data_aux
-
+                        
                         %% nLw_555
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -7913,7 +7919,7 @@ if process_data_flag
                               AQUA_DailyStatMatrix(count).nLw_678_filtered_mean = nan;
                         end
                         clear cond_1t_aux data_aux
-
+                        
                         %% aot_869
                         % only positive values and if more of half of the area is valid
                         cond_1t_aux = cond_1t;
@@ -8190,7 +8196,7 @@ if process_data_flag
                   if sum(cond_1t) ~= 0
                         
                         count = count+1;
-                    
+                        
                         VIIRS_DailyStatMatrix(count).datetime =  VIIRS_Data_used(cond_1t).datetime;
                         VIIRS_DailyStatMatrix(count).DOY = day(date_idx(idx),'dayofyear');
                         VIIRS_DailyStatMatrix(count).date =  date_idx(idx);
@@ -8915,30 +8921,28 @@ cond_poc = [GOCI_DailyStatMatrix.poc_N_mean]>=nvalid;
 cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==7;
 
 % N
-clc
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]))
-%% mean SD
-clc
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean])
+N_Rrs_412= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]));
+N_Rrs_443= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]));
+N_Rrs_490= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]));
+N_Rrs_555= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]));
+N_Rrs_660= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]));
+N_Rrs_680= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]));
+N_chlor_a= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]));
+N_ag_412_= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]));
+N_poc____= sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]));
+% mean SD
+meanSD_Rrs_412 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]);
+meanSD_Rrs_443 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]);
+meanSD_Rrs_490 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]);
+meanSD_Rrs_555 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]);
+meanSD_Rrs_660 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]);
+meanSD_Rrs_680 = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]);
+meanSD_chlor_a = 2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]);
+meanSD_ag_412_ = 2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]);
+meanSD_poc____ = 2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]);
 
 % %% SD SD
-% clc
+%
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean])
@@ -8948,7 +8952,7 @@ clc
 % 2*nanstd([GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean])
-%%
+%
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_412_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_412_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_443_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_443_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_490_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_490_mean_mean])
@@ -8958,65 +8962,79 @@ clc
 % 100*nanmean([GOCI_DailyStatMatrix.chlor_a_stdv_mean])/nanmean([GOCI_DailyStatMatrix.chlor_a_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.poc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.poc_mean_mean])
-%% min CV[%]
-clc
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+% min CV[%]
+minCV_Rrs_412 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]);
+minCV_Rrs_443 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]);
+minCV_Rrs_490 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]);
+minCV_Rrs_555 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]);
+minCV_Rrs_660 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]);
+minCV_Rrs_680 = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]);
+minCV_chlor_a = nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]);
+minCV_ag_412_ = nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]);
+minCV_poc____ = nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]);
 
-%% max CV[%]
-clc
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+% max CV[%]
+maxCV_N_Rrs_412 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]);
+maxCV_N_Rrs_443 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]);
+maxCV_N_Rrs_490 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]);
+maxCV_N_Rrs_555 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]);
+maxCV_N_Rrs_660 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]);
+maxCV_N_Rrs_680 = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]);
+maxCV_N_chlor_a = nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]);
+maxCV_N_ag_412_ = nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]);
+maxCV_N_poc____ = nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]);
 
-%% mean CV[%]
-clc
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+% mean CV[%]
+meanCV_Rrs_412 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]);
+meanCV_Rrs_443 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]);
+meanCV_Rrs_490 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]);
+meanCV_Rrs_555 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]);
+meanCV_Rrs_660 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]);
+meanCV_Rrs_680 = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]);
+meanCV_chlor_a = nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]);
+meanCV_ag_412_ = nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]);
+meanCV_poc____ = nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]);
 
-%% median CV[%]
-clc
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+% median CV[%]
+medCV_Rrs_412 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]);
+medCV_Rrs_443 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]);
+medCV_Rrs_490 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]);
+medCV_Rrs_555 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]);
+medCV_Rrs_660 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]);
+medCV_Rrs_680 = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]);
+medCV_chlor_a = nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]);
+medCV_ag_412_ = nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]);
+medCV_poc____ = nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]);
 
-%% SD CV[%]
-clc
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean])
+% SD CV[%]
+SDCV_Rrs_412 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_brdf).Rrs_412_mean_mean]);
+SDCV_Rrs_443 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_brdf).Rrs_443_mean_mean]);
+SDCV_Rrs_490 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_brdf).Rrs_490_mean_mean]);
+SDCV_Rrs_555 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_brdf).Rrs_555_mean_mean]);
+SDCV_Rrs_660 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_brdf).Rrs_660_mean_mean]);
+SDCV_Rrs_680 = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_brdf).Rrs_680_mean_mean]);
+SDCV_chlor_a = nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_brdf).chlor_a_mean_mean]);
+SDCV_ag_412_ = nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_brdf).ag_412_mlrc_mean_mean]);
+SDCV_poc____ = nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_brdf).poc_mean_mean]);
+
+
+
+
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_412,minCV_Rrs_412,maxCV_N_Rrs_412,meanCV_Rrs_412,medCV_Rrs_412,SDCV_Rrs_412,N_Rrs_412);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_443,minCV_Rrs_443,maxCV_N_Rrs_443,meanCV_Rrs_443,medCV_Rrs_443,SDCV_Rrs_443,N_Rrs_443);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_490,minCV_Rrs_490,maxCV_N_Rrs_490,meanCV_Rrs_490,medCV_Rrs_490,SDCV_Rrs_490,N_Rrs_490);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_555,minCV_Rrs_555,maxCV_N_Rrs_555,meanCV_Rrs_555,medCV_Rrs_555,SDCV_Rrs_555,N_Rrs_555);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_660,minCV_Rrs_660,maxCV_N_Rrs_660,meanCV_Rrs_660,medCV_Rrs_660,SDCV_Rrs_660,N_Rrs_660);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_680,minCV_Rrs_680,maxCV_N_Rrs_680,meanCV_Rrs_680,medCV_Rrs_680,SDCV_Rrs_680,N_Rrs_680);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_chlor_a,minCV_chlor_a,maxCV_N_chlor_a,meanCV_chlor_a,medCV_chlor_a,SDCV_chlor_a,N_chlor_a);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_ag_412_,minCV_ag_412_,maxCV_N_ag_412_,meanCV_ag_412_,medCV_ag_412_,SDCV_ag_412_,N_ag_412_);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_poc____,minCV_poc____,maxCV_N_poc____,meanCV_poc____,medCV_poc____,SDCV_poc____,N_poc____);
+
+
+
+
+
+
 
 %% Basics stats for GOCI_DailyStatMatrix -- ONLY SUMMER
 nvalid = 3;
@@ -9035,30 +9053,28 @@ cond_poc = [GOCI_DailyStatMatrix.poc_N_mean]>=nvalid;
 cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
 
 % N
-clc
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]))
-sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]))
-%% mean SD
-clc
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean])
-2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean])
+N_Rrs_412_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]));
+N_Rrs_443_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]));
+N_Rrs_490_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]));
+N_Rrs_555_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]));
+N_Rrs_660_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]));
+N_Rrs_680_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]));
+N_chlor_a_summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]));
+N_ag_412__summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]));
+N_poc_____summer = sum(~isnan(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]));
+% mean SD
+meanSD_Rrs_412_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]);
+meanSD_Rrs_443_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]);
+meanSD_Rrs_490_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]);
+meanSD_Rrs_555_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]);
+meanSD_Rrs_660_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]);
+meanSD_Rrs_680_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]);
+meanSD_chlor_a_summer = 2*nanmean([GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]);
+meanSD_ag_412__summer = 2*nanmean([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]);
+meanSD_poc_____summer = 2*nanmean([GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]);
 
 % SD SD
-% clc
+%
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean])
@@ -9068,7 +9084,7 @@ clc
 % 2*nanstd([GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean])
 % 2*nanstd([GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean])
-%%
+%
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_412_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_412_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_443_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_443_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.Rrs_490_stdv_mean])/nanmean([GOCI_DailyStatMatrix.Rrs_490_mean_mean])
@@ -9078,66 +9094,71 @@ clc
 % 100*nanmean([GOCI_DailyStatMatrix.chlor_a_stdv_mean])/nanmean([GOCI_DailyStatMatrix.chlor_a_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.ag_412_mlrc_mean_mean])
 % 100*nanmean([GOCI_DailyStatMatrix.poc_stdv_mean])/nanmean([GOCI_DailyStatMatrix.poc_mean_mean])
-%% min CV[%]
-clc
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
-nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+% min CV[%]
+minCV_Rrs_412_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]);
+minCV_Rrs_443_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]);
+minCV_Rrs_490_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]);
+minCV_Rrs_555_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]);
+minCV_Rrs_660_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]);
+minCV_Rrs_680_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]);
+minCV_chlor_a_summer = nanmin(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]);
+minCV_ag_412__summer = nanmin(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]);
+minCV_poc_____summer = nanmin(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]);
 
-%% max CV[%]
-clc
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
-nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+% max CV[%]
+maxCV_Rrs_412_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]);
+maxCV_Rrs_443_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]);
+maxCV_Rrs_490_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]);
+maxCV_Rrs_555_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]);
+maxCV_Rrs_660_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]);
+maxCV_Rrs_680_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]);
+maxCV_chlor_a_summer = nanmax(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]);
+maxCV_ag_412__summer = nanmax(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]);
+maxCV_poc_____summer = nanmax(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]);
 
-%% mean CV[%]
-clc
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
-nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+% mean CV[%]
+meanCV_Rrs_412_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]);
+meanCV_Rrs_443_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]);
+meanCV_Rrs_490_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]);
+meanCV_Rrs_555_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]);
+meanCV_Rrs_660_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]);
+meanCV_Rrs_680_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]);
+meanCV_chlor_a_summer = nanmean(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]);
+meanCV_ag_412__summer = nanmean(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]);
+meanCV_poc_____summer = nanmean(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]);
 
-%% median CV[%]
-clc
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
-nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+% median CV[%]
+medCV_Rrs_412_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]);
+medCV_Rrs_443_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]);
+medCV_Rrs_490_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]);
+medCV_Rrs_555_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]);
+medCV_Rrs_660_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]);
+medCV_Rrs_680_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]);
+medCV_chlor_a_summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]);
+medCV_ag_412__summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]);
+medCV_poc_____summer = nanmedian(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]);
 
-%% SD CV[%]
-clc
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean])
-nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean])
+% SD CV[%]
+SDCV_Rrs_412_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_412&cond_tod&cond_brdf).Rrs_412_mean_mean]);
+SDCV_Rrs_443_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_443&cond_tod&cond_brdf).Rrs_443_mean_mean]);
+SDCV_Rrs_490_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_490&cond_tod&cond_brdf).Rrs_490_mean_mean]);
+SDCV_Rrs_555_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_555&cond_tod&cond_brdf).Rrs_555_mean_mean]);
+SDCV_Rrs_660_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_660&cond_tod&cond_brdf).Rrs_660_mean_mean]);
+SDCV_Rrs_680_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_stdv_mean]./[GOCI_DailyStatMatrix(cond_Rrs_680&cond_tod&cond_brdf).Rrs_680_mean_mean]);
+SDCV_chlor_a_summer = nanstd(100*[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_stdv_mean]./[GOCI_DailyStatMatrix(cond_chlor_a&cond_tod&cond_brdf).chlor_a_mean_mean]);
+SDCV_ag_412__summer = nanstd(100*[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_stdv_mean]./[GOCI_DailyStatMatrix(cond_ag_412_mlrc&cond_tod&cond_brdf).ag_412_mlrc_mean_mean]);
+SDCV_poc_____summer = nanstd(100*[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_stdv_mean]./[GOCI_DailyStatMatrix(cond_poc&cond_tod&cond_brdf).poc_mean_mean]);
 
+
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_412_summer,minCV_Rrs_412_summer,maxCV_Rrs_412_summer,meanCV_Rrs_412_summer,medCV_Rrs_412_summer,SDCV_Rrs_412_summer,N_Rrs_412_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_443_summer,minCV_Rrs_443_summer,maxCV_Rrs_443_summer,meanCV_Rrs_443_summer,medCV_Rrs_443_summer,SDCV_Rrs_443_summer,N_Rrs_443_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_490_summer,minCV_Rrs_490_summer,maxCV_Rrs_490_summer,meanCV_Rrs_490_summer,medCV_Rrs_490_summer,SDCV_Rrs_490_summer,N_Rrs_490_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_555_summer,minCV_Rrs_555_summer,maxCV_Rrs_555_summer,meanCV_Rrs_555_summer,medCV_Rrs_555_summer,SDCV_Rrs_555_summer,N_Rrs_555_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_660_summer,minCV_Rrs_660_summer,maxCV_Rrs_660_summer,meanCV_Rrs_660_summer,medCV_Rrs_660_summer,SDCV_Rrs_660_summer,N_Rrs_660_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_Rrs_680_summer,minCV_Rrs_680_summer,maxCV_Rrs_680_summer,meanCV_Rrs_680_summer,medCV_Rrs_680_summer,SDCV_Rrs_680_summer,N_Rrs_680_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_chlor_a_summer,minCV_chlor_a_summer,maxCV_chlor_a_summer,meanCV_chlor_a_summer,medCV_chlor_a_summer,SDCV_chlor_a_summer,N_chlor_a_summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_ag_412__summer,minCV_ag_412__summer,maxCV_ag_412__summer,meanCV_ag_412__summer,medCV_ag_412__summer,SDCV_ag_412__summer,N_ag_412__summer);
+fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_poc_____summer,minCV_poc_____summer,maxCV_poc_____summer,meanCV_poc_____summer,medCV_poc_____summer,SDCV_poc_____summer,N_poc_____summer);
 %% mean rrs vs zenith -- filtered
 
 fs = 25;
@@ -11015,7 +11036,7 @@ for idx = 1:size(par_vec,2)
       text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
       text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
       text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+      % text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
       text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
       text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
       text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
@@ -11047,7 +11068,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the 4th time of day for par
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
-
+   
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
@@ -11113,17 +11134,23 @@ for idx = 1:size(par_vec,2)
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
       fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
+      eval(sprintf('h_%s = figure(''Color'',''white'',''DefaultAxesFontSize'',fs,''Name'',par_vec{idx});',par_vec{idx}))
       % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      xx = 1:8;
+      fill([xx fliplr(xx)],[rel_diff_mean_all+rel_diff_stdv_all fliplr(rel_diff_mean_all-rel_diff_stdv_all)],[0.0 0.0 1.0],'LineStyle','--','EdgeColor','b')
+      alpha(0.15)
+
+      hold on
+      plot(xx,rel_diff_mean_all,'-ob','MarkerSize',4,'LineWidth',1.5)
       ax = gca;
       ax.XTick = 1:8;
-      ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};ax.YAxis.FontSize
-%       ax.XAxis.FontSize = 18;
+      ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+      %       ax.YAxis.FontSize
+      %       ax.XAxis.FontSize = 18;
       ax.XTickLabelRotation = -40;
       xlim([0 9])
       
-            switch par_vec{idx}
+      switch par_vec{idx}
             case 'Rrs_412'
                   y_str = 'R_{rs}(412)';
                   ylim([-15 15])
@@ -11153,20 +11180,26 @@ for idx = 1:size(par_vec,2)
                   ylim([-20 20])
       end
       
-      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
-      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
-      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
-      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-%       text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
-      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
-      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
-      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+      text(xx(1)-0.5,ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,'N: ','HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(1),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_00),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(2),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_01),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(3),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_02),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(4),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_03),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      %       text(xx(5),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_04),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(6),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_05),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(7),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_06),'HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(8),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_07),'HorizontalAlignment','center','FontSize',18,'Color','b')
       
       disp('======================')
       disp(par_vec{idx})
-      rel_diff_mean_all
-      rel_diff_stdv_all
-      mean_4h
+      fprintf('%3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f\n',...
+            rel_diff_mean_all(1),rel_diff_mean_all(2),rel_diff_mean_all(3),rel_diff_mean_all(4),...
+            rel_diff_mean_all(5),rel_diff_mean_all(6),rel_diff_mean_all(7),rel_diff_mean_all(8))
+      fprintf('(%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) \n',...
+            rel_diff_stdv_all(1),rel_diff_stdv_all(2),rel_diff_stdv_all(3),rel_diff_stdv_all(4),...
+            rel_diff_stdv_all(5),rel_diff_stdv_all(6),rel_diff_stdv_all(7),rel_diff_stdv_all(8))
+      
+      fprintf('%1.2e\n',mean_4h)
       %       ylim([-3e-3 1e-3])
       
       ax.YAxis.MinorTick = 'on';
@@ -11174,142 +11207,142 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('R\\Delta_t[%%]');
+      % str1 = sprintf('R\\Delta_t[%%]');
       
-      ylabel(str1,'FontSize',fs)
-      xlabel('Local Time','FontSize',fs)
+      % ylabel(str1,'FontSize',fs)
+      % xlabel('Local Time','FontSize',fs)
       
-      grid on
+      % grid on
       %       grid minor
       %%
-      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
+%       saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
 end
-
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Plot Difference from the 4h for par
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
-
-par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
-
-brdf_opt = 7;
-clear cond_brdf
-cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
-
-for idx = 1:size(par_vec,2)
-      switch par_vec{idx}
-            case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
-            case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
-            case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
-            case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
-            case 'Rrs_660'
-                  y_str = 'R_{rs}(660) [sr^{-1}]';
-            case 'Rrs_680'
-                  y_str = 'R_{rs}(680) [sr^{-1}]';
-            case 'chlor_a'
-                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
-            case 'ag_412_mlrc'
-                  y_str = 'a_{g}(412) [m^{-1}]';
-            case 'poc'
-                  y_str = 'POC [mg m^{-3}]';
-      end
-      %%
-      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_00];',par_vec{idx}));
-      cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
-      diff_mean_00 = nanmean(diff_00(cond_filter));
-      diff_stdv_00 = nanstd(diff_00(cond_filter));
-      diff_N_00 = sum(cond_filter);
-      
-      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01];',par_vec{idx}));
-      cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
-      diff_mean_01 = nanmean(diff_01(cond_filter));
-      diff_stdv_01 = nanstd(diff_01(cond_filter));
-      diff_N_01 = sum(cond_filter);
-      
-      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02];',par_vec{idx}));
-      cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
-      diff_mean_02 = nanmean(diff_02(cond_filter));
-      diff_stdv_02 = nanstd(diff_02(cond_filter));
-      diff_N_02 = sum(cond_filter);
-      
-      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03];',par_vec{idx}));
-      cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
-      diff_mean_03 = nanmean(diff_03(cond_filter));
-      diff_stdv_03 = nanstd(diff_03(cond_filter));
-      diff_N_03 = sum(cond_filter);
-      
-      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04];',par_vec{idx}));
-      cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
-      diff_mean_04 = nanmean(diff_04(cond_filter));
-      diff_stdv_04 = nanstd(diff_04(cond_filter));
-      diff_N_04 = sum(cond_filter);
-      
-      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05];',par_vec{idx}));
-      cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
-      diff_mean_05 = nanmean(diff_05(cond_filter));
-      diff_stdv_05 = nanstd(diff_05(cond_filter));
-      diff_N_05 = sum(cond_filter);
-      
-      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06];',par_vec{idx}));
-      cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
-      diff_mean_06 = nanmean(diff_06(cond_filter));
-      diff_stdv_06 = nanstd(diff_06(cond_filter));
-      diff_N_06 = sum(cond_filter);
-      
-      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07];',par_vec{idx}));
-      cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
-      diff_mean_07 = nanmean(diff_07(cond_filter));
-      diff_stdv_07 = nanstd(diff_07(cond_filter));
-      diff_N_07 = sum(cond_filter);
-      
-      
-      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
-      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
-      
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
-      % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-      ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
-      xlim([0 9])
-      
-      text(1,diff_mean_00+1.3*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
-      text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
-      text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
-      text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
-      text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
-      text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
-      text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
-      
-      disp('======================')
-      disp(par_vec{idx})
-      diff_mean_all
-      diff_stdv_all
-      %       ylim([-3e-3 1e-3])
-      
-      ax.YAxis.MinorTick = 'on';
-      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      ax.YGrid = 'on';
-      ax.YMinorGrid = 'on';
-      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Difference\n w/r to 4h\n  %s',y_str);
-      
-      ylabel(str1,'FontSize',fs)
-      xlabel('Time of the day (GMT)','FontSize',fs)
-      
-      grid on
-      %       grid minor
-      %%
-      saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx}],'epsc')
-end
+% %% Plot Difference from the 4h for par
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
+% 
+% par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+% 
+% brdf_opt = 7;
+% clear cond_brdf
+% cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% 
+% for idx = 1:size(par_vec,2)
+%       switch par_vec{idx}
+%             case 'Rrs_412'
+%                   y_str = 'R_{rs}(412) [sr^{-1}]';
+%             case 'Rrs_443'
+%                   y_str = 'R_{rs}(443) [sr^{-1}]';
+%             case 'Rrs_490'
+%                   y_str = 'R_{rs}(490) [sr^{-1}]';
+%             case 'Rrs_555'
+%                   y_str = 'R_{rs}(555) [sr^{-1}]';
+%             case 'Rrs_660'
+%                   y_str = 'R_{rs}(660) [sr^{-1}]';
+%             case 'Rrs_680'
+%                   y_str = 'R_{rs}(680) [sr^{-1}]';
+%             case 'chlor_a'
+%                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
+%             case 'ag_412_mlrc'
+%                   y_str = 'a_{g}(412) [m^{-1}]';
+%             case 'poc'
+%                   y_str = 'POC [mg m^{-3}]';
+%       end
+%       %%
+%       eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_00];',par_vec{idx}));
+%       cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
+%       diff_mean_00 = nanmean(diff_00(cond_filter));
+%       diff_stdv_00 = nanstd(diff_00(cond_filter));
+%       diff_N_00 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01];',par_vec{idx}));
+%       cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
+%       diff_mean_01 = nanmean(diff_01(cond_filter));
+%       diff_stdv_01 = nanstd(diff_01(cond_filter));
+%       diff_N_01 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02];',par_vec{idx}));
+%       cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
+%       diff_mean_02 = nanmean(diff_02(cond_filter));
+%       diff_stdv_02 = nanstd(diff_02(cond_filter));
+%       diff_N_02 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03];',par_vec{idx}));
+%       cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
+%       diff_mean_03 = nanmean(diff_03(cond_filter));
+%       diff_stdv_03 = nanstd(diff_03(cond_filter));
+%       diff_N_03 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04];',par_vec{idx}));
+%       cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
+%       diff_mean_04 = nanmean(diff_04(cond_filter));
+%       diff_stdv_04 = nanstd(diff_04(cond_filter));
+%       diff_N_04 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05];',par_vec{idx}));
+%       cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
+%       diff_mean_05 = nanmean(diff_05(cond_filter));
+%       diff_stdv_05 = nanstd(diff_05(cond_filter));
+%       diff_N_05 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06];',par_vec{idx}));
+%       cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
+%       diff_mean_06 = nanmean(diff_06(cond_filter));
+%       diff_stdv_06 = nanstd(diff_06(cond_filter));
+%       diff_N_06 = sum(cond_filter);
+%       
+%       eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07];',par_vec{idx}));
+%       cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
+%       diff_mean_07 = nanmean(diff_07(cond_filter));
+%       diff_stdv_07 = nanstd(diff_07(cond_filter));
+%       diff_N_07 = sum(cond_filter);
+%       
+%       
+%       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+%       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+%       
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+%       % plot(1:8,stdv_all,'or','MarkerSize',12)
+%       errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+%       ax = gca;
+%       ax.XTick = 1:8;
+%       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+%       xlim([0 9])
+%       
+%       text(1,diff_mean_00-1.4*diff_stdv_00,num2str(diff_N_00),'HorizontalAlignment','center','FontSize',14)
+%       text(2,diff_mean_01-1.4*diff_stdv_01,num2str(diff_N_01),'HorizontalAlignment','center','FontSize',14)
+%       text(3,diff_mean_02-1.4*diff_stdv_02,num2str(diff_N_02),'HorizontalAlignment','center','FontSize',14)
+%       text(4,diff_mean_03-1.4*diff_stdv_03,num2str(diff_N_03),'HorizontalAlignment','center','FontSize',14)
+% %       text(5,diff_mean_04-1.4*diff_stdv_04,num2str(diff_N_04),'HorizontalAlignment','center','FontSize',14)
+%       text(6,diff_mean_05-1.4*diff_stdv_05,num2str(diff_N_05),'HorizontalAlignment','center','FontSize',14)
+%       text(7,diff_mean_06-1.4*diff_stdv_06,num2str(diff_N_06),'HorizontalAlignment','center','FontSize',14)
+%       text(8,diff_mean_07-1.4*diff_stdv_07,num2str(diff_N_07),'HorizontalAlignment','center','FontSize',14)
+%       
+%       disp('======================')
+%       disp(par_vec{idx})
+%       diff_mean_all
+%       diff_stdv_all
+%       %       ylim([-3e-3 1e-3])
+%       
+%       ax.YAxis.MinorTick = 'on';
+%       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       ax.YGrid = 'on';
+%       ax.YMinorGrid = 'on';
+%       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       str1 = sprintf('Difference\n w/r to 4h\n  %s',y_str);
+%       
+%       ylabel(str1,'FontSize',fs)
+%       xlabel('Time of the day (GMT)','FontSize',fs)
+%       
+%       grid on
+%       %       grid minor
+%       %%
+%       saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx}],'epsc')
+% end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11347,7 +11380,7 @@ for idx = 1:size(par_vec,2)
             case 'poc'
                   y_str = 'POC';
       end
-      eval(sprintf('mean_4th= nanmean(abs([GOCI_DailyStatMatrix(cond_used).%s_04]));',par_vec{idx}));
+      eval(sprintf('mean_4h= nanmean(abs([GOCI_DailyStatMatrix(cond_used).%s_04]));',par_vec{idx}));
       
       %%
       eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
@@ -11402,29 +11435,40 @@ for idx = 1:size(par_vec,2)
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+      eval(sprintf('figure(h_%s)',par_vec{idx}));
+      hold on
       % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,rel_diff_mean_all,rel_diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+      xx = 1:8;
+      fill([xx fliplr(xx)],[rel_diff_mean_all+rel_diff_stdv_all fliplr(rel_diff_mean_all-rel_diff_stdv_all)],[1.0 0.0 0.0],'LineStyle','--','EdgeColor','r')
+      alpha(0.15)
+
+      hold on
+      plot(xx,rel_diff_mean_all,'-or','MarkerSize',4,'LineWidth',1.5)
       ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
-      xlim([0 9])
-      
-      text(1,rel_diff_mean_00+1.3*rel_diff_stdv_00,['N=' num2str(rel_diff_N_00)],'HorizontalAlignment','center','FontSize',14)
-      text(2,rel_diff_mean_01+1.3*rel_diff_stdv_01,['N=' num2str(rel_diff_N_01)],'HorizontalAlignment','center','FontSize',14)
-      text(3,rel_diff_mean_02+1.3*rel_diff_stdv_02,['N=' num2str(rel_diff_N_02)],'HorizontalAlignment','center','FontSize',14)
-      text(4,rel_diff_mean_03+1.3*rel_diff_stdv_03,['N=' num2str(rel_diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-      text(5,rel_diff_mean_04+1.3*rel_diff_stdv_04,['N=' num2str(rel_diff_N_04)],'HorizontalAlignment','center','FontSize',14)
-      text(6,rel_diff_mean_05+1.3*rel_diff_stdv_05,['N=' num2str(rel_diff_N_05)],'HorizontalAlignment','center','FontSize',14)
-      text(7,rel_diff_mean_06+1.3*rel_diff_stdv_06,['N=' num2str(rel_diff_N_06)],'HorizontalAlignment','center','FontSize',14)
-      text(8,rel_diff_mean_07+1.3*rel_diff_stdv_07,['N=' num2str(rel_diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+            
+      text(xx(1)-0.5,ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,'N: ','HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(1),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_00),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(2),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_01),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(3),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_02),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(4),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_03),'HorizontalAlignment','center','FontSize',18,'Color','r')
+%       text(xx(5),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_04),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(6),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_05),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(7),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_06),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(8),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_07),'HorizontalAlignment','center','FontSize',18,'Color','r')
       
       disp('======================')
       disp(par_vec{idx})
-      rel_diff_mean_all
-      rel_diff_stdv_all
-      mean_4th
+      fprintf('%3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f\n',...
+            rel_diff_mean_all(1),rel_diff_mean_all(2),rel_diff_mean_all(3),rel_diff_mean_all(4),...
+            rel_diff_mean_all(5),rel_diff_mean_all(6),rel_diff_mean_all(7),rel_diff_mean_all(8))
+      fprintf('(%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) \n',...
+            rel_diff_stdv_all(1),rel_diff_stdv_all(2),rel_diff_stdv_all(3),rel_diff_stdv_all(4),...
+            rel_diff_stdv_all(5),rel_diff_stdv_all(6),rel_diff_stdv_all(7),rel_diff_stdv_all(8))
+      
+      fprintf('%1.2e\n',mean_4h)
+      
       %       ylim([-3e-3 1e-3])
       
       ax.YAxis.MinorTick = 'on';
@@ -11432,146 +11476,147 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('R\\Delta_t[%%] for %s',y_str);
+      str1 = sprintf('R\\Delta_t[%%]');
       
       ylabel(str1,'FontSize',fs)
       xlabel('Time of the day (GMT)','FontSize',fs)
       
       grid on
-      %       grid minor
-      %%
-      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx} '_summer'],'epsc')
+
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+      set(gcf, 'renderer','painters')
+      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'pdf')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot Difference from the 4th for par -- ONLY SUMMERS
-savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
+% savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
-par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+% par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
-brdf_opt = 7;
-clear cond_brdf
-cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
-% Summer
-cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
-cond_used = cond_brdf&cond_tod;
+% brdf_opt = 7;
+% clear cond_brdf
+% cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
+% % Summer
+% cond_tod = month([GOCI_DailyStatMatrix.datetime])==6|month([GOCI_DailyStatMatrix.datetime])==7|month([GOCI_DailyStatMatrix.datetime])==8; % cond for season
+% cond_used = cond_brdf&cond_tod;
 
-for idx = 1:size(par_vec,2)
-      switch par_vec{idx}
-            case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
-            case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
-            case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
-            case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
-            case 'Rrs_660'
-                  y_str = 'R_{rs}(660) [sr^{-1}]';
-            case 'Rrs_680'
-                  y_str = 'R_{rs}(680) [sr^{-1}]';
-            case 'chlor_a'
-                  y_str = 'Chlor-{\ita} [mg m^{-3}]';
-            case 'ag_412_mlrc'
-                  y_str = 'a_{g}(412) [m^{-1}]';
-            case 'poc'
-                  y_str = 'POC [mg m^{-3}]';
-      end
-      %%
-      eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00];',par_vec{idx}));
-      cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
-      diff_mean_00 = nanmean(diff_00(cond_filter));
-      diff_stdv_00 = nanstd(diff_00(cond_filter));
-      diff_N_00 = sum(cond_filter);
+% for idx = 1:size(par_vec,2)
+%       switch par_vec{idx}
+%             case 'Rrs_412'
+%                   y_str = 'R_{rs}(412) [sr^{-1}]';
+%             case 'Rrs_443'
+%                   y_str = 'R_{rs}(443) [sr^{-1}]';
+%             case 'Rrs_490'
+%                   y_str = 'R_{rs}(490) [sr^{-1}]';
+%             case 'Rrs_555'
+%                   y_str = 'R_{rs}(555) [sr^{-1}]';
+%             case 'Rrs_660'
+%                   y_str = 'R_{rs}(660) [sr^{-1}]';
+%             case 'Rrs_680'
+%                   y_str = 'R_{rs}(680) [sr^{-1}]';
+%             case 'chlor_a'
+%                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
+%             case 'ag_412_mlrc'
+%                   y_str = 'a_{g}(412) [m^{-1}]';
+%             case 'poc'
+%                   y_str = 'POC [mg m^{-3}]';
+%       end
+%       %%
+%       eval(sprintf('diff_00= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00];',par_vec{idx}));
+%       cond_filter = abs(diff_00) <= nanmean(diff_00)+3*nanstd(diff_00);
+%       diff_mean_00 = nanmean(diff_00(cond_filter));
+%       diff_stdv_00 = nanstd(diff_00(cond_filter));
+%       diff_N_00 = sum(cond_filter);
       
-      eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01];',par_vec{idx}));
-      cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
-      diff_mean_01 = nanmean(diff_01(cond_filter));
-      diff_stdv_01 = nanstd(diff_01(cond_filter));
-      diff_N_01 = sum(cond_filter);
+%       eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01];',par_vec{idx}));
+%       cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
+%       diff_mean_01 = nanmean(diff_01(cond_filter));
+%       diff_stdv_01 = nanstd(diff_01(cond_filter));
+%       diff_N_01 = sum(cond_filter);
       
-      eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02];',par_vec{idx}));
-      cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
-      diff_mean_02 = nanmean(diff_02(cond_filter));
-      diff_stdv_02 = nanstd(diff_02(cond_filter));
-      diff_N_02 = sum(cond_filter);
+%       eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02];',par_vec{idx}));
+%       cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
+%       diff_mean_02 = nanmean(diff_02(cond_filter));
+%       diff_stdv_02 = nanstd(diff_02(cond_filter));
+%       diff_N_02 = sum(cond_filter);
       
-      eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03];',par_vec{idx}));
-      cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
-      diff_mean_03 = nanmean(diff_03(cond_filter));
-      diff_stdv_03 = nanstd(diff_03(cond_filter));
-      diff_N_03 = sum(cond_filter);
+%       eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03];',par_vec{idx}));
+%       cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
+%       diff_mean_03 = nanmean(diff_03(cond_filter));
+%       diff_stdv_03 = nanstd(diff_03(cond_filter));
+%       diff_N_03 = sum(cond_filter);
       
-      eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04];',par_vec{idx}));
-      cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
-      diff_mean_04 = nanmean(diff_04(cond_filter));
-      diff_stdv_04 = nanstd(diff_04(cond_filter));
-      diff_N_04 = sum(cond_filter);
+%       eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04];',par_vec{idx}));
+%       cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
+%       diff_mean_04 = nanmean(diff_04(cond_filter));
+%       diff_stdv_04 = nanstd(diff_04(cond_filter));
+%       diff_N_04 = sum(cond_filter);
       
-      eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05];',par_vec{idx}));
-      cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
-      diff_mean_05 = nanmean(diff_05(cond_filter));
-      diff_stdv_05 = nanstd(diff_05(cond_filter));
-      diff_N_05 = sum(cond_filter);
+%       eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05];',par_vec{idx}));
+%       cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
+%       diff_mean_05 = nanmean(diff_05(cond_filter));
+%       diff_stdv_05 = nanstd(diff_05(cond_filter));
+%       diff_N_05 = sum(cond_filter);
       
-      eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06];',par_vec{idx}));
-      cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
-      diff_mean_06 = nanmean(diff_06(cond_filter));
-      diff_stdv_06 = nanstd(diff_06(cond_filter));
-      diff_N_06 = sum(cond_filter);
+%       eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06];',par_vec{idx}));
+%       cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
+%       diff_mean_06 = nanmean(diff_06(cond_filter));
+%       diff_stdv_06 = nanstd(diff_06(cond_filter));
+%       diff_N_06 = sum(cond_filter);
       
-      eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07];',par_vec{idx}));
-      cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
-      diff_mean_07 = nanmean(diff_07(cond_filter));
-      diff_stdv_07 = nanstd(diff_07(cond_filter));
-      diff_N_07 = sum(cond_filter);
+%       eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07];',par_vec{idx}));
+%       cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
+%       diff_mean_07 = nanmean(diff_07(cond_filter));
+%       diff_stdv_07 = nanstd(diff_07(cond_filter));
+%       diff_N_07 = sum(cond_filter);
       
       
-      diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
-      diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
+%       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
+%       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
       
-      fs = 25;
-      h = figure('Color','white','DefaultAxesFontSize',fs);
-      % plot(1:8,stdv_all,'or','MarkerSize',12)
-      errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
-      ax = gca;
-      ax.XTick = 1:8;
-      ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
-      xlim([0 9])
+%       fs = 25;
+%       h = figure('Color','white','DefaultAxesFontSize',fs);
+%       % plot(1:8,stdv_all,'or','MarkerSize',12)
+%       errorbar(1:8,diff_mean_all,diff_stdv_all,'ob','MarkerSize',12,'LineWidth',1.5)
+%       ax = gca;
+%       ax.XTick = 1:8;
+%       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
+%       xlim([0 9])
       
-      text(1,diff_mean_00+1.3*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
-      text(2,diff_mean_01+1.3*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
-      text(3,diff_mean_02+1.3*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
-      text(4,diff_mean_03+1.3*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
-      text(5,diff_mean_04+1.3*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
-      text(6,diff_mean_05+1.3*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
-      text(7,diff_mean_06+1.3*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
-      text(8,diff_mean_07+1.3*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
+%       text(1,diff_mean_00+1.4*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
+%       text(2,diff_mean_01+1.4*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
+%       text(3,diff_mean_02+1.4*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
+%       text(4,diff_mean_03+1.4*diff_stdv_03,['N=' num2str(diff_N_03)],'HorizontalAlignment','center','FontSize',14)
+%       text(5,diff_mean_04+1.4*diff_stdv_04,['N=' num2str(diff_N_04)],'HorizontalAlignment','center','FontSize',14)
+%       text(6,diff_mean_05+1.4*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
+%       text(7,diff_mean_06+1.4*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
+%       text(8,diff_mean_07+1.4*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
       
-      disp('======================')
-      disp(par_vec{idx})
-      diff_mean_all
-      diff_stdv_all
-      %       ylim([-3e-3 1e-3])
+%       disp('======================')
+%       disp(par_vec{idx})
+%       diff_mean_all
+%       diff_stdv_all
+%       %       ylim([-3e-3 1e-3])
       
-      ax.YAxis.MinorTick = 'on';
-      ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      ax.YGrid = 'on';
-      ax.YMinorGrid = 'on';
-      %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('Difference\n w/r to 4th  %s',y_str);
+%       ax.YAxis.MinorTick = 'on';
+%       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       ax.YGrid = 'on';
+%       ax.YMinorGrid = 'on';
+%       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
+%       str1 = sprintf('Difference\n w/r to 4th  %s',y_str);
       
-      ylabel(str1,'FontSize',fs)
-      xlabel('Time of the day (GMT)','FontSize',fs)
+%       ylabel(str1,'FontSize',fs)
+%       xlabel('Time of the day (GMT)','FontSize',fs)
       
-      grid on
-      %       grid minor
-      %%
-      saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx} '_summer'],'epsc')
-end
+%       grid on
+%       %       grid minor
+%       %%
+%       saveas(gcf,[savedirname 'Diff_4th_' par_vec{idx} '_summer'],'epsc')
+% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -12792,38 +12837,38 @@ ax.XTick = xData;
 set(gca,'XTickLabel',[]);
 
 % % if strcmp(wl,'680')||strcmp(wl,'745')
-%       
+%
 %       datetick(ax,'x','m','keepticks')
-%       
+%
 %       x_labels{1} = sprintf('J \n');
 %       x_labels{2} = sprintf('M\n      2011');
 %       x_labels{3} = sprintf('S \n');
-%       
+%
 %       x_labels{4} = sprintf('J \n');
 %       x_labels{5} = sprintf('M\n      2012');
 %       x_labels{6} = sprintf('S \n');
-%       
+%
 %       x_labels{7} = sprintf('J \n');
 %       x_labels{8} = sprintf('M\n      2013');
 %       x_labels{9} = sprintf('S \n');
-%       
+%
 %       x_labels{10} = sprintf('J \n');
 %       x_labels{11} = sprintf('M\n      2014');
 %       x_labels{12} = sprintf('S \n');
-%       
+%
 %       x_labels{13} = sprintf('J \n');
 %       x_labels{14} = sprintf('M\n      2015');
 %       x_labels{15} = sprintf('S \n');
-%       
+%
 %       x_labels{16} = sprintf('J \n');
 %       x_labels{17} = sprintf('M\n      2016');
 %       x_labels{18} = sprintf('S \n');
-%       
+%
 %       x_labels{19} = sprintf('J \n');
 %       x_labels{20} = sprintf('M\n      2017');
-%       
+%
 %       [~,~] = format_ticks(gca,x_labels);
-         
+
 % end
 
 grid off
@@ -12898,38 +12943,38 @@ ax.XTick = xData;
 set(gca,'XTickLabel',[]);
 
 % if strcmp(wl,'680')||strcmp(wl,'745')
-      
-      datetick(ax,'x','m','keepticks')
-      
-      x_labels{1} = sprintf('J \n');
-      x_labels{2} = sprintf('M\n      2011');
-      x_labels{3} = sprintf('S \n');
-      
-      x_labels{4} = sprintf('J \n');
-      x_labels{5} = sprintf('M\n      2012');
-      x_labels{6} = sprintf('S \n');
-      
-      x_labels{7} = sprintf('J \n');
-      x_labels{8} = sprintf('M\n      2013');
-      x_labels{9} = sprintf('S \n');
-      
-      x_labels{10} = sprintf('J \n');
-      x_labels{11} = sprintf('M\n      2014');
-      x_labels{12} = sprintf('S \n');
-      
-      x_labels{13} = sprintf('J \n');
-      x_labels{14} = sprintf('M\n      2015');
-      x_labels{15} = sprintf('S \n');
-      
-      x_labels{16} = sprintf('J \n');
-      x_labels{17} = sprintf('M\n      2016');
-      x_labels{18} = sprintf('S \n');
-      
-      x_labels{19} = sprintf('J \n');
-      x_labels{20} = sprintf('M\n      2017');
-      
-      [~,~] = format_ticks(gca,x_labels);
-         
+
+datetick(ax,'x','m','keepticks')
+
+x_labels{1} = sprintf('J \n');
+x_labels{2} = sprintf('M\n      2011');
+x_labels{3} = sprintf('S \n');
+
+x_labels{4} = sprintf('J \n');
+x_labels{5} = sprintf('M\n      2012');
+x_labels{6} = sprintf('S \n');
+
+x_labels{7} = sprintf('J \n');
+x_labels{8} = sprintf('M\n      2013');
+x_labels{9} = sprintf('S \n');
+
+x_labels{10} = sprintf('J \n');
+x_labels{11} = sprintf('M\n      2014');
+x_labels{12} = sprintf('S \n');
+
+x_labels{13} = sprintf('J \n');
+x_labels{14} = sprintf('M\n      2015');
+x_labels{15} = sprintf('S \n');
+
+x_labels{16} = sprintf('J \n');
+x_labels{17} = sprintf('M\n      2016');
+x_labels{18} = sprintf('S \n');
+
+x_labels{19} = sprintf('J \n');
+x_labels{20} = sprintf('M\n      2017');
+
+[~,~] = format_ticks(gca,x_labels);
+
 % end
 
 grid off
@@ -12999,38 +13044,38 @@ ax.XTick = xData;
 set(gca,'XTickLabel',[]);
 
 % % if strcmp(wl,'680')||strcmp(wl,'745')
-%       
+%
 %       datetick(ax,'x','m','keepticks')
-%       
+%
 %       x_labels{1} = sprintf('J \n');
 %       x_labels{2} = sprintf('M\n      2011');
 %       x_labels{3} = sprintf('S \n');
-%       
+%
 %       x_labels{4} = sprintf('J \n');
 %       x_labels{5} = sprintf('M\n      2012');
 %       x_labels{6} = sprintf('S \n');
-%       
+%
 %       x_labels{7} = sprintf('J \n');
 %       x_labels{8} = sprintf('M\n      2013');
 %       x_labels{9} = sprintf('S \n');
-%       
+%
 %       x_labels{10} = sprintf('J \n');
 %       x_labels{11} = sprintf('M\n      2014');
 %       x_labels{12} = sprintf('S \n');
-%       
+%
 %       x_labels{13} = sprintf('J \n');
 %       x_labels{14} = sprintf('M\n      2015');
 %       x_labels{15} = sprintf('S \n');
-%       
+%
 %       x_labels{16} = sprintf('J \n');
 %       x_labels{17} = sprintf('M\n      2016');
 %       x_labels{18} = sprintf('S \n');
-%       
+%
 %       x_labels{19} = sprintf('J \n');
 %       x_labels{20} = sprintf('M\n      2017');
-%       
+%
 %       [~,~] = format_ticks(gca,x_labels);
-         
+
 % end
 
 grid off
@@ -13697,38 +13742,38 @@ ax.XTick = xData;
 set(gca,'XTickLabel',[]);
 
 % if strcmp(wl,'680')||strcmp(wl,'745')
-      
-      datetick(ax,'x','m','keepticks')
-      
-      x_labels{1} = sprintf('J \n');
-      x_labels{2} = sprintf('M\n      2011');
-      x_labels{3} = sprintf('S \n');
-      
-      x_labels{4} = sprintf('J \n');
-      x_labels{5} = sprintf('M\n      2012');
-      x_labels{6} = sprintf('S \n');
-      
-      x_labels{7} = sprintf('J \n');
-      x_labels{8} = sprintf('M\n      2013');
-      x_labels{9} = sprintf('S \n');
-      
-      x_labels{10} = sprintf('J \n');
-      x_labels{11} = sprintf('M\n      2014');
-      x_labels{12} = sprintf('S \n');
-      
-      x_labels{13} = sprintf('J \n');
-      x_labels{14} = sprintf('M\n      2015');
-      x_labels{15} = sprintf('S \n');
-      
-      x_labels{16} = sprintf('J \n');
-      x_labels{17} = sprintf('M\n      2016');
-      x_labels{18} = sprintf('S \n');
-      
-      x_labels{19} = sprintf('J \n');
-      x_labels{20} = sprintf('M\n      2017');
-      
-      [~,~] = format_ticks(gca,x_labels);
-         
+
+datetick(ax,'x','m','keepticks')
+
+x_labels{1} = sprintf('J \n');
+x_labels{2} = sprintf('M\n      2011');
+x_labels{3} = sprintf('S \n');
+
+x_labels{4} = sprintf('J \n');
+x_labels{5} = sprintf('M\n      2012');
+x_labels{6} = sprintf('S \n');
+
+x_labels{7} = sprintf('J \n');
+x_labels{8} = sprintf('M\n      2013');
+x_labels{9} = sprintf('S \n');
+
+x_labels{10} = sprintf('J \n');
+x_labels{11} = sprintf('M\n      2014');
+x_labels{12} = sprintf('S \n');
+
+x_labels{13} = sprintf('J \n');
+x_labels{14} = sprintf('M\n      2015');
+x_labels{15} = sprintf('S \n');
+
+x_labels{16} = sprintf('J \n');
+x_labels{17} = sprintf('M\n      2016');
+x_labels{18} = sprintf('S \n');
+
+x_labels{19} = sprintf('J \n');
+x_labels{20} = sprintf('M\n      2017');
+
+[~,~] = format_ticks(gca,x_labels);
+
 % end
 
 % Major Ticks
@@ -14037,8 +14082,11 @@ hist([VIIRS_DailyStatMatrix(cond).Rrs_671_median_CV])
 % plot([VIIRS_MonthlyStatMatrix.datetime],[VIIRS_MonthlyStatMatrix.Rrs_671_mean_N],'*-')
 % xlim([datenum(datetime(2012,1,1)) datenum(datetime(2017,1,1))])
 
-%% 3-day set comparison
-clear three_day_idx cond1 cond2 cond3 cond4 cond5 cond6
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3-day set comparison
+clear A  three_day_idx cond1 cond2 cond3 cond4 cond5 cond6
 clear cond_brdf1 cond_brdf2 cond_brdf3
 brdf_opt = 7;
 
@@ -14056,7 +14104,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_05]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_06]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_07]) && ...
-            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_00]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_01]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_02]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_03]) && ...
@@ -14082,7 +14130,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_05]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_06]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_07]) && ...
-            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_443_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_00]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_01]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_02]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_443_03]) && ...
@@ -14107,7 +14155,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_05]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_06]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_07]) && ...
-            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_490_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_00]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_01]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_02]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_490_03]) && ...
@@ -14132,7 +14180,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_05]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_06]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_07]) && ...
-            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_555_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_00]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_01]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_02]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_555_03]) && ...
@@ -14149,55 +14197,55 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_06]) && ...
             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_555_07]);
       
-      %       cond5 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_07]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_00]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_07]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_00]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_07]);
-      
-      %       cond6 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_07]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_00]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_07]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_00]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_01]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_02]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_03]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_04]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_05]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_06]) && ...
-      %             ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_07]);
+      %             cond5 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_660_07]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_00]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_660_07]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_00]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_660_07]);
+      %
+      %             cond6 = ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_680_07]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_00]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_680_07]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_00]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_01]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_02]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_03]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_04]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_05]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_06]) && ...
+      %                   ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_680_07]);
       
       if ~isempty(cond1)&&~isempty(cond1)&&~isempty(cond1)&&~isempty(cond1)...
                   &&~isempty(cond_brdf1)&&~isempty(cond_brdf2)&&~isempty(cond_brdf3)
@@ -14217,7 +14265,8 @@ A= find(three_day_idx); % indeces to 3-day sequences.
 %% 3-day sequences plot -- Rrs
 
 % for idx = 1:1*sum(three_day_idx)/4
-for idx =      [18 57]
+for idx =      [25 64]
+      % for idx = 1:size(A,2)
       
       % Rrs
       tod_Rrs_412_00 = [[GOCI_DailyStatMatrix(A(idx)).Rrs_412_00] [GOCI_DailyStatMatrix(A(idx)+1).Rrs_412_00] [GOCI_DailyStatMatrix(A(idx)+2).Rrs_412_00]];
@@ -14298,12 +14347,16 @@ for idx =      [18 57]
       fs = 30;
       lw = 1.5;
       ms = 16;
-      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',['n = ' num2str(A(idx))]);
+      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',['n = ' num2str(A(idx)) ';idx=' num2str(idx)]);
+      set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 0.5 1]);
+      set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+      
       
       %% Rrs
       % Rrs_412
       % subplot(2,2,1)
       plot(tod_Rrs_412_00_datetime+hours(0),tod_Rrs_412_00,'-or','MarkerSize',ms,'LineWidth',lw)
+      ylim([0 0.018])
       hold on
       plot(tod_Rrs_412_01_datetime+hours(1),tod_Rrs_412_01,'-og','MarkerSize',ms,'LineWidth',lw)
       plot(tod_Rrs_412_02_datetime+hours(2),tod_Rrs_412_02,'-ob','MarkerSize',ms,'LineWidth',lw)
@@ -14368,16 +14421,16 @@ for idx =      [18 57]
       datetick('x','mm/dd/yy')
       ax = gca;
       % ax.YLim(1) = 0 ;
-      ylim([0 0.016])
+      
       ax.XLim(1) = ax.XTick(1)-0.2;
       ax.XLim(2) = ax.XTick(3)+0.5;
       
-      hleg = legend('412: 0h','412: 1h','412: 2h','412: 3h','412: 4h','412: 5h','412: 6h','412: 7h',...
-            '443: 0h','443: 1h','443: 2h','443: 3h','443: 4h','443: 5h','443: 6h','443: 7h',...
-            '490: 0h','490: 1h','490: 2h','490: 3h','490: 4h','490: 5h','490: 6h','490: 7h',...
-            '555: 0h','555: 1h','555: 2h','555: 3h','555: 4h','555: 5h','555: 6h','555: 7h');
-      set(hleg,'fontsize',22)
-      set(hleg,'Location','bestoutside')
+      %       hleg = legend('412: 0h','412: 1h','412: 2h','412: 3h','412: 4h','412: 5h','412: 6h','412: 7h',...
+      %             '443: 0h','443: 1h','443: 2h','443: 3h','443: 4h','443: 5h','443: 6h','443: 7h',...
+      %             '490: 0h','490: 1h','490: 2h','490: 3h','490: 4h','490: 5h','490: 6h','490: 7h',...
+      %             '555: 0h','555: 1h','555: 2h','555: 3h','555: 4h','555: 5h','555: 6h','555: 7h');
+      %       set(hleg,'fontsize',22)
+      %       set(hleg,'Location','bestoutside')
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 0.5 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -14385,12 +14438,99 @@ for idx =      [18 57]
       
       
 end
+%
+figure(1)
+hold on
+h = gcf;
+% annotations
+% 412
+annotation(h,'textbox',...
+      [0.65 0.80 0.04 0.04],...
+      'Color',[0.5 0 0.5],...
+      'String',{'412'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
 
+% 443
+annotation(h,'textbox',...
+      [0.65 0.65 0.04 0.04],...
+      'Color',[0 0 1],...
+      'String',{'443'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 490
+annotation(h,'textbox',...
+      [0.65 0.46 0.04 0.04],...
+      'Color',[0 0.5 1],...
+      'String',{'490'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 555
+annotation(h,'textbox',...
+      [0.65 0.22 0.04 0.04],...
+      'Color',[0 0.5 0],...
+      'String',{'555'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+%
+figure(2)
+hold on
+h = gcf;
+% annotations
+% 412
+annotation(h,'textbox',...
+      [0.65 0.78 0.04 0.04],...
+      'Color',[0.5 0 0.5],...
+      'String',{'412'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 443
+annotation(h,'textbox',...
+      [0.65 0.60 0.04 0.04],...
+      'Color',[0 0 1],...
+      'String',{'443'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 490
+annotation(h,'textbox',...
+      [0.65 0.41 0.04 0.04],...
+      'Color',[0 0.5 1],...
+      'String',{'490'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 555
+annotation(h,'textbox',...
+      [0.65 0.19 0.04 0.04],...
+      'Color',[0 0.5 0],...
+      'String',{'555'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
 %% 3-day sequences plot -- par
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 % for idx = 1:1*sum(three_day_idx)/10
-for idx = [18 57]
+for idx =      [25 64]
       
       % par
       
@@ -14478,13 +14618,13 @@ for idx = [18 57]
       datetick('x','mm/dd/yy')
       ax = gca;
       ax.YLim(1) = 0;
-      ylim([0 0.09])
+      ylim([0 0.1])
       ax.XLim(1) = ax.XTick(1)-0.2;
       ax.XLim(2) = ax.XTick(3)+0.5;
       
-      hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
-      set(hleg,'Location','southeast');
-      set(hleg,'fontsize',22)
+      %       hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
+      %       set(hleg,'Location','southeast');
+      %       set(hleg,'fontsize',22)
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 0.5 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -14512,12 +14652,13 @@ for idx = [18 57]
       datetick('x','mm/dd/yy')
       ax = gca;
       ax.YLim(1) = 0 ;
+      ylim([0 0.03])
       ax.XLim(1) = ax.XTick(1)-0.2;
       ax.XLim(2) = ax.XTick(3)+0.5;
       
-      hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
-      set(hleg,'Location','southeast');
-      set(hleg,'fontsize',22)
+      %       hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
+      %       set(hleg,'Location','southeast');
+      %       set(hleg,'fontsize',22)
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 0.5 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -14545,12 +14686,13 @@ for idx = [18 57]
       datetick('x','mm/dd/yy')
       ax = gca;
       ax.YLim(1) = 0 ;
+      ylim([0 40])
       ax.XLim(1) = ax.XTick(1)-0.2;
       ax.XLim(2) = ax.XTick(3)+0.5;
       
-      hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
-      set(hleg,'Location','southeast');
-      set(hleg,'fontsize',22)
+      %       hleg = legend('0h','1h','2h','3h','4h','5h','6h','7h');
+      %       set(hleg,'Location','southeast');
+      %       set(hleg,'fontsize',22)
       
       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 0.5 1]);
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -14701,89 +14843,281 @@ for idx = 1:sum(three_day_idx)
       three_day_seq(idx).tod_Rrs_555_07_CV = three_day_seq(idx).tod_Rrs_555_07_stdv/three_day_seq(idx).tod_Rrs_555_07_mean;
       
 end
-
-fs = 30;
-lw = 1.5;
+%% Plot
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
+fs = 40;
+lw = 3;
 ms = 16;
-h = figure('Color','white','DefaultAxesFontSize',fs);
+
 
 % Rrs_412
-% subplot(2,2,1)
-plot(0,100*nanmean([three_day_seq.tod_Rrs_412_00_CV]),'-or','MarkerSize',ms,'LineWidth',lw)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','412');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
 hold on
-plot(1,100*nanmean([three_day_seq.tod_Rrs_412_01_CV]),'-og','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_Rrs_412_02_CV]),'-ob','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_Rrs_412_03_CV]),'-ok','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_Rrs_412_04_CV]),'-oc','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_Rrs_412_05_CV]),'-om','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_Rrs_412_06_CV]),'-o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_Rrs_412_07_CV]),'-o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+yy = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV])+100*nanstd([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV])+100*nanstd([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV])+100*nanstd([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV])+100*nanstd([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV])+100*nanstd([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV])+100*nanstd([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV])+100*nanstd([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])+100*nanstd([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV])-100*nanstd([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV])-100*nanstd([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV])-100*nanstd([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV])-100*nanstd([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV])-100*nanstd([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV])-100*nanstd([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV])-100*nanstd([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])-100*nanstd([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+ylim([0 50])
+
+grid on
+ylabel('Mean of CV for R_{rs}(412) [%]','FontSize',fs)
+xlabel('Time of the day','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_412'],'epsc')
 
 % ylabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
 % Rrs_443
-% subplot(2,2,1)
-plot(0,100*nanmean([three_day_seq.tod_Rrs_443_00_CV]),'-^r','MarkerSize',ms,'LineWidth',lw)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','443');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
 hold on
-plot(1,100*nanmean([three_day_seq.tod_Rrs_443_01_CV]),'-^g','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_Rrs_443_02_CV]),'-^b','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_Rrs_443_03_CV]),'-^k','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_Rrs_443_04_CV]),'-^c','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_Rrs_443_05_CV]),'-^m','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_Rrs_443_06_CV]),'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_Rrs_443_07_CV]),'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
+yy = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV])+100*nanstd([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV])+100*nanstd([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV])+100*nanstd([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV])+100*nanstd([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV])+100*nanstd([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV])+100*nanstd([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV])+100*nanstd([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])+100*nanstd([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV])-100*nanstd([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV])-100*nanstd([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV])-100*nanstd([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV])-100*nanstd([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV])-100*nanstd([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV])-100*nanstd([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV])-100*nanstd([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])-100*nanstd([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+
+ylim([0 50])
+
+grid on
+ylabel('Mean of CV for R_{rs}(443) [%]','FontSize',fs)
+xlabel('Time of the day','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_443'],'epsc')
+
 
 % ylabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
 % Rrs_490
-% subplot(2,2,1)
-plot(0,100*nanmean([three_day_seq.tod_Rrs_490_00_CV]),'-*r','MarkerSize',ms,'LineWidth',lw)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','490');
+xx = 0:7;
 hold on
-plot(1,100*nanmean([three_day_seq.tod_Rrs_490_01_CV]),'-*g','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_Rrs_490_02_CV]),'-*b','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_Rrs_490_03_CV]),'-*k','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_Rrs_490_04_CV]),'-*c','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_Rrs_490_05_CV]),'-*m','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_Rrs_490_06_CV]),'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_Rrs_490_07_CV]),'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
+hold on
+
+yy = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV])+100*nanstd([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV])+100*nanstd([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV])+100*nanstd([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV])+100*nanstd([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV])+100*nanstd([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV])+100*nanstd([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV])+100*nanstd([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])+100*nanstd([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV])-100*nanstd([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV])-100*nanstd([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV])-100*nanstd([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV])-100*nanstd([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV])-100*nanstd([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV])-100*nanstd([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV])-100*nanstd([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])-100*nanstd([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+
+ylim([0 50])
+
+grid on
+ylabel('Mean of CV for R_{rs}(490) [%]','FontSize',fs)
+xlabel('Time of the day','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_490'],'epsc')
+
 
 % ylabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
 % Rrs_555
-% subplot(2,2,1)
-plot(0,100*nanmean([three_day_seq.tod_Rrs_555_00_CV]),'-xr','MarkerSize',ms,'LineWidth',lw)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','555');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
 hold on
-plot(1,100*nanmean([three_day_seq.tod_Rrs_555_01_CV]),'-xg','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_Rrs_555_02_CV]),'-xb','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_Rrs_555_03_CV]),'-xk','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_Rrs_555_04_CV]),'-xc','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_Rrs_555_05_CV]),'-xm','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_Rrs_555_06_CV]),'-x','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_Rrs_555_07_CV]),'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+
+yy = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV])+100*nanstd([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV])+100*nanstd([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV])+100*nanstd([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV])+100*nanstd([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV])+100*nanstd([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV])+100*nanstd([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV])+100*nanstd([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])+100*nanstd([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV])-100*nanstd([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV])-100*nanstd([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV])-100*nanstd([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV])-100*nanstd([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV])-100*nanstd([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV])-100*nanstd([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV])-100*nanstd([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])-100*nanstd([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+ylim([0 50])
 
 grid on
-ylabel('Mean of CV for R_{rs}(\lambda) [%]','FontSize',fs)
+ylabel('Mean of CV for R_{rs}(555) [%]','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
-
-hleg = legend('412: 0h','412: 1h','412: 2h','412: 3h','412: 4h','412: 5h','412: 6h','412: 7h',...
-      '443: 0h','443: 1h','443: 2h','443: 3h','443: 4h','443: 5h','443: 6h','443: 7h',...
-      '490: 0h','490: 1h','490: 2h','490: 3h','490: 4h','490: 5h','490: 6h','490: 7h',...
-      '555: 0h','555: 1h','555: 2h','555: 3h','555: 4h','555: 5h','555: 6h','555: 7h',...
-      'Location','northeastoutside');
-set(hleg,'fontsize',22)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
 
-xlim([-1 8])
+xlim([0 7])
 ax = gca;
-ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_555'],'epsc')
+
+clear A B xx yy
+%%
+hold on
+h = gcf;
+% annotations
+% 412
+annotation(h,'textbox',...
+      [0.70 0.31 0.04 0.04],...
+      'Color',[0.5 0 0.5],...
+      'String',{'412'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 443
+annotation(h,'textbox',...
+      [0.86 0.34 0.04 0.04],...
+      'Color',[0 0 1],...
+      'String',{'443'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 490
+annotation(h,'textbox',...
+      [0.86 0.45 0.04 0.04],...
+      'Color',[0 0.5 1],...
+      'String',{'490'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 555
+annotation(h,'textbox',...
+      [0.86 0.81 0.04 0.04],...
+      'Color',[0 0.5 0],...
+      'String',{'555'},...
+      'FontSize',fs+2,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
 %% mean and st dev
 h = figure('Color','white','DefaultAxesFontSize',fs);
 
@@ -14851,19 +15185,12 @@ grid on
 ylabel('Mean of the mean R_{rs}(\lambda) [sr^{-1}]','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
 
-hleg = legend('412: 0h','412: 1h','412: 2h','412: 3h','412: 4h','412: 5h','412: 6h','412: 7h',...
-      '443: 0h','443: 1h','443: 2h','443: 3h','443: 4h','443: 5h','443: 6h','443: 7h',...
-      '490: 0h','490: 1h','490: 2h','490: 3h','490: 4h','490: 5h','490: 6h','490: 7h',...
-      '555: 0h','555: 1h','555: 2h','555: 3h','555: 4h','555: 5h','555: 6h','555: 7h',...
-      'Location','northeastoutside');
-set(hleg,'fontsize',22)
-
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
 
-xlim([-1 8])
+xlim([0 7])
 ax = gca;
-ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
 
 %% 3-day sequences stats -- par
 
@@ -14983,88 +15310,170 @@ for idx = 1:sum(three_day_idx)
       
       
 end
-
-fs = 30;
-lw = 1.5;
+%%
+fs = 40;
+lw = 3;
 ms = 16;
 
 % chlor_a
-h = figure('Color','white','DefaultAxesFontSize',fs);
-plot(0,100*nanmean([three_day_seq.tod_chlor_a_00_CV]),'-or','MarkerSize',ms,'LineWidth',lw)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','chlor_a');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_chlor_a_00_CV]) 100*nanmax([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmax([three_day_seq.tod_chlor_a_02_CV]) 100*nanmax([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmax([three_day_seq.tod_chlor_a_04_CV]) 100*nanmax([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmax([three_day_seq.tod_chlor_a_06_CV]) 100*nanmax([three_day_seq.tod_chlor_a_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_chlor_a_00_CV]) 100*nanmin([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmin([three_day_seq.tod_chlor_a_02_CV]) 100*nanmin([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmin([three_day_seq.tod_chlor_a_04_CV]) 100*nanmin([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmin([three_day_seq.tod_chlor_a_06_CV]) 100*nanmin([three_day_seq.tod_chlor_a_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
 hold on
-plot(1,100*nanmean([three_day_seq.tod_chlor_a_01_CV]),'-og','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_chlor_a_02_CV]),'-ob','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_chlor_a_03_CV]),'-ok','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_chlor_a_04_CV]),'-oc','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_chlor_a_05_CV]),'-om','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_chlor_a_06_CV]),'-o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_chlor_a_07_CV]),'-o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-% ax = gca;
-% ax.YLim(1) = 0 ;
-%
-% grid on
-
-% ylabel('Mean of CV for Chlor-{\ita} [%]','FontSize',fs)
-% xlabel('Time of the day','FontSize',fs)
-
-% xlim([-1 8])
-% ax = gca;
-% ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
-
-% ag_410_mlrc
-plot(0,100*nanmean([three_day_seq.tod_ag_412_mlrc_00_CV]),'-^r','MarkerSize',ms,'LineWidth',lw)
+yy = [100*nanmean([three_day_seq.tod_chlor_a_00_CV]) 100*nanmean([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_02_CV]) 100*nanmean([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_04_CV]) 100*nanmean([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_06_CV]) 100*nanmean([three_day_seq.tod_chlor_a_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 hold on
-plot(1,100*nanmean([three_day_seq.tod_ag_412_mlrc_01_CV]),'-^g','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_ag_412_mlrc_02_CV]),'-^b','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_ag_412_mlrc_03_CV]),'-^k','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_ag_412_mlrc_04_CV]),'-^c','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_ag_412_mlrc_05_CV]),'-^m','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_ag_412_mlrc_06_CV]),'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV]),'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+yy = [100*nanmean([three_day_seq.tod_chlor_a_00_CV])+100*nanstd([three_day_seq.tod_chlor_a_00_CV]) 100*nanmean([three_day_seq.tod_chlor_a_01_CV])+100*nanstd([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_02_CV])+100*nanstd([three_day_seq.tod_chlor_a_02_CV]) 100*nanmean([three_day_seq.tod_chlor_a_03_CV])+100*nanstd([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_04_CV])+100*nanstd([three_day_seq.tod_chlor_a_04_CV]) 100*nanmean([three_day_seq.tod_chlor_a_05_CV])+100*nanstd([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_06_CV])+100*nanstd([three_day_seq.tod_chlor_a_06_CV]) 100*nanmean([three_day_seq.tod_chlor_a_07_CV])+100*nanstd([three_day_seq.tod_chlor_a_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_chlor_a_00_CV])-100*nanstd([three_day_seq.tod_chlor_a_00_CV]) 100*nanmean([three_day_seq.tod_chlor_a_01_CV])-100*nanstd([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_02_CV])-100*nanstd([three_day_seq.tod_chlor_a_02_CV]) 100*nanmean([three_day_seq.tod_chlor_a_03_CV])-100*nanstd([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_04_CV])-100*nanstd([three_day_seq.tod_chlor_a_04_CV]) 100*nanmean([three_day_seq.tod_chlor_a_05_CV])-100*nanstd([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmean([three_day_seq.tod_chlor_a_06_CV])-100*nanstd([three_day_seq.tod_chlor_a_06_CV]) 100*nanmean([three_day_seq.tod_chlor_a_07_CV])-100*nanstd([three_day_seq.tod_chlor_a_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
 
-% grid on
 
-% ylabel('Mean of CV for a_{g}(412) [%]','FontSize',fs)
-% xlabel('Time of the day','FontSize',fs)
-
-% ax = gca;
-% ax.YLim(1) = 0 ;
-% grid on
-% xlim([-1 8])
-% ax = gca;
-% ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
-
-% poc
-plot(0,100*nanmean([three_day_seq.tod_poc_00_CV]),'-*r','MarkerSize',ms,'LineWidth',lw)
-hold on
-plot(1,100*nanmean([three_day_seq.tod_poc_01_CV]),'-*g','MarkerSize',ms,'LineWidth',lw)
-plot(2,100*nanmean([three_day_seq.tod_poc_02_CV]),'-*b','MarkerSize',ms,'LineWidth',lw)
-plot(3,100*nanmean([three_day_seq.tod_poc_03_CV]),'-*k','MarkerSize',ms,'LineWidth',lw)
-plot(4,100*nanmean([three_day_seq.tod_poc_04_CV]),'-*c','MarkerSize',ms,'LineWidth',lw)
-plot(5,100*nanmean([three_day_seq.tod_poc_05_CV]),'-*m','MarkerSize',ms,'LineWidth',lw)
-plot(6,100*nanmean([three_day_seq.tod_poc_06_CV]),'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-plot(7,100*nanmean([three_day_seq.tod_poc_07_CV]),'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+ylim([0 50])
 
 grid on
-ylabel('Mean of CV [%]','FontSize',fs)
+ylabel('Mean of CV for Chlor-a [%]','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
-
-ax = gca;
-ax.YLim(1) = 0 ;
-grid on
-xlim([-1 8])
-ax = gca;
-ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
-
-hleg = legend('Chlor-{\ita}: 0h','Chlor-{\ita}: 1h','Chlor-{\ita}: 2h','Chlor-{\ita}: 3h','Chlor-{\ita}: 4h','Chlor-{\ita}: 5h','Chlor-{\ita}: 6h','Chlor-{\ita}: 7h',...
-      'a_{g}(412): 0h','a_{g}(412): 1h','a_{g}(412): 2h','a_{g}(412): 3h','a_{g}(412): 4h','a_{g}(412): 5h','a_{g}(412): 6h','a_{g}(412): 7h',...
-      'POC: 0h','POC: 1h','POC: 2h','POC: 3h','POC: 4h','POC: 5h','POC: 6h','POC: 7h',...
-      'Location','northeastoutside');
-set(hleg,'fontsize',22)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_chl_a'],'epsc')
+
+% ag_412_mlrc
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','ag_412_mlrc');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmax([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmax([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmax([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmax([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmax([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmax([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmax([three_day_seq.tod_ag_412_mlrc_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmin([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmin([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmin([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmin([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmin([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmin([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmin([three_day_seq.tod_ag_412_mlrc_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
+hold on
+
+yy = [100*nanmean([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_ag_412_mlrc_00_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_01_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_02_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_03_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_04_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_05_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_06_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV])+100*nanstd([three_day_seq.tod_ag_412_mlrc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_ag_412_mlrc_00_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_01_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_02_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_03_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_04_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_05_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_ag_412_mlrc_06_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV])-100*nanstd([three_day_seq.tod_ag_412_mlrc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+
+ylim([0 50])
+
+grid on
+ylabel('Mean of CV for a_g(412) [%]','FontSize',fs)
+xlabel('Time of the day','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_ag_412_mlrc'],'epsc')
+
+% poc
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','POC');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_poc_00_CV]) 100*nanmax([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmax([three_day_seq.tod_poc_02_CV]) 100*nanmax([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmax([three_day_seq.tod_poc_04_CV]) 100*nanmax([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmax([three_day_seq.tod_poc_06_CV]) 100*nanmax([three_day_seq.tod_poc_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_poc_00_CV]) 100*nanmin([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmin([three_day_seq.tod_poc_02_CV]) 100*nanmin([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmin([three_day_seq.tod_poc_04_CV]) 100*nanmin([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmin([three_day_seq.tod_poc_06_CV]) 100*nanmin([three_day_seq.tod_poc_07_CV])];
+
+fill([xx fliplr(xx)],[A fliplr(B)],[0.0 0.0 0.0])
+alpha(0.15)
+grid on
+hold on
+
+yy = [100*nanmean([three_day_seq.tod_poc_00_CV]) 100*nanmean([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_02_CV]) 100*nanmean([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_04_CV]) 100*nanmean([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_06_CV]) 100*nanmean([three_day_seq.tod_poc_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+hold on
+yy = [100*nanmean([three_day_seq.tod_poc_00_CV])+100*nanstd([three_day_seq.tod_poc_00_CV]) 100*nanmean([three_day_seq.tod_poc_01_CV])+100*nanstd([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_02_CV])+100*nanstd([three_day_seq.tod_poc_02_CV]) 100*nanmean([three_day_seq.tod_poc_03_CV])+100*nanstd([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_04_CV])+100*nanstd([three_day_seq.tod_poc_04_CV]) 100*nanmean([three_day_seq.tod_poc_05_CV])+100*nanstd([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_06_CV])+100*nanstd([three_day_seq.tod_poc_06_CV]) 100*nanmean([three_day_seq.tod_poc_07_CV])+100*nanstd([three_day_seq.tod_poc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean+1*std
+yy = [100*nanmean([three_day_seq.tod_poc_00_CV])-100*nanstd([three_day_seq.tod_poc_00_CV]) 100*nanmean([three_day_seq.tod_poc_01_CV])-100*nanstd([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_02_CV])-100*nanstd([three_day_seq.tod_poc_02_CV]) 100*nanmean([three_day_seq.tod_poc_03_CV])-100*nanstd([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_04_CV])-100*nanstd([three_day_seq.tod_poc_04_CV]) 100*nanmean([three_day_seq.tod_poc_05_CV])-100*nanstd([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmean([three_day_seq.tod_poc_06_CV])-100*nanstd([three_day_seq.tod_poc_06_CV]) 100*nanmean([three_day_seq.tod_poc_07_CV])-100*nanstd([three_day_seq.tod_poc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw) % mean-1*std
+
+
+ylim([0 50])
+
+grid on
+ylabel('Mean of CV for POC [%]','FontSize',fs)
+xlabel('Time of the day','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_poc'],'epsc')
 
 %% mean and st dev
 % chlor_a
@@ -15155,4 +15564,4 @@ ax = gca;
 ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
-set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printingclc
