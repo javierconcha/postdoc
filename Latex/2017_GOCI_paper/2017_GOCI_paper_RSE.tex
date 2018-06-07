@@ -633,7 +633,7 @@ The standard algorithm to retrieve the concentration of particulate organic carb
 % % 665      660         0.95841 1.0226 0.0004 0.00066126 45  59.005       77.528          22.5573        16.3546   1.2202       0.32806    
 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% % \begin{figure}[H]
+% % \begin{figure}[htbp!]
 %     % \begin{minipage}[c]{0.32\linewidth}
 %     %   \centering
 %     %    \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/GOCI_AERO_412.eps} \put (85,20) {\colorbox{white}{(a)}}
@@ -673,7 +673,7 @@ The standard algorithm to retrieve the concentration of particulate organic carb
 %     %    \end{overpic}
 %     % \end{minipage} 
 
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %   \centering
 %     \includegraphics[height=9cm]{./Figures/GOCI_AERO.pdf}
 
@@ -700,7 +700,7 @@ As expected, there are more data for spring-summer than fall-winter, when the so
 
 % The data are color coded by time of the day in GMT (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \autoref{fig:GOCI_TimeSeries2}.(g) shows the time series for the solar zenith angle for reference and color coded by time of the day. 
 
-\begin{figure}[H]
+\begin{figure}[htbp!]
   \centering
     \includegraphics[height=20cm]{./Figures/GOCI_TimeSeries.pdf}
     %\internallinenumbers
@@ -709,7 +709,7 @@ As expected, there are more data for spring-summer than fall-winter, when the so
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
+\begin{figure}[htbp!]
 
   \centering
     \includegraphics[width=16cm]{./Figures/GOCI_TimeSeries2.pdf}
@@ -722,7 +722,7 @@ As expected, there are more data for spring-summer than fall-winter, when the so
 
 Overall, the diurnal variability is larger than the day-to-day variability, when comparing the same time of the day across all days. Also, the difference between the last value of the day for day 0 and the first value of day for day 1 is larger than the difference between the first value of the day for day 0 and the first value for day 1 (and day 2). As explained above, one would expect all these values to be similar. These results suggest that the study region is homogeneous through the day with respect to the ocean optical properties and biogeochemical constituents and that the diurnal variability is influenced by uncertainties in the instrument, solar geometry (e.g. SZA) or algorithms and not due to variability in ocean properties.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
+\begin{figure}[htbp!]
 
 \centering
 \hspace{-0.8cm}
@@ -742,7 +742,7 @@ The mean, standard deviation and percent coefficient of variation ($CV[\%]=100\t
 
 From the previous analysis, we can demonstrate that there is minimal day-to-day and diurnal variability, and therefore, the water over the GCW region is homogeneous in short periods of time. Also, the large errors seen at the earliest (0h and 1h) and last two hourly observations of the day (6h and 7h) are due strictly to the instrument performance, errors in radiometric calibration, and uncertainties in processing algorithms, which include atmospheric correction and solar geometry and not due to variability in ocean properties. However, the region of study also exhibits seasonality, as expected, which is reflected in the time series of \S\ref{subsec:timeseries}.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
+\begin{figure}[htbp!]
 \centering
 \includegraphics[width=16cm]{./Figures/3dayseq_stat_all.pdf}
 %\internallinenumbers
@@ -777,17 +777,15 @@ Similarly to $R_{rs}$, the derived biogeochemical products demonstrated a wide r
 During winter, there are not values for the biogeochemical products for the last time of day (7h).
 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
-  \hspace{-0.8cm}
-  \includegraphics[width=19cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
-  \vspace{-1.3cm}
+\begin{figure}[htbp!]
+  \includegraphics[trim=5 0 0 0,clip,width=17cm]{./Figures/Prod_vs_zenith_season_tod.pdf}
   %\internallinenumbers
   \caption{Mean $R_{rs}(\lambda)$ and products versus solar zenith angle for the whole mission. Only data that passed the exclusion criteria were used, but including the negative values and all SZA values ($0^o<SZA<90^o$). The data are separated by season, and color coded by time of the day (red: 0h, green: 1h, blue: 2h, black: 3h, cyan: 4h, magenta: 5h, orange: 6h, and purple: 7h). \label{fig:Prod_vs_zenith_season_tod} } 
 \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 0,clip,height=3.0cm]{./Figures/Rrs_412_vs_Zenith.eps}
@@ -884,7 +882,7 @@ During winter, there are not values for the biogeochemical products for the last
 
 % \autoref{fig:par_vs_zenith} shows the the Chlorophyll-{\it a}, $a_g(412)$ and POC products versus the solar zenith angle for the GCW region. The data are color coded by time of the day. \autoref{fig:par_vs_zenith_season} in the Appendix section shows the same data but color coded by season. 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %  \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 0,clip,height=4.0cm]{./Figures/Par_vs_Zenith_chlor_a.eps}
@@ -936,7 +934,7 @@ During winter, there are not values for the biogeochemical products for the last
 % In order to analyze further the effect of the SZA, the data were de-seasoned.
 % The anomalies were calculated to remove seasonality (\autoref{fig:Prod_vs_zenith_season_tod_detrend}). Monthly-climatology by time of day removed seasonality by subtracting the mission monthly hourly mean. This is, a mean value was calculated for each time of day (8 times) for every month (12 months). For example, all the 0h time of day for all the Januaries were averaged. Then, this time of the day monthly average was subtracted from every 0h acquired in all Januaries. These anomalies represent de-seasoned data, i.e. the data become independent of the seasonality. The anomalies of $R_{rs}(\lambda)$ and products versus the solar zenith angle are shown in \autoref{fig:Prod_vs_zenith_season_tod_detrend}, color coded by time of the day (left side panels) and season (right side panels). The anomalies display a slightly larger spread later on the day, which is associated to higher solar zenith angles. However, there is no a strong trend that could be inferred from the plots, which means that the mean values for the anomalies remain close to zero independent of the solar zenith angle or time of the day or season.
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %   \centering
 %   \vspace{-2.5cm}
 %   \includegraphics[width=17cm]{./Figures/Prod_vs_zenith_season_tod_detrend.pdf}
@@ -945,7 +943,7 @@ During winter, there are not values for the biogeochemical products for the last
 % \end{figure}
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 00,clip,height=2.0cm]{./Figures/Rrs_vs_Zenith_detrend_412_2.eps}
@@ -1093,7 +1091,7 @@ During winter, there are not values for the biogeochemical products for the last
 % \end{figure}
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 00,clip,height=5.0cm]{./Figures/par_vs_Zenith_detrend_chlor_a_2.eps}
@@ -1219,7 +1217,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % 680 &  29.7 (47.6) & 28.7 (47.8) & -13.3 (38.1) & -26.9 (37.1) & -24.8 (33.9) & -13.1 (42.0) &  -19.8 (47.8) & -6.4 ( 67.5) \\ \hline
                 
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-\begin{figure}[H]
+\begin{figure}[htbp!]
   \centering
   \includegraphics[trim=5 0 30 0,clip,width=17cm]{./Figures/Diff4th.pdf}
     %\internallinenumbers
@@ -1228,7 +1226,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \todo{should I include this?}\autoref{fig:DiffMidThreeMean_detrend} shows the mean and standard deviation (error bar) of the relative difference with respect to the mean of the three midday images for $R_{rs}(\lambda)$ and Chlorophyll-{\it a}, POC and $a_g(412)$ for the anomalies. The mean of the relative difference are small overall for all the spectral bands and products for all times of the day. However, the standard deviation are considerable large for some cases.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.32\linewidth}
 %       \centering
 %       \hspace{1.5cm}
@@ -1306,7 +1304,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % % ---------------------------------------------------------------
 % \subsection{Sensors Cross-comparison}
 % % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% % \begin{figure}[H]
+% % \begin{figure}[htbp!]
 % %     \begin{minipage}[c]{1.0\linewidth}
 % %       \centering
 % %       \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/CrossComp_Rrs412.eps} \put (10,28) {\colorbox{white}{(a)}}
@@ -1355,7 +1353,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % GOCI follows a similar trend as MODISA, with GOCI slightly lower, while VIIRS is higher overall when compared to GOCI and MODISA, especially for the 660 and 680 nm bands.
 % \autoref{fig:CrossCompAllRrs}.(b-d) show the time series for ratios by spectral bands for GOCI/MODISA, GOCI/VIIRS, and MODIS Aqua/VIIRS, respectively. For the GOCI/MODISA ratio, the mean value fluctuates around one except for the 680 nm band, which fluctuates around 0.75 suggesting that the MODISA 678 nm band is brighter than the GOCI 680 nm band overall. Also, for the 660 nm band, the ratio is slightly smaller for some periods with an exception in the first months of 2013, where the ratio almost reaches three. For the GOCI/VIIRS, the ratio fluctuates 0.9, except the 660 nm band. For the MODISA/VIIRS, the ratio varies close to one as well, except for the 660 nm band, which fluctuates around 0.6. GOCI displays a consistent behavior from year to year and a no evident relative drift was found.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %   \centering
 %   \includegraphics[width=17cm]{./Figures/CrossCompAllRrs.pdf}
 %     %\internallinenumbers
@@ -1364,7 +1362,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \autoref{fig:GOCI_TimeSeriesComp_par}\todo{change axis for $a_g$}~shows the monthly time series comparison for GOCI, MODISA and VIIRS for the Chlorophyll-{\it a}, $a_g(412)$ and POC\todo{create ratio for products}. A good consistency in range of the retrieved values was found, for the most part, for the three missions and for the three different products, and a good consistency in phasing of seasonal cycles.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %   \centering
 %   \includegraphics[width=14cm]{./Figures/GOCI_TimeSeriesComp_par.pdf}
 %     %\internallinenumbers
@@ -1372,7 +1370,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % \end{figure}
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% % \begin{figure}[H]
+% % \begin{figure}[htbp!]
 % %     \begin{minipage}[c]{1.0\linewidth}
 % %       \centering
 % %       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {\colorbox{white}{(d)}}
@@ -1397,7 +1395,7 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
 % % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \autoref{fig:scatterRrs}\todo{change axis to start from zero}~shows the scatter plots for the $R_{rs}(\lambda)$ cross-comparison for GOCI, MODISA and VIIRS\todo{create table}. These data are daily values and only values greater than zero are shown. The selection of the data over the GCW region followed similar procedures to the ones described by \cite{Bailey2006} and only data that passed the exclusion criteria are used. As it can be seen in the plots, there are few coincidental data among all missions and especially between MODISA and VIIRS for all bands. This could be caused by the failure of the atmospheric correction or presence of cloud in the scenes. The $R^2$ values are high for the 412 and 443 nm bands, and start to decrease for 490 nm and beyond. There are only a handful of coincidental data for MODISA and GOCI for the 680 nm band.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %   \centering
 %   \includegraphics[width=15cm]{./Figures/scatterRrs.pdf}
 %     %\internallinenumbers
@@ -1510,7 +1508,7 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 
 % \autoref{fig:Rrs_vs_zenith_season} shows the same data but color coded by seasons (red: spring, green: summer, fall: blue, and winter: black).
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Rrs_412_vs_Zenith_season.eps}
@@ -1563,7 +1561,7 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \autoref{fig:par_vs_zenith_season} show the same data but color coded by seasons.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %  \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 0,clip,height=5.0cm]{./Figures/Par_vs_Zenith_chlor_a_season.eps}
@@ -1595,7 +1593,7 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 % The anomalies of $R_{rs}(\lambda)$ versus the solar zenith angle are shown in \autoref{fig:Rrs_vs_zenith_detrend_season} color coded by season.
 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 00,clip,height=5.0cm]{./Figures/Rrs_vs_Zenith_detrend_412_season.eps}
@@ -1648,7 +1646,7 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 00,clip,height=5.0cm]{./Figures/Rrs_vs_Zenith_detrend_412_season.eps}
@@ -1701,7 +1699,7 @@ We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating I
 % % %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 % \autoref{fig:par_vs_zenith_detrend_season} shows the anomalies of Chlor-{\it a}, $a_g(412)$ and POC, color coded by season.
 % %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
-% \begin{figure}[H]
+% \begin{figure}[htbp!]
 %     \begin{minipage}[c]{0.49\linewidth}
 %       \centering
 %       \begin{overpic}[trim=0 0 0 00,clip,height=5.0cm]{./Figures/par_vs_Zenith_detrend_chlor_a_season.eps}
