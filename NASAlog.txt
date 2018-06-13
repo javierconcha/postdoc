@@ -3036,6 +3036,8 @@ du -a | cut -d/ -f2 | sort | uniq -c | sort -nr
 du -a | sed '/.*\.\/.*\/.*/!d' | cut -d/ -f2 | sort | uniq -c
 find -type d -readable -exec sh -c 'printf "%s " "$1"; ls -1UA "$1" | wc -l' sh {} ';'
 
-
-
+--------------------------------------------------
+2018-06-07 Thu
+convert pdf to png
+jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ find . -type f -depth 1  -name "*.pdf" -print0|xargs -0 -I {} basename {} .pdf|xargs -I file convert -density 200 file.pdf file.png
 (END)
