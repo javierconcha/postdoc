@@ -1813,7 +1813,8 @@ set(gcf, 'Position', [0 0 screen_size(3) screen_size(4)] ); %set to screen size
 %% 745 band gain: loading data
 clear Gvcal_745
 tic
-fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_aqua/file_list_r95f10v01.txt'); % r50f20v01 r95f10v01
+% fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_aqua/file_list_r95f10v01.txt'); % r50f20v01 r95f10v01
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_fixed_angstrom/file_list.txt'); % fixed angstrom for the aerosol selection
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
 
@@ -1823,7 +1824,7 @@ sensor_id = 'GOCI_vcal';
 for idx0=1:size(s{1},1)
       waitbar(idx0/size(s{1},1),h1,'Uploading GOCI Vcal Data for 745 gain calculation...')
       
-      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_aqua/' s{1}{idx0}];
+      filepath = ['/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal/GOCI_VCAL_745_fixed_angstrom/' s{1}{idx0}];
       Gvcal_745(idx0) = loadsatcell_tempanly(filepath,sensor_id);
       
 end
@@ -1834,7 +1835,7 @@ save('ValCalGOCI.mat','Gvcal_745','-append')
 
 %% 745 band gain: loading data
 
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source';
 
 % latex table
 !rm ./Gvcal_745_Table.tex
@@ -1914,8 +1915,9 @@ for idx0 = 1:size(wl,2)
       fs = 30;
       h = figure('Color','white','DefaultAxesFontSize',fs,'Name',wl{idx0});
       
-      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID);
-      type Gvcal_SW_Table.tex
+      [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID)
+%       type Gvcal_SW_Table.tex
+      ylim([0.9 1.0])
       
       set(gcf,'PaperPositionMode','auto') %set paper pos for printing
       saveas(gcf,[savedirname 'Gvcal_745_' wl{idx0}],'epsc')

@@ -5057,7 +5057,1746 @@ if process_data_flag
                               end
                         end
                         
+                        %% a_412_giop
+                        data_used = [GOCI_Data_used.a_412_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_412_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
                         
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_412_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_412_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_412_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_412_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_412_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_412_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_412_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_412_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_412_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_412_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_412_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_412_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_412_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_412_giop_02,GOCI_DailyStatMatrix(count).a_412_giop_03,GOCI_DailyStatMatrix(count).a_412_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_412_giop_02,GOCI_DailyStatMatrix(count).a_412_giop_03,GOCI_DailyStatMatrix(count).a_412_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_412_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_412_giop_04;
+                                    end
+                              end
+                        end
+
+                        %% a_443_giop
+                        data_used = [GOCI_Data_used.a_443_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_443_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_443_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_443_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_443_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_443_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_443_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_443_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_443_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_443_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_443_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_443_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_443_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_443_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_443_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_443_giop_02,GOCI_DailyStatMatrix(count).a_443_giop_03,GOCI_DailyStatMatrix(count).a_443_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_443_giop_02,GOCI_DailyStatMatrix(count).a_443_giop_03,GOCI_DailyStatMatrix(count).a_443_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
+                                    end
+                              end
+                        end   
+
+                        %% a_490_giop
+                        data_used = [GOCI_Data_used.a_490_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_490_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_490_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_490_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_490_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_490_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_490_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_490_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_490_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_490_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_490_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_490_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_490_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_490_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_490_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_490_giop_02,GOCI_DailyStatMatrix(count).a_490_giop_03,GOCI_DailyStatMatrix(count).a_490_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_490_giop_02,GOCI_DailyStatMatrix(count).a_490_giop_03,GOCI_DailyStatMatrix(count).a_490_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
+                                    end
+                              end
+                        end   
+
+                        %% a_555_giop
+                        data_used = [GOCI_Data_used.a_555_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_555_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_555_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_555_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_555_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_555_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_555_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_555_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_555_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_555_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_555_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_555_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_555_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_555_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_555_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_555_giop_02,GOCI_DailyStatMatrix(count).a_555_giop_03,GOCI_DailyStatMatrix(count).a_555_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_555_giop_02,GOCI_DailyStatMatrix(count).a_555_giop_03,GOCI_DailyStatMatrix(count).a_555_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
+                                    end
+                              end
+                        end    
+
+                        %% a_660_giop
+                        data_used = [GOCI_Data_used.a_660_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_660_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_660_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_660_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_660_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_660_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_660_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_660_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_660_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_660_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_660_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_660_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_660_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_660_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_660_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_660_giop_02,GOCI_DailyStatMatrix(count).a_660_giop_03,GOCI_DailyStatMatrix(count).a_660_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_660_giop_02,GOCI_DailyStatMatrix(count).a_660_giop_03,GOCI_DailyStatMatrix(count).a_660_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
+                                    end
+                              end
+                        end  
+
+                        %% a_680_giop
+                        data_used = [GOCI_Data_used.a_680_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.a_680_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).a_680_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_680_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_680_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).a_680_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).a_680_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_680_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_680_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_680_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_680_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_680_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_680_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_680_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_680_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).a_680_giop_02,GOCI_DailyStatMatrix(count).a_680_giop_03,GOCI_DailyStatMatrix(count).a_680_giop_04])==0
+                              GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).a_680_giop_02,GOCI_DailyStatMatrix(count).a_680_giop_03,GOCI_DailyStatMatrix(count).a_680_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).a_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
+                                    end
+                              end
+                        end  
+
+                        %% bbp_412_giop
+                        data_used = [GOCI_Data_used.bbp_412_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_412_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_412_giop_02,GOCI_DailyStatMatrix(count).bbp_412_giop_03,GOCI_DailyStatMatrix(count).bbp_412_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_412_giop_02,GOCI_DailyStatMatrix(count).bbp_412_giop_03,GOCI_DailyStatMatrix(count).bbp_412_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_412_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
+                                    end
+                              end
+                        end                                                                                
+                        
+                        %% bbp_443_giop
+                        data_used = [GOCI_Data_used.bbp_443_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_443_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_443_giop_02,GOCI_DailyStatMatrix(count).bbp_443_giop_03,GOCI_DailyStatMatrix(count).bbp_443_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_443_giop_02,GOCI_DailyStatMatrix(count).bbp_443_giop_03,GOCI_DailyStatMatrix(count).bbp_443_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_443_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_443_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_443_giop_04;
+                                    end
+                              end
+                        end
+
+                        %% bbp_490_giop
+                        data_used = [GOCI_Data_used.bbp_490_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_490_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_490_giop_02,GOCI_DailyStatMatrix(count).bbp_490_giop_03,GOCI_DailyStatMatrix(count).bbp_490_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_490_giop_02,GOCI_DailyStatMatrix(count).bbp_490_giop_03,GOCI_DailyStatMatrix(count).bbp_490_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_490_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_490_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_490_giop_04;
+                                    end
+                              end
+                        end
+
+                        %% bbp_555_giop
+                        data_used = [GOCI_Data_used.bbp_555_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_555_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_555_giop_02,GOCI_DailyStatMatrix(count).bbp_555_giop_03,GOCI_DailyStatMatrix(count).bbp_555_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_555_giop_02,GOCI_DailyStatMatrix(count).bbp_555_giop_03,GOCI_DailyStatMatrix(count).bbp_555_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_555_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_555_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_555_giop_04;
+                                    end
+                              end
+                        end
+
+                        %% bbp_660_giop
+                        data_used = [GOCI_Data_used.bbp_660_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_660_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_660_giop_02,GOCI_DailyStatMatrix(count).bbp_660_giop_03,GOCI_DailyStatMatrix(count).bbp_660_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_660_giop_02,GOCI_DailyStatMatrix(count).bbp_660_giop_03,GOCI_DailyStatMatrix(count).bbp_660_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_660_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_660_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_660_giop_04;
+                                    end
+                              end
+                        end
+
+                        %% bbp_680_giop
+                        data_used = [GOCI_Data_used.bbp_680_giop_filtered_mean];
+                        data_used = data_used(cond_1t);
+                        valid_px_count_used = [GOCI_Data_used.bbp_680_giop_valid_pixel_count];
+                        valid_px_count_used = valid_px_count_used(cond_1t);
+                        cond1 = data_used > 0; % only positive values
+                        cond2 = valid_px_count_used >= total_px_GOCI/ratio_from_the_total; % more than half valid pixel criteria
+                        cond_used = cond1&cond2;
+                        
+                        if sum(cond_used) > 0
+                              filtered_product_count = filtered_product_count+1; % number of products that at least one image per day pas the criteria
+                        end
+                        
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mean = nanmean(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_stdv_mean = nanstd(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_N_mean = nansum(cond_used);
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_max_mean = nanmax(data_used(cond_used));
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_min_mean = nanmin(data_used(cond_used));
+                        
+                        time_used = [GOCI_Data_used.datetime];
+                        time_used = time_used(cond_1t);
+                        
+                        data_used_filtered = data_used(cond_used);
+                        time_used_filtered = time_used(cond_used);
+                        
+                        % initialization
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_07 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_00 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_01 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_02 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_03 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_04 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_05 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_06 = nan;
+                        GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_07 = nan;
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_00 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_01 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_02 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_03 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_04 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_05 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_06 = data_used_filtered(idx2);
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_07 = data_used_filtered(idx2);
+                              end
+                        end
+                        
+                        if nanmean([GOCI_DailyStatMatrix(count).bbp_680_giop_02,GOCI_DailyStatMatrix(count).bbp_680_giop_03,GOCI_DailyStatMatrix(count).bbp_680_giop_04])==0
+                              GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three = nan; % to avoid dividing by 0 and Inf result
+                        else
+                              GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three = ...
+                                    nanmean([GOCI_DailyStatMatrix(count).bbp_680_giop_02,GOCI_DailyStatMatrix(count).bbp_680_giop_03,GOCI_DailyStatMatrix(count).bbp_680_giop_04]);
+                        end
+                        
+                        for idx2 =1:size(data_used_filtered,2)
+                              if time_used_filtered.Hour(idx2) == 0
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_00 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_00 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 1
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_01 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_01 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 2
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_02 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_02 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 3
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_03 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_03 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 4
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_04 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_04 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 5
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_05 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_05 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 6
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_06 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_06 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                              if time_used_filtered.Hour(idx2) == 7
+                                    GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_mid_three_07 = ...
+                                          data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mid_three;% error with respect to the middle three
+                                    if GOCI_DailyStatMatrix(count).bbp_680_giop_04~=0;% error with respect to the 4th
+                                          GOCI_DailyStatMatrix(count).bbp_680_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_680_giop_04;
+                                    end
+                              end
+                        end
+
                         %% aot_865
                         data_used = [GOCI_Data_used.aot_865_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -8868,6 +10607,54 @@ if process_data_flag
                         data_aux = [GOCI_DailyStatMatrix.Rrs_680_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_412_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_412_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_412_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_443_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_443_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_443_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_490_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_490_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_490_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_555_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_555_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_555_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_660_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_660_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_660_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.a_680_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).a_680_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).a_680_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_412_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_412_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_412_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_443_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_443_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_443_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_490_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_490_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_490_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_555_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_555_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_555_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_660_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_660_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_660_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
+
+                        data_aux = [GOCI_DailyStatMatrix.bbp_680_giop_mean_mid_three];
+                        GOCI_MonthlyStatMatrix(count).bbp_680_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
+                        GOCI_MonthlyStatMatrix(count).bbp_680_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
                         
                         data_aux = [GOCI_DailyStatMatrix.aot_865_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).aot_865_mean_mid_three = nanmean(data_aux((cond_1t)));

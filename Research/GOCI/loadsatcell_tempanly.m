@@ -1489,6 +1489,426 @@ if ~strcmp(sensor_id,'GOCI_vcal')
             
       end      
       
+      % a_412_giop
+      fullFileName = [filepath '.a_412_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_412_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_412_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_412_giop_max                                   = str2double(s{1}{10});
+            satcell.a_412_giop_min                                   = str2double(s{1}{12});
+            satcell.a_412_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_412_giop_median                                = str2double(s{1}{16});
+            satcell.a_412_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_412_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_412_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_412_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_412_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_412_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_412_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_412_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_412_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_412_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_412_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_412_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_412_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_412_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_412_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_412_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_412_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end   
+
+      % a_443_giop
+      fullFileName = [filepath '.a_443_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_443_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_443_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_443_giop_max                                   = str2double(s{1}{10});
+            satcell.a_443_giop_min                                   = str2double(s{1}{12});
+            satcell.a_443_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_443_giop_median                                = str2double(s{1}{16});
+            satcell.a_443_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_443_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_443_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_443_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_443_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_443_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_443_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_443_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_443_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_443_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_443_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_443_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_443_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_443_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_443_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_443_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_443_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % a_490_giop
+      fullFileName = [filepath '.a_490_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_490_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_490_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_490_giop_max                                   = str2double(s{1}{10});
+            satcell.a_490_giop_min                                   = str2double(s{1}{12});
+            satcell.a_490_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_490_giop_median                                = str2double(s{1}{16});
+            satcell.a_490_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_490_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_490_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_490_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_490_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_490_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_490_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_490_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_490_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_490_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_490_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_490_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_490_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_490_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_490_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_490_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_490_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % a_555_giop
+      fullFileName = [filepath '.a_555_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_555_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_555_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_555_giop_max                                   = str2double(s{1}{10});
+            satcell.a_555_giop_min                                   = str2double(s{1}{12});
+            satcell.a_555_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_555_giop_median                                = str2double(s{1}{16});
+            satcell.a_555_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_555_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_555_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_555_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_555_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_555_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_555_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_555_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_555_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_555_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_555_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_555_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_555_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_555_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_555_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_555_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_555_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end      
+
+      % a_660_giop
+      fullFileName = [filepath '.a_660_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_660_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_660_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_660_giop_max                                   = str2double(s{1}{10});
+            satcell.a_660_giop_min                                   = str2double(s{1}{12});
+            satcell.a_660_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_660_giop_median                                = str2double(s{1}{16});
+            satcell.a_660_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_660_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_660_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_660_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_660_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_660_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_660_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_660_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_660_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_660_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_660_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_660_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_660_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_660_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_660_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_660_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_660_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % a_680_giop
+      fullFileName = [filepath '.a_680_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.a_680_giop_center_value                    = str2double(s{1}{6});
+            satcell.a_680_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.a_680_giop_max                                   = str2double(s{1}{10});
+            satcell.a_680_giop_min                                   = str2double(s{1}{12});
+            satcell.a_680_giop_mean                                  = str2double(s{1}{14});
+            satcell.a_680_giop_median                                = str2double(s{1}{16});
+            satcell.a_680_giop_stddev                                = str2double(s{1}{18});
+            satcell.a_680_giop_rms                                   = str2double(s{1}{20});
+            satcell.a_680_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.a_680_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.a_680_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.a_680_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.a_680_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.a_680_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.a_680_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.a_680_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.a_680_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.a_680_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.a_680_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.a_680_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.a_680_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.a_680_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.a_680_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % bbp_412_giop
+      fullFileName = [filepath '.bbp_412_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_412_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_412_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_412_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_412_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_412_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_412_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_412_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_412_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_412_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_412_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_412_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_412_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_412_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_412_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_412_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_412_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_412_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_412_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_412_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_412_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_412_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_412_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_412_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end            
+
+      % bbp_443_giop
+      fullFileName = [filepath '.bbp_443_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_443_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_443_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_443_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_443_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_443_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_443_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_443_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_443_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_443_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_443_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_443_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_443_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_443_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_443_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_443_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_443_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_443_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_443_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_443_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_443_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_443_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_443_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_443_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % bbp_490_giop
+      fullFileName = [filepath '.bbp_490_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_490_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_490_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_490_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_490_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_490_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_490_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_490_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_490_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_490_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_490_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_490_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_490_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_490_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_490_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_490_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_490_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_490_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_490_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_490_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_490_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_490_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_490_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_490_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % bbp_555_giop
+      fullFileName = [filepath '.bbp_555_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_555_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_555_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_555_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_555_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_555_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_555_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_555_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_555_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_555_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_555_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_555_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_555_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_555_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_555_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_555_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_555_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_555_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_555_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_555_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_555_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_555_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_555_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_555_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end  
+
+      % bbp_660_giop
+      fullFileName = [filepath '.bbp_660_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_660_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_660_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_660_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_660_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_660_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_660_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_660_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_660_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_660_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_660_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_660_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_660_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_660_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_660_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_660_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_660_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_660_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_660_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_660_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_660_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_660_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_660_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_660_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end 
+
+      % bbp_680_giop
+      fullFileName = [filepath '.bbp_680_giop'];
+      
+      if exist(fullFileName, 'file')
+            
+            fileID = fopen(fullFileName);
+            s = textscan(fileID,'%s','Delimiter','=');
+            fclose(fileID);
+            
+            satcell.bbp_680_giop_center_value                    = str2double(s{1}{6});
+            satcell.bbp_680_giop_valid_pixel_count               = str2double(s{1}{8});
+            satcell.bbp_680_giop_max                                   = str2double(s{1}{10});
+            satcell.bbp_680_giop_min                                   = str2double(s{1}{12});
+            satcell.bbp_680_giop_mean                                  = str2double(s{1}{14});
+            satcell.bbp_680_giop_median                                = str2double(s{1}{16});
+            satcell.bbp_680_giop_stddev                                = str2double(s{1}{18});
+            satcell.bbp_680_giop_rms                                   = str2double(s{1}{20});
+            satcell.bbp_680_giop_filtered_valid_pixel_count      = str2double(s{1}{22});
+            satcell.bbp_680_giop_filtered_max                    = str2double(s{1}{24});
+            satcell.bbp_680_giop_filtered_min                    = str2double(s{1}{26});
+            satcell.bbp_680_giop_filtered_mean                         = str2double(s{1}{28});
+            satcell.bbp_680_giop_filtered_median                 = str2double(s{1}{30});
+            satcell.bbp_680_giop_filtered_stddev                 = str2double(s{1}{32});
+            satcell.bbp_680_giop_filtered_rms                    = str2double(s{1}{34});
+            satcell.bbp_680_giop_iqr_valid_pixel_count           = str2double(s{1}{36});
+            satcell.bbp_680_giop_iqr_max                               = str2double(s{1}{38});
+            satcell.bbp_680_giop_iqr_min                               = str2double(s{1}{40});
+            satcell.bbp_680_giop_iqr_mean                              = str2double(s{1}{42});
+            satcell.bbp_680_giop_iqr_median                            = str2double(s{1}{44});
+            satcell.bbp_680_giop_iqr_stddev                            = str2double(s{1}{46});
+            satcell.bbp_680_giop_iqr_rms                               = str2double(s{1}{48});
+            satcell.bbp_680_giop_CV                                    = satcell.nLw_680_filtered_stddev/satcell.nLw_680_filtered_mean;
+            
+      end                                                     
+
       % humidity
       fullFileName = [filepath '.humidity'];
       

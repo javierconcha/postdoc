@@ -61,9 +61,9 @@
 %% NODES
 
 \node (angstrom) [input] {Satellite-Derived\\Angstrom Coeff.};
-\node (angstrom_sel) [process_small, below of=angstrom] {Select closest\\ aerosol model in l2gen\\based on \\Angstrom Coeff.};
-\node (aer_mod) [input, below of=angstrom_sel] {Aerosol Model\\(\ttfamily{<AER\_MOD>})};
-\node (l2gen) [process, below of=aer_mod,text width=5cm,align=left,yshift=-1cm] {Process to L2 \\using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily{aermodels=<AER\_MOD>}\\vcal\_opt=1\\aer\_opt=1\\l2prod=vgain\_745,senz,solz};
+% \node (angstrom_sel) [process_small, below of=angstrom] {Select closest\\ aerosol model in l2gen\\based on \\Angstrom Coeff.};
+% \node (aer_mod) [input, below of=angstrom_sel] {Aerosol Model\\(\ttfamily{<AER\_MOD>})};
+\node (l2gen) [process, below of=angstrom,text width=5cm,align=left,yshift=-1cm] {Process to L2 \\using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily{aer\_angstrom=0.9}\\aer\_opt=-6\\vcal\_opt=1\\l2prod=vgain\_745,senz,solz};
 \node (GOCI_L1B) [input,below of=l2gen,text width=4cm,yshift=-1cm] {Select GOCI L1B files\\ to be processed to L2};
 \node (val_extract) [process, right of=angstrom,xshift=5.5cm,yshift=-0.5cm,text width=6cm,align=left] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\{\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"\\valid\_ranges=vgain\_=0.5:1.5}};
 \node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(745)$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{NFP} X_j}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_j\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
@@ -75,9 +75,9 @@
 \node (gain_745) [input, above of=pass,text width=1cm] {$\bar{g}(745)$};
 
 %% CONNECTORS
-\draw [arrow] (angstrom) -- (angstrom_sel);
-\draw [arrow] (angstrom_sel) -- (aer_mod);
-\draw [arrow] (aer_mod) -- (l2gen);
+\draw [arrow] (angstrom) -- (l2gen);
+% \draw [arrow] (angstrom_sel) -- (aer_mod);
+% \draw [arrow] (aer_mod) -- (l2gen);
 \draw [arrow] (l2gen.east) -|([xshift=-1.5cm]val_extract.west) -- (val_extract.west);
 \draw [arrow] (GOCI_L1B) -- (l2gen);
 \draw [arrow] (val_extract) -- (filtered);
