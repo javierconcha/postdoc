@@ -700,30 +700,7 @@ for idx = 1:size(source,2)
       
       %% Wang
       if strcmp(source(idx).char,'AERONET_GOCI_R2018_Wang')
-            color_line = [1.0 0.6 0.0]; % orange
-            % Rrs_412
-            [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
-            legend off
-            % Rrs_443
-            [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
-            legend off
-            % Rrs_490
-            [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
-            legend off
-            % Rrs_555
-            [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
-            legend off
-            % Rrs_660
-            [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
-            legend off
-      end
-      %% Ahn
-      if strcmp(source(idx).char,'AERONET_GOCI_R2018_Ahn')
+%             color_line = [1.0 0.6 0.0]; % orange
             color_line = [0.0 0.8 0.0]; % green
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
@@ -746,6 +723,30 @@ for idx = 1:size(source,2)
                   color_line,h_660,fs,[0 0.02],source(idx).char);
             legend off
       end
+%       %% Ahn
+%       if strcmp(source(idx).char,'AERONET_GOCI_R2018_Ahn')
+%             color_line = [0.0 0.8 0.0]; % green
+%             % Rrs_412
+%             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
+%                   color_line,h_412,fs,[0 0.02],source(idx).char);
+%             legend off
+%             % Rrs_443
+%             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
+%                   color_line,h_443,fs,[0 0.02],source(idx).char);
+%             legend off
+%             % Rrs_490
+%             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
+%                   color_line,h_490,fs,[0 0.03],source(idx).char);
+%             legend off
+%             % Rrs_555
+%             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
+%                   color_line,h_555,fs,[0 0.04],source(idx).char);
+%             legend off
+%             % Rrs_660
+%             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
+%                   color_line,h_660,fs,[0 0.02],source(idx).char);
+%             legend off
+%       end
       %% Uncalibrated
       if strcmp(source(idx).char,'AERONET_GOCI_R2018_Uncalibr')
             color_line = 'b';
@@ -895,3 +896,30 @@ figure,hist([SatData_used.angstrom_filtered_mean],20)
 
 figure,hist([SatData_used.center_az],20)
 figure,hist([SatData_used.center_el],20)
+%% Pixel Counts verification
+total_px_GOCI = 968*433;
+ratio_from_the_total = 3;
+pixel_lim_AQUA = (total_px_GOCI/4)/ratio_from_the_total;
+pixel_lim_VIIRS = (total_px_GOCI/2.25)/ratio_from_the_total;
+
+figure
+plot([AQUA_Data.datetime],[AQUA_Data.pixel_count],'o')
+hold on
+plot([VIIRS_Data.datetime],[VIIRS_Data.pixel_count],'ro')
+
+cond_1 = [AQUA_Data.pixel_count]>=pixel_lim_AQUA;
+disp(['AQUA total. = ' num2str(size(AQUA_Data,2))])
+disp(['AQUA filt. = ' num2str(sum(cond_1))])
+100*(1-sum(cond_1)/size(AQUA_Data,2))
+
+cond_2 = [VIIRS_Data.pixel_count]>=pixel_lim_VIIRS;
+disp(['VIIRS total. = ' num2str(size(VIIRS_Data,2))])
+disp(['VIIRS filt. = ' num2str(sum(cond_2))])
+100*(1-sum(cond_2)/size(VIIRS_Data,2))
+
+ax = gca;
+x1 = datetime(ax.XLim(1),'ConvertFrom','datenum');
+x2 = datetime(ax.XLim(2),'ConvertFrom','datenum');
+
+plot([x1 x2],[pixel_lim_AQUA pixel_lim_AQUA],'b--')
+plot([x1 x2],[pixel_lim_VIIRS pixel_lim_VIIRS],'r')

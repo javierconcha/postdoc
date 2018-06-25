@@ -13,7 +13,7 @@ cond_used = cond_brdf&cond_senz&cond_solz&cond_CV;
 
 GOCI_Data_used = GOCI_Data(cond_used);
 
-%% GOCI-MODISA matchups
+% GOCI-MODISA matchups
 clear GOCI_MODIS_matchups I
 
 count = 0;
@@ -75,7 +75,7 @@ for idx0=1:size(AQUA_DailyStatMatrix,2);
       end
       
 end
-%%
+%
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 [h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','412','GOCI','AQUA',...
@@ -120,7 +120,7 @@ legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_680'],'epsc')
 
-%% GOCI-VIIRS matchups
+% GOCI-VIIRS matchups
 clear GOCI_VIIRS_matchups I t_diff
 
 count = 0;
@@ -185,7 +185,7 @@ for idx0=1:size(VIIRS_DailyStatMatrix,2);
       
 end
 close(h1)
-%%
+%
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 [h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','410','GOCI','VIIRS',...
@@ -231,7 +231,7 @@ set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_680'],'epsc')
       
 
-%% AQUA-VIIRS matchups
+% AQUA-VIIRS matchups
 clear AQUA_VIIRS_matchups
 
 count = 0;
@@ -262,7 +262,7 @@ for idx0=1:size(VIIRS_DailyStatMatrix,2);
       end
       
 end
-%%
+%
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 

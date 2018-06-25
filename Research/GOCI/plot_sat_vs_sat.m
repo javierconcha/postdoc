@@ -188,27 +188,47 @@ if sum(isfinite(x_data_used))
       rsq_SS = 1-(SSres/SStot);
       rsq_corr = corr(C_insitu',C_alg')^2; % when OLS rsq_SS and rsq_corr are equal
       
+      % bias
+      
+      DN = C_alg-C_insitu;
+      
+      Mean_bias = mean(DN);
+      MAE = mean(abs(DN));
+      
+      N = sum(C_insitu>0&~isnan(C_insitu));
       
       if a(2)>=0
-            str1 = sprintf('y: %2.4f x + %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-                  a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+            str1 = sprintf('y: %2.4f x + %2.4f \nR^2: %2.4f; N: %i \nRMSE: %2.4f\nMean Bias: %2.5f\nMAE: %2.5f',...
+                  a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
             str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
       else
-            str1 = sprintf('y: %2.4f x - %2.4f \n R^2: %2.4f; N: %i \n RMSE: %2.4f',...
-                  a(1),abs(a(2)),rsq_SS,size(C_insitu,2),RMSE);
+            str1 = sprintf('y: %2.4f x - %2.4f \nR^2: %2.4f; N: %i \nRMSE: %2.4f\nMean Bias: %2.5f\nMAE: %2.5f',...
+                  a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
             str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
       end
+      
+%       if a(2)>=0
+%             str1 = sprintf('N: %i \nMean Bias: %2.5f\nMAE: %2.5f',...
+%                   size(C_insitu,2),Mean_bias,MAE);
+%             str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
+%       else
+%             str1 = sprintf('N: %i \nMean Bias: %2.5f\nMAE: %2.5f',...
+%                   size(C_insitu,2),Mean_bias,MAE);
+%             str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
+%       end
       
       %       axis([0 maxref 0 maxref])
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
-      xLoc = xLimits(1)+0.05*(xLimits(2)-xLimits(1));
-      yLoc = yLimits(1)+0.85*(yLimits(2)-yLimits(1));
+      xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
+      yLoc = yLimits(1)+0.84*(yLimits(2)-yLimits(1));
       figure(h)
       hold on
       text(xLoc,yLoc,str1,'FontSize',fs-2,'FontWeight','normal');
       
+      
+
       
       % display
       
@@ -220,7 +240,7 @@ if sum(isfinite(x_data_used))
       disp(['R^2 = ' num2str(rsq_SS)])
       disp(str_reg) % regression equation
       disp(['RMSE = ' num2str(RMSE)])
-      disp(['N = ' num2str(size(C_insitu,2))])
+      disp(['N = ' num2str(N)])
       disp(['Mean APD (%) = ' num2str(Mean_APD)])
       disp(['St.Dev. APD (%) = ' num2str(Stdv_APD)])
       disp(['Median APD (%) = ' num2str(Median_APD)])
@@ -228,6 +248,8 @@ if sum(isfinite(x_data_used))
       disp(['Median ratio = ' num2str(Median_ratio)])
       disp(['SIQR = ' num2str(SIQR)])
       disp(['rsq_corr = ' num2str(rsq_corr)])
+      disp(['Mean Bias = ' num2str(Mean_bias)])
+      disp(['MAE = ' num2str(MAE)])
       
       % latex table
       

@@ -11,7 +11,7 @@ addpath('/Users/jconchas/Documents/Research/GOCI/GOCI_ViCal');
 clear GOCI_Data
 tic
 % fileID = fopen('./GOCI_TemporalAnly/GOCI_ROI_STATS/file_list.txt');
-fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua/file_list_BRDF7.txt'); % new R2018.0 with vcal from AQUA
+fileID = fopen('/Users/jconchas/Documents/Research/GOCI/GOCI_TemporalAnly/GOCI_ROI_STATS_R2018_vcal_aqua/file_list_sort.txt'); % new R2018.0 with vcal from AQUA
 
 s = textscan(fileID,'%s','Delimiter','\n');
 fclose(fileID);
@@ -2302,7 +2302,7 @@ ratio_from_the_total = 3; % 2 3 4 % half or third or fourth of the total of pixe
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
 startDate = datenum('05-15-2011');
-endDate = datenum('01-01-2017');
+endDate = datenum('01-01-2018');
 xData = startDate:datenum(years(1)):endDate;
 
 tic
@@ -2325,6 +2325,7 @@ clear cond_1t cond1 cond2 cond_used
 % first_day = datetime(GOCI_Data(1).datetime.Year,GOCI_Data(1).datetime.Month,GOCI_Data(1).datetime.Day);
 first_day = datetime(2011,5,20);
 last_day = datetime(GOCI_Data(end).datetime.Year,GOCI_Data(end).datetime.Month,GOCI_Data(end).datetime.Day);
+
 
 date_idx = first_day:last_day;
 
@@ -10522,7 +10523,7 @@ close(h1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Monthly statistics for GOCI
+% Monthly statistics for GOCI
 if process_data_flag
       
       clear GOCI_MonthlyStatMatrix
@@ -14759,7 +14760,7 @@ cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).chlor_a_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'bx-','LineWidth',lw,'MarkerSize',8.0)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -14859,13 +14860,13 @@ set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerieComp_chlor_a'],'epsc')
 
-%% poc
+% poc
 h2 = figure('Color','white','DefaultAxesFontSize',fs,'Name','POC');
 cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).poc_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'bx-','LineWidth',lw,'MarkerSize',8.0)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -14961,13 +14962,13 @@ set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'TimeSerieComp_poc'],'epsc')
 
-%% ag_412_mlrc
+% ag_412_mlrc
 h3 = figure('Color','white','DefaultAxesFontSize',fs,'Name','ag_412_mlrc');
 cond_brdf = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
 cond_used = cond_brdf;
 xdata = [GOCI_MonthlyStatMatrix(cond_used).datetime];
 ydata = [GOCI_MonthlyStatMatrix(cond_used).ag_412_mlrc_mean_mid_three];
-plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'b--','LineWidth',lw)
+plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'bx-','LineWidth',lw,'MarkerSize',8.0)
 
 hold on
 cond_brdf = [AQUA_MonthlyStatMatrix.brdf_opt] == brdf_opt;
@@ -15373,6 +15374,8 @@ cond_VA = ~isnan(VIIRS_date_vec)&~isnan(AQUA_date_vec);
 wl = {'412','443','490','555','660','680'};
 
 % ratio: GOCI/MODISA Rrs(\lambda)
+disp('ratio: GOCI/MODISA')
+
 fs = 40;
 lw = 3.5;
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
@@ -15512,7 +15515,7 @@ xlim([datenum('01-01-2011') datenum('09-01-2017')])
 % set(gcf, 'renderer','painters')
 
 ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('GOCI/MODISA ratio')
+title('GOCI/MODISA ratio','FontWeight','Normal')
 
 
 
@@ -15530,6 +15533,8 @@ set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'Ratio_GOCI_MODISA'],'epsc')
 
 % ratio: GOCI/VIIRS Rrs(\lambda)
+disp('ratio: GOCI/VIIRS')
+
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
 
 % 412
@@ -15584,7 +15589,7 @@ plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
 
 
 ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('GOCI/VIIRS ratio')
+title('GOCI/VIIRS ratio','FontWeight','Normal')
 
 ylim([0 3])
 
@@ -15627,6 +15632,8 @@ set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'Ratio_GOCI_VIIRS'],'epsc')
 
 % ratio: AQUA/VIIRS Rrs(\lambda)
+disp('ratio: AQUA/VIIRS')
+
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','AQUA/VIIRS ratio');
 
 % 412
@@ -15680,7 +15687,7 @@ plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
 % plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 
 ylabel('R_{rs}(\lambda) ratio (unitless)')
-title('MODISA/VIIRS ratio')
+title('MODISA/VIIRS ratio','FontWeight','Normal')
 
 ylim([0 3])
 

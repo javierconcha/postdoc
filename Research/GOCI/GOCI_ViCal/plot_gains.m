@@ -44,11 +44,7 @@ plot(ax.XLim,[g_siqr_mean g_siqr_mean],'r','LineWidth',2.0)
 %       plot(ax.XLim,[Q1 Q1],'b')
 %       plot(ax.XLim,[Q3 Q3],'b')
 
-hl = legend(['Outside SIQR; N=' num2str(sum(~isnan(g)))],...
-      ['SIQR; N=' num2str(N_siqr)],...
-      ['Mean SIQR=' num2str(g_siqr_mean,'%1.4f\n')],'Location', 'Best');
 
-set(hl,'FontSize',fs-5);
 
 
 
@@ -71,6 +67,11 @@ ax.XTickMode = 'manual';
 ax.XTick = xData;
 
 set(gca,'XTickLabel',[]);
+
+if strcmp(wl,'745')
+      ylim([0.9 1.0])
+end
+
 
 if strcmp(wl,'680')||strcmp(wl,'745')
       
@@ -123,6 +124,12 @@ plot(ax.XLim,[g_siqr_mean g_siqr_mean],'r','LineWidth',2.0)
 % reference to 1
 
 plot(ax.XLim,[1 1],'--k','LineWidth',1.0)
+
+hl = legend(['Outside SIQR; N=' num2str(sum(~isnan(g)))],...
+      ['SIQR; N=' num2str(N_siqr)],...
+      ['Mean SIQR=' num2str(g_siqr_mean,'%1.4f\n')]);
+
+set(hl,'FontSize',fs-5);
 %% LaTeX
 
 % if strcmp(wl,'412')

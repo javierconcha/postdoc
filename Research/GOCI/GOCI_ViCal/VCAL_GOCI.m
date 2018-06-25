@@ -1835,7 +1835,7 @@ save('ValCalGOCI.mat','Gvcal_745','-append')
 
 %% 745 band gain: loading data
 
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source';
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
 
 % latex table
 !rm ./Gvcal_745_Table.tex
@@ -1917,7 +1917,7 @@ for idx0 = 1:size(wl,2)
       
       [g_siqr_mean,g_siqr_std,N_siqr] = plot_gains(datetime_vec,g,wl{idx0},FID)
 %       type Gvcal_SW_Table.tex
-      ylim([0.9 1.0])
+%       ylim([0.9 1.0])
       
       set(gcf,'PaperPositionMode','auto') %set paper pos for printing
       saveas(gcf,[savedirname 'Gvcal_745_' wl{idx0}],'epsc')
