@@ -397,7 +397,7 @@ for idx = 1:size(wl_vec,2)
       lw = 0.5;
       ms = 2;
       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-%       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      %       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
       h1.Position(4) = 300;
       
       for idx_tod = 0:7
@@ -462,7 +462,7 @@ for idx = 1:size(wl_vec,2)
       %       ax.YAxis.TickLabelFormat = '%,.0f';
       %       ylim([-0.01 0.03])
       grid on
-
+      
       %% label seasons
       hold on
       
@@ -515,7 +515,7 @@ for idx = 1:size(wl_vec,2)
       xloc = x_fa(1,1:end-2)+365*0.2/4/2;
       yloc = repmat(y(2),1,size(xloc,2));
       text(xloc,yloc*1.03,'fa','FontSize',fs-2)
-
+      
       xlim([datenum(2011,1,1) datenum(2018,3,1)])
       
       % % to create dummy data and create a custon legend
@@ -543,7 +543,7 @@ for idx = 1:size(wl_vec,2)
       ax.XTick = xData;
       datetick('x','yyyy')%
       grid on
-
+      
       %% label seasons
       hold on
       
@@ -596,7 +596,7 @@ for idx = 1:size(wl_vec,2)
       xloc = x_fa(1,1:end-2)+365*0.2/4/2;
       yloc = repmat(y(2),1,size(xloc,2));
       text(xloc,yloc*1.03,'fa','FontSize',fs-2)
-
+      
       xlim([datenum(2011,1,1) datenum(2018,3,1)])
       
       % save fullscreen figure
@@ -694,7 +694,7 @@ for idx = 1:size(par_vec,2)
       lw = 0.5;
       ms = 2;
       h1 = figure('Color','white','DefaultAxesFontSize',fs);
-%       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+      %       set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
       h1.Position(4) = 300;
       
       for idx_tod = 0:7
@@ -767,10 +767,10 @@ for idx = 1:size(par_vec,2)
             p(6) = plot(NaN,NaN,'om','MarkerSize',ms,'LineWidth',lw);
             p(7) = plot(NaN,NaN,'o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw);
             p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
-%             legend(p,'9:00','10:00','11:00','12:00','13:00','14:00','15:00','14:00',...
-%                   'Location','northoutside',...
-%                   'Orientation','horizontal')
-%             legend boxoff
+            %             legend(p,'9:00','10:00','11:00','12:00','13:00','14:00','15:00','14:00',...
+            %                   'Location','northoutside',...
+            %                   'Orientation','horizontal')
+            %             legend boxoff
       end
       
       %% label seasons
@@ -824,8 +824,8 @@ for idx = 1:size(par_vec,2)
       
       xloc = x_fa(1,1:end-2)+365*0.2/4/2;
       yloc = repmat(y(2),1,size(xloc,2));
-      text(xloc,yloc*1.03,'fa','FontSize',fs-2)      
-
+      text(xloc,yloc*1.03,'fa','FontSize',fs-2)
+      
       xlim([datenum(2011,1,1) datenum(2018,3,1)])
       
       subplot(2,1,2)
@@ -890,7 +890,7 @@ for idx = 1:size(par_vec,2)
       xloc = x_fa(1,1:end-2)+365*0.2/4/2;
       yloc = repmat(y(2),1,size(xloc,2));
       text(xloc,yloc*1.03,'fa','FontSize',fs-2)
-
+      
       xlim([datenum(2011,1,1) datenum(2018,3,1)])
       
       %% save fullscreen figure
@@ -5202,7 +5202,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% a_443_giop
                         data_used = [GOCI_Data_used.a_443_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -5346,8 +5346,8 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).a_443_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_443_giop_04;
                                     end
                               end
-                        end   
-
+                        end
+                        
                         %% a_490_giop
                         data_used = [GOCI_Data_used.a_490_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -5491,8 +5491,8 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).a_490_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_490_giop_04;
                                     end
                               end
-                        end   
-
+                        end
+                        
                         %% a_555_giop
                         data_used = [GOCI_Data_used.a_555_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -5636,8 +5636,8 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).a_555_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_555_giop_04;
                                     end
                               end
-                        end    
-
+                        end
+                        
                         %% a_660_giop
                         data_used = [GOCI_Data_used.a_660_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -5781,8 +5781,8 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).a_660_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_660_giop_04;
                                     end
                               end
-                        end  
-
+                        end
+                        
                         %% a_680_giop
                         data_used = [GOCI_Data_used.a_680_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -5926,8 +5926,8 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).a_680_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).a_680_giop_04;
                                     end
                               end
-                        end  
-
+                        end
+                        
                         %% bbp_412_giop
                         data_used = [GOCI_Data_used.bbp_412_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -6071,7 +6071,7 @@ if process_data_flag
                                           GOCI_DailyStatMatrix(count).bbp_412_giop_diff_w_r_4th_07 = data_used_filtered(idx2) - GOCI_DailyStatMatrix(count).bbp_412_giop_04;
                                     end
                               end
-                        end                                                                                
+                        end
                         
                         %% bbp_443_giop
                         data_used = [GOCI_Data_used.bbp_443_giop_filtered_mean];
@@ -6217,7 +6217,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% bbp_490_giop
                         data_used = [GOCI_Data_used.bbp_490_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -6362,7 +6362,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% bbp_555_giop
                         data_used = [GOCI_Data_used.bbp_555_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -6507,7 +6507,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% bbp_660_giop
                         data_used = [GOCI_Data_used.bbp_660_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -6652,7 +6652,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% bbp_680_giop
                         data_used = [GOCI_Data_used.bbp_680_giop_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -6797,7 +6797,7 @@ if process_data_flag
                                     end
                               end
                         end
-
+                        
                         %% aot_865
                         data_used = [GOCI_Data_used.aot_865_filtered_mean];
                         data_used = data_used(cond_1t);
@@ -10523,7 +10523,7 @@ close(h1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Monthly statistics for GOCI
+%% Monthly statistics for GOCI
 if process_data_flag
       
       clear GOCI_MonthlyStatMatrix
@@ -10608,51 +10608,51 @@ if process_data_flag
                         data_aux = [GOCI_DailyStatMatrix.Rrs_680_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).Rrs_680_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_412_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_412_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_412_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_443_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_443_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_443_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_490_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_490_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_490_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_555_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_555_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_555_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_660_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_660_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_660_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.a_680_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).a_680_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).a_680_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_412_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_412_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_412_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_443_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_443_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_443_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_490_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_490_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_490_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_555_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_555_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_555_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_660_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_660_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_660_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
-
+                        
                         data_aux = [GOCI_DailyStatMatrix.bbp_680_giop_mean_mid_three];
                         GOCI_MonthlyStatMatrix(count).bbp_680_giop_mean_mid_three = nanmean(data_aux((cond_1t)));
                         GOCI_MonthlyStatMatrix(count).bbp_680_giop_mean_mid_three_N = nansum(isfinite(data_aux((cond_1t))));
@@ -10686,7 +10686,7 @@ if process_data_flag
       end
 end
 close(h1)
-% Monthly statistics for AQUA
+%% Monthly statistics for AQUA
 if process_data_flag
       clear AQUA_MonthlyStatMatrix
       clear cond_1t count
@@ -13027,7 +13027,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot relative difference from the 4th time of day for par
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
-   
+
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
@@ -13098,7 +13098,7 @@ for idx = 1:size(par_vec,2)
       xx = 1:8;
       fill([xx fliplr(xx)],[rel_diff_mean_all+rel_diff_stdv_all fliplr(rel_diff_mean_all-rel_diff_stdv_all)],[0.0 0.0 1.0],'LineStyle','--','EdgeColor','b')
       alpha(0.15)
-
+      
       hold on
       plot(xx,rel_diff_mean_all,'-ob','MarkerSize',4,'LineWidth',1.5)
       ax = gca;
@@ -13174,21 +13174,21 @@ for idx = 1:size(par_vec,2)
       % grid on
       %       grid minor
       %%
-%       saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
+      %       saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
 end
- 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %% Plot Difference from the 4h for par
 % savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
-% 
+%
 % par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
-% 
+%
 % brdf_opt = 7;
 % clear cond_brdf
 % cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
-% 
+%
 % for idx = 1:size(par_vec,2)
 %       switch par_vec{idx}
 %             case 'Rrs_412'
@@ -13216,53 +13216,53 @@ end
 %       diff_mean_00 = nanmean(diff_00(cond_filter));
 %       diff_stdv_00 = nanstd(diff_00(cond_filter));
 %       diff_N_00 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01];',par_vec{idx}));
 %       cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
 %       diff_mean_01 = nanmean(diff_01(cond_filter));
 %       diff_stdv_01 = nanstd(diff_01(cond_filter));
 %       diff_N_01 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02];',par_vec{idx}));
 %       cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
 %       diff_mean_02 = nanmean(diff_02(cond_filter));
 %       diff_stdv_02 = nanstd(diff_02(cond_filter));
 %       diff_N_02 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03];',par_vec{idx}));
 %       cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
 %       diff_mean_03 = nanmean(diff_03(cond_filter));
 %       diff_stdv_03 = nanstd(diff_03(cond_filter));
 %       diff_N_03 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04];',par_vec{idx}));
 %       cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
 %       diff_mean_04 = nanmean(diff_04(cond_filter));
 %       diff_stdv_04 = nanstd(diff_04(cond_filter));
 %       diff_N_04 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05];',par_vec{idx}));
 %       cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
 %       diff_mean_05 = nanmean(diff_05(cond_filter));
 %       diff_stdv_05 = nanstd(diff_05(cond_filter));
 %       diff_N_05 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06];',par_vec{idx}));
 %       cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
 %       diff_mean_06 = nanmean(diff_06(cond_filter));
 %       diff_stdv_06 = nanstd(diff_06(cond_filter));
 %       diff_N_06 = sum(cond_filter);
-%       
+%
 %       eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07];',par_vec{idx}));
 %       cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
 %       diff_mean_07 = nanmean(diff_07(cond_filter));
 %       diff_stdv_07 = nanstd(diff_07(cond_filter));
 %       diff_N_07 = sum(cond_filter);
-%       
-%       
+%
+%
 %       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
 %       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
-%       
+%
 %       fs = 25;
 %       h = figure('Color','white','DefaultAxesFontSize',fs);
 %       % plot(1:8,stdv_all,'or','MarkerSize',12)
@@ -13271,7 +13271,7 @@ end
 %       ax.XTick = 1:8;
 %       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
 %       xlim([0 9])
-%       
+%
 %       text(1,diff_mean_00-1.4*diff_stdv_00,num2str(diff_N_00),'HorizontalAlignment','center','FontSize',14)
 %       text(2,diff_mean_01-1.4*diff_stdv_01,num2str(diff_N_01),'HorizontalAlignment','center','FontSize',14)
 %       text(3,diff_mean_02-1.4*diff_stdv_02,num2str(diff_N_02),'HorizontalAlignment','center','FontSize',14)
@@ -13280,23 +13280,23 @@ end
 %       text(6,diff_mean_05-1.4*diff_stdv_05,num2str(diff_N_05),'HorizontalAlignment','center','FontSize',14)
 %       text(7,diff_mean_06-1.4*diff_stdv_06,num2str(diff_N_06),'HorizontalAlignment','center','FontSize',14)
 %       text(8,diff_mean_07-1.4*diff_stdv_07,num2str(diff_N_07),'HorizontalAlignment','center','FontSize',14)
-%       
+%
 %       disp('======================')
 %       disp(par_vec{idx})
 %       diff_mean_all
 %       diff_stdv_all
 %       %       ylim([-3e-3 1e-3])
-%       
+%
 %       ax.YAxis.MinorTick = 'on';
 %       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       ax.YGrid = 'on';
 %       ax.YMinorGrid = 'on';
 %       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       str1 = sprintf('Difference\n w/r to 4h\n  %s',y_str);
-%       
+%
 %       ylabel(str1,'FontSize',fs)
 %       xlabel('Time of the day (GMT)','FontSize',fs)
-%       
+%
 %       grid on
 %       %       grid minor
 %       %%
@@ -13394,25 +13394,25 @@ for idx = 1:size(par_vec,2)
       rel_diff_stdv_all = [rel_diff_stdv_00,rel_diff_stdv_01,rel_diff_stdv_02,rel_diff_stdv_03,rel_diff_stdv_04,rel_diff_stdv_05,rel_diff_stdv_06,rel_diff_stdv_07];
       rel_diff_mean_all = [rel_diff_mean_00,rel_diff_mean_01,rel_diff_mean_02,rel_diff_mean_03,rel_diff_mean_04,rel_diff_mean_05,rel_diff_mean_06,rel_diff_mean_07];
       
-%       fs = 25;
-%       h = figure('Color','white','DefaultAxesFontSize',fs);
+      %       fs = 25;
+      %       h = figure('Color','white','DefaultAxesFontSize',fs);
       eval(sprintf('figure(h_%s)',par_vec{idx}));
       hold on
       % plot(1:8,stdv_all,'or','MarkerSize',12)
       xx = 1:8;
       fill([xx fliplr(xx)],[rel_diff_mean_all+rel_diff_stdv_all fliplr(rel_diff_mean_all-rel_diff_stdv_all)],[1.0 0.0 0.0],'LineStyle','--','EdgeColor','r')
       alpha(0.15)
-
+      
       hold on
       plot(xx,rel_diff_mean_all,'-or','MarkerSize',4,'LineWidth',1.5)
       ax = gca;
-            
+      
       text(xx(1)-0.5,ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,'N: ','HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(1),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_00),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(2),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_01),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(3),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_02),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(4),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_03),'HorizontalAlignment','center','FontSize',18,'Color','r')
-%       text(xx(5),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_04),'HorizontalAlignment','center','FontSize',18,'Color','r')
+      %       text(xx(5),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_04),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(6),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_05),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(7),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_06),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(8),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_07),'HorizontalAlignment','center','FontSize',18,'Color','r')
@@ -13441,7 +13441,7 @@ for idx = 1:size(par_vec,2)
       xlabel('Time of the day (GMT)','FontSize',fs)
       
       grid on
-
+      
       set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
       set(gcf, 'renderer','painters')
       saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'pdf')
@@ -13490,53 +13490,53 @@ end
 %       diff_mean_00 = nanmean(diff_00(cond_filter));
 %       diff_stdv_00 = nanstd(diff_00(cond_filter));
 %       diff_N_00 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_01= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01];',par_vec{idx}));
 %       cond_filter = abs(diff_01) <= nanmean(diff_01)+3*nanstd(diff_01);
 %       diff_mean_01 = nanmean(diff_01(cond_filter));
 %       diff_stdv_01 = nanstd(diff_01(cond_filter));
 %       diff_N_01 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_02= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02];',par_vec{idx}));
 %       cond_filter = abs(diff_02) <= nanmean(diff_02)+3*nanstd(diff_02);
 %       diff_mean_02 = nanmean(diff_02(cond_filter));
 %       diff_stdv_02 = nanstd(diff_02(cond_filter));
 %       diff_N_02 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_03= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03];',par_vec{idx}));
 %       cond_filter = abs(diff_03) <= nanmean(diff_03)+3*nanstd(diff_03);
 %       diff_mean_03 = nanmean(diff_03(cond_filter));
 %       diff_stdv_03 = nanstd(diff_03(cond_filter));
 %       diff_N_03 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_04= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04];',par_vec{idx}));
 %       cond_filter = abs(diff_04) <= nanmean(diff_04)+3*nanstd(diff_04);
 %       diff_mean_04 = nanmean(diff_04(cond_filter));
 %       diff_stdv_04 = nanstd(diff_04(cond_filter));
 %       diff_N_04 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_05= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05];',par_vec{idx}));
 %       cond_filter = abs(diff_05) <= nanmean(diff_05)+3*nanstd(diff_05);
 %       diff_mean_05 = nanmean(diff_05(cond_filter));
 %       diff_stdv_05 = nanstd(diff_05(cond_filter));
 %       diff_N_05 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_06= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06];',par_vec{idx}));
 %       cond_filter = abs(diff_06) <= nanmean(diff_06)+3*nanstd(diff_06);
 %       diff_mean_06 = nanmean(diff_06(cond_filter));
 %       diff_stdv_06 = nanstd(diff_06(cond_filter));
 %       diff_N_06 = sum(cond_filter);
-      
+
 %       eval(sprintf('diff_07= [GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07];',par_vec{idx}));
 %       cond_filter = abs(diff_07) <= nanmean(diff_07)+3*nanstd(diff_07);
 %       diff_mean_07 = nanmean(diff_07(cond_filter));
 %       diff_stdv_07 = nanstd(diff_07(cond_filter));
 %       diff_N_07 = sum(cond_filter);
-      
-      
+
+
 %       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
 %       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
-      
+
 %       fs = 25;
 %       h = figure('Color','white','DefaultAxesFontSize',fs);
 %       % plot(1:8,stdv_all,'or','MarkerSize',12)
@@ -13545,7 +13545,7 @@ end
 %       ax.XTick = 1:8;
 %       ax.XTickLabel = {'0h','1h','2h','3h','4h','5h','6h','7h'};
 %       xlim([0 9])
-      
+
 %       text(1,diff_mean_00+1.4*diff_stdv_00,['N=' num2str(diff_N_00)],'HorizontalAlignment','center','FontSize',14)
 %       text(2,diff_mean_01+1.4*diff_stdv_01,['N=' num2str(diff_N_01)],'HorizontalAlignment','center','FontSize',14)
 %       text(3,diff_mean_02+1.4*diff_stdv_02,['N=' num2str(diff_N_02)],'HorizontalAlignment','center','FontSize',14)
@@ -13554,23 +13554,23 @@ end
 %       text(6,diff_mean_05+1.4*diff_stdv_05,['N=' num2str(diff_N_05)],'HorizontalAlignment','center','FontSize',14)
 %       text(7,diff_mean_06+1.4*diff_stdv_06,['N=' num2str(diff_N_06)],'HorizontalAlignment','center','FontSize',14)
 %       text(8,diff_mean_07+1.4*diff_stdv_07,['N=' num2str(diff_N_07)],'HorizontalAlignment','center','FontSize',14)
-      
+
 %       disp('======================')
 %       disp(par_vec{idx})
 %       diff_mean_all
 %       diff_stdv_all
 %       %       ylim([-3e-3 1e-3])
-      
+
 %       ax.YAxis.MinorTick = 'on';
 %       ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       ax.YGrid = 'on';
 %       ax.YMinorGrid = 'on';
 %       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
 %       str1 = sprintf('Difference\n w/r to 4th  %s',y_str);
-      
+
 %       ylabel(str1,'FontSize',fs)
 %       xlabel('Time of the day (GMT)','FontSize',fs)
-      
+
 %       grid on
 %       %       grid minor
 %       %%
@@ -16831,7 +16831,7 @@ B = [...
       100*nanmin([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 hold on
 yy1 = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV])+100*nanstd([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV])+100*nanstd([three_day_seq.tod_Rrs_412_01_CV]) ...
@@ -16888,7 +16888,7 @@ B = [...
       100*nanmin([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 
 hold on
@@ -16948,7 +16948,7 @@ B = [...
       100*nanmin([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 
 hold on
@@ -17007,7 +17007,7 @@ B = [...
       100*nanmin([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 
 hold on
@@ -17302,7 +17302,7 @@ B = [...
       100*nanmin([three_day_seq.tod_chlor_a_06_CV]) 100*nanmin([three_day_seq.tod_chlor_a_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 
 hold on
@@ -17356,7 +17356,7 @@ B = [...
       100*nanmin([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmin([three_day_seq.tod_ag_412_mlrc_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 
 hold on
@@ -17410,7 +17410,7 @@ B = [...
       100*nanmin([three_day_seq.tod_poc_06_CV]) 100*nanmin([three_day_seq.tod_poc_07_CV])];
 
 plot(xx,A,'--k')
-hold on 
+hold on
 plot(xx,B,'--k')
 hold on
 yy = [100*nanmean([three_day_seq.tod_poc_00_CV])+100*nanstd([three_day_seq.tod_poc_00_CV]) 100*nanmean([three_day_seq.tod_poc_01_CV])+100*nanstd([three_day_seq.tod_poc_01_CV]) ...
@@ -17537,3 +17537,519 @@ ax.XTickLabel = {'','0h','1h','2h','3h','4h','5h','6h','7h',''};
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printingclc
+%% a_ b_bp
+
+h = figure('Color','white','DefaultAxesFontSize',fs);
+plot([GOCI_DailyStatMatrix.datetime],[GOCI_DailyStatMatrix.a_412_giop_04],'bo')
+
+% h = figure('Color','white','DefaultAxesFontSize',fs);
+hold on
+plot([GOCI_MonthlyStatMatrix.datetime],[GOCI_MonthlyStatMatrix.a_412_giop_mean_mid_three],'b-')
+
+%% Time series for GIOP a(\lambda)
+savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_unc/Figures/source/';
+
+brdf_opt =7;
+fs = 40;
+lw = 3.5;
+% h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3','units','normalized','outerposition',[0 0 1 1]);
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','a GIOP');
+
+% a(\lambda) Monthly
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_MonthlyStatMatrix(cond).datetime];
+y = [GOCI_MonthlyStatMatrix(cond).a_412_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [GOCI_MonthlyStatMatrix(cond).a_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b-','LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).a_490_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0 0.5 1],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).a_555_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0 0.5 0],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).a_660_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[1 0 0],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).a_680_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[1 0.5 0],'LineWidth',lw)
+
+% a(\lambda) Daily
+cond = [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_DailyStatMatrix(cond).datetime];
+y = [GOCI_DailyStatMatrix(cond).a_412_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0.5 0 0.5])
+hold on
+y = [GOCI_DailyStatMatrix(cond).a_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b.')
+y = [GOCI_DailyStatMatrix(cond).a_490_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0 0.5 1])
+y = [GOCI_DailyStatMatrix(cond).a_555_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0 0.5 0])
+y = [GOCI_DailyStatMatrix(cond).a_660_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[1 0 0])
+y = [GOCI_DailyStatMatrix(cond).a_680_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[1 0.5 0])
+
+grid off
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017') datenum('09-01-2017') ...
+      datenum('01-01-2018')];
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% clear x_labels
+%
+% datetick(ax,'x','m','keepticks')
+%
+% x_labels{1} = sprintf('J \n');
+% x_labels{2} = sprintf('M\n      2011');
+% x_labels{3} = sprintf('S \n');
+%
+% x_labels{4} = sprintf('J \n');
+% x_labels{5} = sprintf('M\n      2012');
+% x_labels{6} = sprintf('S \n');
+%
+% x_labels{7} = sprintf('J \n');
+% x_labels{8} = sprintf('M\n      2013');
+% x_labels{9} = sprintf('S \n');
+%
+% x_labels{10} = sprintf('J \n');
+% x_labels{11} = sprintf('M\n      2014');
+% x_labels{12} = sprintf('S \n');
+%
+% x_labels{13} = sprintf('J \n');
+% x_labels{14} = sprintf('M\n      2015');
+% x_labels{15} = sprintf('S \n');
+%
+% x_labels{16} = sprintf('J \n');
+% x_labels{17} = sprintf('M\n      2016');
+% x_labels{18} = sprintf('S \n');
+%
+% x_labels{19} = sprintf('J \n');
+% x_labels{20} = sprintf('M\n      2017');
+% x_labels{21} = sprintf('S \n');
+%
+% x_labels{22} = sprintf('J \n');
+% % x_labels{23} = sprintf('M\n      2018');
+%
+% [~,~] = format_ticks(gca,x_labels);
+
+% end
+
+% Major Ticks
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2018') datenum('01-01-2018')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('01-01-2018')])
+
+ylabel('a_T(\lambda) [m^{-1}]','FontSize',fs+4)
+
+legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
+      'Location','north',...
+      'Orientation','horizontal')
+legend boxoff
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'a_T_All'],'epsc')
+
+%% Time series for GIOP bbp(\lambda)
+
+brdf_opt =7;
+fs = 40;
+lw = 3.5;
+% h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Comparison with L3','units','normalized','outerposition',[0 0 1 1]);
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','bbp GIOP');
+
+% bbp(\lambda) Monthly
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_MonthlyStatMatrix(cond).datetime];
+y = [GOCI_MonthlyStatMatrix(cond).bbp_412_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0.5 0 0.5],'LineWidth',lw)
+hold on
+y = [GOCI_MonthlyStatMatrix(cond).bbp_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b-','LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).bbp_490_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0 0.5 1],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).bbp_555_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[0 0.5 0],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).bbp_660_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[1 0 0],'LineWidth',lw)
+y = [GOCI_MonthlyStatMatrix(cond).bbp_680_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'-','Color',[1 0.5 0],'LineWidth',lw)
+
+% bbp(\lambda) Daily
+cond = [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_DailyStatMatrix(cond).datetime];
+y = [GOCI_DailyStatMatrix(cond).bbp_412_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0.5 0 0.5])
+hold on
+y = [GOCI_DailyStatMatrix(cond).bbp_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b.')
+y = [GOCI_DailyStatMatrix(cond).bbp_490_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0 0.5 1])
+y = [GOCI_DailyStatMatrix(cond).bbp_555_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[0 0.5 0])
+y = [GOCI_DailyStatMatrix(cond).bbp_660_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[1 0 0])
+y = [GOCI_DailyStatMatrix(cond).bbp_680_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'.','Color',[1 0.5 0])
+
+grid off
+
+% x label with Month and Year
+xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
+      datenum('01-01-2012') datenum('05-01-2012') datenum('09-01-2012') ...
+      datenum('01-01-2013') datenum('05-01-2013') datenum('09-01-2013') ...
+      datenum('01-01-2014') datenum('05-01-2014') datenum('09-01-2014') ...
+      datenum('01-01-2015') datenum('05-01-2015') datenum('09-01-2015') ...
+      datenum('01-01-2016') datenum('05-01-2016') datenum('09-01-2016') ...
+      datenum('01-01-2017') datenum('05-01-2017') datenum('09-01-2017') ...
+      datenum('01-01-2018')];
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+clear x_labels
+
+datetick(ax,'x','m','keepticks')
+
+x_labels{1} = sprintf('J \n');
+x_labels{2} = sprintf('M\n      2011');
+x_labels{3} = sprintf('S \n');
+
+x_labels{4} = sprintf('J \n');
+x_labels{5} = sprintf('M\n      2012');
+x_labels{6} = sprintf('S \n');
+
+x_labels{7} = sprintf('J \n');
+x_labels{8} = sprintf('M\n      2013');
+x_labels{9} = sprintf('S \n');
+
+x_labels{10} = sprintf('J \n');
+x_labels{11} = sprintf('M\n      2014');
+x_labels{12} = sprintf('S \n');
+
+x_labels{13} = sprintf('J \n');
+x_labels{14} = sprintf('M\n      2015');
+x_labels{15} = sprintf('S \n');
+
+x_labels{16} = sprintf('J \n');
+x_labels{17} = sprintf('M\n      2016');
+x_labels{18} = sprintf('S \n');
+
+x_labels{19} = sprintf('J \n');
+x_labels{20} = sprintf('M\n      2017');
+x_labels{21} = sprintf('S \n');
+
+x_labels{22} = sprintf('J \n');
+% x_labels{23} = sprintf('M\n      2018');
+
+[~,~] = format_ticks(gca,x_labels);
+
+% end
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2018') datenum('01-01-2018')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('01-01-2018')])
+
+ylabel('b_{bp}(\lambda) [m^{-1}]','FontSize',fs+4)
+
+% legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
+%       'Location','north',...
+%       'Orientation','horizontal')
+% legend boxoff
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'b_bp_All'],'epsc')
+%% GIOP a_T(443)
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','a_T(443) GIOP');
+% bbp(\lambda) Monthly
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_MonthlyStatMatrix(cond).datetime];
+
+y = [GOCI_MonthlyStatMatrix(cond).a_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b-','LineWidth',lw)
+hold on
+
+% bbp(\lambda) Daily
+cond = [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_DailyStatMatrix(cond).datetime];
+y = [GOCI_DailyStatMatrix(cond).a_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b.')
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+set(gca,'XTickLabel',[]);
+
+% [~,~] = format_ticks(gca,x_labels);
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2018') datenum('01-01-2018')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('01-01-2018')])
+ylim([0.0 0.04])
+ylabel('a_T(443) [m^{-1}]','FontSize',fs+4)
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'a_T_443'],'epsc')
+%% bbp(443) GIOP
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','bbp(443) GIOP');
+% bbp(\lambda) Monthly
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_MonthlyStatMatrix(cond).datetime];
+
+y = [GOCI_MonthlyStatMatrix(cond).bbp_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b-','LineWidth',lw)
+hold on
+
+% bbp(\lambda) Daily
+cond = [GOCI_DailyStatMatrix.brdf_opt] == brdf_opt;
+x = [GOCI_DailyStatMatrix(cond).datetime];
+y = [GOCI_DailyStatMatrix(cond).bbp_443_giop_mean_mid_three];
+plot(x(~isnan(y)),y(~isnan(y)),'b.')
+
+ax = gca;
+ax.XTickMode = 'manual';
+ax.XTick = xData;
+
+[~,~] = format_ticks(gca,x_labels);
+
+% Major Ticks
+line([datenum('01-01-2012') datenum('01-01-2012')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2018') datenum('01-01-2018')],[ax.YLim(1) ax.YLim(1)+0.05*(ax.YLim(2)-ax.YLim(1))],'Color','k','LineWidth',1.5)
+
+xlim([datenum('01-01-2011') datenum('01-01-2018')])
+
+ylabel('b_{bp}(443) [m^{-1}]','FontSize',fs+4)
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'b_bp_443'],'epsc')
+
+%% GIOP a_T vs wavelength
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','a_T(\lambda) GIOP');
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+
+Data_used = GOCI_MonthlyStatMatrix(cond);
+
+x = [412 443 490 555 660 680];
+
+y = [[GOCI_MonthlyStatMatrix(cond).a_412_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).a_443_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).a_490_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).a_555_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).a_660_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).a_680_giop_mean_mid_three]];
+
+for idx = 1:size(y,2)
+
+      if idx==1
+            plot(x,nan(size(y(:,idx))),'g','LineWidth',lw-1)
+            hold on
+            plot(x,nan(size(y(:,idx))),'r','LineWidth',lw-1)
+            plot(x,nan(size(y(:,idx))),'b','LineWidth',lw-1)
+            plot(x,nan(size(y(:,idx))),'k','LineWidth',lw-1)
+            legend('Spring{    }','Summer{    }','Fall{    }','Winter{    }',...
+            'Location','north',...
+            'Orientation','horizontal')
+      legend boxoff
+      end
+      
+      figure(h)
+      hold on
+      % Spring
+      if month([Data_used(idx).datetime])==3||month([Data_used(idx).datetime])==4||month([Data_used(idx).datetime])==5; % cond for season
+            lc = 'g'; % liner color
+      end
+      
+      hold on
+      % Summer
+      if month([Data_used(idx).datetime])==6||month([Data_used(idx).datetime])==7||month([Data_used(idx).datetime])==8; % cond for season
+            lc = 'r'; % liner color
+      end
+      
+      hold on
+      % Fall
+      if month([Data_used(idx).datetime])==9||month([Data_used(idx).datetime])==10||month([Data_used(idx).datetime])==11; % cond for season
+            lc = 'b'; % liner color
+      end
+      
+      hold on
+      % Winter
+      if month([Data_used(idx).datetime])==12||month([Data_used(idx).datetime])==1||month([Data_used(idx).datetime])==2; % cond for season
+            lc = 'k'; % liner color
+      end
+      plot(x,y(:,idx),lc,'LineWidth',lw-1)
+      hold on
+      
+end
+
+ylabel('a_T(\lambda) [m^{-1}]','FontSize',fs+4)
+xlabel('wavelength [nm]','FontSize',fs+4)
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'a_T_All_spec'],'epsc')
+
+%% GIOP bbp vs wavelength
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','bbp(\lambda) GIOP');
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+
+Data_used = GOCI_MonthlyStatMatrix(cond);
+
+x = [412 443 490 555 660 680];
+
+y = [[GOCI_MonthlyStatMatrix(cond).bbp_412_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).bbp_443_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).bbp_490_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).bbp_555_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).bbp_660_giop_mean_mid_three];
+      [GOCI_MonthlyStatMatrix(cond).bbp_680_giop_mean_mid_three]];
+
+for idx = 1:size(y,2)
+
+      if idx==1
+            plot(x,nan(size(y(:,idx))),'g','LineWidth',lw-1)
+            hold on
+            plot(x,nan(size(y(:,idx))),'r','LineWidth',lw-1)
+            plot(x,nan(size(y(:,idx))),'b','LineWidth',lw-1)
+            plot(x,nan(size(y(:,idx))),'k','LineWidth',lw-1)
+            legend('Spring{    }','Summer{    }','Fall{    }','Winter{    }',...
+            'Location','north',...
+            'Orientation','horizontal')
+      legend boxoff
+      end
+      
+      figure(h)
+      hold on
+      % Spring
+      if month([Data_used(idx).datetime])==3||month([Data_used(idx).datetime])==4||month([Data_used(idx).datetime])==5; % cond for season
+            lc = 'g'; % liner color
+      end
+      
+      hold on
+      % Summer
+      if month([Data_used(idx).datetime])==6||month([Data_used(idx).datetime])==7||month([Data_used(idx).datetime])==8; % cond for season
+            lc = 'r'; % liner color
+      end
+      
+      hold on
+      % Fall
+      if month([Data_used(idx).datetime])==9||month([Data_used(idx).datetime])==10||month([Data_used(idx).datetime])==11; % cond for season
+            lc = 'b'; % liner color
+      end
+      
+      hold on
+      % Winter
+      if month([Data_used(idx).datetime])==12||month([Data_used(idx).datetime])==1||month([Data_used(idx).datetime])==2; % cond for season
+            lc = 'k'; % liner color
+      end
+      plot(x,y(:,idx),lc,'LineWidth',lw-1)
+      hold on
+      
+end
+
+ylabel('b_{bp}(\lambda) [m^{-1}]','FontSize',fs+4)
+xlabel('wavelength [nm]','FontSize',fs+4)
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) 0.5*screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'b_bp_All_spec'],'epsc')
