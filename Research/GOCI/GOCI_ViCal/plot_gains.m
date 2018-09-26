@@ -6,7 +6,7 @@ fs = 30;
 % plot(datetime_vec', g,'o','Color',[0.5 0.5 0.5],'MarkerFaceColor',[0.5 0.5 0.5],'MarkerSize',10)
 plot(datetime_vec', g,'ok','Color',[0.5 0.5 0.5],'MarkerSize',12,'LineWidth',3)
 %       xlabel('Time','FontSize',fs)
-ylabel('Gain Coefficient','FontSize',fs)
+ylabel('Gain coefficient','FontSize',fs)
 
 %       title(wl{idx0},'FontSize',fs)
 
@@ -125,11 +125,20 @@ plot(ax.XLim,[g_siqr_mean g_siqr_mean],'r','LineWidth',2.0)
 
 plot(ax.XLim,[1 1],'--k','LineWidth',1.0)
 
-hl = legend(['Outside SIQR; N=' num2str(sum(~isnan(g)))],...
-      ['SIQR; N=' num2str(N_siqr)],...
-      ['Mean SIQR=' num2str(g_siqr_mean,'%1.4f\n')]);
+hl = legend(['Outside SIQR; {\it N} = ' num2str(sum(~isnan(g)))],...
+      ['SIQR; {\it N} = ' num2str(N_siqr)],...
+      ['Mean SIQR = ' num2str(g_siqr_mean,'%1.4f\n')]);
+% set(hl,'Orientation','horizontal')
+legend boxoff
 
+if strcmp(wl,'412')
+      rect = [0.56,0.55,0.25,0.25];
+else
+      rect = [0.68,0.55,0.25,0.25];
+end
+set(hl,'Position',rect)
 set(hl,'FontSize',fs-5);
+
 %% LaTeX
 
 % if strcmp(wl,'412')

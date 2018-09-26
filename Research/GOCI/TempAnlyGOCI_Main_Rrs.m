@@ -91,7 +91,7 @@ solz_lim = 75;
 xrange = 0.02;
 % startDate = datenum('01-01-2011');
 startDate = datenum('05-15-2011');
-endDate = datenum('12-31-2017');
+endDate = datenum('01-01-2018');
 xData = startDate:datenum(years(1)):endDate;
 %% Plot
 lw = 1.5;
@@ -10865,7 +10865,7 @@ close(h1)
 % save('GOCI_TempAnly.mat','GOCI_MonthlyStatMatrix','AQUA_MonthlyStatMatrix','VIIRS_MonthlyStatMatrix','-append')
 %% Basics stats for GOCI_DailyStatMatrix
 
-nvalid = 3;
+nvalid = 4;
 
 cond_Rrs_412 =[GOCI_DailyStatMatrix.Rrs_412_N_mean]>=nvalid;
 cond_Rrs_443 =[GOCI_DailyStatMatrix.Rrs_443_N_mean]>=nvalid;
@@ -10997,6 +10997,8 @@ fprintf('%1.2e & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %i\n',meanSD_poc____,mi
 
 %% Basics stats for GOCI_DailyStatMatrix -- ONLY SUMMER
 nvalid = 3;
+
+disp('Only Summer')
 
 cond_Rrs_412 =[GOCI_DailyStatMatrix.Rrs_412_N_mean]>=nvalid;
 cond_Rrs_443 =[GOCI_DailyStatMatrix.Rrs_443_N_mean]>=nvalid;
@@ -13029,6 +13031,8 @@ end
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 
+disp('All')
+
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
 
@@ -13157,6 +13161,9 @@ for idx = 1:size(par_vec,2)
       fprintf('(%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) \n',...
             rel_diff_stdv_all(1),rel_diff_stdv_all(2),rel_diff_stdv_all(3),rel_diff_stdv_all(4),...
             rel_diff_stdv_all(5),rel_diff_stdv_all(6),rel_diff_stdv_all(7),rel_diff_stdv_all(8))
+
+      disp(['max diff: ' num2str(max(abs([rel_diff_mean_all+rel_diff_stdv_all rel_diff_mean_all-rel_diff_stdv_all])))])
+
       
       fprintf('%1.2e\n',mean_4h)
       %       ylim([-3e-3 1e-3])
@@ -13305,9 +13312,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Plot relative difference from 4th time of day for par -- ONLY SUMMER
+% Plot relative difference from 4th time of day for par -- ONLY SUMMER
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
+disp('Only Summers')
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
 
@@ -13425,6 +13433,8 @@ for idx = 1:size(par_vec,2)
       fprintf('(%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) \n',...
             rel_diff_stdv_all(1),rel_diff_stdv_all(2),rel_diff_stdv_all(3),rel_diff_stdv_all(4),...
             rel_diff_stdv_all(5),rel_diff_stdv_all(6),rel_diff_stdv_all(7),rel_diff_stdv_all(8))
+      
+      disp(['max diff: ' num2str(max(abs([rel_diff_mean_all+rel_diff_stdv_all rel_diff_mean_all-rel_diff_stdv_all])))])
       
       fprintf('%1.2e\n',mean_4h)
       
@@ -14775,8 +14785,7 @@ cond_used = cond_brdf;
 xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).chlor_a_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
-ylabel('Chl-{\ita}')
-grid on
+ylabel('Chl-{\ita} (mg m^{-3})')
 
 ylim([0. 0.25])
 
@@ -14794,42 +14803,7 @@ hold on
 ax.XTickMode = 'manual';
 ax.XTick = xData;
 set(gca,'XTickLabel',[]);
-
-% % if strcmp(wl,'680')||strcmp(wl,'745')
-%
-%       datetick(ax,'x','m','keepticks')
-%
-%       x_labels{1} = sprintf('J \n');
-%       x_labels{2} = sprintf('M\n      2011');
-%       x_labels{3} = sprintf('S \n');
-%
-%       x_labels{4} = sprintf('J \n');
-%       x_labels{5} = sprintf('M\n      2012');
-%       x_labels{6} = sprintf('S \n');
-%
-%       x_labels{7} = sprintf('J \n');
-%       x_labels{8} = sprintf('M\n      2013');
-%       x_labels{9} = sprintf('S \n');
-%
-%       x_labels{10} = sprintf('J \n');
-%       x_labels{11} = sprintf('M\n      2014');
-%       x_labels{12} = sprintf('S \n');
-%
-%       x_labels{13} = sprintf('J \n');
-%       x_labels{14} = sprintf('M\n      2015');
-%       x_labels{15} = sprintf('S \n');
-%
-%       x_labels{16} = sprintf('J \n');
-%       x_labels{17} = sprintf('M\n      2016');
-%       x_labels{18} = sprintf('S \n');
-%
-%       x_labels{19} = sprintf('J \n');
-%       x_labels{20} = sprintf('M\n      2017');
-%
-%       [~,~] = format_ticks(gca,x_labels);
-
-% end
-
+ax.YAxis.TickLabelFormat = '%1.2f';
 grid off
 
 % Major Ticks
@@ -14842,9 +14816,11 @@ line([datenum('01-01-2017') datenum('01-01-2017')],[ax.YLim(1) ax.YLim(1)+0.05*(
 
 xlim([datenum('01-01-2011') datenum('09-01-2017')])
 
-legend('GOCI{    }','MODISA{    }','VIIRS',...
+hl = legend('GOCI{    }','MODISA{    }','VIIRS',...
       'Location','north',...
-      'Orientation','horizontal')
+      'Orientation','horizontal');
+rect = [0.40,0.70,0.25,0.25];
+set(hl,'Position',rect)
 legend boxoff
 
 screen_size = get(0, 'ScreenSize');
@@ -14882,7 +14858,7 @@ xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).poc_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
 % xlabel('Time')
-ylabel('POC')
+ylabel('POC  (mg m^{-3})')
 grid on
 ylim([20 70])
 
@@ -14984,7 +14960,7 @@ xdata = [VIIRS_MonthlyStatMatrix(cond_used).datetime];
 ydata = [VIIRS_MonthlyStatMatrix(cond_used).ag_412_mlrc_mean];
 plot(xdata(~isnan(ydata)),ydata(~isnan(ydata)),'ko-','LineWidth',lw)
 % xlabel('Time')
-ylabel('a_{g}(412)')
+ylabel('{\ita}_g(412) (m^{-1})')
 grid on
 
 % x label with Month and Year
@@ -15190,15 +15166,15 @@ y = [VIIRS_MonthlyStatMatrix(cond).Rrs_551_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[0 0.5 0],'LineWidth',lw)
 y = [VIIRS_MonthlyStatMatrix(cond).Rrs_671_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'o-','Color',[1 0 0],'LineWidth',lw)
-ylim([-0.002 0.020])
+ylim([-0.002 0.022])
 
 grid off
 ax = gca;
 ax.YAxis.Exponent = 0;
 ax.YAxis.MinorTick = 'on';
-ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2);
-ax.YTick = [0.000 0.005 0.010 0.015];
-ax.YTickLabel = {'0.000','0.005','0.010','0.015'};
+ax.YAxis.MinorTickValues = ax.YAxis.Limits(1):.001:ax.YAxis.Limits(2)+2*.001;
+ax.YTick = [0.000 0.005 0.010 0.015 0.020 0.025];
+ax.YTickLabel = {'0.000','0.005','0.010','0.015','0.020','0.025'};
 xlim(datenum(datetime([2011 2018],[1 1],[1 1])))
 % ax.XTickLabel = {'2011','2013','2014','2015','2016',''};
 ax.XTick = (datenum([datetime(2011,1,1) datetime(2012,1,1) datetime(2013,1,1) ...
@@ -15222,17 +15198,16 @@ ax.XTick = xData;
 set(gca,'XTickLabel',[]);
 
 % Major Ticks
-line([datenum('01-01-2012') datenum('01-01-2012')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
-line([datenum('01-01-2013') datenum('01-01-2013')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
-line([datenum('01-01-2014') datenum('01-01-2014')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
-line([datenum('01-01-2015') datenum('01-01-2015')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
-line([datenum('01-01-2016') datenum('01-01-2016')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
-line([datenum('01-01-2017') datenum('01-01-2017')],[-0.001 -0.0005],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2012') datenum('01-01-2012')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2013') datenum('01-01-2013')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2014') datenum('01-01-2014')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2015') datenum('01-01-2015')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2016') datenum('01-01-2016')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
+line([datenum('01-01-2017') datenum('01-01-2017')],[-0.001 -0.002],'Color','k','LineWidth',1.5)
 
 xlim([datenum('01-01-2011') datenum('09-01-2017')])
-
 % xlabel('Time','FontSize',fs+4)
-ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs+4)
+ylabel('{\it R}_{rs} (sr^{-1})','FontSize',fs+4)
 
 % set(gcf, 'renderer','painters')
 
@@ -15241,15 +15216,17 @@ ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs+4)
 %       'VIIRS 410','VIIRS 443','VIIRS 486','VIIRS 551','VIIRS 671',...
 %       'Location','EastOutside','Orientation','horizontal')
 
-legend('GOCI{    }','MODISA{    }','VIIRS',...
+h_legend = legend('GOCI{    }','MODISA{    }','VIIRS',...
       'Location','north',...
-      'Orientation','horizontal')
+      'Orientation','horizontal');
+rect = [0.40,0.70,0.25,0.25];
+set(h_legend,'Position',rect)
 legend boxoff
 
 % annotations
 % 412
 annotation(h,'textbox',...
-      [0.91 0.75 0.04 0.04],...
+      [0.91 0.70 0.04 0.04],...
       'Color',[0.5 0 0.5],...
       'String',{'412'},...
       'FontSize',fs-5,...
@@ -15259,7 +15236,7 @@ annotation(h,'textbox',...
 
 % 443
 annotation(h,'textbox',...
-      [0.91 0.63 0.04 0.04],...
+      [0.91 0.59 0.04 0.04],...
       'Color',[0 0 1],...
       'String',{'443'},...
       'FontSize',fs-5,...
@@ -15380,8 +15357,6 @@ fs = 40;
 lw = 3.5;
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','GOCI/AQUA ratio');
 
-
-
 % 412
 x = [GOCI_used(GOCI_date_vec(find(cond_AG))).datetime];
 y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
@@ -15414,10 +15389,13 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
       ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 
+ylim([0 3.4])% 
 
-legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
+h_legend = legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
       'Location','north',...
-      'Orientation','horizontal')
+      'Orientation','horizontal');
+rect = [0.25,0.73,0.55,0.1];
+set(h_legend,'Position',rect)
 legend boxoff
 
 
@@ -15432,7 +15410,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_412_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
 
 % 443
@@ -15442,7 +15420,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_443_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
 
 % 490
@@ -15452,7 +15430,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_490_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
 
 % 555
@@ -15462,7 +15440,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_555_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
 
 % 660
@@ -15472,7 +15450,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_660_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
 
 % 680
@@ -15482,10 +15460,8 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'r--','LineWidth',lw)
-
-ylim([0 3])
 
 % x label with Month and Year
 xData = [datenum('01-01-2011') datenum('05-01-2011') datenum('09-01-2011') ...
@@ -15514,7 +15490,7 @@ xlim([datenum('01-01-2011') datenum('09-01-2017')])
 
 % set(gcf, 'renderer','painters')
 
-ylabel('R_{rs}(\lambda) ratio (unitless)')
+ylabel('{\it R}_{rs} ratio (unitless)','Interpreter','tex')
 title('GOCI/MODISA ratio','FontWeight','Normal')
 
 
@@ -15545,7 +15521,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_412_mean_mid_three]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
 
 % 443
@@ -15554,7 +15530,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_443_mean_mid_three]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_443_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
 
 % 490
@@ -15563,7 +15539,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_490_mean_mid_three]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_486_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
 
 % 555
@@ -15572,7 +15548,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_555_mean_mid_three]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_551_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
 
 % 660
@@ -15581,14 +15557,14 @@ y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_660_mean_mid_three]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
 % y = [GOCI_used(GOCI_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
 %       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
 % plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 
 
-ylabel('R_{rs}(\lambda) ratio (unitless)')
+ylabel('{\it R}_{rs} ratio (unitless)','Interpreter','tex')
 title('GOCI/VIIRS ratio','FontWeight','Normal')
 
 ylim([0 3])
@@ -15644,7 +15620,7 @@ y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_412_mean]...
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0.5 0 0.5],'LineWidth',lw)
 hold on
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0.5 0 0.5],'LineWidth',lw)
 
 % 443
@@ -15653,7 +15629,7 @@ y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_443_mean]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_443_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'b','LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'b--','LineWidth',lw)
 
 % 490
@@ -15662,7 +15638,7 @@ y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_488_mean]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_486_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 1],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 1],'LineWidth',lw)
 
 % 555
@@ -15671,7 +15647,7 @@ y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_547_mean]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_551_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[0 0.5 0],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[0 0.5 0],'LineWidth',lw)
 
 % 660
@@ -15680,13 +15656,13 @@ y = [AQUA_used(AQUA_date_vec(find(cond_VA))).Rrs_667_mean]...
       ./[VIIRS_used(VIIRS_date_vec(find(cond_VA))).Rrs_671_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'Color',[1 0.5 0],'LineWidth',lw)
 [b,X,a,x1,y1,rsq_SS,rsq_corr] = regress_anly(x,y);
-fprintf('m = %2.6f, offset=%2.6f, r2=%2.6f\n',b(2),b(1),rsq_SS)
+fprintf('m = %2.6f per day, m = %2.6f per month, m = %2.6f per year, offset=%2.6f, r2=%2.6f\n',b(2),b(2)*30,b(2)*365,b(1),rsq_SS)
 plot(x(~isnan(y)),X*b,'--','Color',[1 0.5 0],'LineWidth',lw)
 % y = [AQUA_used(AQUA_date_vec(find(cond_VG))).Rrs_680_mean_mid_three]...
 %       ./[VIIRS_used(VIIRS_date_vec(find(cond_VG))).Rrs_671_mean];
 % plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 
-ylabel('R_{rs}(\lambda) ratio (unitless)')
+ylabel('{\it R}_{rs} ratio (unitless)','Interpreter','tex')
 title('MODISA/VIIRS ratio','FontWeight','Normal')
 
 ylim([0 3])
@@ -16230,7 +16206,8 @@ A_idx= find(three_day_idx); % indeces to 3-day sequences.
 %% 3-day sequences plot -- Rrs
 
 % for idx = 1:1*sum(three_day_idx)/4
-for idx =      [25 64]
+for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28))) ...
+            find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2015,09,01)))]
       % for idx = 1:size(A,2)
       
       % Rrs
@@ -16495,7 +16472,8 @@ annotation(h,'textbox',...
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 % for idx = 1:1*sum(three_day_idx)/10
-for idx =      [25 64]
+for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28))) ...
+            find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2015,09,01)))]
       
       % par
       
@@ -16597,7 +16575,7 @@ for idx =      [25 64]
       saveas(gcf,[savedirname '3day_chlor_a_' num2str(idx)],'epsc')
       
       % ag_412_mlrc
-      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',['n = ' num2str_idx(A(idx))]);
+      h = figure('Color','white','DefaultAxesFontSize',fs,'Name',['n = ' num2str(A_idx(idx))]);
       
       plot(tod_ag_412_mlrc_00_datetime+hours(0),tod_ag_412_mlrc_00,'-*r','MarkerSize',ms,'LineWidth',lw)
       hold on
@@ -16855,8 +16833,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for R_{rs}(412) [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for R_{rs}(412) [%]','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -16913,8 +16891,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for R_{rs}(443) [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for R_{rs}(443)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -16973,8 +16951,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for R_{rs}(490) [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for R_{rs}(490)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -17032,8 +17010,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for R_{rs}(555) [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for R_{rs}(555)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -17327,8 +17305,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for Chlor-a [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for Chlor-{\it a}','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -17381,8 +17359,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for a_g(412) [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for a_g(412)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -17434,8 +17412,8 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('Mean of CV for POC [%]','FontSize',fs)
-xlabel('Time of the day','FontSize',fs)
+ylabel('CV[%]_{3-day} for POC','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
 set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
@@ -17959,7 +17937,7 @@ for idx = 1:size(y,2)
       if month([Data_used(idx).datetime])==12||month([Data_used(idx).datetime])==1||month([Data_used(idx).datetime])==2; % cond for season
             lc = 'k'; % liner color
       end
-      plot(x,y(:,idx),lc,'LineWidth',lw-1)
+      plot(x,y(:,idx),lc,'LineWidth',lw-1.5)
       hold on
       
 end
@@ -18033,7 +18011,7 @@ for idx = 1:size(y,2)
       if month([Data_used(idx).datetime])==12||month([Data_used(idx).datetime])==1||month([Data_used(idx).datetime])==2; % cond for season
             lc = 'k'; % liner color
       end
-      plot(x,y(:,idx),lc,'LineWidth',lw-1)
+      plot(x,y(:,idx),lc,'LineWidth',lw-1.5)
       hold on
       
 end
@@ -18053,3 +18031,110 @@ set(gca, 'Position', pos)
 set(gcf, 'renderer','painters')
 set(gcf,'PaperPositionMode','auto') %set paper pos for printing
 saveas(gcf,[savedirname 'b_bp_All_spec'],'epsc')
+
+%% Histograms GIOP
+fs = 25;
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Hist a_T(\lambda) GIOP');
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+
+subplot(2,3,1)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_412_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(412) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,2)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_443_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(443) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,3)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_490_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(490) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,4)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_555_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(555) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,5)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_660_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(660) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,6)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).a_680_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('a_T(680) [m^{-1}]')
+ylabel('Frequency')
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'a_T_hist'],'epsc')
+% Histograms GIOP
+
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Hist b_bp(\lambda) GIOP');
+cond = [GOCI_MonthlyStatMatrix.brdf_opt] == brdf_opt;
+
+subplot(2,3,1)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_412_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(412) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,2)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_443_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(443) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,3)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_490_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(490) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,4)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_555_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(555) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,5)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_660_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(660) [m^{-1}]')
+ylabel('Frequency')
+
+subplot(2,3,6)
+[N,X] = hist([GOCI_MonthlyStatMatrix(cond).bbp_680_giop_mean_mid_three]);
+bar(X,N,'FaceColor',[0.9 0.9 0.9]);
+xlabel('b_{bp}(680) [m^{-1}]')
+ylabel('Frequency')
+
+screen_size = get(0, 'ScreenSize');
+origSize = get(gcf, 'Position'); % grab original on screen size
+set(gcf, 'Position', [0 0 screen_size(3) screen_size(4) ] ); %set to screen size
+scale = 0.1; % to show all labels
+pos = get(gca, 'Position');
+pos(2) = pos(2)+scale*pos(4);
+pos(4) = (1-scale)*pos(4);
+set(gca, 'Position', pos)
+
+set(gcf, 'renderer','painters')
+set(gcf,'PaperPositionMode','auto') %set paper pos for printing
+saveas(gcf,[savedirname 'b_bp_hist'],'epsc')

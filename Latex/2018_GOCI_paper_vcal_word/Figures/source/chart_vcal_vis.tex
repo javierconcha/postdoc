@@ -1,0 +1,94 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc,fit}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \tikzsetnextfilename{FilteringCriteria}
+% \begin{figure}[ht]
+% \vspace{1cm}
+%   \centering
+  % \small
+% \resizebox{16cm}{!}{%
+% Define block styles
+
+% \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5em, minimum height=2em,text centered, draw=black, fill=white]
+
+\tikzstyle{input} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2em, minimum height=2em, text width=3cm, text centered, draw=black, fill=white]
+
+\tikzstyle{inputsmall} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=1em, minimum height=1em, text width=1.0cm, text centered, draw=black, fill=white]
+
+\tikzstyle{output} = [rounded rectangle, minimum width=3em, minimum height=3em, text width=4.5cm, text centered, draw=black, fill=white, inner sep=-1pt]
+
+\tikzstyle{process} = [rectangle, minimum width=3em, minimum height=2em, text width=6cm, text centered, draw=black, fill=white]
+
+\tikzstyle{process_small} = [rectangle, minimum width=3em, minimum height=2em, text width=4cm, text centered, draw=black, fill=white]
+
+\tikzstyle{decision} = [diamond, aspect=2, minimum width=2em, minimum height=2em, text width=5cm, text centered, draw=black, fill=white]
+
+\tikzstyle{arrow} = [thick,->,>=triangle 45]
+\tikzstyle{arrowdashed} = [thick,dashed,->,>=stealth]
+
+\begin{tikzpicture}[node distance=2.5cm]
+
+
+%% NODES
+\node (gain_745) [input,text width=1cm] {$\bar{g}(745)$};
+\node (L1B) [input, right of=gain_745, text width=4cm,xshift=2cm] {Select L1B files\\from calibrated sensor \\to be processed to L2};
+\node (nLw_t) [input, right of=L1B, text width=6cm,xshift=5cm] {Targeted Normalized\\ Water-leaving Radiances ($L_{wn}^t(\lambda)$)\\from Concurrent Sensor\\or Climatology};
+\node (l2gen) [process, below of=L1B,text width=6.5cm,align=left,yshift=-1.5cm] {Process to L2 using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily gain=[1,1,...,$\bar{g}(745)$,1]\\vcal\_opt=2\\vcal\_nLw=[$L_{wn}^t(412)$,...,$L_{wn}^t(680)$,0,0]\\l2prod=vgain\_vvv,senz,solz};
+\node (val_extract) [process, below of=l2gen,xshift=0cm,yshift=-2cm,text width=6cm,align=left] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\{\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"\\valid\_ranges=vgain\_=0.5:1.5}};
+\node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(VIS)$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{NFP} X_j}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_j\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+
+\node (enough) [decision, right of=filtered, inner sep=1pt,xshift=8cm] {Is $NFP > NTP/3$?\\ Number Total Pixels (NTP)};
+\node (zenith) [decision, above of=enough,yshift=2cm,inner sep=0pt] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
+\node (fail) [output, above of=zenith, yshift=2cm] {Failed filtering criteria};
+\node (MSIQR) [process, right of=zenith,xshift=4cm,text width=2cm] {MSIQR};
+\node (pass) [output, above of=MSIQR, yshift=0cm] {Passes filtering criteria};
+\node (gain_vis) [input, above of=pass,text width=1cm] {$\bar{g}(VIS)$};
+
+%% CONNECTORS
+% \draw [arrow] (L1B) -- (l2gen);
+\draw ([yshift=0.6cm]l2gen.east) -- ([yshift=0.6cm]l2gen.west);
+\draw ([yshift=0.9cm]val_extract.east) -- ([yshift=0.9cm]val_extract.west);
+\draw ([yshift=1.2cm,xshift=0.45cm]filtered.east) -- ([yshift=1.2cm,xshift=0.45cm]filtered.west);
+\draw [arrow] (gain_745.south) -| ([yshift=-1cm]gain_745.south) -| ([xshift=-2cm]l2gen.north);
+\draw [arrow] (L1B) -- (l2gen);
+\draw [arrow] (nLw_t.south) -| ([yshift=-0.5cm]nLw_t.south) -| ([xshift=2cm]l2gen.north);
+\draw [arrow] (l2gen) -- (val_extract);
+\draw [arrow] (val_extract) -- (filtered);
+\draw [arrow] (filtered.south) -| ([yshift=-1cm]filtered.south) -| (enough.south);
+\draw [arrow] (enough.north) node[anchor=west,yshift=0.5cm] {YES} -- (zenith.south);
+\draw [arrow] (enough.west) node[anchor=south,xshift=-.5cm] {NO} |- ([xshift=-1.5cm]enough.west) |- (fail.west);
+\draw [arrow] (zenith.north) node[anchor=west,yshift=0.5cm] {NO} -- (fail);
+\draw [arrow] (zenith.east) node[anchor=south,xshift=0.3cm,yshift=0.1cm] {YES} -- (MSIQR);
+\draw [arrow] (MSIQR) -- (pass);
+\draw [arrow] (pass) -- (gain_vis);
+\end{tikzpicture}
+\end{document}

@@ -678,23 +678,23 @@ for idx = 1:size(source,2)
             color_line = [0.0 0.8 1.0]; % almost cyan
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
+                  color_line,h_412,fs,source(idx).char);
             legend off
             % Rrs_443
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
+                  color_line,h_443,fs,source(idx).char);
             legend off
             % Rrs_490
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
+                  color_line,h_490,fs,source(idx).char);
             legend off
             % Rrs_555
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
+                  color_line,h_555,fs,source(idx).char);
             legend off
             % Rrs_660
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
+                  color_line,h_660,fs,source(idx).char);
             legend off
       end
       
@@ -704,23 +704,23 @@ for idx = 1:size(source,2)
             color_line = [0.0 0.8 0.0]; % green
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
+                  color_line,h_412,fs,source(idx).char);
             legend off
             % Rrs_443
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
+                  color_line,h_443,fs,source(idx).char);
             legend off
             % Rrs_490
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
+                  color_line,h_490,fs,source(idx).char);
             legend off
             % Rrs_555
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
+                  color_line,h_555,fs,source(idx).char);
             legend off
             % Rrs_660
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
+                  color_line,h_660,fs,source(idx).char);
             legend off
       end
 %       %% Ahn
@@ -728,23 +728,23 @@ for idx = 1:size(source,2)
 %             color_line = [0.0 0.8 0.0]; % green
 %             % Rrs_412
 %             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-%                   color_line,h_412,fs,[0 0.02],source(idx).char);
+%                   color_line,h_412,fs,source(idx).char);
 %             legend off
 %             % Rrs_443
 %             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-%                   color_line,h_443,fs,[0 0.02],source(idx).char);
+%                   color_line,h_443,fs,source(idx).char);
 %             legend off
 %             % Rrs_490
 %             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-%                   color_line,h_490,fs,[0 0.03],source(idx).char);
+%                   color_line,h_490,fs,source(idx).char);
 %             legend off
 %             % Rrs_555
 %             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-%                   color_line,h_555,fs,[0 0.04],source(idx).char);
+%                   color_line,h_555,fs,source(idx).char);
 %             legend off
 %             % Rrs_660
 %             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-%                   color_line,h_660,fs,[0 0.02],source(idx).char);
+%                   color_line,h_660,fs,source(idx).char);
 %             legend off
 %       end
       %% Uncalibrated
@@ -752,23 +752,23 @@ for idx = 1:size(source,2)
             color_line = 'b';
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
+                  color_line,h_412,fs,source(idx).char);
             legend off
             % Rrs_443
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
+                  color_line,h_443,fs,source(idx).char);
             legend off
             % Rrs_490
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
+                  color_line,h_490,fs,source(idx).char);
             legend off
             % Rrs_555
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
+                  color_line,h_555,fs,source(idx).char);
             legend off
             % Rrs_660
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
+                  color_line,h_660,fs,source(idx).char);
             legend off
       end
       %% MA
@@ -776,23 +776,23 @@ for idx = 1:size(source,2)
             color_line = 'r';
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
+                  color_line,h_412,fs,source(idx).char);
             legend off
             % Rrs_443
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
+                  color_line,h_443,fs,source(idx).char);
             legend off
             % Rrs_490
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
+                  color_line,h_490,fs,source(idx).char);
             legend off
             % Rrs_555
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
+                  color_line,h_555,fs,source(idx).char);
             legend off
             % Rrs_660
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
+                  color_line,h_660,fs,source(idx).char);
             legend off
       end
       %% SW
@@ -800,49 +800,49 @@ for idx = 1:size(source,2)
             color_line = 'k';
             % Rrs_412
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('412','412',[Matchup.Rrs_412_ins],[Matchup.Rrs_412_sat],[Matchup.Rrs_412_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_412,fs,[0 0.02],source(idx).char);
+                  color_line,h_412,fs,source(idx).char);
             legend off
             % Rrs_443
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('443','443',[Matchup.Rrs_443_ins],[Matchup.Rrs_443_sat],[Matchup.Rrs_443_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_443,fs,[0 0.02],source(idx).char);
+                  color_line,h_443,fs,source(idx).char);
             legend off
             % Rrs_490
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('490','490',[Matchup.Rrs_490_ins],[Matchup.Rrs_490_sat],[Matchup.Rrs_490_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_490,fs,[0 0.03],source(idx).char);
+                  color_line,h_490,fs,source(idx).char);
             legend off
             % Rrs_555
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('555','555',[Matchup.Rrs_555_ins],[Matchup.Rrs_555_sat],[Matchup.Rrs_555_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_555,fs,[0 0.04],source(idx).char);
+                  color_line,h_555,fs,source(idx).char);
             legend off
             % Rrs_660
             [ax1,leg1] = plot_insitu_vs_sat_GOCI_onlystations('665','660',[Matchup.Rrs_665_ins],[Matchup.Rrs_660_sat],[Matchup.Rrs_660_sat_datetime],[Matchup.station_ins_ID],...
-                  color_line,h_660,fs,[0 0.02],source(idx).char);
+                  color_line,h_660,fs,source(idx).char);
             legend off
       end
 end
 %
 figure(h_412)
-axis([0 15E-3 0 15E-3])
+% axis([0 12E-3 0 12E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_412_All'],'epsc')
 
 figure(h_443)
-axis([0 16E-3 0 16E-3])
+% axis([0 16E-3 0 16E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_443_All'],'epsc')
 
 figure(h_490)
-axis([0 22E-3 0 22E-3])
+% axis([0 20E-3 0 20E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_490_All'],'epsc')
 
 figure(h_555)
-axis([0 25E-3 0 25E-3])
+% axis([0 25E-3 0 25E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_555_All'],'epsc')
 
 figure(h_660)
-axis([0 10E-3 0 10E-3])
+% axis([0 10E-3 0 10E-3])
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'GOCI_AERO_660_All'],'epsc')
 %%

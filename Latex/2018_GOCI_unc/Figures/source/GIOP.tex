@@ -1,0 +1,48 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\scriptsize
+    
+    % \hspace{-0.5cm}
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,width=8.1cm]{./a_T_All.eps} \put (92,24) {\setlength{\fboxsep}{0pt} \colorbox{white}{(a)}}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \hspace{0.2cm}
+      \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./b_bp_All.eps} \put (92,28) {\setlength{\fboxsep}{0pt} \colorbox{white}{(b)}}
+      \end{overpic}
+    \end{minipage} 
+
+\end{document}

@@ -1,0 +1,74 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[x11names]{xcolor}
+\usepackage{fourier}
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\begin{threeparttable}
+\scriptsize
+\centering
+\setlength\tabcolsep{1.5pt} % default value: 6pt
+\begin{tabular}{cccccccccc} \hline
+   &   \multicolumn{8}{c}{Time of the day (GMT)}    \\ \cline{3-10}
+& &    0h    & 1h  &  2h  &  3h  &  4h  &  5h  &  6h   &  7h   \\ 
+   & $\bar{X}_{2,3,4\text{h}}$: &  $\Delta_t$:    & $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:  &  $\Delta_t$:   &  $\Delta_t$:  \\ 
+Product & Mean\tnote{*}  &     Mean(SD)\tnote{*}    & Mean(SD)\tnote{*}  &  Mean(SD)\tnote{*}  &  Mean(SD)\tnote{*}  &  Mean(SD)\tnote{*}  &  Mean(SD)\tnote{*}  &  Mean(SD)\tnote{*}   &  Mean(SD)\tnote{*}  \\ \hline \hline 
+  % & $[sr^{-1}]$($[sr^{-1}]$) & $[sr^{-1}]$($[sr^{-1}]$)    & $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)  &  $[sr^{-1}]$($[sr^{-1}]$)   &  $[sr^{-1}]$($[sr^{-1}]$)   \\ \hline \hline
+$R_{rs}(412)$ & 1.18$\times10^{-2}$	& -3.28$\times10^{-4}$ 	&   -0.10$\times10^{-4}$	&    0.23$\times10^{-4}$ 	&    0.38$\times10^{-4}$ 	&   -0.65$\times10^{-4}$ 	&   -3.16$\times10^{-4}$ 	&   -9.20$\times10^{-4}$ 	&   -9.49$\times10^{-4}$ \\
+			  &						& (2.88$\times10^{-4}$) & (2.82$\times10^{-4}$) 	& (1.72$\times10^{-4}$) 	& (1.62$\times10^{-4}$) 	& (1.74$\times10^{-4}$) 	& (3.99$\times10^{-4}$) 	& (4.98$\times10^{-4}$) 	& (3.57$\times10^{-4}$) \\ \hline
+$R_{rs}(443)$ & 8.80$\times10^{-3}$	& -2.16$\times10^{-4}$ 	&    0.27$\times10^{-4}$ 	&    0.23$\times10^{-4}$ 	&    0.22$\times10^{-4}$ 	&   -0.50$\times10^{-4}$ 	&   -2.10$\times10^{-4}$ 	&   -6.95$\times10^{-4}$ 	&   -7.47$\times10^{-4}$ \\
+			  &						& (2.39$\times10^{-4}$) & (2.28$\times10^{-4}$) 	& (1.49$\times10^{-4}$) 	& (1.33$\times10^{-4}$) 	& (1.37$\times10^{-4}$) 	& (3.30$\times10^{-4}$) 	& (4.51$\times10^{-4}$) 	& (3.10$\times10^{-4}$) \\ \hline
+$R_{rs}(490)$ & 5.70$\times10^{-3}$	& -1.13$\times10^{-4}$ 	&    0.61$\times10^{-4}$ 	&    0.48$\times10^{-4}$ 	&    0.20$\times10^{-4}$ 	&   -0.61$\times10^{-4}$ 	&   -1.96$\times10^{-4}$ 	&   -6.18$\times10^{-4}$ 	&   -5.96$\times10^{-4}$ \\
+			  &						& (1.87$\times10^{-4}$) & (1.80$\times10^{-4}$) 	& (1.07$\times10^{-4}$) 	& (0.94$\times10^{-4}$) 	& (0.83$\times10^{-4}$) 	& (2.11$\times10^{-4}$) 	& (3.23$\times10^{-4}$) 	& (2.32$\times10^{-4}$) \\ \hline
+$R_{rs}(555)$ & 1.50$\times10^{-3}$	& 0.81$\times10^{-5}$  	&  0.14$\times10^{-5}$  	&  0.25$\times10^{-5}$  	&  0.11$\times10^{-5}$  	&  0.30$\times10^{-5}$  	&  0.97$\times10^{-5}$  	&  2.20$\times10^{-5}$  	&  1.72$\times10^{-5}$ \\
+			  &						& 0.88$\times10^{-4}$) 	& 0.96$\times10^{-4}$) 		& 0.63$\times10^{-4}$) 		& 0.50$\times10^{-4}$) 		& 0.39$\times10^{-4}$) 		& 1.04$\times10^{-4}$) 		& 1.02$\times10^{-4}$) 		& 1.31$\times10^{-4}$) \\ \hline
+$R_{rs}(660)$ & 1.18$\times10^{-4}$	& 1.64$\times10^{-5}$ 	&   0.59$\times10^{-5}$ 	&   0.34$\times10^{-5}$ 	&   0.28$\times10^{-5}$ 	&   0.58$\times10^{-5}$ 	&   1.75$\times10^{-5}$ 	&   0.75$\times10^{-5}$ 	&   1.42$\times10^{-5}$ \\
+			  &						& 2.28$\times10^{-5}$) 	& 2.54$\times10^{-5}$) 		& 1.42$\times10^{-5}$) 		& 1.63$\times10^{-5}$) 		& 1.25$\times10^{-5}$) 		& 2.62$\times10^{-5}$) 		& 1.95$\times10^{-5}$) 		& 1.91$\times10^{-5}$) \\ \hline
+$R_{rs}(680)$ & 6.06$\times10^{-5}$	& 3.26$\times10^{-5}$ 	&   3.32$\times10^{-5}$ 	&   0.60$\times10^{-5}$ 	&   0.60$\times10^{-5}$ 	&   0.29$\times10^{-5}$ 	&   0.08$\times10^{-5}$ 	&   0.43$\times10^{-5}$ 	&   0.17$\times10^{-5}$ \\
+			  &						& 3.26$\times10^{-5}$) 	& 2.84$\times10^{-5}$) 		& 1.38$\times10^{-5}$) 		& 1.20$\times10^{-5}$) 		& 1.20$\times10^{-5}$) 		& 3.06$\times10^{-5}$) 		& 4.54$\times10^{-5}$) 		& 5.65$\times10^{-5}$) \\ \hline
+Chl-\it{a}    & 9.68$\times10^{-2}$ & -1.41$\times10^{-3}$ 	&   -1.09$\times10^{-3}$ 	&   -0.23$\times10^{-3}$ 	&    0.10$\times10^{-3}$ 	&    0.09$\times10^{-3}$ 	&    1.16$\times10^{-3}$ 	&    2.92$\times10^{-3}$ 	&    6.63$\times10^{-3}$ \\ 
+	  		  &						& (5.24$\times10^{-3}$) &  (5.41$\times10^{-3}$) 	&  (2.87$\times10^{-3}$) 	&  (3.31$\times10^{-3}$) 	&  (3.50$\times10^{-3}$) 	&  (6.17$\times10^{-3}$) 	&  (7.58$\times10^{-3}$) 	&  (6.30$\times10^{-3}$) \\ \hline
+$a_{g}(412)$  & 2.15$\times10^{-2}$ & -0.58$\times10^{-3}$ 	&    0.13$\times10^{-3}$ 	&    0.17$\times10^{-3}$ 	&    0.04$\times10^{-3}$ 	&   -0.25$\times10^{-3}$ 	&   -0.52$\times10^{-3}$ 	&   -1.55$\times10^{-3}$ 	&   -1.43$\times10^{-3}$ \\ 
+			  &						& (0.78$\times10^{-3}$) &  (0.91$\times10^{-3}$) 	&  (0.53$\times10^{-3}$) 	&  (0.40$\times10^{-3}$) 	&  (0.49$\times10^{-3}$) 	&  (1.06$\times10^{-3}$) 	&  (1.31$\times10^{-3}$) 	&  (1.24$\times10^{-3}$) \\ \hline
+POC		      & 34.96 				& -1.05 				&    0.21 					&    0.30 					&    0.09 					&   -0.47 					&   -1.02 					&   -2.59 					&   -2.26 \\ 
+			  &						&  (1.39) 				&  (1.63) 					&  (0.95) 					&  (0.74) 					&  (0.83) 					&  (1.83) 					&  (2.01) 					&  (2.10) \\ \hline
+
+\end{tabular}
+\begin{tablenotes}\tiny
+\item [*] $R_{rs}$ in $[sr^{-1}]$, $Chl-\it{a}$ in $[mg m^{-3}]$, $a_{g}(412)$ in $[m^{-1}]$, and POC in $[mg m^{-3}]$.
+\end{tablenotes}
+\end{threeparttable}
+\end{document}
+

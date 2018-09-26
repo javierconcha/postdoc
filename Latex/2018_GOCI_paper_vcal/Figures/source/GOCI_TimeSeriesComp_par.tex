@@ -30,13 +30,13 @@
 
 \begin{document}
 
-\scriptsize
+% \scriptsize
 
 % \hspace{-1.0cm}
     \begin{minipage}[c]{1.0\linewidth}
     \vspace{0.1cm}
       \centering
-      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./TimeSerieComp_chlor_a.eps} \put (11,22) {\colorbox{white}{(a)}}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.5cm]{./TimeSerieComp_chlor_a.eps} \put (11,22) {\setlength{\fboxsep}{0pt} \colorbox{white}{\fontfamily{phv}\selectfont (a)}}
       \end{overpic}
     \end{minipage}   
 
@@ -45,7 +45,7 @@
     \begin{minipage}[c]{1.0\linewidth}
       \centering
       \hspace{-0.3cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=2.65cm]{./TimeSerieComp_ag_412_mlrc.eps} \put (13,23) {\colorbox{white}{(b)}}
+      \begin{overpic}[trim=0 0 0 0,clip,height=2.65cm]{./TimeSerieComp_ag_412_mlrc.eps} \put (13,23) {\setlength{\fboxsep}{0pt} \colorbox{white}{\fontfamily{phv}\selectfont (b)}}
       \end{overpic}
     \end{minipage}
 
@@ -54,7 +54,10 @@
     \begin{minipage}[c]{1.0\linewidth}
       \centering
       \hspace{0.2cm}
-      \begin{overpic}[trim=0 0 0 0,clip,height=3.15cm]{./TimeSerieComp_poc.eps} \put (9,29) {\colorbox{white}{(c)}}
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.15cm]{./TimeSerieComp_poc.eps} \put (9,29) {\setlength{\fboxsep}{0pt} \colorbox{white}{\fontfamily{phv}\selectfont (c)}}
       \end{overpic}
     \end{minipage} 
+      \vspace{2cm} 
+    \put (170,-5) {\colorbox{white}{{\fontfamily{phv}\selectfont Date}}}
+  \vspace{-2cm}
 \end{document}

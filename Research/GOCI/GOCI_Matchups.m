@@ -75,50 +75,6 @@ for idx0=1:size(AQUA_DailyStatMatrix,2);
       end
       
 end
-%
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','412','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_412_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_412_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_412'],'epsc')
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','443','443','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_443_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_443_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_443'],'epsc')
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','490','488','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_490_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_488_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_490'],'epsc')
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','555','555','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_555_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_555_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_555'],'epsc')
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','660','667','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_660_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_667_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_660'],'epsc')
-
-[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','680','678','GOCI','AQUA',...
-            [GOCI_MODIS_matchups.Rrs_680_GOCI],...
-            [GOCI_MODIS_matchups.Rrs_678_AQUA]);
-legend off
-set(gcf, 'renderer','painters')
-saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_680'],'epsc')
 
 % GOCI-VIIRS matchups
 clear GOCI_VIIRS_matchups I t_diff
@@ -185,8 +141,84 @@ for idx0=1:size(VIIRS_DailyStatMatrix,2);
       
 end
 close(h1)
-%
+
+% AQUA-VIIRS matchups
+clear AQUA_VIIRS_matchups
+
+count = 0;
+
+for idx0=1:size(VIIRS_DailyStatMatrix,2);
+      [t_diff,I]=min(abs(VIIRS_DailyStatMatrix(idx0).datetime-[AQUA_DailyStatMatrix.datetime]));
+      if hours(t_diff)<3
+            count = count+1;
+            AQUA_VIIRS_matchups(count).AQUA_ifile = char(AQUA_DailyStatMatrix(I).ifile);
+            AQUA_VIIRS_matchups(count).AQUA_datetime = char(AQUA_DailyStatMatrix(I).datetime);
+            AQUA_VIIRS_matchups(count).VIIRS_ifile = VIIRS_DailyStatMatrix(idx0).ifile;
+            AQUA_VIIRS_matchups(count).VIIRS_datetime = VIIRS_DailyStatMatrix(idx0).datetime;
+            
+            AQUA_VIIRS_matchups(count).Rrs_412_AQUA = AQUA_DailyStatMatrix(I).Rrs_412_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_443_AQUA = AQUA_DailyStatMatrix(I).Rrs_443_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_490_AQUA = AQUA_DailyStatMatrix(I).Rrs_488_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_547_AQUA = AQUA_DailyStatMatrix(I).Rrs_547_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_555_AQUA = conv_rrs_to_555(AQUA_DailyStatMatrix(I).Rrs_547_filtered_mean,547);
+            AQUA_VIIRS_matchups(count).Rrs_667_AQUA = AQUA_DailyStatMatrix(I).Rrs_667_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_678_AQUA = AQUA_DailyStatMatrix(I).Rrs_678_filtered_mean;
+
+            
+            AQUA_VIIRS_matchups(count).Rrs_410_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_410_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_443_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_443_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_486_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_486_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_551_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_551_filtered_mean;
+            AQUA_VIIRS_matchups(count).Rrs_671_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_671_filtered_mean;
+      end
+      
+end
+%% Plot GOCI/AQUA
 savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','412','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_412_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_412_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_412'],'epsc')
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','443','443','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_443_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_443_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_443'],'epsc')
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','490','488','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_490_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_488_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_490'],'epsc')
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','555','555','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_555_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_555_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_555'],'epsc')
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','660','667','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_660_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_667_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_660'],'epsc')
+
+[h1,ax1,leg1] = plot_sat_vs_sat('Rrs','680','678','GOCI','AQUA',...
+            [GOCI_MODIS_matchups.Rrs_680_GOCI],...
+            [GOCI_MODIS_matchups.Rrs_678_AQUA]);
+legend off
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname 'Scatter_GOCI_AQUA_680'],'epsc')
+
+% Plot GOCI/VIIRS
 
 [h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','410','GOCI','VIIRS',...
             [GOCI_VIIRS_matchups.Rrs_412_GOCI],...
@@ -229,42 +261,8 @@ saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_660'],'epsc')
 legend off
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname 'Scatter_GOCI_VIIRS_680'],'epsc')
-      
 
-% AQUA-VIIRS matchups
-clear AQUA_VIIRS_matchups
-
-count = 0;
-
-for idx0=1:size(VIIRS_DailyStatMatrix,2);
-      [t_diff,I]=min(abs(VIIRS_DailyStatMatrix(idx0).datetime-[AQUA_DailyStatMatrix.datetime]));
-      if hours(t_diff)<3
-            count = count+1;
-            AQUA_VIIRS_matchups(count).AQUA_ifile = char(AQUA_DailyStatMatrix(I).ifile);
-            AQUA_VIIRS_matchups(count).AQUA_datetime = char(AQUA_DailyStatMatrix(I).datetime);
-            AQUA_VIIRS_matchups(count).VIIRS_ifile = VIIRS_DailyStatMatrix(idx0).ifile;
-            AQUA_VIIRS_matchups(count).VIIRS_datetime = VIIRS_DailyStatMatrix(idx0).datetime;
-            
-            AQUA_VIIRS_matchups(count).Rrs_412_AQUA = AQUA_DailyStatMatrix(I).Rrs_412_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_443_AQUA = AQUA_DailyStatMatrix(I).Rrs_443_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_490_AQUA = AQUA_DailyStatMatrix(I).Rrs_488_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_547_AQUA = AQUA_DailyStatMatrix(I).Rrs_547_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_555_AQUA = conv_rrs_to_555(AQUA_DailyStatMatrix(I).Rrs_547_filtered_mean,547);
-            AQUA_VIIRS_matchups(count).Rrs_667_AQUA = AQUA_DailyStatMatrix(I).Rrs_667_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_678_AQUA = AQUA_DailyStatMatrix(I).Rrs_678_filtered_mean;
-
-            
-            AQUA_VIIRS_matchups(count).Rrs_410_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_410_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_443_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_443_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_486_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_486_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_551_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_551_filtered_mean;
-            AQUA_VIIRS_matchups(count).Rrs_671_VIIRS = VIIRS_DailyStatMatrix(idx0).Rrs_671_filtered_mean;
-      end
-      
-end
-%
-savedirname = '/Users/jconchas/Documents/Latex/2018_GOCI_paper_vcal/Figures/source/';
-
+% Plot AQUA/VIIRS
 
 [h1,ax1,leg1] = plot_sat_vs_sat('Rrs','412','410','AQUA','VIIRS',...
             [AQUA_VIIRS_matchups.Rrs_412_AQUA],...

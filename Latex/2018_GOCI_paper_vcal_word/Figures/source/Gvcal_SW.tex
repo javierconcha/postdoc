@@ -1,0 +1,71 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\scriptsize
+
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_412.eps} \put (9,20) {\colorbox{white}{(a) $412nm$}}
+    \end{overpic}
+  \end{minipage}   
+
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_443.eps} \put (9,20) {\colorbox{white}{(b) $443nm$}}
+    \end{overpic}
+  \end{minipage}
+       
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_490.eps} \put (9,20) {\colorbox{white}{(c) $490nm$}}
+    \end{overpic}
+  \end{minipage} 
+
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_555.eps} \put (9,20) {\colorbox{white}{(d) $555nm$}}
+    \end{overpic}
+  \end{minipage}   
+
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_660.eps} \put (9,20) {\colorbox{white}{(e) $660nm$}}
+    \end{overpic}
+  \end{minipage}
+       
+  \begin{minipage}[c]{1.0\linewidth}
+    \centering
+    \begin{overpic}[trim=0 0 0 0,clip,width=8.0cm]{./Gvcal_SW_680.eps} \put (9,20) {\colorbox{white}{(f) $680nm$}}
+    \end{overpic}
+  \end{minipage} 
+
+\end{document}

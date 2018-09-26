@@ -1,0 +1,481 @@
+\documentclass[12pt]{spieman}  % 12pt font required by SPIE;
+%\documentclass[a4paper,12pt]{spieman}  % use this instead for A4 paper
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tocloft}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{epsfig}
+
+% Select what to do with todonotes: 
+% \usepackage[disable]{todonotes} % notes not showed
+% % \usepackage[draft]{todonotes}   % notes showed
+% \setlength{\marginparwidth}{2cm}
+% \usepackage[textwidth=3.7cm]{todonotes}
+
+% \usepackage{tikz} % for flow charts
+%   \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+%   \usetikzlibrary{external}
+%   \tikzexternalize
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\title{Assesing Diurnal Variability of Biogeochical Processes using the Geostationary Ocean Color Imager (GOCI)}
+
+% \author[a]{First Author}
+% \author[a]{Second Author}
+% \author[b]{Third Author}
+% \author[a,b,*]{Fourth Author}
+% \affil[a]{University Name, Faculty Group, Department, Street Address, City, Country, Postal Code}
+% \affil[b]{Company Name, Street Address, City, Country, Postal Code}
+
+
+\author[a,b,*]{Javier Concha}
+
+\author[a]{Antonio Mannino}
+
+\author[a]{Bryan Franz}
+
+\author[c]{Wonkook Kim}
+
+\author[d]{Michael Ondrusek}
+
+\affil[a]{Ocean Ecology lab, NASA Goddard Space Flight Center, Greenbelt, MD, USA}
+\affil[b]{Universities Space Research Association, Columbia, MD, USA}
+\affil[c]{Korea Institute of Ocean Science and Technology, 787 Haean-ro, Ansan, Republic of Korea}
+
+\affil[d]{NOAA/NESDIS Center for Weather and Climate Prediction, College Park, Maryland, USA}
+
+\renewcommand{\cftdotsep}{\cftnodots}
+\cftpagenumbersoff{figure}
+\cftpagenumbersoff{table} 
+\begin{document} 
+\maketitle
+
+\begin{abstract} % max 200 words for SPIE
+
+% Background/motivation/context
+
+%
+
+% Aim/objectives(s)/problem statement
+
+%
+ 
+% Methods
+
+%
+
+%
+
+%
+
+% Results
+
+%
+ 
+%
+
+% Conclusions
+
+% 
+\end{abstract}
+
+% Include a list of up to six keywords after the abstract (8 max)
+\keywords{Geostationary Ocean Color Imager, GOCI, diurnal dynamics, diurnal variability, CDOM}
+
+% Include email contact information for corresponding author
+{\noindent \footnotesize\textbf{*}Javier Concha,  \linkable{javier.concha@nasa.gov} }
+
+\begin{spacing}{2}   % use double spacing for rest of manuscript
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+GOCI as a precursor to GEO-CAPE. 
+Name GOCI-II and the ESA geostacionary satellite.
+
+Example of citations\cite{Ryu2011,He2013,Hu2016}
+
+
+%%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Data and Methodology}
+\section{Data and Sensor Characteristics}
+% ============================================================
+\subsection{GOCI Data}
+%%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Processing Approach}
+% ---------------------------------------------------------------
+\subsection{Atmospheric Correction Algorithm}
+
+% ---------------------------------------------------------------
+\subsection{Bio-Optical Algorithm}
+% ---------------------------------------------------------------
+\subsection{Vicarious Calibration?}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\label{sec:Results}
+% ============================================================
+% ---------------------------------------------------------------
+\subsection{Matchups}
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{AERONET-OC}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_412.eps}
+    \centerline{(a)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_443.eps}
+      \centerline{(b)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_490.eps}
+    \centerline{(c)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_555.eps}
+      \centerline{(d)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \includegraphics[height=6.5cm]{./Figures/GOCI_AERO_660.eps}
+      \centerline{(e)}\medskip
+    \end{minipage}   
+
+    \caption{Comparison between GOCI and AERONET-OC data. \label{fig:GOCI_AERO} } 
+\end{figure}
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{Cruises Matchups}
+
+% ---------------------------------------------------------------
+\subsection{Time Series}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs412.eps} \put (50,23) {(a)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs412.eps} \put (79,60) {(b)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs443.eps} \put (50,23) {(c)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs443.eps} \put (79,60) {(d)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs490.eps} \put (50,23) {(e)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs490.eps} \put (79,60) {(f)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs555.eps} \put (50,23) {(g)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs555.eps} \put (79,60) {(h)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs660.eps} \put (50,23) {(i)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs660.eps} \put (79,60) {(j)}
+      \end{overpic} 
+    \end{minipage}  
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(k)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Time Series. \label{fig:GOCI_TimeSeries} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(l)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Rrs680.eps} \put (75,60) {(m)}
+      \end{overpic} 
+    \end{minipage} 
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 400 0 30,clip,height=3.6cm]{./Figures/TimeSerie_Chla.eps} \put (50,23) {(n)}
+      \end{overpic}
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.2cm]{./Figures/Hist_Chla.eps} \put (75,60) {(o)}
+      \end{overpic} 
+    \end{minipage}        
+
+    \begin{minipage}[c]{0.66\linewidth}
+      \centering
+      \begin{overpic}[trim=70 0 0 430,clip,height=3.6cm]{./Figures/TimeSerie_Rrs680.eps} \put (50,23) {(p)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Time Series (con't). \label{fig:GOCI_TimeSeries2} } 
+\end{figure}
+% ---------------------------------------------------------------
+\subsection{Products versus solar zenith angle}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=10cm]{./Figures/Rrs_vs_Zenith.eps}
+      \end{overpic}
+	\end{minipage}  
+
+    \caption{Rrs versus solar zenith angle. \label{fig:Rrs_vs_zenith} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=5cm]{./Figures/Chl_vs_Zenith.eps}
+      \end{overpic}
+	\end{minipage}  
+
+    \caption{Rrs versus solar zenith angle. \label{fig:Chl_vs_zenith} } 
+\end{figure}
+
+% ---------------------------------------------------------------
+\subsection{Diurnal Differences and Uncertainties}
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs412.eps}
+    \centerline{(a)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs443.eps}
+      \centerline{(b)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs490.eps}
+    \centerline{(c)}\medskip
+    \end{minipage}  
+    \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs555.eps}
+      \centerline{(d)}\medskip
+    \end{minipage}  
+
+  \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs660.eps}
+      \centerline{(e)}\medskip
+    \end{minipage}   
+        \hfill
+    \begin{minipage}[c]{0.48\linewidth}
+      \centering
+      \includegraphics[height=5.5cm]{./Figures/Diff_Mean_Rrs680.eps}
+      \centerline{(f)}\medskip
+    \end{minipage} 
+    \caption{Difference with respect to the daily mean value for Rrs. \label{fig:DiffDailyMeanRrs} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \includegraphics[height=4.5cm]{./Figures/Diff_Mean_chlor_a.eps}
+    \centerline{(a)}\medskip
+    \end{minipage}  
+    % \hfill
+    \begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \includegraphics[height=4.5cm]{./Figures/Diff_Mean_poc.eps}
+      \centerline{(b)}\medskip
+    \end{minipage}  
+    % \hfill
+  	\begin{minipage}[c]{0.33\linewidth}
+      \centering
+      \includegraphics[height=4.5cm]{./Figures/Diff_Mean_ag_412_mlrc.eps}
+    \centerline{(c)}\medskip
+    \end{minipage}  
+
+    \caption{Difference with respect to the daily mean value for chlor-a,poc and ag(412)mlrc. \label{fig:DiffDailyMeanProd} } 
+\end{figure}
+% ---------------------------------------------------------------
+\subsection{Sensor Cross-comparison}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs412.eps} \put (10,28) {(a)}
+      \end{overpic}
+    \end{minipage}   
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs443.eps} \put (10,28) {(b)}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs490.eps} \put (10,28) {(c)}
+      \end{overpic}
+    \end{minipage}  
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs555.eps} \put (10,28) {(d)}
+      \end{overpic}
+    \end{minipage}   
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs660.eps} \put (10,28) {(e)}
+      \end{overpic}
+    \end{minipage}  
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/CrossComp_Rrs680.eps} \put (10,28) {(f)}
+      \end{overpic}
+    \end{minipage}   
+
+    \caption{Cross-comparison. \label{fig:CrossComp} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_chlor_a.eps} \put (9,30) {(a)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_ag_412_mlrc.eps} \put (9,30) {(b)}
+      \end{overpic}
+    \end{minipage} 
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_poc.eps} \put (9,30) {(c)}
+      \end{overpic}
+    \end{minipage} 
+
+    \caption{Time Series for derived geophysical parameters. \label{fig:GOCI_TimeSeries_geophysical_par} } 
+\end{figure}
+
+\begin{figure}[htb!]
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_Angstrom.eps} \put (9,30) {(d)}
+      \end{overpic}
+    \end{minipage}   
+    
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_AOT_865.eps} \put (9,30) {(e)}
+      \end{overpic}
+    \end{minipage}       
+
+    \begin{minipage}[c]{1.0\linewidth}
+      \centering
+      \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./Figures/TimeSerie_brdf.eps} \put (9,30) {(f)}
+      \end{overpic}
+    \end{minipage} 
+
+    \caption{Time Series for derived geophysical paremeters (Angstrom and AOT(865)) and atmospheric correction intermediate (BRDF). \label{fig:GOCI_TimeSeries_intermed_par} } 
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+% Practical applications  
+% Disadvantages and Advantages
+% Limitations
+% Challenges
+
+% \disclosures 
+% \subsection*{Disclosures}
+% Conflicts of interest should be declared under a separate header. If the authors have no relevant financial interests in the manuscript and no other potential conflicts of interest to disclose, a statement to this effect should also be included in the manuscript.
+
+\acknowledgments 
+We want to acknowledge the NASA Project ROSES Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI), the AERONET-OC, the Korea Ocean Satellite Center for providing the GOCI L1B data to OBPG, and the Ocean Biology Processing Group at the Goddard Space Flight Center, NASA. 
+ 
+%%%%% References %%%%%
+
+\bibliography{/Users/jconchas/Documents/Latex/bib/javier_NASA.bib}   % bibliography data in report.bib
+\bibliographystyle{spiejour}   % makes bibtex use spiejour.bst
+
+%%%%% Biographies of authors %%%%%
+
+% \vspace{2ex}\noindent\textbf{Javier Concha} blahblah.
+
+% \vspace{1ex}
+% \noindent Biographies and photographs of the other authors are not available.
+
+% \listoffigures
+% \listoftables
+
+\end{spacing}
+\end{document}

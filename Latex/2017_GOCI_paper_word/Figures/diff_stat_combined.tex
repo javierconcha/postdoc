@@ -1,0 +1,79 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[x11names]{xcolor}
+\usepackage{fourier}
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+
+\usepackage{cellspace}
+\setlength\cellspacetoplimit{3pt}
+\setlength\cellspacebottomlimit{0pt}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\begin{threeparttable}
+\normalsize
+\centering
+\setlength\tabcolsep{3pt} % default value: 6pt
+\begin{tabular}{@{\extracolsep{4pt}}Sc ccccccccc ccccccccc@{}}\hline
+  &   \multicolumn{9}{c}{All Data}    &  \multicolumn{9}{c}{Only Summer}    \\ \cline{2-10}  \cline{11-19}
+  & &   \multicolumn{8}{c}{Time of the day (GMT)}    &  & \multicolumn{8}{c}{Time of the day (GMT)}    \\ \cline{3-10}  \cline{12-19}
+& &    0h    & 1h  &  2h  &  3h  &  4h  &  5h  &  6h   &  7h  & &   0h    & 1h  &  2h  &  3h  &  4h  &  5h  &  6h   &  7h  \\ 
+   &  & \multicolumn{8}{c}{R$\Delta_t[\%]$:} &  & \multicolumn{8}{c}{R$\Delta_t[\%]$:} \\ 
+Product 	  		  & $\overline{X}_{4\text{h}}$\tnote{*}  		&  \multicolumn{8}{c}{Mean($\pm$SD)}   & $\overline{X}_{4\text{h}}$\tnote{*}  &   \multicolumn{8}{c}{Mean($\pm$SD)} \\ \cline{1-2} \cline{3-10} \cline{11-11} \cline{12-19}
+\multirow{2}{*}{$R_{rs}(412)$} & \multirow{2}{*}{1.17$\times10^{-2}$}	&  -2.37 	&  0.55 	& 1.42 		& 1.57 		&  0.00 	& -2.96 	& -9.52  	& -8.98  	& \multirow{2}{*}{1.35$\times10^{-3}$}	&   -1.50 	&   0.26	&   0.83 	&  -0.41 	&  0.00 	&  -0.96 	&   -1.89  	&   -1.63  	\\
+			  &						& (3.41) 	& (4.02) 	& (3.33) 	& (3.24) 	& (0.00) 	& (4.44) 	& (7.42) 	& (3.04) 	&						&   (2.89) 	&  (2.44) 	&  (3.11) 	&  (1.62) 	& (0.00) 	&  (1.83) 	&   (1.70) 	&   (1.13) 	\\ 
+\multirow{2}{*}{$R_{rs}(443)$} & \multirow{2}{*}{8.76$\times10^{-3}$}	&   -1.99  	&  0.97  	& 1.27  	& 1.35   	&  0.00  	&  -2.25   	& -8.90   	& -8.11  	& \multirow{2}{*}{9.80$\times10^{-4}$}	&   -0.91 	&   1.18 	&   1.23 	&  -0.46  	&  0.00 	&  -0.77  	&   -2.47   &   -3.33 	\\
+			  &						&  (3.48) 	&  (3.84) 	&  (3.27) 	&  (3.11) 	&  (0.00) 	&  (4.03) 	&  (7.29) 	&  (3.74) 	&						&   (3.20)	&  (2.80)	&  (3.33)	&  (1.69)	& (0.00)	&  (2.02)	&   (1.83)	&   (1.91)	\\ 
+\multirow{2}{*}{$R_{rs}(490)$} & \multirow{2}{*}{5.60$\times10^{-3}$}	&   -0.83  	& 2.65   	&  2.70 	&  2.16  	&  0.00   	&  -2.77   	& 11.38   	& 11.50  	& \multirow{2}{*}{6.10$\times10^{-4}$}	&    0.58   &   3.38   	&   2.83 	&   0.29  	&  0.00   	&  -1.33   	&   -2.21   &   -3.10  	\\
+			  &						&  (4.27) 	&  (4.34) 	&  (3.49) 	&  (3.20) 	&  (0.00) 	&  (3.81) 	&  (8.04) 	&  (4.24) 	&						&   (3.78) 	&  (3.49) 	&  (3.65) 	&  (1.80) 	& (0.00) 	&  (2.14) 	&   (1.48) 	&   (1.35) 	\\ 
+\multirow{2}{*}{$R_{rs}(555)$} & \multirow{2}{*}{1.43$\times10^{-3}$}	&   -3.42   &  4.18   	&  5.42 	&  4.13  	&  0.00   	&  -4.93   	& 15.93   	& 16.24  	& \multirow{2}{*}{1.50$\times10^{-4}$}	&    0.68   &   7.81   	&   8.14 	&  1.89  	&  0.00   	&  -3.39   	&  	-4.88   &   10.54  	\\
+			  &						&  (8.46) 	&  (8.53) 	&  (7.33) 	&  (5.50) 	&  (0.00) 	&  (6.42) 	&  (8.14) 	&  (9.39) 	&						&   (7.44) 	&  (7.75) 	&  (8.58) 	&  (4.16) 	& (0.00) 	&  (4.41) 	&   (4.45) 	&   (7.78) 	\\ 
+\multirow{2}{*}{$R_{rs}(660)$} & \multirow{2}{*}{1.12$\times10^{-4}$}	&  -10.26  	&  17.91   	& 24.34 	&  23.39 	&  0.00   	& -13.74    &-12.51    	&  0.04    	& \multirow{2}{*}{1.38$\times10^{-4}$}	&   -9.35  	&  12.02   	&  10.43 	&  -1.32 	&  0.00   	& -10.29    &  -12.76  	&    0.04 	\\
+			  &						&  (30.26) 	&  (44.50) 	&  (62.48) 	&  (60.38) 	&   (0.00) 	&  (25.32) 	&  (13.48) 	&   (5.77) 	&						&  (19.85) 	& (21.07) 	& (18.12) 	& (13.61) 	& (0.00) 	& (17.01) 	&  (13.61) 	&   (5.77) 	\\ 
+\multirow{2}{*}{$R_{rs}(680)$} & \multirow{2}{*}{6.99$\times10^{-5}$}	&  172.24  	& 150.49  	& 60.36  	&  15.77  	&  0.00   	&  38.83    & 17.38    	& 32.26   	& 7.36$\times10^{-5}$	&  140.56  	& 130.79  	&  44.36  	&  -2.44  	&  0.00   	&  19.77    &   20.01  	&   36.15 	\\
+			  &						& (315.03) 	& (232.46) 	&  (133.07)	&   (94.57)	&    (0.00)	&  (104.94)	& (90.81) 	& (132.37) 	&						& (250.42) 	&(158.07) 	& (88.23) 	&  (45.07) 	& (0.00)	& (78.43) 	&  (93.34) 	& (135.49) 	\\ 
+\multirow{2}{*}{Chl-\it{a}}    & \multirow{2}{*}{0.0961} 				&  -1.35  	&   -0.47  	&    0.03	&    0.23  	&    0.00  	&    1.65  	&    3.79  	&    9.76  	&  \multirow{2}{*}{0.0737} 				&   -0.33  	&   1.16  	&   0.98   	&   1.76  	&  0.00  	&   1.78  	&    2.72  	&    7.76  	\\ 
+	  		  &						&  (6.94) 	&  (6.88) 	&  (6.47) 	&  (7.04) 	&  (0.00) 	&  (7.65) 	&  (9.57) 	&  (9.76) 	&						&   (5.28) 	&  (6.55) 	&  (6.64) 	&  (6.36) 	& (0.00) 	&  (6.98) 	&   (6.20) 	&   (8.25) 	\\ 
+\multirow{2}{*}{$a_{g}(412)$}  & \multirow{2}{*}{0.0210} 				&  -1.70  	&    2.64  	&    2.61  	&    1.88  	&    0.00  	&   -1.50  	&   -6.63  	&   -7.39  	&  \multirow{2}{*}{0.0183} 				&    0.26  	&   5.75  	&   4.95  	&   1.80  	&  0.00  	&  -1.50  	&   -4.26  	&   -6.75  	\\ 
+			  &						&  (5.81) 	&  (6.29) 	&  (5.12) 	&  (3.83) 	&  (0.00) 	&  (4.53) 	&  (6.12) 	&  (6.95) 	&						&   (4.85) 	&  (5.63) 	&  (5.34) 	&  (3.60) 	& (0.00) 	&  (3.90) 	&   (3.91) 	&   (6.51) 	\\ 
+\multirow{2}{*}{POC}	       &  \multirow{2}{*}{34.16} 				&  -2.05  	&    2.81  	&    2.87  	&    2.08  	&    0.00  	&   -1.80  	&   -6.94  	&   -7.71  	&  \multirow{2}{*}{30.35} 				&    0.19  	&   6.05  	&   5.22  	&   1.75  	&  0.00  	&  -1.63  	&   -4.42  	&   -6.59  	\\ 
+			  &						&  (6.32) 	&  (6.69) 	&  (5.47) 	&  (4.11) 	&  (0.00) 	&  (4.71) 	&  (5.82) 	&  (6.78) 	&						&   (5.29) 	&  (6.03) 	&  (5.81) 	&  (3.81) 	& (0.00) 	&  (4.19) 	&   (3.96) 	&   (6.39) 	\\ \hline
+
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item [*] $R_{rs}$ in $[sr^{-1}]$, $Chl-\it{a}$ in $[mg m^{-3}]$, $a_{g}(412)$ in $[m^{-1}]$, and POC in $[mg m^{-3}]$.
+\end{tablenotes}
+\end{threeparttable}
+\end{document}
+
+

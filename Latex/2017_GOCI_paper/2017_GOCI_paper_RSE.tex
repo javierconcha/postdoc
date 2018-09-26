@@ -217,6 +217,8 @@ The images used in this analysis span from the beginning of GOCI's mission (June
 
 The area of study (\autoref{fig:AreaOfStudy}) is an area that covers an open-ocean region of oligotrophic waters located to the south of Japan, with the boundaries north$=29.4736^o$, south$=24.2842^o$, west$=131.9067^o$, and east$=142.3193^o$, centered at $27^oN$ and $137^oE$. \autoref{fig:AreaOfStudy} shows the area of study (white box) and the GOCI coverage area (red box) for reference. This area of study will be called GCW (GOCI Clear Water) region hereafter. The GCW region is approximately $2000\times 1000$ GOCI pixels, and therefore, covering approximately two million GOCI pixels, equivalent to $500,000\ km^2$. The reasoning behind the selection of this area of study is the assumption that most of the variability in this region during the day will be caused by physical (e.g. wind, waves) changes and not by biogeochemical processes (e.g. $CO_2$ fixation). In this manner the variability due to water composition will be minimized, and therefore, the variability introduced by the sensor, viewing geometry and algorithm can be analyzed. For this region, the range of solar zenith angle (SZA) during the acquisition time  varies between $0^o$ to $90^o$ through the year, and between approximately $29^o$ to $37^o$ for the sensor (viewing) zenith angle.
 
+The area of study is located south of Japan (\autoref{fig:AreaOfStudy}), in the northwestern fringe of the North Pacific Subtropical Gyre (NPSG) in a transition region between its western boundary current, i.e. the Kuroshio Current, and the subtropical countercurrent (STCC) (Figure 1 in \cite{Qiu_2011_Kuroshio}). The NPSG gyre expands or contracts depending on the season following the seasonal strength of the winds and convective upper-ocean mixing (\cite{McClain_2004_gyres}; \cite{Signorini_2015}), which may explain that the ecosystem in the area of study changes seasonally between oligotrophic and mesotrophic conditions. Because the study region is on the limit of NPSG, it may be affected by different types of physical forcing than the ones affecting the gyres. For instance, fronts or winds may induce upwelling providing nutrients to the euphotic zone, that combined with the fact that the nutricline is much shallower in the fringes of the gyre than in its interior, contribute to a larger phytoplankton growth compared with the gyres. The Chl-a concentration in the study region ranges from 0.05 mg m-3 to 0.2 mg m-3 (\autoref{fig:GOCI_TimeSeries2}.(a)), depending on the season, a range comparable to the one reported by \cite{Signorini_2015} with a mean Chl-a concentration in the NPSG gyre ranging between 0.07 mg m-3 and 0.11 mg m-3.
+
 % ($\text{Number Total Pixels } (NTP) = (499*2+1)*(999*2+1) =  1,997,001$ pixels)
 % ---------------------------------------------------------------
 \begin{figure}[ht]
@@ -1188,13 +1190,13 @@ Note that the standard deviation of $R\Delta_t[\%]$ is higher for the 6h than th
 
 Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ for each time of the day are less than $10\%$. For all products, the mean $R\Delta_t[\%]$ is less than 5\% for all times of the day but 6h and 7h, which are still less than 10\%, when all the data are analyzed (\autoref{tab:rel_diff}).
 
-\begin{landscape}
+% \begin{landscape}
   \begin{table}[htbp!]
   %\internallinenumbers
   \caption{The diurnal variability was quantized by calculating the diurnal mean and standard deviation (SD) for each day. The analysis was performed for all the data and for only summer, when there is the smallest variability in the water properties. Two times the mean of diurnal SD ($\pm2\cdot\overline{SD}_{diurnal}$) for summer (in \textbf{bold}) is considered the uncertainty associated with GOCI sensor. Also, the diurnal percent coefficient of variation (CV[\%]) was calculated. The root mean squared error (RMSE) from the AERONET-OC data is shown for reference. \label{tab:diurnal_var} } 
   \vspace{0.1cm}
   \centering
-  \includegraphics[width=16cm]{./Figures/diurnal_var.pdf}
+  \includegraphics[width=14cm]{./Figures/diurnal_var.pdf}
   \end{table}
 % \end{landscape}
 
@@ -1203,9 +1205,9 @@ Overall, the mean $R\Delta_t[\%]$ for Chlorophyll-{\it a}, POC and $a_g(412)$ fo
   %\internallinenumbers
   \caption{The diurnal variability was also assessed with the relative difference $R\Delta_t[\%]$ with respect to the 4h time of the day value. The analysis was performed for all the data and for only summer, when there is the smallest variability in the water properties. The mean of the 4h time of day ($\overline{X}_{4\text{h}}$) is shown for reference.\label{tab:rel_diff} } 
   \centering
-  \includegraphics[width=18cm]{./Figures/diff_stat_combined.pdf}
+  \includegraphics[width=16cm]{./Figures/diff_stat_combined.pdf}
   \end{table}
-\end{landscape}
+% \end{landscape}
 
 
 % old data:

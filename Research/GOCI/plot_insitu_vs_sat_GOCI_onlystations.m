@@ -1,4 +1,4 @@
-function [ax,leg] = plot_insitu_vs_sat_GOCI_onlystations(wl_sat,wl_ins,x_data,y_data,x_data_datetime,station_ID,color_line,h,fs,lim,source)
+function [ax,leg] = plot_insitu_vs_sat_GOCI_onlystations(wl_ins,wl_sat,x_data,y_data,x_data_datetime,station_ID,color_line,h,fs,source)
 
 %% filtered
 
@@ -14,8 +14,7 @@ Matchup_sat_used = Matchup_sat(cond0);
 
 figure(h)
 % plot(Matchup_ins_used,Matchup_sat_used,'ob','MarkerSize',12)
-xlabel(['In situ R_{rs}(' wl_ins ') (sr^{-1})'],'FontSize',fs)
-ylabel(['Satellite R_{rs}(' wl_sat ') (sr^{-1})'],'FontSize',fs)
+
 axis equal
 
 % station 1: aoc_gageo
@@ -54,6 +53,19 @@ Rrs_ins_max = max(Matchup_ins_used)*1.05;
 Rrs_min = min([Rrs_sat_min Rrs_ins_min]);
 Rrs_max = max([Rrs_sat_max Rrs_ins_max]);
 
+switch wl_sat
+      case '412'
+            lim = [0 16E-3];
+      case '443'
+            lim = [0 16E-3];
+      case '490'
+            lim = [0 22E-3];
+      case '555'
+            lim = [0 25E-3];
+      case '660'
+            lim = [0 10E-3];
+end
+
 xlim(lim)
 ylim(lim)
 
@@ -61,15 +73,29 @@ hold on
 plot(lim,lim,'--k','LineWidth',1.5)
 % plot([0 Rrs_max],[0.1*Rrs_max 1.1*Rrs_max],':k')
 % plot([0 Rrs_max],[-0.1*Rrs_max 0.9*Rrs_max],':k')
-grid on
+% grid on
+box on
 leg = legend(['3 h; Total: ' num2str(sum(cond0)) ],'Location','SouthEast');
 % to show scientific notation in axes
 ax = gca;
 ax.XAxis.TickLabelFormat = '%,.1f';
 ax.XAxis.Exponent = -3;
-ax.YTick =ax.XTick;
+ax.XTick =ax.YTick;
 ax.YAxis.TickLabelFormat = '%,.1f';
 ax.YAxis.Exponent = -3;
+
+xlabel(['In situ {\it R}_{rs}(' wl_ins ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+ylabel(['Satellite {\it R}_{rs}(' wl_sat ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+
+% write x10^ in the axis labels
+TickLabelAux = ax.YTickLabel;
+ax.XAxis.Exponent = 0;
+ax.YAxis.Exponent = 0;
+ax.XTickLabelMode = 'Manual';
+ax.YTickLabelMode = 'Manual';
+ax.XTickLabel = TickLabelAux;
+ax.YTickLabel = TickLabelAux;
+
 
 
 if sum(isfinite(Matchup_ins_used))    
@@ -82,7 +108,7 @@ if sum(isfinite(Matchup_ins_used))
 %       [~,~,~] = calc_stat(Matchup_ins_5,Matchup_sat_5,Rrs_max,wl_sat,wl_ins,FID);      
 %       [~,~,~] = calc_stat(Matchup_ins_6,Matchup_sat_6,Rrs_max,wl_sat,wl_ins,FID);
 %       [~,~,~] = calc_stat(Matchup_ins_7,Matchup_sat_7,Rrs_max,wl_sat,wl_ins,FID);
-      [x1,y1,~] = calc_stat(Matchup_ins_used,Matchup_sat_used,Rrs_max,wl_sat,wl_ins,source);
+      [x1,y1,~] = calc_stat(Matchup_ins_used,Matchup_sat_used,lim(2),wl_sat,wl_ins,source);
       
       % plot
       figure(h)

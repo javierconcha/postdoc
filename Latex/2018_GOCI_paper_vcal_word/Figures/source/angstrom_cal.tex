@@ -1,0 +1,99 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc,fit}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \tikzsetnextfilename{FilteringCriteria}
+% \begin{figure}[ht]
+% \vspace{1cm}
+%   \centering
+  % \small
+% \resizebox{16cm}{!}{%
+% Define block styles
+
+% \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5em, minimum height=2em,text centered, draw=black, fill=white]
+
+\tikzstyle{input} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2em, minimum height=2em, text width=3cm, text centered, draw=black, fill=white]
+
+\tikzstyle{inputsmall} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=1em, minimum height=1em, text width=1.0cm, text centered, draw=black, fill=white]
+
+\tikzstyle{output} = [rounded rectangle, minimum width=3em, minimum height=3em, text width=4.5cm, text centered, draw=black, fill=white, inner sep=-1pt]
+
+\tikzstyle{process} = [rectangle, minimum width=3em, minimum height=2em, text width=6cm, text centered, draw=black, fill=white]
+
+\tikzstyle{process_small} = [rectangle, minimum width=3em, minimum height=2em, text width=4cm, text centered, draw=black, fill=white]
+
+\tikzstyle{decision} = [diamond, aspect=2, minimum width=2em, minimum height=2em, text width=5cm, text centered, draw=black, fill=white]
+
+\tikzstyle{arrow} = [thick,->,>=triangle 45]
+\tikzstyle{arrowdashed} = [thick,dashed,->,>=stealth]
+
+\begin{tikzpicture}[node distance=2.5cm]
+
+
+%% NODES
+
+\node (L1B) [input, text width=4cm] {Select L1B files\\from calibrated sensor \\to be processed to L2};
+\node (l2gen) [process,below of=L1B, text width=5cm] {Process to L2 \\using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily l2prod=angstrom,senz,solz};
+
+\node (flag) [process,below of=l2gen,yshift=-1cm] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"};
+
+\node (filtered) [input, below of=flag,text width=6cm,yshift=-2cm] {Filtered Mean Angstrom Coeff. \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{NFP} X_j}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_j\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+
+\node (enough) [decision, right of=filtered, inner sep=1pt,xshift=7cm] {Is $NFP > 225$?};
+
+\node (zenith) [decision, above of=enough,yshift=1.5cm,inner sep=0pt] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
+
+\node (fail) [output, right of=zenith, xshift=5cm] {Failed filtering criteria};
+
+\node (pass) [output, above of=zenith, yshift=1cm] {Passes filtering criteria};
+
+\node (angstrom) [input, above of=pass, text width=3cm] {Satellite-derived\\Angstrom Coeff.};
+
+
+%% CONNECTORS
+\draw [arrow] (L1B) -- (l2gen);
+\draw ([yshift=-0.2cm]l2gen.east) -- ([yshift=-0.2cm]l2gen.west);
+\draw [arrow] (l2gen) -- (flag);
+\draw ([yshift=0.6cm]flag.east) -- ([yshift=0.6cm]flag.west);
+\draw ([yshift=1.2cm,xshift=0.44cm]filtered.east) -- ([yshift=1.2cm,xshift=0.44cm]filtered.west);
+\draw [arrow] (flag) -- (filtered);
+
+\draw [arrow] (filtered) -- (enough);
+\draw [arrow] (enough.south) -| node[anchor=east,yshift=-0.5cm] {NO} ([yshift=-1cm]enough.south) -| (fail.south);
+
+\draw [arrow] (enough.north) node[anchor=east,yshift=0.2cm] {YES} -- (zenith.south);
+
+\draw [arrow] (zenith.east) node[anchor=south,xshift=0.4cm] {NO} -- (fail);
+\draw [arrow] (zenith.north) node[anchor=east,yshift=0.2cm] {YES} -- (pass.south);
+\draw [arrow] (pass) -- (angstrom);
+
+\end{tikzpicture}
+\end{document}

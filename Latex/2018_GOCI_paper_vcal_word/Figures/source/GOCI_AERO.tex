@@ -1,0 +1,77 @@
+\documentclass[preview,border=2]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+% \begin{my}
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+% \begin{figure}[H]
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./GOCI_AERO_412_All.eps} \put (77,23) {\colorbox{white}{(a)}}
+       \end{overpic}
+    \end{minipage}  
+    \hspace{-0.5cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./GOCI_AERO_443_All.eps} \put (77,23) {\colorbox{white}{(b)}}
+       \end{overpic}
+    \end{minipage}  
+    \hspace{-0.5cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+      \hspace{1cm}
+       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./GOCI_AERO_490_All.eps} \put (77,23) {\colorbox{white}{(c)}}
+       \end{overpic}
+    \end{minipage}  
+
+    % \vspace{0.5cm}
+
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./GOCI_AERO_555_All.eps} \put (77,23) {\colorbox{white}{(d)}}
+       \end{overpic}
+    \end{minipage}  
+    \hspace{-0.5cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+       \begin{overpic}[trim=0 0 0 0,clip,height=3.5cm]{./GOCI_AERO_660_All.eps} \put (77,23) {\colorbox{white}{(e)}}
+       \end{overpic}
+    \end{minipage}   
+    \hspace{0cm}
+    \begin{minipage}[c]{0.32\linewidth}
+      \centering
+       \begin{overpic}[trim=0 0 0 0,clip,height=2.0cm]{./legend_calval_onlystations.pdf}
+       \end{overpic}
+    \end{minipage} 
+% \end{figure}
+% \end{my}
+
+\end{document}

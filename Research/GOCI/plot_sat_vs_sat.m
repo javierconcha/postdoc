@@ -9,15 +9,104 @@ cond0 =  ~isnan(y_data)&~isnan(x_data)&...
 x_data_used = x_data(cond0);
 y_data_used = y_data(cond0);
 
-fs = 20;
+fs = 22;
 h = figure('Color','white','DefaultAxesFontSize',fs);
 plot(x_data_used,y_data_used,'ob','MarkerSize',12)
+
+
+axis equal
+
+% if min(y_data_used) <0
+%       par_y_data_min = min(y_data_used)*1.1;
+% else
+% %       par_y_data_min = 0;
+%       par_y_data_min = min(y_data_used)*0.95;
+% end
+% 
+% if min(x_data_used) <0
+%       par_x_data_min = min(x_data_used)*1.1;
+% else
+% %       par_x_data_min = 0;
+%       par_x_data_min = min(x_data_used)*0.95;
+% end
+% 
+% par_y_data_max = max(y_data_used)*1.05;
+% % par_x_data_min = min(x_data_used)*0.95;
+% par_x_data_max = max(x_data_used)*1.05;
+% 
+% % par_min = min([par_y_data_min par_x_data_min]);
+% par_min = 0;
+% par_max = max([par_y_data_max par_x_data_max]);
+% 
+
+
+switch wl_x
+      case '412'
+           par_min = 0;
+           par_max = 2E-2;
+      case '443'
+           par_min = 0;
+           par_max = 1.5E-2;
+      case '490'
+           par_min = 0;
+           par_max = 10E-3;
+      case '555'
+           par_min = 0;
+           par_max = 3.0E-3;   
+      case '547'
+           par_min = 0;
+           par_max = 3.0E-3;           
+      case '660'
+           par_min = 0;
+           par_max = 1.5E-3;    
+      case '667'
+           par_min = 0;
+           par_max = 1.5E-3;            
+      case '680'
+           par_min = 0;
+           par_max = 1.5E-3;  
+      case '678'
+           par_min = 0;
+           par_max = 1.5E-3;            
+end
+      
+xlim([par_min par_max])
+ylim([par_min par_max])
+
+hold on
+plot([par_min par_max],[par_min par_max],'--k','LineWidth',1.5)
+% plot([0 par_max],[0.1*par_max 1.1*par_max],':k')
+% plot([0 par_max],[-0.1*par_max 0.9*par_max],':k')
+% grid on
+leg = legend(['N: ' num2str(sum(cond0)) ],'Location','SouthEast');
+% to show scientific notation in axes
+
+% find how many zeros after the decimal point
+x = par_max;
+x = abs(x); %in case of negative numbers
+n = 0;
+while (floor(x*10^n)==0)
+      n = n+1;     
+end
+
+if n==0 || n==1
+      n = 0;
+end
+
+ax = gca;
+
+ax.XAxis.Exponent = -n; 
+ax.YAxis.Exponent = -n;
+
+ax.XAxis.TickLabelFormat = '%,.2f';
+ax.XTick =ax.YTick;
+ax.YAxis.TickLabelFormat = '%,.2f';
 
 % set label for plot
 switch parname
       case 'Rrs'
-            xlabel([sat_name_x ' R_{rs}(' wl_x ') (sr^{-1})'],'FontSize',fs)
-            ylabel([sat_name_y ' R_{rs}(' wl_y ') (sr^{-1})'],'FontSize',fs)
+            xlabel([sat_name_x ' {\it R}_{rs}(' wl_x ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+            ylabel([sat_name_y ' {\it R}_{rs}(' wl_y ') (10^{' num2str(ax.YAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
       case 'chlor_a'
             xlabel([sat_name_x ' Chl-{\ita}'],'FontSize',fs)
             ylabel([sat_name_y ' Chl-{\ita}'],'FontSize',fs)
@@ -62,60 +151,17 @@ switch parname
             ylabel([sat_name_y ' BRDF'],'FontSize',fs)
             
 end
-axis equal
 
-if min(y_data_used) <0
-      par_y_data_min = min(y_data_used)*1.1;
-else
-%       par_y_data_min = 0;
-      par_y_data_min = min(y_data_used)*0.95;
-end
+% write x10^ in the axis labels
+TickLabelAux = ax.YTickLabel;
+ax.XAxis.Exponent = 0;
+ax.YAxis.Exponent = 0;
+ax.XTickLabelMode = 'Manual';
+ax.YTickLabelMode = 'Manual';
+ax.XTickLabel = TickLabelAux;
+ax.YTickLabel = TickLabelAux;
 
-if min(x_data_used) <0
-      par_x_data_min = min(x_data_used)*1.1;
-else
-%       par_x_data_min = 0;
-      par_x_data_min = min(x_data_used)*0.95;
-end
 
-par_y_data_max = max(y_data_used)*1.05;
-% par_x_data_min = min(x_data_used)*0.95;
-par_x_data_max = max(x_data_used)*1.05;
-
-% par_min = min([par_y_data_min par_x_data_min]);
-par_min = 0;
-par_max = max([par_y_data_max par_x_data_max]);
-
-xlim([par_min par_max])
-ylim([par_min par_max])
-
-hold on
-plot([par_min par_max],[par_min par_max],'--k','LineWidth',1.5)
-% plot([0 par_max],[0.1*par_max 1.1*par_max],':k')
-% plot([0 par_max],[-0.1*par_max 0.9*par_max],':k')
-grid on
-leg = legend(['N: ' num2str(sum(cond0)) ],'Location','SouthEast');
-% to show scientific notation in axes
-
-% find how many zeros after the decimal point
-x = par_max;
-x = abs(x); %in case of negative numbers
-n = 0;
-while (floor(x*10^n)==0)
-      n = n+1;     
-end
-
-if n==0 || n==1
-      n = 0;
-end
-
-ax = gca;
-ax.XAxis.TickLabelFormat = '%,.2f';
-ax.YTick =ax.XTick;
-ax.YAxis.TickLabelFormat = '%,.2f';
-
-ax.XAxis.Exponent = -n; 
-ax.YAxis.Exponent = -n;
 
 
 %% Stats
@@ -197,35 +243,33 @@ if sum(isfinite(x_data_used))
       
       N = sum(C_insitu>0&~isnan(C_insitu));
       
-      if a(2)>=0
-            str1 = sprintf('y: %2.4f x + %2.4f \nR^2: %2.4f; N: %i \nRMSE: %2.4f\nMean Bias: %2.5f\nMAE: %2.5f',...
-                  a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
-            str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
-      else
-            str1 = sprintf('y: %2.4f x - %2.4f \nR^2: %2.4f; N: %i \nRMSE: %2.4f\nMean Bias: %2.5f\nMAE: %2.5f',...
-                  a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
-            str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
-      end
-      
 %       if a(2)>=0
-%             str1 = sprintf('N: %i \nMean Bias: %2.5f\nMAE: %2.5f',...
-%                   size(C_insitu,2),Mean_bias,MAE);
-%             str_reg = sprintf('y: %2.4f x + %2.4f',a(1),abs(a(2)));
+%             str1 = sprintf('{\\it y} = %2.4f {\\it x} + %2.4f \n{\\it R}^2 = %2.4f; {\\it N} = %i \nRMSE = %2.4f\nMean Bias = %2.5f\nMAE = %2.5f',...
+%                   a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
+%             str_reg = sprintf('{\\it y} = %2.4f {\\it x} + %2.4f',a(1),abs(a(2)));
 %       else
-%             str1 = sprintf('N: %i \nMean Bias: %2.5f\nMAE: %2.5f',...
-%                   size(C_insitu,2),Mean_bias,MAE);
-%             str_reg = sprintf('y: %2.4f x - %2.4f',a(1),abs(a(2)));
+%             str1 = sprintf('{\\it y} = %2.4f {\\it x} - %2.4f \n{\\it R}^2 = %2.4f; {\\it N} = %i \nRMSE = %2.4f\nMean Bias = %2.5f\nMAE = %2.5f',...
+%                   a(1),abs(a(2)),rsq_SS,N,RMSE,Mean_bias,MAE);
+%             str_reg = sprintf('{\\it y} = %2.4f {\\it x} - %2.4f',a(1),abs(a(2)));
 %       end
       
-      %       axis([0 maxref 0 maxref])
+      if a(2)>=0
+            str1 = sprintf('Mean Bias = %1.6f\nMAE = %1.6f\n{\\it N} = %i',...
+                  Mean_bias,MAE,N);
+            str_reg = sprintf('{\\it y} = %2.4f {\\it x} + %2.4f',a(1),abs(a(2)));
+      else
+            str1 = sprintf('Mean Bias = %1.6f\nMAE = %1.6f\n{\\it N} = %i',...
+                  Mean_bias,MAE,N);
+            str_reg = sprintf('{\\it y} = %2.4f {\\it x} - %2.4f',a(1),abs(a(2)));
+      end
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
       xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
-      yLoc = yLimits(1)+0.84*(yLimits(2)-yLimits(1));
+      yLoc = yLimits(1)+0.87*(yLimits(2)-yLimits(1));
       figure(h)
       hold on
-      text(xLoc,yLoc,str1,'FontSize',fs-2,'FontWeight','normal');
+      text(xLoc,yLoc,str1,'FontSize',fs,'FontWeight','normal');
       
       
 

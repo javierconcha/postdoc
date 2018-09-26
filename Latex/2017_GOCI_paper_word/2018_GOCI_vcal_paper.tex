@@ -1,0 +1,130 @@
+% \documentclass[twocolumn,3p]{elsarticle}
+\documentclass[onecolumn,3p,letterpaper,11pt]{elsarticle}
+\usepackage{setspace} % added by JC 
+\doublespacing % added by JC
+
+
+\usepackage{lineno} % uncomment \linenumbers after \begin{document}
+\modulolinenumbers[1]
+
+
+  
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+% Select what to do with todonotes: 
+\usepackage[disable]{todonotes} % notes not showed
+% \usepackage[draft]{todonotes}   % notes showed
+% \usepackage[textwidth=2.0cm]{todonotes}
+\presetkeys{todonotes}{fancyline, size=\scriptsize}{}
+\setlength{\marginparwidth}{3cm}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\renewcommand*{\bibfont}{\normalsize}
+
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\journal{Remote Sensing of Environment}
+
+\begin{document}
+
+% \linenumbers
+
+\begin{frontmatter}
+
+\title{Vicarious Calibration of the Geostationary Ocean Color Imager (GOCI)}
+
+% %% Group authors per affiliation:
+% \author{Javier A. Concha\fnref{myfootnote}}
+% \address{Radarweg 29, Amsterdam}
+% \fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+\author[oeladdress,usraaddress]{Javier Concha\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author at: Ocean Ecology Lab,
+NASA Goddard Space Flight Center,
+8800 Greenbelt Rd, Greenbelt, MD 20771, USA. Tel.: +1 585 290 3145.}
+\ead{javier.concha@nasa.gov}
+
+\author[oeladdress]{Antonio Mannino}
+
+\author[oeladdress]{Bryan Franz}
+
+% \author[oeladdress]{Amir Ibrahim}
+
+% \author[kiostaddress]{Wonkook Kim}
+
+% \author[usgsaddress]{Michael Ondrusek}
+
+\address[oeladdress]{Ocean Ecology Lab, NASA Goddard Space Flight Center, Greenbelt, MD, USA}
+\address[usraaddress]{Universities Space Research Association, Columbia, MD, USA}
+% \address[kiostaddress]{Korea Institute of Ocean Science and Technology, 787 Haean-ro, Ansan, Republic of Korea}
+
+% \address[usgsaddress]{NOAA/NESDIS Center for Weather and Climate Prediction, College Park, Maryland, USA}
+% ===============================================================
+\begin{abstract}
+
+% Background/motivation/context
+
+%
+ 
+% Aim/objectives(s)/problem statement
+
+% 
+
+% Methods
+
+%
+ 
+%
+
+%
+
+%
+
+% Results
+
+%
+ 
+% Conclusions
+
+%
+
+
+\end{abstract}
+
+\begin{keyword}
+Geostationary Ocean Color Imager\sep GOCI\sep Vicarious Calibration
+\end{keyword}
+
+\end{frontmatter}
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\singlespacing
+\small
+\tableofcontents
+\normalsize
+\doublespacing
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+\end{document}

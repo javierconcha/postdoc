@@ -3040,4 +3040,10 @@ find -type d -readable -exec sh -c 'printf "%s " "$1"; ls -1UA "$1" | wc -l' sh 
 2018-06-07 Thu
 convert pdf to png
 jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ find . -type f -depth 1  -name "*.pdf" -print0|xargs -0 -I {} basename {} .pdf|xargs -I file convert -density 200 file.pdf file.png
+
+--------------------------------------------------
+2018-08-29 Wed
+for the error running htlatex
+(Please type a command or say `\end')
+If you can persuade TeX to read it, an end-of-file indication (control-D under Unix, control-Z under Windows) will provoke TeX to report an error and exit immediately. Otherwise you should attempt to provoke an error dialogue, from which you can exit (using the x “command”). An accessible error could well be inserting an illegal character: what it is will depend on what macros you are running. If you can’t make that work, try a silly command name or two.
 (END)

@@ -1,0 +1,70 @@
+\begin{figure}[ht]
+\vspace{1cm}
+  \centering
+  % \small
+\resizebox{16cm}{!}{%
+% Define block styles
+
+% \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5em, minimum height=2em,text centered, draw=black, fill=white]
+
+\tikzstyle{input} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2em, minimum height=2em, text width=3cm, text centered, draw=black, fill=white]
+
+\tikzstyle{input} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2em, minimum height=2em, text width=3cm, text centered, draw=black, fill=white]
+
+\tikzstyle{inputsmall} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=1em, minimum height=1em, text width=1.0cm, text centered, draw=black, fill=white]
+
+\tikzstyle{output} = [rounded rectangle, minimum width=3em, minimum height=3em, text width=4.5cm, text centered, draw=black, fill=white, inner sep=-1pt]
+
+\tikzstyle{process} = [rectangle, minimum width=3em, minimum height=2em, text width=6cm, text centered, draw=black, fill=white]
+
+\tikzstyle{process_small} = [rectangle, minimum width=3em, minimum height=2em, text width=4cm, text centered, draw=black, fill=white]
+
+\tikzstyle{decision} = [diamond, aspect=2, minimum width=2em, minimum height=2em, text width=5cm, text centered, draw=black, fill=white]
+
+\tikzstyle{arrow} = [thick,->,>=triangle 45]
+\tikzstyle{arrowdashed} = [thick,dashed,->,>=stealth]
+
+\begin{tikzpicture}[node distance=2.5cm]
+
+
+% \node (start) [startstop] {Start};
+
+\node (L1B) [input] {Select L1B file to be \\processed to L2};
+\node (l2gen) [process, below of=L1B] {Process to L2 using l2gen:\\ - Extract ROI\\- Atmospheric Correction};
+\node (flag) [process, below of=l2gen, yshift=0.5cm] {Exclude flagged pixels};
+\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{NFP} X_i}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_i\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (enough) [decision, right of=L1B, inner sep=1pt, xshift=6cm] {Is $NFP > NTP/2$?\\ Number Total Pixels (NTP)};
+
+\node (fail) [output, right of=enough, xshift=4.5cm] {Failed filtering criteria};
+
+\node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
+
+\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[CV]$<0.49$?};
+
+\node (bestgeom) [process_small, right of=CV, xshift=7.5cm] {If multiple L2 files for \\the same time, choose the best geometry};
+
+\node (pass) [output, above of=bestgeom, yshift=0cm] {Passes filtering criteria};
+
+\node (out) [input, above of=pass, yshift=0cm, inner sep=6pt] {Filtered Mean and Filtered Standard Deviation};
+
+
+\draw [arrow] (L1B) -- (l2gen);
+\draw [arrow] (l2gen) -- (flag);
+\draw [arrow] (flag) -- (filtered);
+\draw [arrow] (filtered.east) -|([xshift=-1cm]enough.west) -- (enough.west);
+
+\draw [arrow] (enough) -- node[anchor=south] {NO} (fail);
+\draw [arrow] (zenith) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
+\draw [arrow] (CV) -| node[anchor=south,xshift=-3.0cm] {NO} (fail);
+\draw [arrow] (enough) -- node[anchor=east] {YES} (zenith);
+\draw [arrow] (zenith) -- node[anchor=east] {YES} (CV);
+% \draw [arrow] (CV.south) -| node[anchor=east] {YES} (bestgeom.south);
+\draw [arrow] (CV.south) -| node[anchor=east,yshift=-0.5cm] {YES} ([yshift=-1cm]CV.south) -| (bestgeom.south);
+\draw [arrow] (bestgeom) -- (pass);
+\draw [arrow] (pass) -- (out);
+
+\end{tikzpicture}}
+ % resizebox end
+  \internallinenumbers
+  \caption{Applied exclusion criteria}\label{fig:FilteringCriteria}
+\end{figure}

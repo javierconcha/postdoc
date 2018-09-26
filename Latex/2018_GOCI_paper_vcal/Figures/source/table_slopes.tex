@@ -1,0 +1,84 @@
+\documentclass[preview]{standalone}
+
+\standaloneenv{my}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+\usepackage{lipsum}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage[nostamp]{draftwatermark}
+% \SetWatermarkLightness{0.8}
+% \SetWatermarkScale{4}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+% \usepackage[x11names]{xcolor}
+\usepackage{fourier}
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+
+\usepackage{cellspace}
+\setlength\cellspacetoplimit{3pt}
+\setlength\cellspacebottomlimit{0pt}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\begin{threeparttable}
+
+% \normalsize
+\centering
+\begin{tabular}{cccc} 
+ \hline 
+
+Product & GOCI/MODISA ratio & GOCI/VIIRS ratio & AQUA/VIIRS ratio \\ 
+& ($\text{sr}^{-1}/\text{year}$)	& ($\text{sr}^{-1}/\text{year}$)	& ($\text{sr}^{-1}/\text{year}$) 	\\ \hline
+$R_\text{rs}(412)$ & -0.0220 & -0.0220 & 0.0076 \\
+$R_\text{rs}(443)$ & -0.0296 & -0.0394 & 0.0006 \\
+$R_\text{rs}(490)$ & -0.0326 & -0.0396 & 0.0021 \\
+$R_\text{rs}(555)$ & -0.0343 & -0.0392 & 0.0051 \\
+$R_\text{rs}(660)$ & -0.0680 & -0.0638 &-0.0021\\
+$R_\text{rs}(680)$ & -0.0695 & N/A 				& N/A 				\\
+
+
+\hline 
+\end{tabular}
+
+\end{threeparttable}
+\end{document}
+
+GOCI/MODISA ratio \\
+Rrs(412) & -0.000060 per day & -0.001814 per month & -0.022064 per year \\
+Rrs(443) & -0.000081 per day & -0.002433 per month & -0.029602 per year \\
+Rrs(490) & -0.000090 per day & -0.002686 per month & -0.032682 per year \\
+Rrs(555) & -0.000094 per day & -0.002823 per month & -0.034343 per year \\
+Rrs(660) & -0.000186 per day & -0.005590 per month & -0.068009 per year \\
+Rrs(680) & -0.000191 per day & -0.005719 per month & -0.069584 per year \\
+GOCI/VIIRS ratio \\
+Rrs(412) & -0.000060 per day & -0.001811 per month & -0.022035 per year \\
+Rrs(443) & -0.000108 per day & -0.003244 per month & -0.039463 per year \\
+Rrs(490) & -0.000109 per day & -0.003262 per month & -0.039687 per year \\
+Rrs(555) & -0.000107 per day & -0.003223 per month & -0.039211 per year \\
+Rrs(660) & -0.000175 per day & -0.005246 per month & -0.063829 per year \\
+AQUA/VIIRS ratio \\
+Rrs(412) & 0.000021 per day & 0.000628 per month & 0.007645 per year \\
+Rrs(443) & 0.000002 per day & 0.000056 per month & 0.000676 per year \\
+Rrs(490) & 0.000006 per day & 0.000177 per month & 0.002158 per year \\
+Rrs(555) & 0.000014 per day & 0.000419 per month & 0.005102 per year \\
+Rrs(660) & -0.000006 per day & -0.000174 per month & -0.002115 per year \\
