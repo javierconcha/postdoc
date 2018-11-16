@@ -129,10 +129,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 
@@ -173,10 +173,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 xLimits = get(gca,'XLim');
@@ -216,10 +216,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 xLimits = get(gca,'XLim');
@@ -259,10 +259,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(555) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 xLimits = get(gca,'XLim');
@@ -302,10 +302,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 xLimits = get(gca,'XLim');
@@ -347,10 +347,10 @@ h = figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
 % xlim([-1*xrange xrange])
 
-str1 = sprintf('N: %i\nmean: %2.5f [sr^{-1}]\nmax: %2.5f [sr^{-1}]\nmin: %2.5f [sr^{-1}]\nsd: %2.5f [sr^{-1}]',...
+str1 = sprintf('N: %i\nmean: %2.5f (sr^{-1})\nmax: %2.5f (sr^{-1})\nmin: %2.5f (sr^{-1})\nsd: %2.5f (sr^{-1})',...
       N,nanmean(data_used),nanmax(data_used),nanmin(data_used),std(data_used));
 
 xLimits = get(gca,'XLim');
@@ -455,7 +455,7 @@ for idx = 1:size(wl_vec,2)
       
       subplot(2,1,1)
       hold on
-      eval(sprintf('ylabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx}));
+      eval(sprintf('ylabel(''{\\itR}_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl_vec{idx}));
       ax = gca;
       ax.XTick = xData;
       datetick('x','yyyy')%
@@ -536,7 +536,7 @@ for idx = 1:size(wl_vec,2)
       % end
       
       subplot(2,1,2)
-      ylabel('Solar Zenith Angle [^o]','FontSize',fs)
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       xlabel('Time','FontSize',fs)
       ylim([0 80])
       ax = gca;
@@ -612,16 +612,16 @@ for idx = 1:size(wl_vec,2)
       [counts,centers] = hist(data_used_y,50);
       plot(centers,counts*100/N,'b-','LineWidth',1.5)
       ylabel('Frequency (%)','FontSize',fs)
-      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx}));
+      eval(sprintf('xlabel(''{\\itR}_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl_vec{idx}));
       % xlim([-1*xrange xrange])
       
-      str1 = sprintf('N: %i\nmean: %2.5f \nmax: %2.5f \nmin: %2.5f \nSD: %2.5f',...
+      str1 = sprintf('{\\itN} = %i\nmean = %2.5f \nmax = %2.5f \nmin = %2.5f \n{\\itSD} = %2.5f',...
             N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
       if strcmp(wl_vec{idx},'660')||strcmp(wl_vec{idx},'680')
-            xLoc = xLimits(1)+0.65*(xLimits(2)-xLimits(1));
+            xLoc = xLimits(1)+0.60*(xLimits(2)-xLimits(1));
       else
             xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
       end
@@ -669,15 +669,15 @@ par_vec = {'chlor_a','ag_412_mlrc', 'poc','solz'};
 for idx = 1:size(par_vec,2)
       
       if strcmp(par_vec{idx},'chlor_a')
-            par_char = 'Chlor-{\ita} [mg m^{-3}]';
+            par_char = 'Chl-{\ita} (mg m^{-3})';
       elseif strcmp(par_vec{idx},'ag_412_mlrc')
-            par_char = 'a_{g}(412) [m^{-1}]';
+            par_char = '{\ita}_{g}(412) (m^{-1})';
       elseif strcmp(par_vec{idx},'poc')
-            par_char = 'POC [mg m^{-3}]';
+            par_char = 'POC (mg m^{-3})';
       elseif strcmp(par_vec{idx},'solz')
-            par_char = 'Solar Zenith Angle [^o]';
+            par_char = 'Solar Zenith Angle (^o)';
       elseif strcmp(par_vec{idx},'senz')
-            par_char = 'Sensor Zenith Angle [^o]';
+            par_char = 'Sensor Zenith Angle (^o)';
       end
       
       
@@ -830,9 +830,9 @@ for idx = 1:size(par_vec,2)
       
       subplot(2,1,2)
       hold on
-      ylabel('Solar Zenith Angle [^o]','FontSize',fs)
+      ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       xlabel('Time','FontSize',fs)
-      ylim([0 100])
+%       ylim([0 100])
       ax = gca;
       ax.XTick = xData;
       datetick('x','yyyy')%
@@ -910,25 +910,26 @@ for idx = 1:size(par_vec,2)
       % xlim([-1*xrange xrange])
       
       ax = gca;
-      ax.XLim(1)
       
       xLimits = get(gca,'XLim');
       yLimits = get(gca,'YLim');
       
       if strcmp(par_vec{idx},'solz')
-            xLoc = xLimits(1)+0.03*(xLimits(2)-xLimits(1));
+            ax.YLim(2) = 5;
+            yLimits = get(gca,'YLim');
+            xLoc = xLimits(1)+0.02*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.8*(yLimits(2)-yLimits(1));
-            str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
+            str1 = sprintf('{\\itN} = %i\nmean = %2.2f \nmax = %2.2f \nmin = %2.2f \n{\\itSD} = %2.2f',...
                   N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       elseif strcmp(par_vec{idx},'poc')
             xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-            str1 = sprintf('N: %i\nmean: %2.3f \nmax: %2.3f \nmin: %2.3f \nSD: %2.3f',...
+            str1 = sprintf('{\\itN} = %i\nmean = %2.2f \nmax = %2.2f \nmin = %2.2f \n{\\itSD} = %2.2f',...
                   N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       else
             xLoc = xLimits(1)+0.6*(xLimits(2)-xLimits(1));
             yLoc = yLimits(1)+0.75*(yLimits(2)-yLimits(1));
-            str1 = sprintf('N: %i\nmean: %2.5f \nmax: %2.5f \nmin: %2.5f \nSD: %2.5f',...
+            str1 = sprintf('{\\itN} = %i\nmean = %2.5f \nmax = %2.5f \nmin = %2.5f \n{\\itSD} = %2.5f',...
                   N,nanmean(data_used_y),nanmax(data_used_y),nanmin(data_used_y),std(data_used_y));
       end
       figure(gcf)
@@ -948,7 +949,7 @@ figure('Color','white','DefaultAxesFontSize',fs);
 [counts,centers] = hist(data_used_y,50);
 plot(centers,counts*100/N,'b-','LineWidth',1.5)
 ylabel('Frequency (%)','FontSize',fs)
-xlabel('Solar Zenith Angle [^o]');
+xlabel('Solar Zenith Angle (^o)');
 % xlim([-1*xrange xrange])
 
 str1 = sprintf('N: %i\nmean: %2.2f \nmax: %2.2f \nmin: %2.2f \nSD: %2.2f',...
@@ -1060,7 +1061,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1156,7 +1157,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1250,7 +1251,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1344,7 +1345,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(555) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(555) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1438,7 +1439,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(660) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1532,7 +1533,7 @@ data_y = [GOCI_Data.solz_center_value];
 data_y = data_y(cond_used&cond_tod);
 plot(data_x,data_y,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-xlabel('R_{rs}(680) [sr^{-1}]','FontSize',fs)
+xlabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
 ylabel('Solar Zenith Angle (^o)','FontSize',fs)
 ylim([0 90])
 grid on
@@ -1608,17 +1609,17 @@ for idx_par = 1:size(par_vec,2)
       
       switch par_vec{idx_par}
             case 'Rrs_412'
-                  x_str = 'R_{rs}(412) [sr^{-1}]';
+                  x_str = 'R_{rs}(412) (sr^{-1})';
             case 'Rrs_443'
-                  x_str = 'R_{rs}(443) [sr^{-1}]';
+                  x_str = 'R_{rs}(443) (sr^{-1})';
             case 'Rrs_490'
-                  x_str = 'R_{rs}(490) [sr^{-1}]';
+                  x_str = 'R_{rs}(490) (sr^{-1})';
             case 'Rrs_555'
-                  x_str = 'R_{rs}(555) [sr^{-1}]';
+                  x_str = 'R_{rs}(555) (sr^{-1})';
             case 'Rrs_660'
-                  x_str = 'R_{rs}(660) [sr^{-1}]';
+                  x_str = 'R_{rs}(660) (sr^{-1})';
             case 'Rrs_680'
-                  x_str = 'R_{rs}(680) [sr^{-1}]';
+                  x_str = 'R_{rs}(680) (sr^{-1})';
             case 'chlor_a'
                   x_str = 'Chlor-{\ita} [mg m^{-3}]';
             case 'ag_412_mlrc'
@@ -2136,6 +2137,7 @@ par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a'
 par_season = {'Spring','Summer','Fall','Winter'};
 
 for idx_par = 1:size(par_vec,2)
+      %%
       eval(sprintf('cond_nan = ~isnan([GOCI_Data.%s_filtered_mean]);',par_vec{idx_par}))
       eval(sprintf('cond_area = [GOCI_Data.%s_filtered_valid_pixel_count]>= total_px_GOCI/ratio_from_the_total;',par_vec{idx_par}))
       cond_solz = [GOCI_Data.solz_center_value] <= solz_lim;
@@ -2162,7 +2164,7 @@ for idx_par = 1:size(par_vec,2)
                   case 'Winter'
                         cond_season = month([GOCI_Data.datetime])==12|month([GOCI_Data.datetime])==1|month([GOCI_Data.datetime])==2; % cond for season
             end
-            
+            %%
             for idx_tod = 1:8;
                   if idx_tod == 1
                         hold on
@@ -2215,40 +2217,40 @@ for idx_par = 1:size(par_vec,2)
                   end
                   N= N + sum(cond_used&cond_season&cond_tod);
             end
-            
+            %%
             switch par_vec{idx_par}
                   case 'Rrs_412'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(412)';
                         xlim([0 0.02])
                   case 'Rrs_443'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(443)';
                         xlim([0 0.015])
                   case 'Rrs_490'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(490)';
                         xlim([0 0.01])
                   case 'Rrs_555'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(555)';
                         xlim([0 4e-3])
                   case 'Rrs_660'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(660)';
                         xlim([-5e-4 15e-4])
                   case 'Rrs_680'
-                        x_str = 'R_{rs}(\lambda)';
+                        x_str = '{\itR}_{rs}(680)';
                         xlim([-5e-4 1.5e-3])
                   case 'chlor_a'
                         x_str = 'Chl-{\ita}';
-                        xlim([0.0 0.6])
+                        xlim([0.0 0.4])
                   case 'ag_412_mlrc'
-                        x_str = 'a_{g}(412)';
-                        xlim([0.0 0.08])
+                        x_str = '{\ita}_{g}(412)';
+                        xlim([0.0 0.06])
                   case 'poc'
                         x_str = 'POC';
-                        xlim([0 120])
+                        xlim([0 100])
             end
-            
-            str1 = sprintf('N = %i',N);
+            %
+            str1 = sprintf('{\\itN} = %i',N);
             xlabel([x_str '; ' str1],'FontSize',fs)
-            ylabel('SZA [^{\circ}]','FontSize',fs)
+            ylabel('SZA (^o)','FontSize',fs)
             ylim([0 90])
             grid on
             
@@ -2267,7 +2269,7 @@ for idx_par = 1:size(par_vec,2)
             %             p(8) = plot(NaN,NaN,'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
             %             legend(p,'0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
             %             clear p
-            
+            %%
             set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
             set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
             eval(sprintf('saveas(gcf,[savedirname ''%s_vs_Zenith_%s_tod''],''epsc'')',par_vec{idx_par},par_season{idx_season}))
@@ -11455,22 +11457,22 @@ for idx_par = 1:size(par_vec,2)
             
             switch par_vec{idx_par}
                   case 'Rrs_412'
-                        x_str = 'R_{rs}(412) [sr^{-1}]';
+                        x_str = 'R_{rs}(412) (sr^{-1})';
                         xlim([-6E-3 6E-3])
                   case 'Rrs_443'
-                        x_str = 'R_{rs}(443) [sr^{-1}]';
+                        x_str = 'R_{rs}(443) (sr^{-1})';
                         xlim([-3E-3 3E-3])
                   case 'Rrs_490'
-                        x_str = 'R_{rs}(490) [sr^{-1}]';
+                        x_str = 'R_{rs}(490) (sr^{-1})';
                         xlim([-2E-3 2E-3])
                   case 'Rrs_555'
-                        x_str = 'R_{rs}(555) [sr^{-1}]';
+                        x_str = 'R_{rs}(555) (sr^{-1})';
                         xlim([-1E-3 1E-3])
                   case 'Rrs_660'
-                        x_str = 'R_{rs}(660) [sr^{-1}]';
+                        x_str = 'R_{rs}(660) (sr^{-1})';
                         xlim([-3E-4 3E-4])
                   case 'Rrs_680'
-                        x_str = 'R_{rs}(680) [sr^{-1}]';
+                        x_str = 'R_{rs}(680) (sr^{-1})';
                         xlim([-8E-4 8E-4])
                   case 'chlor_a'
                         x_str = 'Chl-{\ita} [mg m^{-3}]';
@@ -11641,7 +11643,7 @@ for idx0 = 1:size(wl_vec,2)
       end
       
       figure(gcf)
-      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
+      eval(sprintf('xlabel(''R_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       ylim([0 90])
       grid on
@@ -11771,7 +11773,7 @@ for idx0 = 1:size(wl_vec,2)
       plot(x_used(cond_used),y_used(cond_used),'o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw);
       
       figure(gcf)
-      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
+      eval(sprintf('xlabel(''R_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       ylim([0 90])
       grid on
@@ -11960,7 +11962,7 @@ for idx0 = 1:size(wl_vec,2)
       end
       
       figure(gcf)
-      eval(sprintf('xlabel(''R_{rs}(%s) [sr^{-1}]'',''FontSize'',fs)',wl_vec{idx0}));
+      eval(sprintf('xlabel(''R_{rs}(%s) (sr^{-1})'',''FontSize'',fs)',wl_vec{idx0}));
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       ylim([0 90])
       grid on
@@ -12784,17 +12786,17 @@ cond_brdf = [GOCI_DailyStatMatrix.brdf_opt]==brdf_opt;
 for idx = 1:size(par_vec,2)
       switch par_vec{idx}
             case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
+                  y_str = 'R_{rs}(412) (sr^{-1})';
             case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
+                  y_str = 'R_{rs}(443) (sr^{-1})';
             case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
+                  y_str = 'R_{rs}(490) (sr^{-1})';
             case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
+                  y_str = 'R_{rs}(555) (sr^{-1})';
             case 'Rrs_660'
-                  y_str = 'R_{rs}(660) [sr^{-1}]';
+                  y_str = 'R_{rs}(660) (sr^{-1})';
             case 'Rrs_680'
-                  y_str = 'R_{rs}(680) [sr^{-1}]';
+                  y_str = 'R_{rs}(680) (sr^{-1})';
             case 'chlor_a'
                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
             case 'ag_412_mlrc'
@@ -12913,17 +12915,17 @@ cond_used = cond_brdf&cond_tod;
 for idx = 1:size(par_vec,2)
       switch par_vec{idx}
             case 'Rrs_412'
-                  y_str = 'R_{rs}(412) [sr^{-1}]';
+                  y_str = 'R_{rs}(412) (sr^{-1})';
             case 'Rrs_443'
-                  y_str = 'R_{rs}(443) [sr^{-1}]';
+                  y_str = 'R_{rs}(443) (sr^{-1})';
             case 'Rrs_490'
-                  y_str = 'R_{rs}(490) [sr^{-1}]';
+                  y_str = 'R_{rs}(490) (sr^{-1})';
             case 'Rrs_555'
-                  y_str = 'R_{rs}(555) [sr^{-1}]';
+                  y_str = 'R_{rs}(555) (sr^{-1})';
             case 'Rrs_660'
-                  y_str = 'R_{rs}(660) [sr^{-1}]';
+                  y_str = 'R_{rs}(660) (sr^{-1})';
             case 'Rrs_680'
-                  y_str = 'R_{rs}(680) [sr^{-1}]';
+                  y_str = 'R_{rs}(680) (sr^{-1})';
             case 'chlor_a'
                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
             case 'ag_412_mlrc'
@@ -13115,35 +13117,35 @@ for idx = 1:size(par_vec,2)
       
       switch par_vec{idx}
             case 'Rrs_412'
-                  y_str = 'R_{rs}(412)';
+                  y_str = '{\itR}_{rs}(412)';
                   ylim([-15 15])
             case 'Rrs_443'
-                  y_str = 'R_{rs}(443)';
+                  y_str = '{\itR}_{rs}(443)';
                   ylim([-15 15])
             case 'Rrs_490'
-                  y_str = 'R_{rs}(490)';
+                  y_str = '{\itR}_{rs}(490)';
                   ylim([-15 15])
             case 'Rrs_555'
-                  y_str = 'R_{rs}(555)';
+                  y_str = '{\itR}_{rs}(555)';
                   ylim([-20 20])
             case 'Rrs_660'
-                  y_str = 'R_{rs}(660)';
+                  y_str = '{\itR}_{rs}(660)';
                   ylim([-60 60])
             case 'Rrs_680'
-                  y_str = 'R_{rs}(680)';
+                  y_str = '{\itR}_{rs}(680)';
                   ylim([-150 150])
             case 'chlor_a'
-                  y_str = 'Chlor-{\ita}';
+                  y_str = 'Chl-{\ita}';
                   ylim([-30 30])
             case 'ag_412_mlrc'
-                  y_str = 'a_{g}(412)';
+                  y_str = '{\ita}_{g}(412)';
                   ylim([-15 15])
             case 'poc'
                   y_str = 'POC';
                   ylim([-20 20])
       end
       
-      text(xx(1)-0.5,ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,'N: ','HorizontalAlignment','center','FontSize',18,'Color','b')
+      text(xx(1)-0.6,ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,'{\itN} = ','HorizontalAlignment','center','FontSize',18,'Color','b')
       text(xx(1),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_00),'HorizontalAlignment','center','FontSize',18,'Color','b')
       text(xx(2),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_01),'HorizontalAlignment','center','FontSize',18,'Color','b')
       text(xx(3),ax.YLim(2)-(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_02),'HorizontalAlignment','center','FontSize',18,'Color','b')
@@ -13199,17 +13201,17 @@ end
 % for idx = 1:size(par_vec,2)
 %       switch par_vec{idx}
 %             case 'Rrs_412'
-%                   y_str = 'R_{rs}(412) [sr^{-1}]';
+%                   y_str = 'R_{rs}(412) (sr^{-1})';
 %             case 'Rrs_443'
-%                   y_str = 'R_{rs}(443) [sr^{-1}]';
+%                   y_str = 'R_{rs}(443) (sr^{-1})';
 %             case 'Rrs_490'
-%                   y_str = 'R_{rs}(490) [sr^{-1}]';
+%                   y_str = 'R_{rs}(490) (sr^{-1})';
 %             case 'Rrs_555'
-%                   y_str = 'R_{rs}(555) [sr^{-1}]';
+%                   y_str = 'R_{rs}(555) (sr^{-1})';
 %             case 'Rrs_660'
-%                   y_str = 'R_{rs}(660) [sr^{-1}]';
+%                   y_str = 'R_{rs}(660) (sr^{-1})';
 %             case 'Rrs_680'
-%                   y_str = 'R_{rs}(680) [sr^{-1}]';
+%                   y_str = 'R_{rs}(680) (sr^{-1})';
 %             case 'chlor_a'
 %                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
 %             case 'ag_412_mlrc'
@@ -13329,21 +13331,21 @@ cond_used = cond_brdf&cond_tod;
 for idx = 1:size(par_vec,2)
       switch par_vec{idx}
             case 'Rrs_412'
-                  y_str = 'R_{rs}(412)';
+                  y_str = '{\itR}_{rs}(412)';
             case 'Rrs_443'
-                  y_str = 'R_{rs}(443)';
+                  y_str = '{\itR}_{rs}(443)';
             case 'Rrs_490'
-                  y_str = 'R_{rs}(490)';
+                  y_str = '{\itR}_{rs}(490)';
             case 'Rrs_555'
-                  y_str = 'R_{rs}(555)';
+                  y_str = '{\itR}_{rs}(555)';
             case 'Rrs_660'
-                  y_str = 'R_{rs}(660)';
+                  y_str = '{\itR}_{rs}(660)';
             case 'Rrs_680'
-                  y_str = 'R_{rs}(680)';
+                  y_str = '{\itR}_{rs}(680)';
             case 'chlor_a'
                   y_str = 'Chlor-{\ita}';
             case 'ag_412_mlrc'
-                  y_str = 'a_{g}(412)';
+                  y_str = '{\ita}_{g}(412)';
             case 'poc'
                   y_str = 'POC';
       end
@@ -13415,7 +13417,7 @@ for idx = 1:size(par_vec,2)
       plot(xx,rel_diff_mean_all,'-or','MarkerSize',4,'LineWidth',1.5)
       ax = gca;
       
-      text(xx(1)-0.5,ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,'N: ','HorizontalAlignment','center','FontSize',18,'Color','r')
+      text(xx(1)-0.6,ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,'{\itN} = ','HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(1),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_00),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(2),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_01),'HorizontalAlignment','center','FontSize',18,'Color','r')
       text(xx(3),ax.YLim(1)+(ax.YLim(2)-ax.YLim(1))/30,num2str(rel_diff_N_02),'HorizontalAlignment','center','FontSize',18,'Color','r')
@@ -13445,10 +13447,10 @@ for idx = 1:size(par_vec,2)
       ax.YGrid = 'on';
       ax.YMinorGrid = 'on';
       %       ax.YAxis.TickValues = ax.YAxis.Limits(1):10:ax.YAxis.Limits(2);
-      str1 = sprintf('R\\Delta_t[%%]');
+      str1 = sprintf('{\\itR}\\Delta_{\\itt} [%%]');
       
       ylabel(str1,'FontSize',fs)
-      xlabel('Time of the day (GMT)','FontSize',fs)
+      xlabel('Time of day (Local Time)','FontSize',fs)
       
       grid on
       
@@ -13476,17 +13478,17 @@ end
 % for idx = 1:size(par_vec,2)
 %       switch par_vec{idx}
 %             case 'Rrs_412'
-%                   y_str = 'R_{rs}(412) [sr^{-1}]';
+%                   y_str = 'R_{rs}(412) (sr^{-1})';
 %             case 'Rrs_443'
-%                   y_str = 'R_{rs}(443) [sr^{-1}]';
+%                   y_str = 'R_{rs}(443) (sr^{-1})';
 %             case 'Rrs_490'
-%                   y_str = 'R_{rs}(490) [sr^{-1}]';
+%                   y_str = 'R_{rs}(490) (sr^{-1})';
 %             case 'Rrs_555'
-%                   y_str = 'R_{rs}(555) [sr^{-1}]';
+%                   y_str = 'R_{rs}(555) (sr^{-1})';
 %             case 'Rrs_660'
-%                   y_str = 'R_{rs}(660) [sr^{-1}]';
+%                   y_str = 'R_{rs}(660) (sr^{-1})';
 %             case 'Rrs_680'
-%                   y_str = 'R_{rs}(680) [sr^{-1}]';
+%                   y_str = 'R_{rs}(680) (sr^{-1})';
 %             case 'chlor_a'
 %                   y_str = 'Chlor-{\ita} [mg m^{-3}]';
 %             case 'ag_412_mlrc'
@@ -16308,7 +16310,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       plot(tod_Rrs_412_06_datetime+hours(6),tod_Rrs_412_06,'-o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
       plot(tod_Rrs_412_07_datetime+hours(7),tod_Rrs_412_07,'-o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
       
-      % ylabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+      % ylabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
       % xlabel('Time','FontSize',fs)
       % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       
@@ -16324,7 +16326,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       plot(tod_Rrs_443_06_datetime+hours(6),tod_Rrs_443_06,'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
       plot(tod_Rrs_443_07_datetime+hours(7),tod_Rrs_443_07,'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
       
-      % ylabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+      % ylabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
       % xlabel('Time','FontSize',fs)
       % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       
@@ -16340,7 +16342,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       plot(tod_Rrs_490_06_datetime+hours(6),tod_Rrs_490_06,'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
       plot(tod_Rrs_490_07_datetime+hours(7),tod_Rrs_490_07,'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
       
-      % ylabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+      % ylabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
       % xlabel('Time','FontSize',fs)
       % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
       
@@ -16357,7 +16359,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       plot(tod_Rrs_555_07_datetime+hours(7),tod_Rrs_555_07,'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
       
       grid on
-      ylabel('R_{rs}(\lambda) [sr^{-1}]','FontSize',fs)
+      ylabel('{\itR}_{rs}(\lambda) (sr^{-1})','FontSize',fs)
       xlabel('Time','FontSize',fs)
       
       datetick('x','mm/dd/yy')
@@ -16468,6 +16470,11 @@ annotation(h,'textbox',...
       'FitBoxToText','off',...
       'EdgeColor',[1 1 1],...
       'BackgroundColor',[1 1 1]);
+
+
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
+
+saveas(gcf,[savedirname '3days_all_' num2str(idx)],'epsc')
 %% 3-day sequences plot -- par
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
@@ -16555,7 +16562,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       
       grid on
       
-      ylabel('Chlor-{\ita} [mg m^{-3}]','FontSize',fs)
+      ylabel('Chl-{\ita} (mg m^{-3})','FontSize',fs)
       xlabel('Time','FontSize',fs)
       
       datetick('x','mm/dd/yy')
@@ -16589,7 +16596,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       
       grid on
       
-      ylabel('a_{g}(412) [m^{-1}]','FontSize',fs)
+      ylabel('{\ita}_{g}(412) (m^{-1})','FontSize',fs)
       xlabel('Time','FontSize',fs)
       
       datetick('x','mm/dd/yy')
@@ -16623,7 +16630,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       
       grid on
       
-      ylabel('POC [mg m^{-3}]','FontSize',fs)
+      ylabel('POC (mg m^{-3})','FontSize',fs)
       xlabel('Time','FontSize',fs)
       
       datetick('x','mm/dd/yy')
@@ -16833,7 +16840,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for R_{rs}(412) [%]','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(412) [%]','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -16846,7 +16853,7 @@ ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'}
 set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname '3day_CV_412'],'epsc')
 
-% ylabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -16891,7 +16898,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for R_{rs}(443)','FontSize',fs)
+ylabel('{\itCV}[%]_{3-day} for {\itR}_{rs}(443)','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -16905,7 +16912,7 @@ set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname '3day_CV_443'],'epsc')
 
 
-% ylabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -16951,7 +16958,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for R_{rs}(490)','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(490)','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -16965,7 +16972,7 @@ set(gcf, 'renderer','painters')
 saveas(gcf,[savedirname '3day_CV_490'],'epsc')
 
 
-% ylabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -17010,7 +17017,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for R_{rs}(555)','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(555)','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -17082,7 +17089,7 @@ errorbar(5,mean([three_day_seq.tod_Rrs_412_05_mean]),mean([three_day_seq.tod_Rrs
 errorbar(6,mean([three_day_seq.tod_Rrs_412_06_mean]),mean([three_day_seq.tod_Rrs_412_06_stdv]),'-o','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 errorbar(7,mean([three_day_seq.tod_Rrs_412_07_mean]),mean([three_day_seq.tod_Rrs_412_07_stdv]),'-o','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-% ylabel('R_{rs}(412) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -17098,7 +17105,7 @@ errorbar(5,mean([three_day_seq.tod_Rrs_443_05_mean]),mean([three_day_seq.tod_Rrs
 errorbar(6,mean([three_day_seq.tod_Rrs_443_06_mean]),mean([three_day_seq.tod_Rrs_443_06_stdv]),'-^','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 errorbar(7,mean([three_day_seq.tod_Rrs_443_07_mean]),mean([three_day_seq.tod_Rrs_443_07_stdv]),'-^','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-% ylabel('R_{rs}(443) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -17114,7 +17121,7 @@ errorbar(5,mean([three_day_seq.tod_Rrs_490_05_mean]),mean([three_day_seq.tod_Rrs
 errorbar(6,mean([three_day_seq.tod_Rrs_490_06_mean]),mean([three_day_seq.tod_Rrs_490_06_stdv]),'-*','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
 errorbar(7,mean([three_day_seq.tod_Rrs_490_07_mean]),mean([three_day_seq.tod_Rrs_490_07_stdv]),'-*','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
-% ylabel('R_{rs}(490) [sr^{-1}]','FontSize',fs)
+% ylabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
 % xlabel('Time','FontSize',fs)
 % legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
 
@@ -17131,7 +17138,7 @@ errorbar(6,mean([three_day_seq.tod_Rrs_555_06_mean]),mean([three_day_seq.tod_Rrs
 errorbar(7,mean([three_day_seq.tod_Rrs_555_07_mean]),mean([three_day_seq.tod_Rrs_555_07_stdv]),'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
 grid on
-ylabel('Mean of the mean R_{rs}(\lambda) [sr^{-1}]','FontSize',fs)
+ylabel('Mean of the mean R_{rs}(\lambda) (sr^{-1})','FontSize',fs)
 xlabel('Time of the day','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -17305,7 +17312,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for Chlor-{\it a}','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for Chl-{\it a}','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -17359,7 +17366,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for a_g(412)','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for {\ita}_g(412)','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -17412,7 +17419,7 @@ plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 ylim([0 50])
 
 grid on
-ylabel('CV[%]_{3-day} for POC','FontSize',fs)
+ylabel('{\itCV} [%]_{3-day} for POC','FontSize',fs)
 xlabel('Local Time','FontSize',fs)
 
 set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);

@@ -1,4 +1,4 @@
-\documentclass[preview]{standalone}
+\documentclass[preview,margin=1mm]{standalone}
 
 \standaloneenv{my}
 
@@ -66,8 +66,8 @@
 \node (l2gen) [process, below of=angstrom,text width=5cm,align=left,yshift=-1cm] {Process to L2 \\using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily{aer\_angstrom=0.9}\\aer\_opt=-6\\vcal\_opt=1\\l2prod=vgain\_745,senz,solz};
 \node (GOCI_L1B) [input,below of=l2gen,text width=4cm,yshift=-1cm] {Select GOCI L1B files\\ to be processed to L2};
 \node (val_extract) [process, right of=angstrom,xshift=5.5cm,yshift=-0.5cm,text width=6cm,align=left] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\{\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"\\valid\_ranges=vgain\_=0.5:1.5}};
-\node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(745)$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{NFP} X_j}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_j\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
-\node (enough) [decision, below of=filtered, inner sep=1pt,yshift=-2cm] {Is $NFP > NTP/3$?\\ Number Total Pixels (NTP)};
+\node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(745)$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{\text{NFP}} X_j}{\displaystyle \text{NFP}}$\vspace{.3cm}\\$\text{Med}- 1.5\times\sigma \leq X_j\leq \text{Med}+ 1.5\times\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (enough) [decision, below of=filtered, inner sep=1pt,yshift=-2cm] {Is $\text{NFP} > \text{NTP}/3$?\\ Number Total Pixels (NTP)};
 \node (zenith) [decision, right of=enough,xshift=5cm,inner sep=0pt] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 \node (fail) [output, above of=zenith, yshift=2cm] {Failed filtering criteria};
 \node (MSIQR) [process, right of=zenith,xshift=3cm,text width=2cm] {MSIQR};

@@ -65,14 +65,14 @@
 \node (L1B) [input] {Select L1B file to be \\processed to L2};
 \node (l2gen) [process, below of=L1B] {Process to L2 using l2gen:\\ - Extract ROI\\- Atmospheric Correction};
 \node (flag) [process, below of=l2gen, yshift=0.5cm] {Exclude flagged pixels};
-\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{NFP} X_i}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_i\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
-\node (enough) [decision, right of=L1B, inner sep=1pt, xshift=6cm] {Is $NFP > NTP/3$?\\ Number Total Pixels (NTP)};
+\node (filtered) [process, below of=flag, yshift=-0.5cm] {Filtered Mean $=\frac{\displaystyle \sum_i^{\text{NFP}} X_i}{\displaystyle \text{NFP}}$\vspace{.3cm}\\$\text{Med}- 1.5\times\sigma \leq X_i\leq \text{Med}+ 1.5\times\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (enough) [decision, right of=L1B, inner sep=1pt, xshift=6cm] {Is $\text{NFP} > \text{NTP}/3$?\\ Number Total Pixels (NTP)};
 
 \node (fail) [output, right of=enough, xshift=4.5cm] {Failed filtering criteria};
 
 \node (zenith) [decision, below of=enough, yshift=-2cm] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 
-\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[CV]$<0.25$?};
+\node (CV) [decision, below of=zenith, yshift=-2cm] {Median[$CV$]$<0.25$?};
 
 \node (bestgeom) [process_small, right of=CV, xshift=7.5cm] {If multiple L2 files for \\the same time, choose the best geometry};
 

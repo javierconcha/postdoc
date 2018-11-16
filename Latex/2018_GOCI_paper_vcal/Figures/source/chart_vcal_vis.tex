@@ -1,4 +1,4 @@
-\documentclass[preview]{standalone}
+\documentclass[preview,margin=1mm]{standalone}
 
 \standaloneenv{my}
 
@@ -61,17 +61,17 @@
 %% NODES
 \node (gain_745) [input,text width=1cm] {$\bar{g}(745)$};
 \node (L1B) [input, right of=gain_745, text width=4cm,xshift=2cm] {Select GOCI L1B files\\to be processed to L2\\based on matchups\\from Concurrent Sensor\\or Climatology};
-\node (nLw_t) [input, right of=L1B, text width=6cm,xshift=5cm] {Targeted Normalized\\ Water-leaving Radiances ($L_{wn}^t(\lambda)$)\\from Concurrent Sensor\\or Climatology};
-\node (l2gen) [process, below of=L1B,text width=6.5cm,align=left,yshift=-1.5cm] {Process to L2 using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily gain=[1,1,...,$\bar{g}(745)$,1]\\vcal\_opt=2\\vcal\_nLw=[$L_{wn}^t(412)$,...,$L_{wn}^t(680)$,0,0]\\l2prod=vgain\_vvv,senz,solz};
+\node (nLw_t) [input, right of=L1B, text width=6cm,xshift=5cm] {Targeted Normalized\\ Water-leaving Radiances ($L_\text{wn}^\text{t}(\lambda)$)\\from Concurrent Sensor\\or Climatology};
+\node (l2gen) [process, below of=L1B,text width=6.5cm,align=left,yshift=-1.5cm] {Process to L2 using l2gen\\over calibration site\\\vspace{0.3cm} l2gen parameters:\\\ttfamily gain=[1,1,...,$\bar{g}(745)$,1]\\vcal\_opt=2\\vcal\_nLw=[$L_\text{wn}^\text{t}(412)$,...,$L_\text{wn}^\text{t}(680)$,0,0]\\l2prod=vgain\_vvv,senz,solz};
 \node (val_extract) [process, below of=l2gen,xshift=0cm,yshift=-2cm,text width=6cm,align=left] {Exclude flagged pixels\\\vspace{0.3cm} val\_extract parameters:\\{\ttfamily ignore\_flags="LAND HIGLINT HILT STRAYLIGHT CLDICE ATMFAIL LOWLW FILTER NAVFAIL NAVWARN"\\valid\_ranges=vgain\_=0.5:1.5}};
-\node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(VIS)$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{NFP} X_j}{\displaystyle NFP}$\vspace{.3cm}\\$Med- 1.5*\sigma \leq X_j\leq Med+ 1.5*\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
+\node (filtered) [input, below of=val_extract,text width=6cm,yshift=-2cm] {Filtered Mean $g_i(\text{VIS})$ \vspace{0.2cm}\\Filtered Mean $=\frac{\displaystyle \sum_j^{\text{NFP}} X_j}{\displaystyle \text{NFP}}$\vspace{.3cm}\\$\text{Med}- 1.5\times\sigma \leq X_j\leq \text{Med}+ 1.5\times\sigma$\vspace{.3cm}\\Number Filtered Pixels (NFP)};
 
-\node (enough) [decision, right of=filtered, inner sep=1pt,xshift=8cm] {Is $NFP > NTP/3$?\\ Number Total Pixels (NTP)};
+\node (enough) [decision, right of=filtered, inner sep=1pt,xshift=8cm] {Is $\text{NFP} > \text{NTP}/3$?\\ Number Total Pixels (NTP)};
 \node (zenith) [decision, above of=enough,yshift=2cm,inner sep=0pt] {Solar Zenith $< 75^o$ and \\ Sensor Zenith $< 60^o$?};
 \node (fail) [output, above of=zenith, yshift=2cm] {Failed filtering criteria};
 \node (MSIQR) [process, right of=zenith,xshift=4cm,text width=2cm] {MSIQR};
 \node (pass) [output, above of=MSIQR, yshift=0cm] {Passes filtering criteria};
-\node (gain_vis) [input, above of=pass,text width=1cm] {$\bar{g}(VIS)$};
+\node (gain_vis) [input, above of=pass,text width=1cm] {$\bar{g}(\text{VIS})$};
 
 %% CONNECTORS
 % \draw [arrow] (L1B) -- (l2gen);
