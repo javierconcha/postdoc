@@ -16723,6 +16723,40 @@ for idx = 1:sum(three_day_idx)
       three_day_seq(idx).tod_Rrs_555_05_mean = nanmean(three_day_seq(idx).tod_Rrs_555_05);
       three_day_seq(idx).tod_Rrs_555_06_mean = nanmean(three_day_seq(idx).tod_Rrs_555_06);
       three_day_seq(idx).tod_Rrs_555_07_mean = nanmean(three_day_seq(idx).tod_Rrs_555_07);
+
+      % mean
+      three_day_seq(idx).tod_Rrs_412_00_median = nanmedian(three_day_seq(idx).tod_Rrs_412_00);
+      three_day_seq(idx).tod_Rrs_412_01_median = nanmedian(three_day_seq(idx).tod_Rrs_412_01);
+      three_day_seq(idx).tod_Rrs_412_02_median = nanmedian(three_day_seq(idx).tod_Rrs_412_02);
+      three_day_seq(idx).tod_Rrs_412_03_median = nanmedian(three_day_seq(idx).tod_Rrs_412_03);
+      three_day_seq(idx).tod_Rrs_412_04_median = nanmedian(three_day_seq(idx).tod_Rrs_412_04);
+      three_day_seq(idx).tod_Rrs_412_05_median = nanmedian(three_day_seq(idx).tod_Rrs_412_05);
+      three_day_seq(idx).tod_Rrs_412_06_median = nanmedian(three_day_seq(idx).tod_Rrs_412_06);
+      three_day_seq(idx).tod_Rrs_412_07_median = nanmedian(three_day_seq(idx).tod_Rrs_412_07);
+      three_day_seq(idx).tod_Rrs_443_00_median = nanmedian(three_day_seq(idx).tod_Rrs_443_00);
+      three_day_seq(idx).tod_Rrs_443_01_median = nanmedian(three_day_seq(idx).tod_Rrs_443_01);
+      three_day_seq(idx).tod_Rrs_443_02_median = nanmedian(three_day_seq(idx).tod_Rrs_443_02);
+      three_day_seq(idx).tod_Rrs_443_03_median = nanmedian(three_day_seq(idx).tod_Rrs_443_03);
+      three_day_seq(idx).tod_Rrs_443_04_median = nanmedian(three_day_seq(idx).tod_Rrs_443_04);
+      three_day_seq(idx).tod_Rrs_443_05_median = nanmedian(three_day_seq(idx).tod_Rrs_443_05);
+      three_day_seq(idx).tod_Rrs_443_06_median = nanmedian(three_day_seq(idx).tod_Rrs_443_06);
+      three_day_seq(idx).tod_Rrs_443_07_median = nanmedian(three_day_seq(idx).tod_Rrs_443_07);
+      three_day_seq(idx).tod_Rrs_490_00_median = nanmedian(three_day_seq(idx).tod_Rrs_490_00);
+      three_day_seq(idx).tod_Rrs_490_01_median = nanmedian(three_day_seq(idx).tod_Rrs_490_01);
+      three_day_seq(idx).tod_Rrs_490_02_median = nanmedian(three_day_seq(idx).tod_Rrs_490_02);
+      three_day_seq(idx).tod_Rrs_490_03_median = nanmedian(three_day_seq(idx).tod_Rrs_490_03);
+      three_day_seq(idx).tod_Rrs_490_04_median = nanmedian(three_day_seq(idx).tod_Rrs_490_04);
+      three_day_seq(idx).tod_Rrs_490_05_median = nanmedian(three_day_seq(idx).tod_Rrs_490_05);
+      three_day_seq(idx).tod_Rrs_490_06_median = nanmedian(three_day_seq(idx).tod_Rrs_490_06);
+      three_day_seq(idx).tod_Rrs_490_07_median = nanmedian(three_day_seq(idx).tod_Rrs_490_07);
+      three_day_seq(idx).tod_Rrs_555_00_median = nanmedian(three_day_seq(idx).tod_Rrs_555_00);
+      three_day_seq(idx).tod_Rrs_555_01_median = nanmedian(three_day_seq(idx).tod_Rrs_555_01);
+      three_day_seq(idx).tod_Rrs_555_02_median = nanmedian(three_day_seq(idx).tod_Rrs_555_02);
+      three_day_seq(idx).tod_Rrs_555_03_median = nanmedian(three_day_seq(idx).tod_Rrs_555_03);
+      three_day_seq(idx).tod_Rrs_555_04_median = nanmedian(three_day_seq(idx).tod_Rrs_555_04);
+      three_day_seq(idx).tod_Rrs_555_05_median = nanmedian(three_day_seq(idx).tod_Rrs_555_05);
+      three_day_seq(idx).tod_Rrs_555_06_median = nanmedian(three_day_seq(idx).tod_Rrs_555_06);
+      three_day_seq(idx).tod_Rrs_555_07_median = nanmedian(three_day_seq(idx).tod_Rrs_555_07);
       
       % SD
       three_day_seq(idx).tod_Rrs_412_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_00);
@@ -16837,6 +16871,12 @@ yy = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.
       100*nanmean([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
+yy = [100*nanmedian([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
 ylim([0 50])
 
 grid on
@@ -16894,6 +16934,12 @@ yy = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.
       100*nanmean([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV]) ...
       100*nanmean([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
 ylim([0 50])
 
@@ -16955,6 +17001,12 @@ yy = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.
       100*nanmean([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
+yy = [100*nanmedian([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
 ylim([0 50])
 
 grid on
@@ -17013,6 +17065,12 @@ yy = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.
       100*nanmean([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV]) ...
       100*nanmean([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
 ylim([0 50])
 
@@ -17309,6 +17367,12 @@ yy = [100*nanmean([three_day_seq.tod_chlor_a_00_CV]) 100*nanmean([three_day_seq.
       100*nanmean([three_day_seq.tod_chlor_a_06_CV]) 100*nanmean([three_day_seq.tod_chlor_a_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
+yy = [100*nanmedian([three_day_seq.tod_chlor_a_00_CV]) 100*nanmedian([three_day_seq.tod_chlor_a_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_chlor_a_02_CV]) 100*nanmedian([three_day_seq.tod_chlor_a_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_chlor_a_04_CV]) 100*nanmedian([three_day_seq.tod_chlor_a_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_chlor_a_06_CV]) 100*nanmedian([three_day_seq.tod_chlor_a_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
 ylim([0 50])
 
 grid on
@@ -17363,6 +17427,13 @@ yy = [100*nanmean([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmean([three_day_
       100*nanmean([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmean([three_day_seq.tod_ag_412_mlrc_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
+hold on
+yy = [100*nanmedian([three_day_seq.tod_ag_412_mlrc_00_CV]) 100*nanmedian([three_day_seq.tod_ag_412_mlrc_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_ag_412_mlrc_02_CV]) 100*nanmedian([three_day_seq.tod_ag_412_mlrc_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_ag_412_mlrc_04_CV]) 100*nanmedian([three_day_seq.tod_ag_412_mlrc_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_ag_412_mlrc_06_CV]) 100*nanmedian([three_day_seq.tod_ag_412_mlrc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
 ylim([0 50])
 
 grid on
@@ -17415,6 +17486,12 @@ yy = [100*nanmean([three_day_seq.tod_poc_00_CV]) 100*nanmean([three_day_seq.tod_
       100*nanmean([three_day_seq.tod_poc_04_CV]) 100*nanmean([three_day_seq.tod_poc_05_CV]) ...
       100*nanmean([three_day_seq.tod_poc_06_CV]) 100*nanmean([three_day_seq.tod_poc_07_CV])];
 plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_poc_00_CV]) 100*nanmedian([three_day_seq.tod_poc_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_poc_02_CV]) 100*nanmedian([three_day_seq.tod_poc_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_poc_04_CV]) 100*nanmedian([three_day_seq.tod_poc_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_poc_06_CV]) 100*nanmedian([three_day_seq.tod_poc_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
 
 ylim([0 50])
 

@@ -105,8 +105,8 @@ ax.YAxis.TickLabelFormat = '%,.2f';
 % set label for plot
 switch parname
       case 'Rrs'
-            xlabel([sat_name_x ' {\it R}_{rs}(' wl_x ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
-            ylabel([sat_name_y ' {\it R}_{rs}(' wl_y ') (10^{' num2str(ax.YAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+            xlabel([sat_name_x ' {\it R}_{rs}(' wl_x ') (\times10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+            ylabel([sat_name_y ' {\it R}_{rs}(' wl_y ') (\times10^{' num2str(ax.YAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
       case 'chlor_a'
             xlabel([sat_name_x ' Chl-{\ita}'],'FontSize',fs)
             ylabel([sat_name_y ' Chl-{\ita}'],'FontSize',fs)

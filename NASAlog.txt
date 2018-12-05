@@ -3046,4 +3046,7 @@ jconchas:~/Documents/Latex/2017_GOCI_paper/Figures$ find . -type f -depth 1  -na
 for the error running htlatex
 (Please type a command or say `\end')
 If you can persuade TeX to read it, an end-of-file indication (control-D under Unix, control-Z under Windows) will provoke TeX to report an error and exit immediately. Otherwise you should attempt to provoke an error dialogue, from which you can exit (using the x “command”). An accessible error could well be inserting an illegal character: what it is will depend on what macros you are running. If you can’t make that work, try a silly command name or two.
+
+to track changes in Title and abstract:
+jconchas:~/Documents/Latex/2018_GOCI_uncertainties/revision$ latexdiff  --append-context2cmd="Title"  --append-context2cmd="abstract" ../2018_GOCI_uncertainties_MDPI_SUBMITTED.tex ../2018_GOCI_uncertainties_MDPI.tex > diff.tex
 (END)

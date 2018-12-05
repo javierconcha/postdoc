@@ -1,0 +1,153 @@
+% interactcadsample.tex
+% v1.03 - April 2017
+
+\documentclass[]{interact}
+
+\usepackage{epstopdf}% To incorporate .eps illustrations using PDFLaTeX, etc.
+\usepackage{subfigure}% Support for small, `sub' figures and tables
+%\usepackage[nolists,tablesfirst]{endfloat}% To `separate' figures and tables from text if required
+
+\usepackage{natbib}% Citation support using natbib.sty
+\bibpunct[, ]{(}{)}{;}{a}{}{,}% Citation support using natbib.sty
+\renewcommand\bibfont{\fontsize{10}{12}\selectfont}% Bibliography support using natbib.sty
+
+\theoremstyle{plain}% Theorem-like structures provided by amsthm.sty
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+% Select what to do with todonotes: 
+\usepackage[disable]{todonotes} % notes not showed
+% % \usepackage[draft]{todonotes}   % notes showed
+% \usepackage[textwidth=2.0cm]{todonotes}
+% \presetkeys{todonotes}{fancyline, size=\scriptsize}{}
+% \setlength{\marginparwidth}{3cm}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage{draftwatermark}
+% \SetWatermarkLightness{0.9}
+% \SetWatermarkScale{4}
+% \SetWatermarkText{UNDER REVISION}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+% \renewcommand*{\bibfont}{\normalsize}
+
+\usepackage{float}
+
+\usepackage{pdflscape}
+\usepackage{xr}
+\usepackage{hyperref}
+\externaldocument{2018_GOCI_vcal}
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% \articletype{ARTICLE TEMPLATE}
+
+\title{Vicarious Calibration of GOCI for the SeaDAS Ocean Color Retrieval}
+
+\author{
+\name{Javier Concha\textsuperscript{a,b}\thanks{CONTACT Javier Concha. Email: javier.concha@nasa.gov}, Antonio Mannino\textsuperscript{a}, Bryan Franz\textsuperscript{a}, Sean Bailey\textsuperscript{a}, and Wonkook Kim\textsuperscript{c}}
+\affil{\textsuperscript{a}Ocean Ecology Lab,
+NASA Goddard Space Flight Center, Greenbelt, MD, USA\\ 
+\textsuperscript{b}Universities Space Research Association, Columbia, MD, USA\\
+\textsuperscript{c}Korea Institute of Ocean Science and Technology, Busan, Republic of Korea}
+}
+
+\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\section*{Supplemental Material}
+% \addcontentsline{toc}{section}{Appendix}
+The supplemental material describes in more details the processes and tools used to derive the vicarious gains.
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation of the Angstrom Coefficient}\label{sec:appendix_Angstrom}
+First, an aerosol model needs to be selected based on the aerosol characteristic over the calibration site. The Angstrom Coefficient expresses the dependency of the aerosol optical thickness on the wavelength of incident light \citep{Wang:2005}. Each of the 80 aerosol models described in \cite{Ahmad2010} has an associated aerosol Angstrom Coefficient. Therefore, if the aerosol Angstrom Coefficient is known over the calibration site, then an aerosol model can be chosen by selecting the model with the closest Angstrom Coefficient. In practice, the Angstrom Coefficient is estimated from the time series of the satellite-derived Angstrom Coefficient product from a well-calibrated sensor (Fig. \ref{fig:angstrom_cal}). For this study, the MODISA sensor was used to calculate the Angstrom Coefficient.
+
+Once the calibration site limits are determined (i.e. latitude and longitude), the tool "lonlat2pixline" (included in the SeaDAS/l2gen package) can be used to convert from latitude and longitude to pixel and line numbers obtaining the parameters sline, eline, spixl, and epixl as outputs. These outputs are used as inputs to l2gen. Because GOCI is always imaging the same region, and therefore, the pixel and line number are always the same, the lonlat2pixline tool was used only once in this case.
+
+The MODISA L1B files over the calibration site were selected and processed to L2 using l2gen \ref{fig:angstrom_cal}) with the limits from lonlat2pixline as inputs in order to apply the processing algorithms over the calibration site only. The products "angstrom", "senz" (sensor zenith angle) and "solz" (solar zenith angle) are specified as outputs (i.e. l2prod="angstrom, senz, solz"). Then, the satellite validation matchup tool "val\_extract" (included with the source code of the SeaDAS/l2gen package) was used for the statistic calculations from the angstrom product. This tool outputs a text file with the different statistics (i.e. maximum, minimum, mean, median, and standard deviation) of the L2 file. These statistics are calculated over all the data, but also over the data range used to calculate the filtered mean described in \cite{Bailey2006}, but using the median (Med) instead of the mean of the unfiltered data, i.e.
+\begin{equation}
+  \text{Filtered Mean}=\frac{\displaystyle \sum_j^{\text{NFP}}X_j}{\text{NFP}}
+\end{equation}
+with $X_j$ the $j^{th}$ pixel within the range:
+\begin{equation}
+  \text{Med}-1.5\times\sigma\leq X_j\leq \text{Med}+1.5\times\sigma
+\end{equation}
+with Med the median and $\sigma$ the standard deviation of the unfiltered data, NFP the number of filtered pixels within this range. Additionally, val\_extract outputs statistics over the interquartile range (IQR). The val\_extract tool can be applied to a specific region using the "elat", "slat", "slon", "elon" options, and it can ignore flagged pixels by specifying the L2 flags to be ignored using the "ignore\_flags" option. Also, a range of values where to apply the calculations can be specified using the "valid\_ranges" option. 
+
+Files whose solar zenith angle is greater than $75^o$ and sensor zenith angle are greater than $60^o$ are excluded from the calculation as well as files that have less than 255 pixels. Finally, all the files that passed the exclusion criteria are averaged to obtain the temporal mean of the Angstrom Coefficient. 
+%-%-%-%-%-%-%-%-%-%-%= FIGURE =%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/angstrom_cal.pdf}
+    %\internallinenumbers
+    \caption{Angstrom Coefficient estimation for the aerosol model selection. The Angstrom coefficient product from MODISA data over the calibration site was used in this case.  \label{fig:angstrom_cal}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the NIR Bands}\label{sec:appendix_NIR}
+For the calculation of the vicarious gain for the NIR bands, all GOCI images over the calibration site are processed to L2 using l2gen in calibration (inverse) mode. As described in Section \ref{sec:vcal_nir}, two assumptions are made here: the aerosol properties are known and the calibration of the 865 nm band is perfect, i.e. $\bar{g}(865)=1$. 
+
+The aerosol properties, represented by the Angstrom Coefficient, are estimated from MODISA, in this case. Then, l2gen is run with this estimated target Angstrom Coefficient (option "aer\_angstrom=0.9") and the option "aer\_opt" is set to aer\_opt=-6 to indicate to use multiple-scattering with fixed Angstrom coefficient atmospheric correction algorithm. The calibration option is set to vcal\_opt=1 to indicate that the target normalized water-leaving radiance ${L_\text{wn}}^\text{t} = 0$ for the NIR bands. The vicarious gains are obtained from the L2 product "vgain\_745" (i.e. l2prod=vgain\_745). Also, the products "senz" and "solz" are retrieved to be used for the exclusion criteria (Fig. \ref{fig:chart_vcal_745}). 
+
+Then, val\_extract is used to filter the data and to obtain a filtered mean $g_i(745)$ for each L2 GOCI file (see Appendix \ref{sec:appendix_Angstrom} for more details in val\_extract) excluding flagged pixels using the option "ignore\_flags", and also excluding values outside of the 0.5:1.5 range using the option "valid\_ranges" (Fig. \ref{fig:chart_vcal_745}).  The options "elat", "slat", "slon", "elon" were also used to delimit the region. A $g_i(745)$ value for each L2 file is available at this point.
+
+Some exclusion criteria are applied to the $g_i(745)$ values including that at least a third of the pixels within the region need to be valid, and that the coefficient of variation (CV) is smaller than 0.25 to exclude outliers. In this case, the CV is calculated as the ratio between the filtered mean and the filtered standard deviation of each L2 file. Also, only files with solar zenith angle smaller than $75^o$ and sensor zenith angle smaller than $60^o$ are included. Finally, the mean of the semi-interquartile range (MSIQR) from all the $g_i(745)$ that passed the exclusion criteria is used as the gain for the 745 nm band $\bar{g}(745)$.
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_745.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the 745 nm band based on a target Angstrom coefficient derived from MODISA.  \label{fig:chart_vcal_745}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the Visible Bands}\label{sec:appendix_VIS}
+For the calculation of the vicarious gains for the visible bands, matchups between GOCI and a source of target normalized water-leaving radiances ${L_\text{wn}}^\text{t}$ are used to process the GOCI L1B files. In this case, these sources are from MODISA or climatology from SeaWiFS (see \autoref{sec:vcal_vis}). These GOCI matchups files are processed to L2 using l2gen in calibration (inverse) mode. The ${L_\text{wn}}^\text{t}$ from the matchups are input using the "vcal\_nLw" option with the option "vcal\_opt=2" to set l2gen in calibration mode with a given ${L_\text{wn}}^\text{t}$. The "gain" option is set to one for all bands, except for the 745 nm band that uses the g(745) calculated previously. The gains for the visible bands are retrieved using the l2gen option "l2prod=vgain\_vvv". Also, the products "senz" and "solz" are retrieved to be used for filtering in the same way as the $\bar{g}(745)$ calculation. 
+
+The L2 files are then processed using "val\_extract" and further filtered in the same way as the previous step (Appendix \ref{sec:appendix_Angstrom}).
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_vis.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the visible (VIS) bands. Two sources of targeted normalized water-leaving radiances were used in this case: match-ups from MODISA and climatology from SeaWiFS.  \label{fig:chart_vcal_vis}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{apa}
+\bibliography{javier_NASA.bib}
+
+\end{document}

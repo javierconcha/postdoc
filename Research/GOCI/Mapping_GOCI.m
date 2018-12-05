@@ -189,3 +189,23 @@ saveas(gcf,[savedirname 'GOCI_MAP'],'epsc')
 % print('-depsc2', [savedirname 'GOCI_MAP'])
 epsclean([savedirname 'GOCI_MAP.eps'])
 
+%%
+
+% YSKW (Yellow Sea - Korea West)
+YSKW_NW_lat =  37; YSKW_NW_lon =  123.5;
+YSKW_NE_lat =  37; YSKW_NE_lon =  126;
+YSKW_SW_lat =  33; YSKW_SW_lon =  123.5;
+YSKW_SE_lat =  33; YSKW_SE_lon =  126;
+YSKW_footprint_lat = [YSKW_NW_lat YSKW_NE_lat YSKW_SE_lat YSKW_SW_lat YSKW_NW_lat];
+YSKW_footprint_lon = [YSKW_NW_lon YSKW_NE_lon YSKW_SE_lon YSKW_SW_lon YSKW_NW_lon];
+
+linem(YSKW_footprint_lat,YSKW_footprint_lon,'c','LineWidth',3)
+
+textm(36.8, 123.2, 'YSKW',...
+      'Color','c',...
+      'HorizontalAlignment','left',...
+      'VerticalAlignment','top',...
+      'FontSize',18,...
+      'FontWeight','normal');
+
+% POLYGON ((123.5 37, 126 37, 126 33, 123.5 33, 123.5 37))

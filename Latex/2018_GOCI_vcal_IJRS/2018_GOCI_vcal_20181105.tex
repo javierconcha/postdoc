@@ -1,0 +1,661 @@
+% interactcadsample.tex
+% v1.03 - April 2017
+
+\documentclass[]{interact}
+
+\usepackage{epstopdf}% To incorporate .eps illustrations using PDFLaTeX, etc.
+\usepackage{subfigure}% Support for small, `sub' figures and tables
+%\usepackage[nolists,tablesfirst]{endfloat}% To `separate' figures and tables from text if required
+
+\usepackage{natbib}% Citation support using natbib.sty
+\bibpunct[, ]{(}{)}{;}{a}{}{,}% Citation support using natbib.sty
+\renewcommand\bibfont{\fontsize{10}{12}\selectfont}% Bibliography support using natbib.sty
+
+\theoremstyle{plain}% Theorem-like structures provided by amsthm.sty
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+
+%%% MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+% \usepackage[outdir=./]{epstopdf}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{amsmath,epsfig}
+
+% Select what to do with todonotes: 
+\usepackage[disable]{todonotes} % notes not showed
+% % \usepackage[draft]{todonotes}   % notes showed
+% \usepackage[textwidth=2.0cm]{todonotes}
+% \presetkeys{todonotes}{fancyline, size=\scriptsize}{}
+% \setlength{\marginparwidth}{3cm}
+
+\usepackage{tikz} % for flow charts
+  \usetikzlibrary{shapes,arrows,positioning,shadows,calc}
+  % \usetikzlibrary{external}
+  % \tikzexternalize[prefix=Figures/]
+
+% \usepackage{draftwatermark}
+% \SetWatermarkLightness{0.9}
+% \SetWatermarkScale{4}
+% \SetWatermarkText{UNDER REVISION}
+
+\usepackage[percent]{overpic}
+\usepackage{morefloats} % for the error "Too many unprocessed floats"
+
+\usepackage{multirow}
+
+% \renewcommand*{\bibfont}{\normalsize}
+
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+
+%%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% \articletype{ARTICLE TEMPLATE}
+
+\title{Vicarious Calibration of GOCI for the SeaDAS Ocean Color Retrieval}
+
+\author{
+\name{Javier Concha\textsuperscript{a,b}\thanks{CONTACT Javier Concha. Email: javier.concha@nasa.gov}, Antonio Mannino\textsuperscript{a}, Bryan Franz\textsuperscript{a}, Sean Bailey\textsuperscript{a}, and Wonkook Kim\textsuperscript{c}}
+\affil{\textsuperscript{a}Ocean Ecology Lab,
+NASA Goddard Space Flight Center, Greenbelt, MD, USA\\ 
+\textsuperscript{b}Universities Space Research Association, Columbia, MD, USA\\
+\textsuperscript{c}Korea Institute of Ocean Science and Technology, Busan, Republic of Korea}
+}
+
+\maketitle
+
+\begin{abstract}
+% 100 words
+
+% Background/motivation/context
+% Aim/objectives(s)/problem statement
+A key on-orbit calibration step for satellite remote sensing of ocean color is the vicarious calibration.
+This establishes the final gains for each spectral band on the sensor that minimize bias in the retrieved ocean color signal.
+The vicarious calibration is specific to the instrument and the atmospheric correction algorithm.
+% Methods
+The vicarious calibration gains for the Geostationary Ocean Color Imager (GOCI) are presented here, which were derived to optimize the performance of NASA's standard atmospheric correction algorithm as implemented in the l2gen code and distributed through the SeaDAS open-source software package.
+Following NASA's protocols, the near infrared (NIR) bands were calibrated first, and the visible bands were then calibrated relative to this fixed NIR calibration.
+The gain for the 745-nm NIR band was derived using a fixed aerosol model, which was chosen based on the Angstrom Coefficients derived from MODIS on Aqua (MODISA). 
+For the vicarious gains of the visible bands, two sources for the target water-leaving radiances were tested: matchups from MODISA and climatological data from SeaWiFS. 
+A validation analysis using AERONET-OC data shows an improvement in sensor performance when compared with results using the current vicarious gains and results using no vicarious calibration. 
+% Results
+Good agreement was found in vicarious gains derived using both concurrent MODISA and climatological SeaWiFS as calibration sources.  
+% Conclusions
+These results support the use of a concurrent sensor for the vicarious calibration when {\it in situ} data are not available, and demonstrate that using climatology from a well-calibrated sensor like SeaWiFS for the vicarious calibration is a valid alternative when it is not possible to use a concurrent sensor or {\it in situ} data. 
+We recommend using the gains derived from MODISA for GOCI processing in SeaDAS/l2gen.
+%
+\end{abstract}
+
+\begin{keywords}
+Geostationary Ocean Color Imager (GOCI); Ocean Color; Atmospheric Correction; Vicarious Calibration
+\end{keywords}
+
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+% vcal importance within the big picture
+Satellite Ocean Color (OC) sensors enable studies of the biogeochemical processes within the Earth's marine biosphere by measuring the interaction of sunlight with the optically-active constituents in the upper ocean euphotic zone. These satellite measurements can then be related to environmental properties such as suspended sediment loads or concentrations of the phytoplankton pigment chlorophyll-a, a proxy for phytoplankton abundance that is related to marine primary productivity. A significant challenge in the measurement of ocean color is to accurately account for the effects of the atmosphere on both the sunlight that reaches the ocean and the return signal from the ocean that emanates back through the atmosphere to the satellite sensor.  Even though calibration efforts before launch and on-orbit (e.g., lunar and solar calibration) are key for obtaining accurate estimates of the ocean color signal, they do not ensure optimal retrieval performance because systematic bias caused by the atmospheric correction algorithm and residual error in instrument calibration are not taken into account. In order to obtain well-calibrated satellite data, an additional on-orbit calibration known as vicarious calibration needs to be applied. The vicarious calibration is able to adjust the system performance by updating the pre-launch and post-launch instrument gains \citep{Franz:07}. This process ensures the accuracy needed to retrieve the rather small water-leaving signal, which constitutes at most 10\% of the total signal reaching the sensor. 
+
+% GOCI
+Geostationary (GEO) OC sensors have the advantage of capturing short-term (hours) changes in ocean properties. The high frequency data from GEO OC enables studies on sub-diurnal processes including primary productivity, tidal variability, and formation and dissipation of phytoplankton blooms \citep{Ruddick2014}. The first, and only, geostationary satellite dedicated to Ocean Color, the Geostationary Ocean Color Imager (GOCI) \citep{Ryu2012}, was launched in 2010 by the Republic of Korea. It monitors the Northeast Asian waters surrounding the Korean peninsula, capturing eight (hourly) images per day with a spatial resolution of 500 m, in eight spectral bands (6 in the visible (VIS): 412, 443, 490, 555, 660 and 680 nm; and 2 in the NIR: 745 and 865 nm).  Utilization of GOCI (or future GEO OC sensors) to detect changes in ocean constituents at sub-diurnal to multi-day time scales requires well-calibrated and atmospherically corrected water-leaving radiances that are inherently consistent. 
+
+% NASA capabilities
+The Ocean Biology Distributed Active Archive Center (OB.DAAC) at the NASA's Goddard Space Flight Center, maintained by the Ocean Biology Processing Group (OBPG), acts as a mirror-server for the GOCI data, which is provided by the Korea Ocean Satellite Center.  To support the visualization and processing of these data, the OB.DAAC distributes the SeaDAS software package.  SeaDAS includes the multi-sensor Level-1 to Level-2 generator (l2gen), which has the capability of applying the standard NASA atmospheric correction algorithm to the GOCI data. The l2gen code also includes tools to perform vicarious calibration (described in more details in the \autoref{sec:appendix_NIR}). 
+
+% summary
+Although the vicarious calibration is independent of the satellite sensor or the source of the target data, it is specific to the atmospheric correction algorithm \citep{Franz:07}. Vicarious calibration for GOCI has been performed for different atmospheric correction approaches \citep{Ahn2015,Wang:13}. The primary objective of this work is to provide a vicarious calibration for GOCI specific to the atmospheric correction algorithm used by NASA. The gain for the shortest NIR band (NIRS) is calculated using an aerosol model based on the Angstrom coefficients retrieved from the Moderate Resolution Imaging Spectroradiometer (MODIS) sensor on the Aqua satellite (MODISA) \citep{Esaias1998}. Then, two different approaches for deriving the gains in the visible bands are evaluated: one based on contemporaneous MODISA data and one based on climatological data from SeaWiFS. The results are validated with data from the AErosol RObotic NETwork-Ocean Color (AERONET-OC) \citep{Zibordi2009} and compared with heritage OC missions. 
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Approach}
+% vcal definition
+The goal of the vicarious calibration is to minimize the difference between remotely sensed water-leaving radiance retrievals and the expected (real) water-leaving radiance. The vicarious calibration adopted here is based on the standard method used for calibrating polar-orbiting OC sensors \citep{Franz:07}. Briefly, the vicarious calibration consists in applying multiplicative correction factors or gains to the total top of the atmosphere (TOA) retrieved signal (TOA radiance signal or $L_\text{t}$) forcing the retrieved water-leaving signal (water-leaving radiance or $L_\text{w}$) to match the target (or expected) water-leaving signal (${L_\text{w}}^\text{t}$). Then, the gains for the observation sample $i^{th}$, $g_i$, are calculated as \citep{Franz:07}:
+\begin{equation}\label{eq:g_i}
+  g_i={L_\text{t}}^\text{t}/L_\text{t}
+\end{equation}
+with
+\begin{equation}\label{eq:L_t}
+  L_\text{t}=[L_\text{r}+L_\text{a}+t_{\text{d}_\text{v}}(L_\text{f}+L_\text{w})]t_{\text{g}_\text{v}}t_{\text{g}_\text{s}}f_\text{p}
+\end{equation}
+The terms $L_\text{r}$, $L_\text{a}$, and $L_\text{f}$ in Eq. (\ref{eq:L_t}) are the contributions from air molecules, aerosols, and white-caps or sea foam respectively. The term $t_{\text{d}_\text{v}}$ is the diffuse transmittance along the surface-sensor, and $t_{\text{g}_\text{v}}$ and $t_{\text{g}_\text{s}}$  are the transmittance accounting for the losses due to gaseous absorption in the sun-surface and surface-sensor radiant paths, respectively. The term $f_\text{p}$ is a polarization correction factor. All terms in Eq. (\ref{eq:g_i}) and Eq. (\ref{eq:L_t}) are spectrally dependent, but this dependency was omitted for brevity.
+
+The target values could be based on {\it in situ } data, modeled data, regional climatologies or retrievals from another sensor. In practice this process is divided in two steps. First, the NIR bands are calibrated, which effectively fixes the atmospheric correction algorithm \citep{Franz:07}, and then the visible bands are calibrated using these calibrated NIR bands.  Here, both steps utilize satellite data over the same calibration site: GOCI Clear Water Subset (GCWS) (\autoref{fig:GOCI_map}). The GCWS was used as the calibration site because it is an oligotrophic deep-water ocean region where spatial variability of in-water optical properties is minimized, and it is far from land and active volcanic islands, such that the dominant aerosols can be assumed to result from purely marine processes \citep{Franz:07}. The GCWS was also carefully defined to avoid slot-edge distortion inherent to the GOCI image acquisition system \citep{Kim:2015,Kim:2016}, and to avoid differences in acquisition time between the slots. 
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=0 0 0 0,width=7cm]{./Figures/GOCI_MAP.eps}
+    %\internallinenumbers
+    \caption{Map of the GOCI Clear Water Subset (GCWS) region used as the vicarious calibration site indicated as a blue box with limits $26^o 5' 45''N$-$28^o 29' 42''N$ and $137^o 20' 16.8''E$-$142^o 5' 31.2''$. The GOCI coverage is indicated as red box and GOCI's slot 13 as black box. The GCWS was chosen over a low productivity water region and as a subset of GOCI's slot 13 to avoid slot edges distortion. The GOCI Clear Water (GCW) region, indicated as a magenta box, used in other studies is shown for reference. AERONET-OC stations shown in red circles. \label{fig:GOCI_map}} 
+\end{figure}
+
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-------------------sub-section-----------------------------
+% \subsection{Satellite Data and Processing}
+
+% All the satellite data from the OB.DAAC used in this study (i.e. MODISA, VIIRS and GOCI) include the last reprocessing R2018.0, which incorporates advancements in instrument calibration and updates in the instrument-specific vicarious calibration derived from updated MOBY instrument calibration.
+
+% https://seabass.gsfc.nasa.gov/wiki/validation_description
+
+%-------------------sub-section-----------------------------
+\subsection{Calibration of the Near-Infrared Bands}
+\label{sec:vcal_nir}
+% vcal_opt:
+%         1: inverse (calibration) mode, targeting to nLw=0
+The main unknown in the vicarious calibration analysis is the aerosol contribution, and a series of assumptions are made to determine this contribution. One assumption is that the instrument calibration of the longest NIR wavelength ($NIR_\text{L}$) is perfect, and therefore, the vicarious gain for this band is unity (i.e. $g_i(NIR_\text{L})=1$). The other assumption is that the water contribution in the NIR spectral regime over a predominantly oligotrophic region is equal to zero (i.e. $L_\text{wn}(NIR_\text{S})=0$ and $L_\text{wn}(NIR_\text{L})=0$, with $NIR_\text{L}$ the shortest NIR wavelength). The ${L_\text{a}}^\text{t}(NIR_\text{L})$ can be determined directly from the satellite observations using these two assumptions. Finally, if the aerosol type is known, the aerosol model associated with this known aerosol type, in combination with the retrieved ${L_\text{a}}^\text{t}(NIR_\text{L})$, are used to predict the aerosol contribution in the shorter NIR band (${L_\text{a}}^\text{t}(NIR_\text{S})$) \citep{Franz:07}. 
+
+When processing satellite data using the l2gen algorithm, the aerosol type (aerosol model) used for determining the aerosol contribution is chosen based on the relative humidity (RH). In practice, the aerosol model can be determined based on the typical value of Angstrom coefficient over the calibration site. The l2gen algorithm in calibration mode has the capability to run with a target Angstrom coefficient, allowing the relative RH to be determined internally based on this target value, and posteriorly perform the aerosol model selection \citep{Ahmad2010,Mobley2016}. For this study, a mean Angstrom coefficient of $0.9$ was obtained from MODISA measurements over the GCWS region, with a similar Angstrom coefficient obtained from SeaWiFS data (see Appendix \ref{sec:appendix_Angstrom} for more details).
+
+A set of vicarious gains for the GOCI's $NIR_\text{S}$ band $g_i(NIR_\text{S}$) are calculated by processing the GOCI images using the l2gen code in calibration mode with a target Angstrom coefficient of $0.9$, and over the calibration site (GCWS region). Exclusion criteria based on \citep{Bailey2006} were applied to the $g_i$ values, with only those values that passed the exclusion criteria considered. The mission mean vicarious gain for the $NIR_\text{S}$ band $\bar{g}(745)$ (\autoref{fig:GOCI_map}, \autoref{tab:vcal_gains_comp}) was calculated as the temporal average using the mean of the semi-interquartile range (MSIQR) to minimize the effect of spurious outliers, as suggested by \citep{Franz:07}. The calculated vicarious gain for GOCI's 745 nm band was found to be 0.9492. A more detailed explanation focusing on the tools and exclusion criteria used to calculate the Angstrom Coefficient and the vicarious gain for the 745 nm band of GOCI is described in  \autoref{sec:appendix_NIR}). Now, with the vicarious gain for the NIR bands, $\bar{g}(865)=1.0$ and $\bar{g}(745)=0.9492$, the atmospheric correction algorithm can be used to determine the aerosol contribution for the remainder of the visible wavelength bands, and consequently, their vicarious gains. 
+
+% - Angstrom for new GCW region: VIIRS, AQUA and SeaWiFS in new GCW region to calculate angstrom AND for time series later. It also will include new R2018.0 processing. Include nLw to be used as target fo r the VIS gain determination
+
+% - 745 gain: Run GOCI with aerosol model derived from AQUA/SeaWiFS angstrom
+
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=0 0 0 0,width=14cm]{./Figures/Gvcal_745_745.pdf}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI band at 745 nm based on a target Angstrom coefficient derived from MODISA data spanning the mission lifetime from May 2010 to March 2017. The individual calibration gains (circles) are distributed around the mission mean gain line, which is constant for all time. The black circles are the gains that passed the quality screening process, with the gray and black fill used to distinguish the cases that fell outside or within the semi-interquartile range (SIQR), respectively. The J, M, and S labels indicate January, May, and September, respectively. \label{fig:Gvcal_745}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-------------------sub-section-----------------------------
+\subsection{Calibration of the Visible Bands}
+\label{sec:vcal_vis}
+% - VIS gain: run GOCI with SeaWiFS and AQUA nLw target to determine VIS gain
+In this step, the target normalized water-leaving radiances ${L_\text{wn}}^\text{t}$ need to be determined first in order to retrieve the  ${L_\text{t}}^\text{t}$ later and be able to calculate the vicarious gain $g_i$ (Eq. (\ref{eq:g_i})). First, the aerosol properties (${L_\text{a}}^\text{t}$) are retrieved using the NASA standard algorithm \citep{Mobley2016} and the vicariously calibrated NIR bands. Then, the ${L_\text{wn}}^\text{t}$ and the ${L_\text{a}}^\text{t}$ along with the atmospheric correction algorithm in inverse mode are used to calculate ${L_\text{t}}^\text{t}$ \citep{Franz:07}, and a set of $g_i$ values are derived for each $L_t$-${L_\text{wn}}^\text{t}$ pair. An exclusion criteria similar to \citep{Bailey2006} is applied to each $g_i$ value. Finally, this set of $g_i$ are aggregated via the MISQR to derive the mission-average vicarious gain, $\bar{g}$, for each visible wavelength. A more detailed description of this process and the exclusion criteria is described in \autoref{sec:appendix_VIS}. In this work, two sources of ${L_\text{wn}}^\text{t}$ are explored: retrievals from the MODISA sensor and a climatology derived from the sea-viewing wide field-of-view sensor (SeaWiFS) \citep{McClain2004}. 
+
+%-%-%-%-%-%-%-%-%-%-%-%-%=TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+% \begin{landscape}
+\begin{table}[htbp!]
+%\internallinenumbers
+\caption{GOCI $\bar{g}$ and standard deviations (in parentheses) calculated using the ${L_\text{wn}}^\text{t}$ from MODISA and SeaWIFS climatology. The vicarious gains derived by Wang {\it et} al. (2013) \citep{Wang:13}, Ahn {\it et} al. (2015) \citep{Ahn2015}, and the current gains used in SeaDAS were included for comparison. \label{tab:vcal_gains_comp}}
+
+  \centering
+    \includegraphics[width=14cm]{./Figures/vcal_gains_comp.pdf}
+
+\end{table}
+% \end{landscape}
+%-%-%-%-%-%-%-%-%-%-%=END TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+%-/-/-/-/-/-/-/-/-/-/sub-sub-section/-/-/-/-/-/-/-/-/-/-/-/
+\subsubsection{${L_\text{wn}}^\text{t}$ derived from MODISA}
+  % Apply MODISA to accomplish vicarious calibration of GOCI from 2011 through 2015 (or until you have sufficient data points for stable vicarious gains; Bryan does this sound reasonable?) to avoid the recent couple of years where MODIS-A data is more suspect.  This approach would be more similar to using MOBY as described in Franz {\it et} al. 2007.  Here you would apply daily mean MODIS Rrs for the GCW that pass through your exclusion criteria rather than MOBY to accomplish the vicarious calibration of GOCI. You can then use VIIRS and AERONET-OC as independent comparisons (validation) of the GOCI Rrs.  You can still show the GOCI comparisons with MODIS-A and VIIRS, just have to indicate that the comparison with MODIS-A is not independent.  Since you already have MODIS data processed, this will be quicker, but I think it’s worth looking at using SeaWiFS too.
+
+MODISA data were used to generate targeted values (i.e. ${L_\text{wn}}^\text{t}$) for the vicarious calibration of GOCI's visible bands. The calibration was made with the GOCI image closest in time to the MODISA image, and always within a 30-minute time window. Also, the MODISA 547 nm band with a band shift to 555 nm was used to calibrate the GOCI 555 nm band using the function "conv\_rrs\_to\_555" from the l2gen code. In practice, the gains were obtained by processing the GOCI-MODISA matchups using the l2gen code in calibration (inverse) mode with these MODISA-derived ${L_\text{wn}}^\text{t}$ values and the vicarious gains for the NIR band as input (see \autoref{sec:appendix_VIS} for more details). Both the MODISA and GOCI data were processed over the GCWS calibration site and have to pass a similar exclusion criteria \citep{Bailey2006}. One of the exclusion criteria was that at least a third of the pixels within the calibration site had to be valid pixels to be included in the gain calculation. The $\bar{g}$ and individual $g_i$ are plotted as a function of mission time for GOCI's visible bands in Fig. \ref{fig:Gvcal_MA}, using ${L_\text{wn}}^\text{t}$ derived from MODISA. 
+
+%-/-/-/-/-/-/-/-/-/-/sub-sub-section/-/-/-/-/-/-/-/-/-/-/-/
+\subsubsection{${L_\text{wn}}^\text{t}$ derived from SeaWiFS climatology}
+% Generate an annual daily climatology of the GOCI clear water region from SeaWiFS observations from 1998 to 2009 (11 complete years) and apply this to compute GOCI vicarious gains as Jeremy did for OCTS and CZCS.  You would match the GOCI time point closest in time with SeaWiFS (noonish).  You can then use MODIS, VIIRS and AERONET-OC as independent comparisons (validation) of the GOCI Rrs from 2011 to 2017. 
+An annual daily climatology of the GCWS region from SeaWiFS observations from 1998 to 2009 (11 complete years) was generated in a similar fashion as described in \citep{Werdell:07} and used as target values for the vicarious calibration of GOCI's visible bands. Briefly, the SeaWiFS-derived data were organized by day of year and then binned biweekly resulting in a total of 26 sequential 14-day collections. Then, the mean of the semi-interquartile range for each bin was calculated and smoothed using a three-element central moving-average for each bin. Finally, this time series was expanded to every day of the year by applying a cubic spline interpolation. 
+
+The $g_i$ values were obtained by processing the GOCI image acquired at 1:00 PM local time with the SeaWiFS-derived ${L_\text{wn}}^\text{t}$ associated with the day of year of the GOCI image. Again, both the SeaWiFS and GOCI data had to pass the exclusion criteria to be included in the vicarious gain computation, including the criteria that at least a third of the pixels need to be valid pixels. The $\bar{g}$ and individual $g_i$ are plotted as a function of mission time for GOCI's visible bands in Fig. \ref{fig:Gvcal_SW} using ${L_\text{wn}}^\text{t}$ derived from SeaWiFS climatology.
+
+The $\bar{g}$ values and the standard deviation of $g_i$ within the MISQR for all spectral bands are shown in \autoref{tab:vcal_gains_comp} for both approaches. The values between the two different approaches are similar, with a maximum difference of less than $1.6\%$. The values are similar but not identical to previous estimations for other atmospheric correction schemes \citep{Wang:13,Ahn2015}. 
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=0 0 0 0,width=14cm]{./Figures/Gvcal_MA.pdf}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on target ${L_\text{wn}}^\text{t}$ derived from MODISA data spanning the mission lifetime from May 2010 to March 2017. Color code same as Fig. \ref{fig:Gvcal_745}.  \label{fig:Gvcal_MA}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=0 0 0 0,width=14cm]{./Figures/Gvcal_SW.pdf}
+    %\internallinenumbers
+    \caption{Vicarious gains derived for GOCI bands at 412, 443, 490, 555, 660, and 680 nm based on target ${L_\text{wn}}^\text{t}$ derived from SeaWiFS climatology spanning the GOCI mission lifetime from May 2010 to March 2017.  Color code same as Fig. \ref{fig:Gvcal_745}.  \label{fig:Gvcal_SW}} 
+\end{figure}
+
+% 412 0.9885-0.9867=0.0018
+% 443 0.9703-0.9671=0.0032
+% 490 0.9489-0.9373=0.0116
+% 555 0.9173-0.9017=0.0156
+% 660 0.9167-0.9131=0.0036
+% 680 0.9071-0.9017=0.0054
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+% jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat l2gen_test.param 
+% ifile=COMS_GOCI_L1B_GA_20121025011640.he5
+% ofile1=G20121025011640.OCCAL_valregion 
+% sline=4144 
+% eline=5142 
+% spixl=3169 
+% epixl=5167 
+% l2prod=default,ag_412_mlrc,poc,angstrom,aot_nnn,sena,senz,sola,solz,brdf,Lw_nnn,nLw_nnn,vgain_vvv
+% gain=[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0] 
+% vcal_nLw=2.17247,1.84507,1.21365,0.30201,0.01827,0.01969,0.00000,0.00000
+% vcal_opt=2
+
+
+
+% jconchas:~/Documents/Research/GOCI/GOCI_ViCal/test$ cat val_extract_test.param 
+% ifile=G20121025011640.OCCAL_valregion 
+% ofile=G20121025011640.OCCAL_valregion.o 
+% elat=29.4736 
+% slat=24.2842 
+% slon=131.9067 
+% elon=142.3193
+% valid_ranges=vgain_=0.5:1.5
+% ignore_flags=LAND CLDICE STRAYLIGHT ATMFAIL
+
+
+% GOCI slot edge area were removed
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Verification of the calibration}
+The stability of the vicarious calibration gains for the GOCI bands are tested using two approaches. First, {\it in situ} data from the AERONET-OC were used as matchups to validate the vicarious calibration and the atmospheric algorithm scheme. Second, GOCI-derived data are compared to heritage sensors (i.e. MODISA and VIIRS). 
+%-------------------sub-section-----------------------------
+\subsection{Validation using AERONET-OC}
+% - Validation with AERONET-OC matchus: run GOCI for AERONET-OC matchup
+The atmospheric correction and vicarious calibration were validated using matchups from {\it in situ} observations of the AErosol RObotic NETwork-Ocean Color (AERONET-OC) \citep{Zibordi2009}. The quality-assurance (QA) level used was level 2.0, which is the highest quality for the AERONET-OC data. We downloaded the normalized water leaving radiance (Lwn) from the AERONET-OC website and converted to remote sensing reflectance (Rrs) by dividing it by the extraterrestrial solar irradiance at the mean Earth-Sun distance (F0), i.e. Rrs = Lwn/ F0. F0 is derived from spectrum derived by \cite{Thuillier2003}. The dataset from three stations (64 matchups total) included within GOCI's footprint were used for the analysis: Gageocho (N=8; PIs: Jae-Seol Shim and Joo-Hyung Ryu), Ieodo (N=22; PIs: Young-Je Park and Hak-Yeol You), and Socheongcho (N=34, PI: Young-Je Park) (shown in Fig. \ref{fig:GOCI_map} as red circles). The AERONET-OC stations are located in different water types, which is reflected in the scatter plots in Fi{}g. \ref{fig:GOCI_AERO}, with the Ieodo site demonstrating greater $R_\text{rs}$ values than Gaeocho and Socheongcho for all bands. 
+
+% Antonio: since we focus on diurnal variability, the time window for the AERONET validation should be reduced to +/- 1 hour because it doesn't make sense to use a 6 hour time window if our premise is that coastal waters express diurnal variability.  AERONET-OC sites are located in coastal waters, and we don't have knowledge as to their diurnal variability.   
+
+The selection of matchups followed the satellite validation protocols described in \citep{Bailey2006}. Th{}e GOCI data were processed to L2 using the SeaDAS/l2gen package with the default atmospheric correction (aer\_opt=-2: multi-scattering with 2-band, RH-based model selection and iterative NIR correction). GOCI data acquired within a 30-minute time window of the AERONET-OC measurements were considered as potential validation matchups. A $5\times5$ GOCI pixel array centered at the {\it in situ} station location is extracted. A filtered mean is calculated from these $5\times5$ arrays in a similar manner as \citep{Bailey2006} but applying the median to filter the data instead of the mean (i.e. $[Median-1.5*\sigma] <  X_i < [Median+1.5*\sigma]$ with $X_i$ the value of the $i^{th}$ pixel and $\sigma$ the standard deviation). A minimum of at least half of the total pixels in the $5\times5$ array, were required to be valid (unflagged) for inclusion in the validation analysis. Additionally, a coefficient of variation (CV, filtered mean divided by the filtered standard deviation) for the visible bands 412 to 555 nm and the aerosol optical thickness (AOT) at 864 nm was calculated for each pixel array that passes the exclusion criteria described above, and then, the median value of these coefficients of variation ($\text{Median}[CV]$) was calculated. Finally, the pixel arrays whose $\text{Median}[CV]>0.15$, as suggested by \citep{Bailey2006}, are excluded from the validation analysis.
+
+A validation analysis was performed by comparing the satellite-derive retrievals of products with the {\it in situ} observations using two performance metrics suggested by  \citep{Seegers:18}: the mean bias and the mean absolute error (MAE) (\autoref{tab:val_stats}). The mean bias is defined as 
+\begin{equation}
+    \text{Mean bias} = \frac{1}{N}*\sum_{n=1}^N(R_\text{rs:ret}^n-R_\text{rs:in}^n)
+\end{equation}
+with $R_\text{rs:ret}$ and $R_\text{rs:in}$ the computed filtered mean satellite value and the {\it in situ} measurement of the remote sensing reflectance, respectively. The MAE is defined as 
+\begin{equation}
+    \text{MAE} = \frac{1}{N}*\sum_{n=1}^N\left|R_\text{rs:ret}^n-R_\text{rs:in}^n\right|
+\end{equation}
+These metrics are suggested when the data is non-Gaussian, as in this case, and to minimize the influence of outliers \citep{Seegers:18}. Both the mean bias and the MAE have the same units as the variable under consideration. 
+
+% Antonio: results show some near-zero values at 412 and 443nm?  clearly, there is a bias where GOCI Rrs is generally lower than AERONET.
+% Fig. \ref{fig:GOCI_AERO} shows scatter plots for AERONET-OC data versus GOCI matchups. 
+% The data were separated by stations and color coded by the times of the day in order to evaluate the influence of the solar zenith angle in the validation matchups. {}
+% The statistics calculated for each time of the day and for all matchups (highlighted in bold cases) are shown in \autoref{tab:val_stats}.
+The two approaches for the source of ${L_\text{wn}}^\text{t}$, i.e. from MODISA and SeaWiFS Climatology were analyzed using these statistical parameters, which are then compared with results without vicarious calibration (uncalibrated), with the current vicarious calibration included in SeaDAS/l2gen and with the vicarious calibration suggested by Wang et al. (2103) \citep{Wang:13} (\autoref{tab:val_stats}).
+
+A good agreement was found between the retrieved $R_\text{rs}$ and {\it in situ} observations for both the MODISA- and SeaWiFS-derived calibrations. These two test approaches perform better than the current vicarious calibration included in SeaDAS, which is reflected in a smaller mean bias and MAE (\autoref{tab:val_stats}). Overall, these approaches also performed better than the uncalibrated data and are comparable with the results based on \citep{Wang:13}.
+
+% , exceeding the values previously reported by \citep{Ahn2015}
+% From Antonio: it's not worthwhile to compare individual statistics metrics from another paper, but rather a group a statistics; our results show better (or worse) agreement than Ahn {\it et} al. 2015 based a combination of metrics (R2, RSME, APD, etc.).
+%-%-%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[htbp!]
+  \centering
+    \includegraphics[height=9cm]{./Figures/GOCI_AERO.pdf}
+
+    %\internallinenumbers
+    \caption{Scatter plots showing the comparison between the satellite-derived GOCI values and AERONET-OC {\it in situ} observations (Socheongcho: x's; Gageocho: circles; Ieodo: triangles) for the uncalibrated data (blue markers), vicarious calibration based on MODISA (red markers), SeaWiFS (black markers) data the current vicarious calibration included in SeaDAS (magenta markers), and Wang {\it et} al. (2013) \citep{Wang:13} (green markers) vicarious calibration. The dashed black line is the 1:1 line, and the Reduced Major Axis (RMA) regression line are drawn in solid lines \label{fig:GOCI_AERO} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% \subsubsection{Cruises Matchups?}
+% wavelength  APD    APD         RMSE    RMSE       R^2     R^2
+%             (ours) (Ahn's)     (ours)  (Ahn's)    (ours)  (Ahn's)
+% 412         40.1  > 22.3        0.0021 > 0.0015     0.81  >  0.78
+% 443         28.0  > 22.0        0.0017 > 0.0013     0.91  >  0.89
+% 490         25.7  > 12.7        0.0029 > 0.0013     0.95  >  0.93
+% 555         22.8  > 10.4        0.0029 > 0.0015     0.98  >  0.94
+% 660         39.3  > 34.7        0.0007 < 0.0008     0.97  >  0.87
+%-%-%-%-%-%-%-%-%-%-%-%-%=TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+% \begin{landscape}
+\begin{table}[H]
+%\internallinenumbers
+\caption{Statistics of the atmospheric correction and vicarious calibration validation comparing the two test approaches (in bold) with the uncalibrated and with current vicarious calibration included in SeaDAS. Results with vicarious calibration suggested by Wang {\it et} al. (2013) \citep{Wang:13} were also included for comparison. \label{tab:val_stats} }
+
+  \centering
+    \includegraphics[width=14cm]{./Figures/val_stats_R2018vcal_All_Final.pdf}
+
+\end{table}
+% \end{landscape}
+%-%-%-%-%-%-%-%-%-%-%=END TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+
+%-------------------sub-section-----------------------------
+\subsection{Sensor Cross-comparison}
+
+% - GOCI time serie: run GOCI with new vcal gains
+We computed the time series of monthly means for the Visible Infrared Imaging Radiometer Suite (VIIRS) on board the Suomi National Polar-orbiting Partnership (Suomi NPP) weather satellite \citep{Wang2014} and MODISA over the same GCWS region for cross-comparison with the time series from GOCI (Fig. \ref{fig:CrossCompAllRrs}). These data were filtered following the same previous exclusion criteria and then averaged by month. For GOCI, the mean of the three midday values were used. All the satellite data from the OB.DAAC used in this study (i.e. MODISA, VIIRS and GOCI) are from the latest reprocessing R2018.0, which incorporates advancements in instrument calibration and updates in the instrument-specific vicarious calibration derived from updated MOBY instrument calibration.
+
+Overall, the GOCI-derived $R_\text{rs}$ followed a similar overall trend as MODISA and VIIRS.  Seasonally varying differences are evident, however, with the largest discrepancies during winter (Fig. \ref{fig:CrossCompAllRrs}.(a)). The ratios of $R_\text{rs}$ among all the three showed consistency in all bands, with exception to the red bands (Fig. \ref{fig:CrossCompAllRrs}.(b-d)). For the GOCI/MODISA ratio, the mean value fluctuates around one for the blue-green bands and $1.6$ for the red bands, indicating that the GOCI's red band was generally brighter than MODISA. For the GOCI/VIIRS, the ratio fluctuated around one for all bands with the 660 nm band having a greater spread overall. For the MODISA/VIIRS, the ratio varied close to one as well, except for the 660 nm band, which fluctuated around 0.6, suggesting that the differences observed in the red may be due to error in MODISA rather than GOCI. GOCI-derived $R_\text{rs}$ displayed a consistent behavior from year to year, with no evidence of a relative drift observed over the mission lifetime (Fig. \ref{fig:CrossCompAllRrs}.(a)). However, the sensor-to-sensor ratios display a slight temporal drift. A regression analysis was performed for all ratios, and the slopes of the regression lines (dashed lines in Fig. \ref{fig:CrossCompAllRrs}.(b-d)) fluctuates from $\approx-6\times10^{-5}$ in the blue to $\approx-1.9\times10^{-4}$ in the red for the GOCI-MODISA and GOCI-VIIRS ratios.
+%-%-%-%-%-%-%-%-%-%-%-%-%=TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+% \begin{landscape}
+\begin{table}[htbp!]
+%\internallinenumbers
+\caption{Slopes of the sensor-to-sensor ratios. \label{tab:slopes}}
+
+  \centering
+    \includegraphics[width=10cm]{./Figures/table_slopes.pdf}
+
+\end{table}
+% \end{landscape}
+%-%-%-%-%-%-%-%-%-%-%=END TABLE=%-%-%-%-%-%-%-%-%-%-%-%-%-
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,clip,width=12cm]{./Figures/CrossCompAllRrs.pdf}
+    %\internallinenumbers
+    \caption{Cross-comparison of GOCI with MODISA and VIIRS for all wavelengths. (a) $R_\text{rs}$, (b) GOCI/MODISA ratio, (c) GOCI/VIIRS ratio, and (d) MODISA/VIIRS ratio. Dashed lines in (b-d) represent regression lines. \label{fig:CrossCompAllRrs} } 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+The satellite-derived biogeochemical products Chlorophyll-{\it a} \citep{OReilly1998_Chl}, the absorption coefficient for chromophoric dissolved organic matter (CDOM) at 412 nm  ($a_g(412)$) \citep{Mannino2014}, and particulate organic carbon (POC) \citep{Stramski2008} follow similar seasonal trends (Fig. \ref{fig:GOCI_TimeSeriesComp_par}). All three biogeochemical data products exhibited peaks in late winter to early spring consistent with an increase in phytoplankton biomass and net community production followed by decreases and minimum values between late spring and early autumn. Good consistency in the range of the retrieved values and the phasing of the seasonal cycles was generally found for the three missions and for the three biogeochemical products. Note that certain discrepancies occur for MODISA and GOCI in 2017. This could be caused by problem in the instrument calibrations.
+
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=14cm]{./Figures/GOCI_TimeSeriesComp_par.pdf}
+    %\internallinenumbers
+    \caption{Time Series comparison for GOCI (blue solid line), MODISA (red solid line) and VIIRS (black solid line) for (a) Chlor-{\it a}, (b) $a_\text{g}(412)$ and (c) POC. \label{fig:GOCI_TimeSeriesComp_par}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+Fig. \ref{fig:scatterRrs} shows the scatter plots for the $R_\text{rs}$ matchups for GOCI, MODISA and VIIRS with the mean bias and MAE metrics. Only values greater than zero are shown. There were significantly fewer matchups from MODISA than from VIIRS. The ${\it R}^2$ values are high for the $412$ and $443$ nm bands and start to decrease for $490$ nm and beyond. The MAE's are comparable for MODISA-GOCI and VIIRS-GOCI scatter plots.
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=30 0 25 0,clip,width=14.5cm]{./Figures/scatterRrs.pdf}
+    %\internallinenumbers
+    \caption{Scatter plots for the $R_\text{rs}$ cross-comparison for GOCI, MODISA and VIIRS. Linear regression in solid red line. \label{fig:scatterRrs}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+% Practical applications
+% Disadvantages and Advantages
+% Limitations
+% Challenges
+
+% General
+% final conclusion
+
+% ----------------------------
+% 1 Introduction 2
+% GOCI provides capability of studying coastal and ocean processes at an unprecedented temporal scale.
+
+A vicarious calibration for GOCI was presented in this document. This vicarious calibration is specific to the NASA standard atmospheric correction algorithm \citep{Mobley2016}, as distributed by NASA through the SeaDAS/l2gen package. 
+
+% 2 Approach 3
+% vicarious calibration
+% 2.1 CalibrationoftheNear-InfraredBands............................ 4
+The derivation of the vicarious gain for the 745-nm band was based on aerosol properties derived from MODISA over the calibration site. The derived gain is very similar to the value derived by Wang. et al. (2013) \citep{Wang:13}, also using an Angstrom Coefficient derived from MODISA. 
+
+% 2.2 CalibrationoftheVisibleBands ............................... 5 
+% 2.2.1 LwntderivedfromMODISA .......................... 7 
+For the derivation of the vicarious gains for the visible bands, two approaches were tested. The first approach used target water-leaving radiance from MODISA. This approach was successful at improving the agreement between GOCI-derived $R_\text{rs}$ and {\it in situ} observations from AERONET-OC by reducing the mean absolute error (MAE) by about 20, 25, 40, 20 and $37\%$ for the 412, 443, 490, 555 and 660 nm bands, respectively, when compared to the current vicarious gains included in SeaDAS version 7.5 (Fig. \ref{fig:GOCI_AERO}; \autoref{tab:val_stats}). Our study demonstrates successful vicarious calibration of GOCI in the absence of data from an {\it in situ} calibration site (e.g. MOBY). Therefore, we recommend the utilization of the vicarious gains obtained from MODISA when processing GOCI data in SeaDAS/l2gen.
+
+% 2.2.2 LwntderivedfromSeaWiFSclimatology...................... 7
+The second approach to derive vicarious gains for the visible bands used target water-leaving radiance from a regional climatology from a well-calibrated sensor such as SeaWiFS. This approach reduced the MAE for the 412, 443, 490, 555 and 660 nm bands by about 24, 27, 23, 8 and 32\%, respectively, when compared to the current vicarious gains included in SeaDAS version 7.5 (Fig. \ref{fig:GOCI_AERO}; \autoref{tab:val_stats}). These results proved using climatology is a good alternative when data are not available from {\it in situ} measurements, like MOBY or AERONET-OC, or a concurrent satellite sensor. The vicarious calibration gains for all bands are similar for both approaches of target sources, and they are similar but not identical to previous studies \citep{Wang:13,Ahn2015} (\autoref{tab:vcal_gains_comp}).
+
+% 3 Verification of the calibration 9
+% 3.1 ValidationusingAERONET-OC ............................... 10 
+
+% 3.2 SensorCross-comparison................................... 13
+When compared with MODISA and VIIRS, seasonally varying differences in $R_\text{rs}$ were observed, with a larger discrepancy in winter and for the red bands (Fig. \ref{fig:CrossCompAllRrs}). The GOCI mission time series of $R_\text{rs}$ demonstrated a consistent behavior from year to year without an evident relative drift (Fig. \ref{fig:CrossCompAllRrs}.(a)). The time series for the mission to mission ratios vary seasonally, fluctuating around a value close to one, with the exception of the red bands. A small drift is observed for the ratios between GOCI and both MODISA and SeaWiFS (Fig. \ref{fig:CrossCompAllRrs}.(c,b)), and most noticeable in the red bands. This is corroborated by a regression analysis with slopes fluctuating from $\approx-6\times10^{-5}$ in the blue to $\approx-1.9\times10^{-4}$ in the red for the GOCI-MODISA and GOCI-VIIRS ratios. These observations require further study to determine whether there is a genuine relative drift in GOCI radiances. Spectral differences between missions were observed with differences increasing between the blue bands and the red bands (Fig. \ref{fig:scatterRrs})
+
+\cite{Kang2010}...
+ 
+% 4 Conclusions 16 
+With this new set of vicarious gains, SeaDAS/l2gen package can be used to process higher quality L2 GOCI data for ocean color studies than the previous gains. Future work will evaluate whether sub-diurnal to multi-day biogeochemical variability can be distinguished based on our estimated uncertainties of GOCI $R_\text{rs}$. 
+
+% Appendix 16
+% A Calculation Vicarious Gains for the NIR Bands 16
+% B Calculation Vicarious Gains for the Visible Bands 18
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Funding}
+NASA Earth Science U.S. Participating Investigator (NNH12ZDA001N-ESUSPI) 
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgments}
+We thank the Korea Ocean Satellite Center for providing the GOCI L1B data, and the principal investigators for the AERONET-OC data: Jae-Seol Shim and Joo-Hyung Ryu (Gageocho station), Young-Je Park and Hak-Yeol You (Ieodo station), and Young-Je Park (Socheongcho station). 
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{tfcad}
+\bibliography{javier_NASA.bib}
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\section*{Appendix}
+% \addcontentsline{toc}{section}{Appendix}
+The appendix section describes in more details the processes and tools used to derive the vicarious gains.
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation of the Angstrom Coefficient}\label{sec:appendix_Angstrom}
+First, an aerosol model needs to be selected based on the aerosol characteristic over the calibration site. The Angstrom Coefficient expresses the dependency of the aerosol optical thickness on the wavelength of incident light \citep{Wang:2005}. Each of the 80 aerosol models described in \citep{Ahmad2010} has an associated aerosol Angstrom Coefficient. Therefore, if the aerosol Angstrom Coefficient is known over the calibration site, then an aerosol model can be chosen by selecting the model with the closest Angstrom Coefficient. In practice, the Angstrom Coefficient is estimated from the time series of the satellite-derived Angstrom Coefficient product from a well-calibrated sensor (Fig. \ref{fig:angstrom_cal}). For this study, the MODISA sensor was used to calculate the Angstrom Coefficient.
+
+Once the calibration site limits are determined (i.e. latitude and longitude), the tool "lonlat2pixline" (included in the SeaDAS/l2gen package) can be used to convert from latitude and longitude to pixel and line numbers obtaining the parameters sline, eline, spixl, and epixl as outputs. These outputs are used as inputs to l2gen. Because GOCI is always imaging the same region, and therefore, the pixel and line number are always the same, the lonlat2pixline tool was used only once in this case.
+
+The MODISA L1B files over the calibration site were selected and processed to L2 using l2gen \ref{fig:angstrom_cal}) with the limits from lonlat2pixline as inputs in order to apply the processing algorithms over the calibration site only. The products "angstrom", "senz" (sensor zenith angle) and "solz" (solar zenith angle) are specified as outputs (i.e. l2prod="angstrom, senz, solz"). Then, the satellite validation matchup tool "val\_extract" (included with the source code of the SeaDAS/l2gen package) was used for the statistic calculations from the angstrom product. This tool outputs a text file with the different statistics (i.e. maximum, minimum, mean, median, and standard deviation) of the L2 file. These statistics are calculated over all the data, but also over the data range used to calculate the filtered mean described in \citep{Bailey2006}, but using the median (Med) instead of the mean of the unfiltered data, i.e.
+\begin{equation}
+  \text{Filtered Mean}=\frac{\displaystyle \sum_j^{NFP}X_j}{NFP}
+\end{equation}
+with $X_j$ the $j^{th}$ pixel within the range:
+\begin{equation}
+  Med-1.5*\sigma\leq X_j\leq Med+1.5*\sigma
+\end{equation}
+with $Med$ the median and $\sigma$ the standard deviation of the unfiltered data, $NFP$ the number of filtered pixels within this range. Additionally, val\_extract outputs statistics over the interquartile range (IQR). The val\_extract tool can be applied to a specific region using the "elat", "slat", "slon", "elon" options, and it can ignore flagged pixels by specifying the L2 flags to be ignored using the "ignore\_flags" option. Also, a range of values where to apply the calculations can be specified using the "valid\_ranges" option. 
+
+Files whose solar zenith angle is greater than $75^o$ and sensor zenith angle are greater than $60^o$ are excluded from the calculation as well as files that have less than 255 pixels. Finally, all the files that passed the exclusion criteria are averaged to obtain the temporal mean of the Angstrom Coefficient. 
+%-%-%-%-%-%-%-%-%-%-%= FIGURE =%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/angstrom_cal.pdf}
+    %\internallinenumbers
+    \caption{Angstrom Coefficient estimation for the aerosol model selection. The Angstrom coefficient product from MODISA data over the calibration site was used in this case.  \label{fig:angstrom_cal}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the NIR Bands}\label{sec:appendix_NIR}
+For the calculation of the vicarious gain for the NIR bands, all GOCI images over the calibration site are processed to L2 using l2gen in calibration (inverse) mode. As described in Section \ref{sec:vcal_nir}, two assumptions are made here: the aerosol properties are known and the calibration of the 865 nm band is perfect, i.e. $\bar{g}(865)=1$. 
+
+The aerosol properties, represented by the Angstrom Coefficient, are estimated from MODISA, in this case. Then, l2gen is run with this estimated target Angstrom Coefficient (option "aer\_angstrom=0.9") and the option "aer\_opt" is set to aer\_opt=-6 to indicate to use multiple-scattering with fixed Angstrom coefficient atmospheric correction algorithm. The calibration option is set to vcal\_opt=1 to indicate that the target normalized water-leaving radiance ${L_\text{wn}}^\text{t} = 0$ for the NIR bands. The vicarious gains are obtained from the L2 product "vgain\_745" (i.e. l2prod=vgain\_745). Also, the products "senz" and "solz" are retrieved to be used for the exclusion criteria (Fig. \ref{fig:chart_vcal_745}). 
+
+Then, val\_extract is used to filter the data and to obtain a filtered mean $g_i(745)$ for each L2 GOCI file (see Appendix \ref{sec:appendix_Angstrom} for more details in val\_extract) excluding flagged pixels using the option "ignore\_flags", and also excluding values outside of the 0.5:1.5 range using the option "valid\_ranges" (Fig. \ref{fig:chart_vcal_745}).  The options "elat", "slat", "slon", "elon" were also used to delimit the region. A $g_i(745)$ value for each L2 file is available at this point.
+
+Some exclusion criteria are applied to the $g_i(745)$ values including that at least a third of the pixels within the region need to be valid, and that the coefficient of variation (CV) is smaller than 0.25 to exclude outliers. In this case, the CV is calculated as the ratio between the filtered mean and the filtered standard deviation of each L2 file. Also, only files with solar zenith angle smaller than $75^o$ and sensor zenith angle smaller than $60^o$ are included. Finally, the mean of the semi-interquartile range (MSIQR) from all the $g_i(745)$ that passed the exclusion criteria is used as the gain for the 745 nm band $\bar{g}(745)$.
+
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_745.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the 745 nm band based on a target Angstrom coefficient derived from MODISA.  \label{fig:chart_vcal_745}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculation Vicarious Gains for the Visible Bands}\label{sec:appendix_VIS}
+For the calculation of the vicarious gains for the visible bands, matchups between GOCI and a source of target normalized water-leaving radiances ${L_\text{wn}}^\text{t}$ are used to process the GOCI L1B files. In this case, these sources are from MODISA or climatology from SeaWiFS (see \autoref{sec:vcal_vis}). These GOCI matchups files are processed to L2 using l2gen in calibration (inverse) mode. The ${L_\text{wn}}^\text{t}$ from the matchups are input using the "vcal\_nLw" option with the option "vcal\_opt=2" to set l2gen in calibration mode with a given ${L_\text{wn}}^\text{t}$. The "gain" option is set to one for all bands, except for the 745 nm band that uses the g(745) calculated previously. The gains for the visible bands are retrieved using the l2gen option "l2prod=vgain\_vvv". Also, the products "senz" and "solz" are retrieved to be used for filtering in the same way as the $\bar{g}(745)$ calculation. 
+
+The L2 files are then processed using "val\_extract" and further filtered in the same way as the previous step (Appendix \ref{sec:appendix_Angstrom}).
+%-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim=50 0 0 0,width=15cm]{./Figures/chart_vcal_vis.pdf}
+    %\internallinenumbers
+    \caption{Calibration of the visible (VIS) bands. Two sources of targeted normalized water-leaving radiances were used in this case: match-ups from MODISA and climatology from SeaWiFS.  \label{fig:chart_vcal_vis}} 
+\end{figure}
+%-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
+
+
+
+\end{document}
+%------------------------------------------------------------------------
+% Sean's comments:
+
+% The mode and vcal_opt options are effectively interchangeable, and the
+% definition of them is as l2gen reports for mode:
+
+%    mode (int) (default=0) = processing mode
+%         0: forward processing
+%         1: inverse (calibration) mode, targeting to nLw=0
+%         2: inverse (calibration) mode, given nLw target
+%         3: inverse (calibration) mode, given Lw target (internally normalized)
+
+% Javier,
+
+% The 'trick' is to find a reasonably stable body of water that can be assumed to
+% have zero water-leaving radiance in the NIR (i.e. clear, deep ocean) and
+% preferably one where an assumption of the aerosol type can be made.  It is best
+% if the type is primarily maritime, but whatever it is should be non-absorbing
+% and within our available model suite.
+
+% If you have a time series of the angstrom exponent for the region you've been
+% using for the visible gain calculation (from SeaWiFS or MODIS, NOT GOCI - as
+% that is to be considered suspect until verified), you can use that to choose
+% the model.  You *could* let the model vary based on a climatology of angstrom,
+% but that might complicate the process too much...
+
+% With the know model, you set aermodels=<my favorite model> and aer_opt=1,
+% vcal_opt=1 and voila!  vgain_745 can be achieved.
+
+% Sean
+%------------------------------------------------------------------------
+% aer_opt Option for aerosol calculation mode.  (Default=-3) 
+ 
+%   1 Multi-scattering with fixed model (Oceanic, 99% humidity)
+%   2 Multi-scattering with fixed model (Maritime, 50% humidity)
+%   3   Multi-scattering with fixed model (Maritime, 70% humidity)
+%   4 Multi-scattering with fixed model (Maritime, 90% humidity)
+%   5 Multi-scattering with fixed model (Maritime, 99% humidity)
+%   6 Multi-scattering with fixed model (Coastal, 50% humidity)
+%   7 Multi-scattering with fixed model (Coastal, 70% humidity)
+%   8   Multi-scattering with fixed model (Coastal, 90% humidity)
+%   9 Multi-scattering with fixed model (Coastal, 99% humidity)
+% 10  Multi-scattering with fixed model (Tropospheric, 50% humidity)
+% 11  Multi-scattering with fixed model (Tropospheric, 90% humidity)
+% 12  Multi-scattering with fixed model (Tropospheric, 99% humidity)
+%   0 Single-scattering white aerosols
+% -1  Multi-scattering with 2-band model selection
+% -3  Multi-scattering with 2-band model selection and NIR correction
+% -9  Multi-scattering with 2-band model selection and SWIR correction(Hi-res MODIS only)
+
+%------------------------------------------------------------------------
+% Calibration control options:
+% vcal_opt  Vicarious calibration option controls whether gain and offset sensor defaults or input parameters are used: 
+ 
+% 0 - sensor defaults 
+% 1 - default offset, parameter gain 
+% 2 - default gain, parameter offset 
+% 3 - parameter gain and offset
+% gain  Calibration gain factors to multiply TOA radiance in each band; the default gain values are read from the $SDSDATA/sensor/sensor_table.dat file. 
+% offset  Calibration offset adjustment to TOA radiance; the default gain values are read from the $SDSDATA/sensor/sensor_table.dat file. 
+
+% aer_opt (int) (default=99) = aerosol mode option
+%       -99: No aerosol subtraction
+%       >0: Multi-scattering with fixed model (provide model number, 1-N,
+%            relative to aermodels list)
+%         0: White aerosol extrapolation.
+%        -1: Multi-scattering with 2-band model selection
+%        -2: Multi-scattering with 2-band, RH-based model selection and
+%            iterative NIR correction
+
+%------------------------------------------------------------------------
+
+% Hi Concha,
+ 
+% I thank you for sharing the poster. Here are my comments on the poster. 
+ 
+% Best regards,
+% Wonkook Kim
+ 
+ 
+% (1) GOCI L1B areas affected by inter-slot discontinuity
+ 
+% As can be observed in your figure too, there is a discontinuity between slots, and Rrs anomalies in the area can be great particularly for Band 1, 2, and 6, and 8.
+ 
+% IF you do not want to include the sensor calibration and the stray light issues in your evaluation, please refer to the following guidelines.
+% - To avoid sensor calibration : avoid at least 50 pixels from the slot boundary, in both directions (Band 1, and 2)
+% - To avoid stray light anomaly : avoid 400 pixels from the bottom of each slot (Band 5, 6, and 8)
+ 
+% (2)　Availability of diurnal signal in the study area in "winter"
+% I see the area is quite full of cloud particularly in winter season and it's very difficult to find pixels having a full-diurnal cycle without cloud cover. Providing the statistics of available pixels will give readers insight on which season is mostly used for your statistics.
+ 
+% Plus, a single-band or two-band thresholding may not be sufficient to screen all the cloud edge pixels in that area because of time difference between bands for a pixel. (refer to Wayne Robinson's IJRS paper) So, please make sure whether the all cloud-contaminated pixels are removed from the analysis.
+ 
+% (3) SRF difference between different sensors
+% There is SRF difference between sensors, even for the bands with the same center wavelength. Difference between 660 and 665 needs to be resolved in some way, not to give an impression that the inter-satellite difference is from AC and sensor problem.
+ 
+% (4) Conclusion
+% In Conclusion, you have this sentence
+% "The atmospheric correction starts to fail for solar zenith angles larger than 60 degrees producing invalid values (negative)."
+ 
+% Do all bands have negative values in all pixels? Or you mean the chance of having negative values increases for th>60? The sentence is not clear to me.
+%------------------------------------------------------------------------
+% Wonkook's comments:
+% Hi Concha,
+
+% Here I attached the first review of the manuscript.
+
+% Overall impression of the manuscript to me is that a great amount of work
+% has been done, but the way it is presented can be improved. It would be
+% greatly helpful to readers, if you can summarize what you're going to do
+% afterward, in the beginning of each paragraph. To me, it was difficult to
+% follow the details, because I couldn't catch the
+% direction/approach/intention of each paragraph at the beginning.
+
+% Many comments have been made in the attached file, but here I present 4
+% important issues that I'd like to share with the other co-authors.
+
+% (1) Weak logic in showing the temporal homogeneity of GCW
+% I'm not totally convinced by the overall concept/approach/logic of this
+% section (4.3). GOCI Rrs has been used to show that the GCWS region has
+% little variability in constituents. But, GOCI Rrs is already contaminated
+% by imperfect AC (solar zenith angle issue). I think you need independent
+% data source to show that the region has little change in water
+% constituents.
+
+% (2) Source of Rrs variability
+% In the manuscript, the Rrs variability is sometimes attributed to solar
+% zenith angle change (and imperfect AC), and sometimes to variability in
+% water constituents. (Section 4.4. the second paragraph). One can be
+% analyzed when the other is fixed. If solar zenith angle needs to be
+% analyzed, you should either assume that the other factor is constant, or
+% remove the effect of the other factors.
+
+% Also, if any prior knowledge about the local variability in the
+% bio-geochemical environment is to be used, proper reference needs to be
+% added.
+
+% (3) Slot boundary issue
+% As I pointed out a few months ago, there is a great radiometric inflation
+% in the lower part of each slot (GOCI is composed of 16 (4x4) slots, as you
+% know). The inflation has a spatially smooth pattern, and I experienced that
+% outlier removal approaches based on spatial statistics (including
+% coefficient of variation) cannot screen out the pixels contaminated by the
+% inflation. Please verify whether your screening process successfully
+% removed those samples. The inflation is sometimes greater than 20% in TOA
+% radiance (in 680, 865 nm bands), which is large enough to mess up the AC
+% process.
+
+% The cloud edge issue has not been mentioned in the manuscript, but  it is
+% highly likely the proposed screening process screen out the cloud edge
+% pixels which are not recognized as clouds by the default cloud flag. But, I
+% think it is safe to check.
+
+% (4) Vicarious gains and the algorithm coefficients.
+% The Navy vicarious gains seems very low in general. I attached my
+% validation results that I presented 3 years ago in Ocean Optics. Although
+% AC scheme is different, this can give you general ideas of the difference.
+% I'm not sure if it is a good idea to show that OBPG GOCI has significant
+% underestimation in all bands. To non ocean color people, this may seem as
+% inferior performance of GOCI itself (including optics, and data
+% processing), not as just biases in VC gains. If possible, application of
+% correct VC gains would give much better results in the sense of absolute
+% quantification. If relative variation in diurnal cycle is a main focus,
+% this issue may be less important.
+
+% Plus, the coefficients for the Chla, POC, aCDOM algorithms are not tuned
+% for GOCI. Again, this may provide incorrect estimates in an absolute sense.
+% If relative change is to be analyzed, this issue may be less important.
+
+% Best,
+% Wonkook Kim

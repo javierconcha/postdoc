@@ -84,8 +84,8 @@ ax.XTick =ax.YTick;
 ax.YAxis.TickLabelFormat = '%,.1f';
 ax.YAxis.Exponent = -3;
 
-xlabel(['In situ {\it R}_{rs}(' wl_ins ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
-ylabel(['Satellite {\it R}_{rs}(' wl_sat ') (10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+xlabel(['In situ {\it R}_{rs}(' wl_ins ') (\times10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
+ylabel(['Satellite {\it R}_{rs}(' wl_sat ') (\times10^{' num2str(ax.XAxis.Exponent) '}sr^{-1})'],'FontSize',fs)
 
 % write x10^ in the axis labels
 TickLabelAux = ax.YTickLabel;
