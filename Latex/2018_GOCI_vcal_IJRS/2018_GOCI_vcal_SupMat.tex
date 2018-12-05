@@ -59,9 +59,7 @@
 \usepackage{float}
 
 \usepackage{pdflscape}
-\usepackage{xr}
 \usepackage{hyperref}
-\externaldocument{2018_GOCI_vcal}
 %%% END MY PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -115,7 +113,7 @@ Files whose solar zenith angle is greater than $75^o$ and sensor zenith angle ar
 %-%-%-%-%-%-%-%-%-%-%=END FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Calculation Vicarious Gains for the NIR Bands}\label{sec:appendix_NIR}
-For the calculation of the vicarious gain for the NIR bands, all GOCI images over the calibration site are processed to L2 using l2gen in calibration (inverse) mode. As described in Section \ref{sec:vcal_nir}, two assumptions are made here: the aerosol properties are known and the calibration of the 865 nm band is perfect, i.e. $\bar{g}(865)=1$. 
+For the calculation of the vicarious gain for the NIR bands, all GOCI images over the calibration site are processed to L2 using l2gen in calibration (inverse) mode. As described in Section 2.1, two assumptions are made here: the aerosol properties are known and the calibration of the 865 nm band is perfect, i.e. $\bar{g}(865)=1$. 
 
 The aerosol properties, represented by the Angstrom Coefficient, are estimated from MODISA, in this case. Then, l2gen is run with this estimated target Angstrom Coefficient (option "aer\_angstrom=0.9") and the option "aer\_opt" is set to aer\_opt=-6 to indicate to use multiple-scattering with fixed Angstrom coefficient atmospheric correction algorithm. The calibration option is set to vcal\_opt=1 to indicate that the target normalized water-leaving radiance ${L_\text{wn}}^\text{t} = 0$ for the NIR bands. The vicarious gains are obtained from the L2 product "vgain\_745" (i.e. l2prod=vgain\_745). Also, the products "senz" and "solz" are retrieved to be used for the exclusion criteria (Fig. \ref{fig:chart_vcal_745}). 
 
@@ -134,7 +132,7 @@ Some exclusion criteria are applied to the $g_i(745)$ values including that at l
 
 %%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Calculation Vicarious Gains for the Visible Bands}\label{sec:appendix_VIS}
-For the calculation of the vicarious gains for the visible bands, matchups between GOCI and a source of target normalized water-leaving radiances ${L_\text{wn}}^\text{t}$ are used to process the GOCI L1B files. In this case, these sources are from MODISA or climatology from SeaWiFS (see \autoref{sec:vcal_vis}). These GOCI matchups files are processed to L2 using l2gen in calibration (inverse) mode. The ${L_\text{wn}}^\text{t}$ from the matchups are input using the "vcal\_nLw" option with the option "vcal\_opt=2" to set l2gen in calibration mode with a given ${L_\text{wn}}^\text{t}$. The "gain" option is set to one for all bands, except for the 745 nm band that uses the g(745) calculated previously. The gains for the visible bands are retrieved using the l2gen option "l2prod=vgain\_vvv". Also, the products "senz" and "solz" are retrieved to be used for filtering in the same way as the $\bar{g}(745)$ calculation. 
+For the calculation of the vicarious gains for the visible bands, matchups between GOCI and a source of target normalized water-leaving radiances ${L_\text{wn}}^\text{t}$ are used to process the GOCI L1B files. In this case, these sources are from MODISA or climatology from SeaWiFS (see subsection 2.2). These GOCI matchups files are processed to L2 using l2gen in calibration (inverse) mode. The ${L_\text{wn}}^\text{t}$ from the matchups are input using the "vcal\_nLw" option with the option "vcal\_opt=2" to set l2gen in calibration mode with a given ${L_\text{wn}}^\text{t}$. The "gain" option is set to one for all bands, except for the 745 nm band that uses the g(745) calculated previously. The gains for the visible bands are retrieved using the l2gen option "l2prod=vgain\_vvv". Also, the products "senz" and "solz" are retrieved to be used for filtering in the same way as the $\bar{g}(745)$ calculation. 
 
 The L2 files are then processed using "val\_extract" and further filtered in the same way as the previous step (Appendix \ref{sec:appendix_Angstrom}).
 %-%-%-%-%-%-%-%-%-%-%=FIGURE=%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
