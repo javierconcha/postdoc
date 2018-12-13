@@ -165,7 +165,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
       
       if ~isempty(cond1)&&~isempty(cond2)&&~isempty(cond3)&&~isempty(cond4)&&~isempty(cond5)&&~isempty(cond6)...
                   &&~isempty(cond_brdf1)&&~isempty(cond_brdf2)&&~isempty(cond_brdf3)
-            if cond1&&cond2&&cond3&&cond4&&cond5&&cond6... % for bands 412, 443, 490, and 555
+            if cond1&&cond2&&cond3&&cond4&&cond5&&cond6... % for all bands 
                         &&cond_brdf1&&cond_brdf2&&cond_brdf3
                   three_day_idx(idx)=true;
                   
@@ -178,7 +178,7 @@ for idx = 1:size(GOCI_DailyStatMatrix,2)-2
 end
 
 A_idx= find(three_day_idx); % indeces to 3-day sequences.
-%% 3-day sequences plot -- Rrs
+%% 3-day sequences plot -- Rrs for two specific cases
 
 % for idx = 1:1*sum(three_day_idx)/4
 for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28))) ...
@@ -194,7 +194,7 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       tod_Rrs_412_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_05]];
       tod_Rrs_412_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_06]];
       tod_Rrs_412_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_07]];
-      
+
       tod_Rrs_443_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_00]];
       tod_Rrs_443_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_01]];
       tod_Rrs_443_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_02]];
@@ -239,7 +239,6 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
       tod_Rrs_680_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_05]];
       tod_Rrs_680_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_06]];
       tod_Rrs_680_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_07]];
-      
 
       % datetime
       tod_Rrs_412_00_datetime = [[GOCI_DailyStatMatrix(A_idx(idx)).datetime] [GOCI_DailyStatMatrix(A_idx(idx)+1).datetime] [GOCI_DailyStatMatrix(A_idx(idx)+2).datetime]];
@@ -369,27 +368,27 @@ for idx = [find(A_idx==find([GOCI_DailyStatMatrix.datetime]==datetime(2012,07,28
  
       % Rrs_660
       % subplot(2,2,1)
-      plot(tod_Rrs_660_00_datetime+hours(0),tod_Rrs_660_00,'-xr','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_00_datetime+hours(0),tod_Rrs_660_00,'-+r','MarkerSize',ms,'LineWidth',lw)
       hold on
-      plot(tod_Rrs_660_01_datetime+hours(1),tod_Rrs_660_01,'-xg','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_02_datetime+hours(2),tod_Rrs_660_02,'-xb','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_03_datetime+hours(3),tod_Rrs_660_03,'-xk','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_04_datetime+hours(4),tod_Rrs_660_04,'-xc','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_05_datetime+hours(5),tod_Rrs_660_05,'-xm','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_06_datetime+hours(6),tod_Rrs_660_06,'-x','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_660_07_datetime+hours(7),tod_Rrs_660_07,'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_01_datetime+hours(1),tod_Rrs_660_01,'-+g','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_02_datetime+hours(2),tod_Rrs_660_02,'-+b','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_03_datetime+hours(3),tod_Rrs_660_03,'-+k','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_04_datetime+hours(4),tod_Rrs_660_04,'-+c','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_05_datetime+hours(5),tod_Rrs_660_05,'-+m','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_06_datetime+hours(6),tod_Rrs_660_06,'-+','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_660_07_datetime+hours(7),tod_Rrs_660_07,'-+','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
       % Rrs_680
       % subplot(2,2,1)
       plot(tod_Rrs_680_00_datetime+hours(0),tod_Rrs_680_00,'-xr','MarkerSize',ms,'LineWidth',lw)
       hold on
-      plot(tod_Rrs_680_01_datetime+hours(1),tod_Rrs_680_01,'-xg','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_02_datetime+hours(2),tod_Rrs_680_02,'-xb','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_03_datetime+hours(3),tod_Rrs_680_03,'-xk','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_04_datetime+hours(4),tod_Rrs_680_04,'-xc','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_05_datetime+hours(5),tod_Rrs_680_05,'-xm','MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_06_datetime+hours(6),tod_Rrs_680_06,'-x','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
-      plot(tod_Rrs_680_07_datetime+hours(7),tod_Rrs_680_07,'-x','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_01_datetime+hours(1),tod_Rrs_680_01,'-vg','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_02_datetime+hours(2),tod_Rrs_680_02,'-vb','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_03_datetime+hours(3),tod_Rrs_680_03,'-vk','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_04_datetime+hours(4),tod_Rrs_680_04,'-vc','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_05_datetime+hours(5),tod_Rrs_680_05,'-vm','MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_06_datetime+hours(6),tod_Rrs_680_06,'-v','Color',[1 0.5 0],'MarkerSize',ms,'LineWidth',lw)
+      plot(tod_Rrs_680_07_datetime+hours(7),tod_Rrs_680_07,'-v','Color',[0.5 0 0.5],'MarkerSize',ms,'LineWidth',lw)
 
       grid on
       ylabel('{\itR}_{rs}(\lambda) (sr^{-1})','FontSize',fs)
@@ -459,6 +458,26 @@ annotation(h,'textbox',...
       'FitBoxToText','off',...
       'EdgeColor',[1 1 1],...
       'BackgroundColor',[1 1 1]);
+
+% 660
+annotation(h,'textbox',...
+      [0.61 0.138 0.04 0.04],...
+      'Color',[1 0.5 0],...
+      'String',{'660'},...
+      'FontSize',fs,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 680
+annotation(h,'textbox',...
+      [0.69 0.138 0.04 0.04],...
+      'Color',[1 0 0],...
+      'String',{'680'},...
+      'FontSize',fs,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1])
 %
 figure(2)
 hold on
@@ -504,7 +523,901 @@ annotation(h,'textbox',...
       'EdgeColor',[1 1 1],...
       'BackgroundColor',[1 1 1]);
 
+% 660
+annotation(h,'textbox',...
+      [0.61 0.145 0.02 0.02],...
+      'Color',[1 0.5 0],...
+      'String',{'660'},...
+      'FontSize',fs-1,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1]);
+
+% 680
+annotation(h,'textbox',...
+      [0.69 0.145 0.02 0.02],...
+      'Color',[1 0 0],...
+      'String',{'680'},...
+      'FontSize',fs-1,...
+      'FitBoxToText','off',...
+      'EdgeColor',[1 1 1],...
+      'BackgroundColor',[1 1 1])
 
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 saveas(gcf,[savedirname '3days_all_' num2str(idx)],'epsc')
+%% 3-day sequences stats -- Rrs
+clear three_day_seq
+for idx = 1:sum(three_day_idx)
+
+      three_day_seq(idx).datetime = GOCI_DailyStatMatrix(A_idx(idx)).datetime;
+      
+      % Rrs
+      three_day_seq(idx).tod_Rrs_412_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_00]];
+      three_day_seq(idx).tod_Rrs_412_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_01]];
+      three_day_seq(idx).tod_Rrs_412_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_02]];
+      three_day_seq(idx).tod_Rrs_412_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_03]];
+      three_day_seq(idx).tod_Rrs_412_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_04]];
+      three_day_seq(idx).tod_Rrs_412_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_05]];
+      three_day_seq(idx).tod_Rrs_412_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_06]];
+      three_day_seq(idx).tod_Rrs_412_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_412_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_412_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_412_07]];
+      
+      three_day_seq(idx).tod_Rrs_443_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_00]];
+      three_day_seq(idx).tod_Rrs_443_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_01]];
+      three_day_seq(idx).tod_Rrs_443_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_02]];
+      three_day_seq(idx).tod_Rrs_443_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_03]];
+      three_day_seq(idx).tod_Rrs_443_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_04]];
+      three_day_seq(idx).tod_Rrs_443_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_05]];
+      three_day_seq(idx).tod_Rrs_443_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_06]];
+      three_day_seq(idx).tod_Rrs_443_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_443_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_443_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_443_07]];
+      
+      three_day_seq(idx).tod_Rrs_490_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_00]];
+      three_day_seq(idx).tod_Rrs_490_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_01]];
+      three_day_seq(idx).tod_Rrs_490_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_02]];
+      three_day_seq(idx).tod_Rrs_490_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_03]];
+      three_day_seq(idx).tod_Rrs_490_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_04]];
+      three_day_seq(idx).tod_Rrs_490_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_05]];
+      three_day_seq(idx).tod_Rrs_490_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_06]];
+      three_day_seq(idx).tod_Rrs_490_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_490_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_490_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_490_07]];
+      
+      three_day_seq(idx).tod_Rrs_555_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_00]];
+      three_day_seq(idx).tod_Rrs_555_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_01]];
+      three_day_seq(idx).tod_Rrs_555_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_02]];
+      three_day_seq(idx).tod_Rrs_555_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_03]];
+      three_day_seq(idx).tod_Rrs_555_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_04]];
+      three_day_seq(idx).tod_Rrs_555_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_05]];
+      three_day_seq(idx).tod_Rrs_555_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_06]];
+      three_day_seq(idx).tod_Rrs_555_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_555_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_555_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_555_07]];
+
+      three_day_seq(idx).tod_Rrs_660_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_00]];
+      three_day_seq(idx).tod_Rrs_660_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_01]];
+      three_day_seq(idx).tod_Rrs_660_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_02]];
+      three_day_seq(idx).tod_Rrs_660_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_03]];
+      three_day_seq(idx).tod_Rrs_660_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_04]];
+      three_day_seq(idx).tod_Rrs_660_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_05]];
+      three_day_seq(idx).tod_Rrs_660_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_06]];
+      three_day_seq(idx).tod_Rrs_660_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_660_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_660_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_660_07]];
+      
+      three_day_seq(idx).tod_Rrs_680_00 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_00] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_00] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_00]];
+      three_day_seq(idx).tod_Rrs_680_01 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_01] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_01] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_01]];
+      three_day_seq(idx).tod_Rrs_680_02 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_02] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_02] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_02]];
+      three_day_seq(idx).tod_Rrs_680_03 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_03] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_03] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_03]];
+      three_day_seq(idx).tod_Rrs_680_04 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_04] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_04] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_04]];
+      three_day_seq(idx).tod_Rrs_680_05 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_05] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_05] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_05]];
+      three_day_seq(idx).tod_Rrs_680_06 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_06] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_06] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_06]];
+      three_day_seq(idx).tod_Rrs_680_07 = [[GOCI_DailyStatMatrix(A_idx(idx)).Rrs_680_07] [GOCI_DailyStatMatrix(A_idx(idx)+1).Rrs_680_07] [GOCI_DailyStatMatrix(A_idx(idx)+2).Rrs_680_07]];
+      
+      % mean
+      three_day_seq(idx).tod_Rrs_412_00_mean = nanmean(three_day_seq(idx).tod_Rrs_412_00);
+      three_day_seq(idx).tod_Rrs_412_01_mean = nanmean(three_day_seq(idx).tod_Rrs_412_01);
+      three_day_seq(idx).tod_Rrs_412_02_mean = nanmean(three_day_seq(idx).tod_Rrs_412_02);
+      three_day_seq(idx).tod_Rrs_412_03_mean = nanmean(three_day_seq(idx).tod_Rrs_412_03);
+      three_day_seq(idx).tod_Rrs_412_04_mean = nanmean(three_day_seq(idx).tod_Rrs_412_04);
+      three_day_seq(idx).tod_Rrs_412_05_mean = nanmean(three_day_seq(idx).tod_Rrs_412_05);
+      three_day_seq(idx).tod_Rrs_412_06_mean = nanmean(three_day_seq(idx).tod_Rrs_412_06);
+      three_day_seq(idx).tod_Rrs_412_07_mean = nanmean(three_day_seq(idx).tod_Rrs_412_07);
+      three_day_seq(idx).tod_Rrs_443_00_mean = nanmean(three_day_seq(idx).tod_Rrs_443_00);
+      three_day_seq(idx).tod_Rrs_443_01_mean = nanmean(three_day_seq(idx).tod_Rrs_443_01);
+      three_day_seq(idx).tod_Rrs_443_02_mean = nanmean(three_day_seq(idx).tod_Rrs_443_02);
+      three_day_seq(idx).tod_Rrs_443_03_mean = nanmean(three_day_seq(idx).tod_Rrs_443_03);
+      three_day_seq(idx).tod_Rrs_443_04_mean = nanmean(three_day_seq(idx).tod_Rrs_443_04);
+      three_day_seq(idx).tod_Rrs_443_05_mean = nanmean(three_day_seq(idx).tod_Rrs_443_05);
+      three_day_seq(idx).tod_Rrs_443_06_mean = nanmean(three_day_seq(idx).tod_Rrs_443_06);
+      three_day_seq(idx).tod_Rrs_443_07_mean = nanmean(three_day_seq(idx).tod_Rrs_443_07);
+      three_day_seq(idx).tod_Rrs_490_00_mean = nanmean(three_day_seq(idx).tod_Rrs_490_00);
+      three_day_seq(idx).tod_Rrs_490_01_mean = nanmean(three_day_seq(idx).tod_Rrs_490_01);
+      three_day_seq(idx).tod_Rrs_490_02_mean = nanmean(three_day_seq(idx).tod_Rrs_490_02);
+      three_day_seq(idx).tod_Rrs_490_03_mean = nanmean(three_day_seq(idx).tod_Rrs_490_03);
+      three_day_seq(idx).tod_Rrs_490_04_mean = nanmean(three_day_seq(idx).tod_Rrs_490_04);
+      three_day_seq(idx).tod_Rrs_490_05_mean = nanmean(three_day_seq(idx).tod_Rrs_490_05);
+      three_day_seq(idx).tod_Rrs_490_06_mean = nanmean(three_day_seq(idx).tod_Rrs_490_06);
+      three_day_seq(idx).tod_Rrs_490_07_mean = nanmean(three_day_seq(idx).tod_Rrs_490_07);
+      three_day_seq(idx).tod_Rrs_555_00_mean = nanmean(three_day_seq(idx).tod_Rrs_555_00);
+      three_day_seq(idx).tod_Rrs_555_01_mean = nanmean(three_day_seq(idx).tod_Rrs_555_01);
+      three_day_seq(idx).tod_Rrs_555_02_mean = nanmean(three_day_seq(idx).tod_Rrs_555_02);
+      three_day_seq(idx).tod_Rrs_555_03_mean = nanmean(three_day_seq(idx).tod_Rrs_555_03);
+      three_day_seq(idx).tod_Rrs_555_04_mean = nanmean(three_day_seq(idx).tod_Rrs_555_04);
+      three_day_seq(idx).tod_Rrs_555_05_mean = nanmean(three_day_seq(idx).tod_Rrs_555_05);
+      three_day_seq(idx).tod_Rrs_555_06_mean = nanmean(three_day_seq(idx).tod_Rrs_555_06);
+      three_day_seq(idx).tod_Rrs_555_07_mean = nanmean(three_day_seq(idx).tod_Rrs_555_07);
+      three_day_seq(idx).tod_Rrs_660_00_mean = nanmean(three_day_seq(idx).tod_Rrs_660_00);
+      three_day_seq(idx).tod_Rrs_660_01_mean = nanmean(three_day_seq(idx).tod_Rrs_660_01);
+      three_day_seq(idx).tod_Rrs_660_02_mean = nanmean(three_day_seq(idx).tod_Rrs_660_02);
+      three_day_seq(idx).tod_Rrs_660_03_mean = nanmean(three_day_seq(idx).tod_Rrs_660_03);
+      three_day_seq(idx).tod_Rrs_660_04_mean = nanmean(three_day_seq(idx).tod_Rrs_660_04);
+      three_day_seq(idx).tod_Rrs_660_05_mean = nanmean(three_day_seq(idx).tod_Rrs_660_05);
+      three_day_seq(idx).tod_Rrs_660_06_mean = nanmean(three_day_seq(idx).tod_Rrs_660_06);
+      three_day_seq(idx).tod_Rrs_660_07_mean = nanmean(three_day_seq(idx).tod_Rrs_660_07);
+      three_day_seq(idx).tod_Rrs_680_00_mean = nanmean(three_day_seq(idx).tod_Rrs_680_00);
+      three_day_seq(idx).tod_Rrs_680_01_mean = nanmean(three_day_seq(idx).tod_Rrs_680_01);
+      three_day_seq(idx).tod_Rrs_680_02_mean = nanmean(three_day_seq(idx).tod_Rrs_680_02);
+      three_day_seq(idx).tod_Rrs_680_03_mean = nanmean(three_day_seq(idx).tod_Rrs_680_03);
+      three_day_seq(idx).tod_Rrs_680_04_mean = nanmean(three_day_seq(idx).tod_Rrs_680_04);
+      three_day_seq(idx).tod_Rrs_680_05_mean = nanmean(three_day_seq(idx).tod_Rrs_680_05);
+      three_day_seq(idx).tod_Rrs_680_06_mean = nanmean(three_day_seq(idx).tod_Rrs_680_06);
+      three_day_seq(idx).tod_Rrs_680_07_mean = nanmean(three_day_seq(idx).tod_Rrs_680_07);
+
+      % median
+      three_day_seq(idx).tod_Rrs_412_00_median = nanmedian(three_day_seq(idx).tod_Rrs_412_00);
+      three_day_seq(idx).tod_Rrs_412_01_median = nanmedian(three_day_seq(idx).tod_Rrs_412_01);
+      three_day_seq(idx).tod_Rrs_412_02_median = nanmedian(three_day_seq(idx).tod_Rrs_412_02);
+      three_day_seq(idx).tod_Rrs_412_03_median = nanmedian(three_day_seq(idx).tod_Rrs_412_03);
+      three_day_seq(idx).tod_Rrs_412_04_median = nanmedian(three_day_seq(idx).tod_Rrs_412_04);
+      three_day_seq(idx).tod_Rrs_412_05_median = nanmedian(three_day_seq(idx).tod_Rrs_412_05);
+      three_day_seq(idx).tod_Rrs_412_06_median = nanmedian(three_day_seq(idx).tod_Rrs_412_06);
+      three_day_seq(idx).tod_Rrs_412_07_median = nanmedian(three_day_seq(idx).tod_Rrs_412_07);
+      three_day_seq(idx).tod_Rrs_443_00_median = nanmedian(three_day_seq(idx).tod_Rrs_443_00);
+      three_day_seq(idx).tod_Rrs_443_01_median = nanmedian(three_day_seq(idx).tod_Rrs_443_01);
+      three_day_seq(idx).tod_Rrs_443_02_median = nanmedian(three_day_seq(idx).tod_Rrs_443_02);
+      three_day_seq(idx).tod_Rrs_443_03_median = nanmedian(three_day_seq(idx).tod_Rrs_443_03);
+      three_day_seq(idx).tod_Rrs_443_04_median = nanmedian(three_day_seq(idx).tod_Rrs_443_04);
+      three_day_seq(idx).tod_Rrs_443_05_median = nanmedian(three_day_seq(idx).tod_Rrs_443_05);
+      three_day_seq(idx).tod_Rrs_443_06_median = nanmedian(three_day_seq(idx).tod_Rrs_443_06);
+      three_day_seq(idx).tod_Rrs_443_07_median = nanmedian(three_day_seq(idx).tod_Rrs_443_07);
+      three_day_seq(idx).tod_Rrs_490_00_median = nanmedian(three_day_seq(idx).tod_Rrs_490_00);
+      three_day_seq(idx).tod_Rrs_490_01_median = nanmedian(three_day_seq(idx).tod_Rrs_490_01);
+      three_day_seq(idx).tod_Rrs_490_02_median = nanmedian(three_day_seq(idx).tod_Rrs_490_02);
+      three_day_seq(idx).tod_Rrs_490_03_median = nanmedian(three_day_seq(idx).tod_Rrs_490_03);
+      three_day_seq(idx).tod_Rrs_490_04_median = nanmedian(three_day_seq(idx).tod_Rrs_490_04);
+      three_day_seq(idx).tod_Rrs_490_05_median = nanmedian(three_day_seq(idx).tod_Rrs_490_05);
+      three_day_seq(idx).tod_Rrs_490_06_median = nanmedian(three_day_seq(idx).tod_Rrs_490_06);
+      three_day_seq(idx).tod_Rrs_490_07_median = nanmedian(three_day_seq(idx).tod_Rrs_490_07);
+      three_day_seq(idx).tod_Rrs_555_00_median = nanmedian(three_day_seq(idx).tod_Rrs_555_00);
+      three_day_seq(idx).tod_Rrs_555_01_median = nanmedian(three_day_seq(idx).tod_Rrs_555_01);
+      three_day_seq(idx).tod_Rrs_555_02_median = nanmedian(three_day_seq(idx).tod_Rrs_555_02);
+      three_day_seq(idx).tod_Rrs_555_03_median = nanmedian(three_day_seq(idx).tod_Rrs_555_03);
+      three_day_seq(idx).tod_Rrs_555_04_median = nanmedian(three_day_seq(idx).tod_Rrs_555_04);
+      three_day_seq(idx).tod_Rrs_555_05_median = nanmedian(three_day_seq(idx).tod_Rrs_555_05);
+      three_day_seq(idx).tod_Rrs_555_06_median = nanmedian(three_day_seq(idx).tod_Rrs_555_06);
+      three_day_seq(idx).tod_Rrs_555_07_median = nanmedian(three_day_seq(idx).tod_Rrs_555_07);
+      three_day_seq(idx).tod_Rrs_660_00_median = nanmedian(three_day_seq(idx).tod_Rrs_660_00);
+      three_day_seq(idx).tod_Rrs_660_01_median = nanmedian(three_day_seq(idx).tod_Rrs_660_01);
+      three_day_seq(idx).tod_Rrs_660_02_median = nanmedian(three_day_seq(idx).tod_Rrs_660_02);
+      three_day_seq(idx).tod_Rrs_660_03_median = nanmedian(three_day_seq(idx).tod_Rrs_660_03);
+      three_day_seq(idx).tod_Rrs_660_04_median = nanmedian(three_day_seq(idx).tod_Rrs_660_04);
+      three_day_seq(idx).tod_Rrs_660_05_median = nanmedian(three_day_seq(idx).tod_Rrs_660_05);
+      three_day_seq(idx).tod_Rrs_660_06_median = nanmedian(three_day_seq(idx).tod_Rrs_660_06);
+      three_day_seq(idx).tod_Rrs_660_07_median = nanmedian(three_day_seq(idx).tod_Rrs_660_07);
+      three_day_seq(idx).tod_Rrs_680_00_median = nanmedian(three_day_seq(idx).tod_Rrs_680_00);
+      three_day_seq(idx).tod_Rrs_680_01_median = nanmedian(three_day_seq(idx).tod_Rrs_680_01);
+      three_day_seq(idx).tod_Rrs_680_02_median = nanmedian(three_day_seq(idx).tod_Rrs_680_02);
+      three_day_seq(idx).tod_Rrs_680_03_median = nanmedian(three_day_seq(idx).tod_Rrs_680_03);
+      three_day_seq(idx).tod_Rrs_680_04_median = nanmedian(three_day_seq(idx).tod_Rrs_680_04);
+      three_day_seq(idx).tod_Rrs_680_05_median = nanmedian(three_day_seq(idx).tod_Rrs_680_05);
+      three_day_seq(idx).tod_Rrs_680_06_median = nanmedian(three_day_seq(idx).tod_Rrs_680_06);
+      three_day_seq(idx).tod_Rrs_680_07_median = nanmedian(three_day_seq(idx).tod_Rrs_680_07);
+      
+      % SD
+      three_day_seq(idx).tod_Rrs_412_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_00);
+      three_day_seq(idx).tod_Rrs_412_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_01);
+      three_day_seq(idx).tod_Rrs_412_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_02);
+      three_day_seq(idx).tod_Rrs_412_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_03);
+      three_day_seq(idx).tod_Rrs_412_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_04);
+      three_day_seq(idx).tod_Rrs_412_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_05);
+      three_day_seq(idx).tod_Rrs_412_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_06);
+      three_day_seq(idx).tod_Rrs_412_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_07);
+      three_day_seq(idx).tod_Rrs_443_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_00);
+      three_day_seq(idx).tod_Rrs_443_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_01);
+      three_day_seq(idx).tod_Rrs_443_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_02);
+      three_day_seq(idx).tod_Rrs_443_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_03);
+      three_day_seq(idx).tod_Rrs_443_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_04);
+      three_day_seq(idx).tod_Rrs_443_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_05);
+      three_day_seq(idx).tod_Rrs_443_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_06);
+      three_day_seq(idx).tod_Rrs_443_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_07);
+      three_day_seq(idx).tod_Rrs_490_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_00);
+      three_day_seq(idx).tod_Rrs_490_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_01);
+      three_day_seq(idx).tod_Rrs_490_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_02);
+      three_day_seq(idx).tod_Rrs_490_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_03);
+      three_day_seq(idx).tod_Rrs_490_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_04);
+      three_day_seq(idx).tod_Rrs_490_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_05);
+      three_day_seq(idx).tod_Rrs_490_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_06);
+      three_day_seq(idx).tod_Rrs_490_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_07);
+      three_day_seq(idx).tod_Rrs_555_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_00);
+      three_day_seq(idx).tod_Rrs_555_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_01);
+      three_day_seq(idx).tod_Rrs_555_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_02);
+      three_day_seq(idx).tod_Rrs_555_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_03);
+      three_day_seq(idx).tod_Rrs_555_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_04);
+      three_day_seq(idx).tod_Rrs_555_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_05);
+      three_day_seq(idx).tod_Rrs_555_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_06);
+      three_day_seq(idx).tod_Rrs_555_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_07);
+      three_day_seq(idx).tod_Rrs_660_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_00);
+      three_day_seq(idx).tod_Rrs_660_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_01);
+      three_day_seq(idx).tod_Rrs_660_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_02);
+      three_day_seq(idx).tod_Rrs_660_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_03);
+      three_day_seq(idx).tod_Rrs_660_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_04);
+      three_day_seq(idx).tod_Rrs_660_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_05);
+      three_day_seq(idx).tod_Rrs_660_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_06);
+      three_day_seq(idx).tod_Rrs_660_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_07);
+      three_day_seq(idx).tod_Rrs_680_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_00);
+      three_day_seq(idx).tod_Rrs_680_01_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_01);
+      three_day_seq(idx).tod_Rrs_680_02_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_02);
+      three_day_seq(idx).tod_Rrs_680_03_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_03);
+      three_day_seq(idx).tod_Rrs_680_04_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_04);
+      three_day_seq(idx).tod_Rrs_680_05_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_05);
+      three_day_seq(idx).tod_Rrs_680_06_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_06);
+      three_day_seq(idx).tod_Rrs_680_07_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_07);
+      
+      % CV
+      three_day_seq(idx).tod_Rrs_412_00_CV = three_day_seq(idx).tod_Rrs_412_00_stdv/three_day_seq(idx).tod_Rrs_412_00_mean;
+      three_day_seq(idx).tod_Rrs_412_01_CV = three_day_seq(idx).tod_Rrs_412_01_stdv/three_day_seq(idx).tod_Rrs_412_01_mean;
+      three_day_seq(idx).tod_Rrs_412_02_CV = three_day_seq(idx).tod_Rrs_412_02_stdv/three_day_seq(idx).tod_Rrs_412_02_mean;
+      three_day_seq(idx).tod_Rrs_412_03_CV = three_day_seq(idx).tod_Rrs_412_03_stdv/three_day_seq(idx).tod_Rrs_412_03_mean;
+      three_day_seq(idx).tod_Rrs_412_04_CV = three_day_seq(idx).tod_Rrs_412_04_stdv/three_day_seq(idx).tod_Rrs_412_04_mean;
+      three_day_seq(idx).tod_Rrs_412_05_CV = three_day_seq(idx).tod_Rrs_412_05_stdv/three_day_seq(idx).tod_Rrs_412_05_mean;
+      three_day_seq(idx).tod_Rrs_412_06_CV = three_day_seq(idx).tod_Rrs_412_06_stdv/three_day_seq(idx).tod_Rrs_412_06_mean;
+      three_day_seq(idx).tod_Rrs_412_07_CV = three_day_seq(idx).tod_Rrs_412_07_stdv/three_day_seq(idx).tod_Rrs_412_07_mean;
+      three_day_seq(idx).tod_Rrs_443_00_CV = three_day_seq(idx).tod_Rrs_443_00_stdv/three_day_seq(idx).tod_Rrs_443_00_mean;
+      three_day_seq(idx).tod_Rrs_443_01_CV = three_day_seq(idx).tod_Rrs_443_01_stdv/three_day_seq(idx).tod_Rrs_443_01_mean;
+      three_day_seq(idx).tod_Rrs_443_02_CV = three_day_seq(idx).tod_Rrs_443_02_stdv/three_day_seq(idx).tod_Rrs_443_02_mean;
+      three_day_seq(idx).tod_Rrs_443_03_CV = three_day_seq(idx).tod_Rrs_443_03_stdv/three_day_seq(idx).tod_Rrs_443_03_mean;
+      three_day_seq(idx).tod_Rrs_443_04_CV = three_day_seq(idx).tod_Rrs_443_04_stdv/three_day_seq(idx).tod_Rrs_443_04_mean;
+      three_day_seq(idx).tod_Rrs_443_05_CV = three_day_seq(idx).tod_Rrs_443_05_stdv/three_day_seq(idx).tod_Rrs_443_05_mean;
+      three_day_seq(idx).tod_Rrs_443_06_CV = three_day_seq(idx).tod_Rrs_443_06_stdv/three_day_seq(idx).tod_Rrs_443_06_mean;
+      three_day_seq(idx).tod_Rrs_443_07_CV = three_day_seq(idx).tod_Rrs_443_07_stdv/three_day_seq(idx).tod_Rrs_443_07_mean;
+      three_day_seq(idx).tod_Rrs_490_00_CV = three_day_seq(idx).tod_Rrs_490_00_stdv/three_day_seq(idx).tod_Rrs_490_00_mean;
+      three_day_seq(idx).tod_Rrs_490_01_CV = three_day_seq(idx).tod_Rrs_490_01_stdv/three_day_seq(idx).tod_Rrs_490_01_mean;
+      three_day_seq(idx).tod_Rrs_490_02_CV = three_day_seq(idx).tod_Rrs_490_02_stdv/three_day_seq(idx).tod_Rrs_490_02_mean;
+      three_day_seq(idx).tod_Rrs_490_03_CV = three_day_seq(idx).tod_Rrs_490_03_stdv/three_day_seq(idx).tod_Rrs_490_03_mean;
+      three_day_seq(idx).tod_Rrs_490_04_CV = three_day_seq(idx).tod_Rrs_490_04_stdv/three_day_seq(idx).tod_Rrs_490_04_mean;
+      three_day_seq(idx).tod_Rrs_490_05_CV = three_day_seq(idx).tod_Rrs_490_05_stdv/three_day_seq(idx).tod_Rrs_490_05_mean;
+      three_day_seq(idx).tod_Rrs_490_06_CV = three_day_seq(idx).tod_Rrs_490_06_stdv/three_day_seq(idx).tod_Rrs_490_06_mean;
+      three_day_seq(idx).tod_Rrs_490_07_CV = three_day_seq(idx).tod_Rrs_490_07_stdv/three_day_seq(idx).tod_Rrs_490_07_mean;
+      three_day_seq(idx).tod_Rrs_555_00_CV = three_day_seq(idx).tod_Rrs_555_00_stdv/three_day_seq(idx).tod_Rrs_555_00_mean;
+      three_day_seq(idx).tod_Rrs_555_01_CV = three_day_seq(idx).tod_Rrs_555_01_stdv/three_day_seq(idx).tod_Rrs_555_01_mean;
+      three_day_seq(idx).tod_Rrs_555_02_CV = three_day_seq(idx).tod_Rrs_555_02_stdv/three_day_seq(idx).tod_Rrs_555_02_mean;
+      three_day_seq(idx).tod_Rrs_555_03_CV = three_day_seq(idx).tod_Rrs_555_03_stdv/three_day_seq(idx).tod_Rrs_555_03_mean;
+      three_day_seq(idx).tod_Rrs_555_04_CV = three_day_seq(idx).tod_Rrs_555_04_stdv/three_day_seq(idx).tod_Rrs_555_04_mean;
+      three_day_seq(idx).tod_Rrs_555_05_CV = three_day_seq(idx).tod_Rrs_555_05_stdv/three_day_seq(idx).tod_Rrs_555_05_mean;
+      three_day_seq(idx).tod_Rrs_555_06_CV = three_day_seq(idx).tod_Rrs_555_06_stdv/three_day_seq(idx).tod_Rrs_555_06_mean;
+      three_day_seq(idx).tod_Rrs_555_07_CV = three_day_seq(idx).tod_Rrs_555_07_stdv/three_day_seq(idx).tod_Rrs_555_07_mean;
+      three_day_seq(idx).tod_Rrs_660_00_CV = three_day_seq(idx).tod_Rrs_660_00_stdv/three_day_seq(idx).tod_Rrs_660_00_mean;
+      three_day_seq(idx).tod_Rrs_660_01_CV = three_day_seq(idx).tod_Rrs_660_01_stdv/three_day_seq(idx).tod_Rrs_660_01_mean;
+      three_day_seq(idx).tod_Rrs_660_02_CV = three_day_seq(idx).tod_Rrs_660_02_stdv/three_day_seq(idx).tod_Rrs_660_02_mean;
+      three_day_seq(idx).tod_Rrs_660_03_CV = three_day_seq(idx).tod_Rrs_660_03_stdv/three_day_seq(idx).tod_Rrs_660_03_mean;
+      three_day_seq(idx).tod_Rrs_660_04_CV = three_day_seq(idx).tod_Rrs_660_04_stdv/three_day_seq(idx).tod_Rrs_660_04_mean;
+      three_day_seq(idx).tod_Rrs_660_05_CV = three_day_seq(idx).tod_Rrs_660_05_stdv/three_day_seq(idx).tod_Rrs_660_05_mean;
+      three_day_seq(idx).tod_Rrs_660_06_CV = three_day_seq(idx).tod_Rrs_660_06_stdv/three_day_seq(idx).tod_Rrs_660_06_mean;
+      three_day_seq(idx).tod_Rrs_660_07_CV = three_day_seq(idx).tod_Rrs_660_07_stdv/three_day_seq(idx).tod_Rrs_660_07_mean;
+      three_day_seq(idx).tod_Rrs_680_00_CV = three_day_seq(idx).tod_Rrs_680_00_stdv/three_day_seq(idx).tod_Rrs_680_00_mean;
+      three_day_seq(idx).tod_Rrs_680_01_CV = three_day_seq(idx).tod_Rrs_680_01_stdv/three_day_seq(idx).tod_Rrs_680_01_mean;
+      three_day_seq(idx).tod_Rrs_680_02_CV = three_day_seq(idx).tod_Rrs_680_02_stdv/three_day_seq(idx).tod_Rrs_680_02_mean;
+      three_day_seq(idx).tod_Rrs_680_03_CV = three_day_seq(idx).tod_Rrs_680_03_stdv/three_day_seq(idx).tod_Rrs_680_03_mean;
+      three_day_seq(idx).tod_Rrs_680_04_CV = three_day_seq(idx).tod_Rrs_680_04_stdv/three_day_seq(idx).tod_Rrs_680_04_mean;
+      three_day_seq(idx).tod_Rrs_680_05_CV = three_day_seq(idx).tod_Rrs_680_05_stdv/three_day_seq(idx).tod_Rrs_680_05_mean;
+      three_day_seq(idx).tod_Rrs_680_06_CV = three_day_seq(idx).tod_Rrs_680_06_stdv/three_day_seq(idx).tod_Rrs_680_06_mean;
+      three_day_seq(idx).tod_Rrs_680_07_CV = three_day_seq(idx).tod_Rrs_680_07_stdv/three_day_seq(idx).tod_Rrs_680_07_mean;
+
+      %% for all 24 points per sequence
+
+      three_day_seq(idx).tod_Rrs_412_All = [three_day_seq(idx).tod_Rrs_412_00 three_day_seq(idx).tod_Rrs_412_01 three_day_seq(idx).tod_Rrs_412_02 ...
+                                                three_day_seq(idx).tod_Rrs_412_03 three_day_seq(idx).tod_Rrs_412_04 three_day_seq(idx).tod_Rrs_412_05 ...
+                                                three_day_seq(idx).tod_Rrs_412_06 three_day_seq(idx).tod_Rrs_412_07];
+
+      three_day_seq(idx).tod_Rrs_443_All = [three_day_seq(idx).tod_Rrs_443_00 three_day_seq(idx).tod_Rrs_443_01 three_day_seq(idx).tod_Rrs_443_02 ...
+                                                three_day_seq(idx).tod_Rrs_443_03 three_day_seq(idx).tod_Rrs_443_04 three_day_seq(idx).tod_Rrs_443_05 ...
+                                                three_day_seq(idx).tod_Rrs_443_06 three_day_seq(idx).tod_Rrs_443_07];
+      
+      three_day_seq(idx).tod_Rrs_490_All = [three_day_seq(idx).tod_Rrs_490_00 three_day_seq(idx).tod_Rrs_490_01 three_day_seq(idx).tod_Rrs_490_02 ...
+                                                three_day_seq(idx).tod_Rrs_490_03 three_day_seq(idx).tod_Rrs_490_04 three_day_seq(idx).tod_Rrs_490_05 ...
+                                                three_day_seq(idx).tod_Rrs_490_06 three_day_seq(idx).tod_Rrs_490_07];
+
+      three_day_seq(idx).tod_Rrs_555_All = [three_day_seq(idx).tod_Rrs_555_00 three_day_seq(idx).tod_Rrs_555_01 three_day_seq(idx).tod_Rrs_555_02 ...
+                                                three_day_seq(idx).tod_Rrs_555_03 three_day_seq(idx).tod_Rrs_555_04 three_day_seq(idx).tod_Rrs_555_05 ...
+                                                three_day_seq(idx).tod_Rrs_555_06 three_day_seq(idx).tod_Rrs_555_07];
+
+      three_day_seq(idx).tod_Rrs_660_All = [three_day_seq(idx).tod_Rrs_660_00 three_day_seq(idx).tod_Rrs_660_01 three_day_seq(idx).tod_Rrs_660_02 ...
+                                                three_day_seq(idx).tod_Rrs_660_03 three_day_seq(idx).tod_Rrs_660_04 three_day_seq(idx).tod_Rrs_660_05 ...
+                                                three_day_seq(idx).tod_Rrs_660_06 three_day_seq(idx).tod_Rrs_660_07];
+
+      three_day_seq(idx).tod_Rrs_680_All = [three_day_seq(idx).tod_Rrs_680_00 three_day_seq(idx).tod_Rrs_680_01 three_day_seq(idx).tod_Rrs_680_02 ...
+                                                three_day_seq(idx).tod_Rrs_680_03 three_day_seq(idx).tod_Rrs_680_04 three_day_seq(idx).tod_Rrs_680_05 ...
+                                                three_day_seq(idx).tod_Rrs_680_06 three_day_seq(idx).tod_Rrs_680_07];
+
+      three_day_seq(idx).tod_Rrs_412_All_mean = nanmean(three_day_seq(idx).tod_Rrs_412_All);
+      three_day_seq(idx).tod_Rrs_443_All_mean = nanmean(three_day_seq(idx).tod_Rrs_443_All);
+      three_day_seq(idx).tod_Rrs_490_All_mean = nanmean(three_day_seq(idx).tod_Rrs_490_All);
+      three_day_seq(idx).tod_Rrs_555_All_mean = nanmean(three_day_seq(idx).tod_Rrs_555_All);
+      three_day_seq(idx).tod_Rrs_660_All_mean = nanmean(three_day_seq(idx).tod_Rrs_660_All);
+      three_day_seq(idx).tod_Rrs_680_All_mean = nanmean(three_day_seq(idx).tod_Rrs_680_All);    
+      
+      three_day_seq(idx).tod_Rrs_412_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_All);
+      three_day_seq(idx).tod_Rrs_443_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_443_All);
+      three_day_seq(idx).tod_Rrs_490_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_490_All);
+      three_day_seq(idx).tod_Rrs_555_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_555_All);
+      three_day_seq(idx).tod_Rrs_660_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_660_All);
+      three_day_seq(idx).tod_Rrs_680_All_stdv = nanstd(three_day_seq(idx).tod_Rrs_680_All); 
+      
+      three_day_seq(idx).tod_Rrs_412_All_CV = three_day_seq(idx).tod_Rrs_412_All_stdv/three_day_seq(idx).tod_Rrs_412_All_mean;
+      three_day_seq(idx).tod_Rrs_443_All_CV = three_day_seq(idx).tod_Rrs_443_All_stdv/three_day_seq(idx).tod_Rrs_443_All_mean;
+      three_day_seq(idx).tod_Rrs_490_All_CV = three_day_seq(idx).tod_Rrs_490_All_stdv/three_day_seq(idx).tod_Rrs_490_All_mean;
+      three_day_seq(idx).tod_Rrs_555_All_CV = three_day_seq(idx).tod_Rrs_555_All_stdv/three_day_seq(idx).tod_Rrs_555_All_mean;
+      three_day_seq(idx).tod_Rrs_660_All_CV = three_day_seq(idx).tod_Rrs_660_All_stdv/three_day_seq(idx).tod_Rrs_660_All_mean;
+      three_day_seq(idx).tod_Rrs_680_All_CV = three_day_seq(idx).tod_Rrs_680_All_stdv/three_day_seq(idx).tod_Rrs_680_All_mean; 
+      
+      three_day_seq(idx).tod_Rrs_412_All_median = nanmedian(three_day_seq(idx).tod_Rrs_412_All);
+      three_day_seq(idx).tod_Rrs_443_All_median = nanmedian(three_day_seq(idx).tod_Rrs_443_All);
+      three_day_seq(idx).tod_Rrs_490_All_median = nanmedian(three_day_seq(idx).tod_Rrs_490_All);
+      three_day_seq(idx).tod_Rrs_555_All_median = nanmedian(three_day_seq(idx).tod_Rrs_555_All);
+      three_day_seq(idx).tod_Rrs_660_All_median = nanmedian(three_day_seq(idx).tod_Rrs_660_All);
+      three_day_seq(idx).tod_Rrs_680_All_median = nanmedian(three_day_seq(idx).tod_Rrs_680_All);  
+
+      % Normality test
+      [three_day_seq(idx).tod_Rrs_412_All_H,three_day_seq(idx).tod_Rrs_412_All_P] = kstest((three_day_seq(idx).tod_Rrs_412_All-three_day_seq(idx).tod_Rrs_412_All_mean)/three_day_seq(idx).tod_Rrs_412_All_stdv);
+      [three_day_seq(idx).tod_Rrs_443_All_H,three_day_seq(idx).tod_Rrs_443_All_P] = kstest((three_day_seq(idx).tod_Rrs_443_All-three_day_seq(idx).tod_Rrs_443_All_mean)/three_day_seq(idx).tod_Rrs_443_All_stdv);
+      [three_day_seq(idx).tod_Rrs_490_All_H,three_day_seq(idx).tod_Rrs_490_All_P] = kstest((three_day_seq(idx).tod_Rrs_490_All-three_day_seq(idx).tod_Rrs_490_All_mean)/three_day_seq(idx).tod_Rrs_490_All_stdv);
+      [three_day_seq(idx).tod_Rrs_555_All_H,three_day_seq(idx).tod_Rrs_555_All_P] = kstest((three_day_seq(idx).tod_Rrs_555_All-three_day_seq(idx).tod_Rrs_555_All_mean)/three_day_seq(idx).tod_Rrs_555_All_stdv);
+      [three_day_seq(idx).tod_Rrs_660_All_H,three_day_seq(idx).tod_Rrs_660_All_P] = kstest((three_day_seq(idx).tod_Rrs_660_All-three_day_seq(idx).tod_Rrs_660_All_mean)/three_day_seq(idx).tod_Rrs_660_All_stdv);
+      [three_day_seq(idx).tod_Rrs_680_All_H,three_day_seq(idx).tod_Rrs_680_All_P] = kstest((three_day_seq(idx).tod_Rrs_680_All-three_day_seq(idx).tod_Rrs_680_All_mean)/three_day_seq(idx).tod_Rrs_680_All_stdv);
+      
+end
+%% Testing Normality using kstest
+h = figure('Color','white','DefaultAxesFontSize',fs);
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_412_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_412_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+%% Plotting CDFs
+h = figure('Color','white');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_412_All-three_day_seq(idx).tod_Rrs_412_All_mean)/three_day_seq(idx).tod_Rrs_412_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_412_All_H,three_day_seq(idx).tod_Rrs_412_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Plot All CV_3-day vs seq number
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','412');
+plot(100*[three_day_seq.tod_Rrs_412_All_CV],'LineWidth',1.5,'Color',[0.5 0 0.5])
+hold on
+plot(100*[three_day_seq.tod_Rrs_443_All_CV],'LineWidth',1.5,'Color',[0 0 1])
+plot(100*[three_day_seq.tod_Rrs_490_All_CV],'LineWidth',1.5,'Color',[0 0.5 1])
+plot(100*[three_day_seq.tod_Rrs_555_All_CV],'LineWidth',1.5,'Color',[0 0.5 0])
+plot(100*[three_day_seq.tod_Rrs_660_All_CV],'LineWidth',1.5,'Color',[1 0.5 0])
+plot(100*[three_day_seq.tod_Rrs_680_All_CV],'LineWidth',1.5,'Color',[1 0 0])
+
+xlabel('Sequence Number')
+ylabel('CV[%]_{3-day} All')
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3dayseq_all_vs_seqnum'],'epsc')
+
+%% Plot All CV_3-day vs Date
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','412');
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_412_All_CV],'LineWidth',1.5,'Color',[0.5 0 0.5])
+hold on
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_443_All_CV],'LineWidth',1.5,'Color',[0 0 1])
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_490_All_CV],'LineWidth',1.5,'Color',[0 0.5 1])
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_555_All_CV],'LineWidth',1.5,'Color',[0 0.5 0])
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_660_All_CV],'LineWidth',1.5,'Color',[1 0.5 0])
+plot([three_day_seq.datetime],100*[three_day_seq.tod_Rrs_680_All_CV],'LineWidth',1.5,'Color',[1 0 0])
+
+xlabel('Date')
+ylabel('CV[%]_{3-day} All')
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3dayseq_all_vs_date'],'epsc')
+
+
+%% Plot All  stats for CV_3-day vs spectral
+three_day_seq_mean = 100*[nanmean([three_day_seq.tod_Rrs_412_All_CV]) nanmean([three_day_seq.tod_Rrs_443_All_CV]) nanmean([three_day_seq.tod_Rrs_490_All_CV]) ...
+                        nanmean([three_day_seq.tod_Rrs_555_All_CV]) nanmean([three_day_seq.tod_Rrs_660_All_CV]) nanmean([three_day_seq.tod_Rrs_680_All_CV])];
+
+three_day_seq_median = 100*[nanmedian([three_day_seq.tod_Rrs_412_All_CV]) nanmedian([three_day_seq.tod_Rrs_443_All_CV]) nanmedian([three_day_seq.tod_Rrs_490_All_CV]) ...
+                        nanmedian([three_day_seq.tod_Rrs_555_All_CV]) nanmedian([three_day_seq.tod_Rrs_660_All_CV]) nanmedian([three_day_seq.tod_Rrs_680_All_CV])];
+
+three_day_seq_std = 100*[nanstd([three_day_seq.tod_Rrs_412_All_CV]) nanstd([three_day_seq.tod_Rrs_443_All_CV]) nanstd([three_day_seq.tod_Rrs_490_All_CV]) ...
+                        nanstd([three_day_seq.tod_Rrs_555_All_CV]) nanstd([three_day_seq.tod_Rrs_660_All_CV]) nanstd([three_day_seq.tod_Rrs_680_All_CV])];
+
+three_day_seq_min = 100*[nanmin([three_day_seq.tod_Rrs_412_All_CV]) nanmin([three_day_seq.tod_Rrs_443_All_CV]) nanmin([three_day_seq.tod_Rrs_490_All_CV]) ...
+                        nanmin([three_day_seq.tod_Rrs_555_All_CV]) nanmin([three_day_seq.tod_Rrs_660_All_CV]) nanmin([three_day_seq.tod_Rrs_680_All_CV])];
+
+three_day_seq_max = 100*[nanmax([three_day_seq.tod_Rrs_412_All_CV]) nanmax([three_day_seq.tod_Rrs_443_All_CV]) nanmax([three_day_seq.tod_Rrs_490_All_CV]) ...
+                        nanmax([three_day_seq.tod_Rrs_555_All_CV]) nanmax([three_day_seq.tod_Rrs_660_All_CV]) nanmax([three_day_seq.tod_Rrs_680_All_CV])];                                                
+
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','412');
+plot([412 443 490 555 660 680],three_day_seq_mean,'-k','LineWidth',2.0)
+hold on
+plot([412 443 490 555 660 680],three_day_seq_median,'--k','LineWidth',2.0)
+plot([412 443 490 555 660 680],three_day_seq_mean+three_day_seq_std,'k')
+plot([412 443 490 555 660 680],three_day_seq_mean-three_day_seq_std,'k')
+plot([412 443 490 555 660 680],three_day_seq_min,'--k')
+plot([412 443 490 555 660 680],three_day_seq_max,'--k')
+
+xlabel('Wavelength (nm)')
+ylabel('CV[%]_{3-day} for All Sequences (%)')
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3dayseq_all_CVstats'],'epsc')
+
+%% Plot
+savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
+fs = 40;
+lw = 3;
+ms = 16;
+
+
+%% Rrs_412
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','412');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_412_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_412_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV])+100*nanstd([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV])+100*nanstd([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV])+100*nanstd([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV])+100*nanstd([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV])+100*nanstd([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV])+100*nanstd([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV])+100*nanstd([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])+100*nanstd([three_day_seq.tod_Rrs_412_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV])-100*nanstd([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV])-100*nanstd([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV])-100*nanstd([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV])-100*nanstd([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV])-100*nanstd([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV])-100*nanstd([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV])-100*nanstd([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])-100*nanstd([three_day_seq.tod_Rrs_412_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_412_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_412_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_412_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 50])
+
+grid on
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(412) [%]','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_412'],'epsc')
+
+% ylabel('R_{rs}(412) (sr^{-1})','FontSize',fs)
+% xlabel('Time','FontSize',fs)
+% legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+
+%% Rrs_443
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','443');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_443_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_443_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV])+100*nanstd([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV])+100*nanstd([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV])+100*nanstd([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV])+100*nanstd([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV])+100*nanstd([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV])+100*nanstd([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV])+100*nanstd([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])+100*nanstd([three_day_seq.tod_Rrs_443_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV])-100*nanstd([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV])-100*nanstd([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV])-100*nanstd([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV])-100*nanstd([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV])-100*nanstd([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV])-100*nanstd([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV])-100*nanstd([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])-100*nanstd([three_day_seq.tod_Rrs_443_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_443_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_443_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_443_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 50])
+
+grid on
+ylabel('{\itCV}[%]_{3-day} for {\itR}_{rs}(443)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_443'],'epsc')
+
+
+% ylabel('R_{rs}(443) (sr^{-1})','FontSize',fs)
+% xlabel('Time','FontSize',fs)
+% legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+
+%% Rrs_490
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','490');
+xx = 0:7;
+hold on
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_490_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_490_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV])+100*nanstd([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV])+100*nanstd([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV])+100*nanstd([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV])+100*nanstd([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV])+100*nanstd([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV])+100*nanstd([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV])+100*nanstd([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])+100*nanstd([three_day_seq.tod_Rrs_490_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV])-100*nanstd([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV])-100*nanstd([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV])-100*nanstd([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV])-100*nanstd([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV])-100*nanstd([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV])-100*nanstd([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV])-100*nanstd([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])-100*nanstd([three_day_seq.tod_Rrs_490_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_490_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_490_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_490_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 50])
+
+grid on
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(490)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_490'],'epsc')
+
+
+% ylabel('R_{rs}(490) (sr^{-1})','FontSize',fs)
+% xlabel('Time','FontSize',fs)
+% legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+
+%% Rrs_555
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','555');
+xx = 0:7;
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_555_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_555_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV])+100*nanstd([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV])+100*nanstd([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV])+100*nanstd([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV])+100*nanstd([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV])+100*nanstd([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV])+100*nanstd([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV])+100*nanstd([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])+100*nanstd([three_day_seq.tod_Rrs_555_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV])-100*nanstd([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV])-100*nanstd([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV])-100*nanstd([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV])-100*nanstd([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV])-100*nanstd([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV])-100*nanstd([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV])-100*nanstd([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])-100*nanstd([three_day_seq.tod_Rrs_555_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_555_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_555_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_555_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 50])
+
+grid on
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(555)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_555'],'epsc')
+
+%% Rrs_660
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','660');
+xx = 0:7;
+hold on
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_660_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_660_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_660_00_CV])+100*nanstd([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_01_CV])+100*nanstd([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_02_CV])+100*nanstd([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_03_CV])+100*nanstd([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_04_CV])+100*nanstd([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_05_CV])+100*nanstd([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_06_CV])+100*nanstd([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_07_CV])+100*nanstd([three_day_seq.tod_Rrs_660_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_660_00_CV])-100*nanstd([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_01_CV])-100*nanstd([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_02_CV])-100*nanstd([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_03_CV])-100*nanstd([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_04_CV])-100*nanstd([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_05_CV])-100*nanstd([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_06_CV])-100*nanstd([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_07_CV])-100*nanstd([three_day_seq.tod_Rrs_660_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_660_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_660_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_660_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_660_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_660_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_660_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_660_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_660_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_660_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 100])
+
+grid on
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(660)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_660'],'epsc')
+
+
+% ylabel('R_{rs}(660) (sr^{-1})','FontSize',fs)
+% xlabel('Time','FontSize',fs)
+% legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+
+%% Rrs_680
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','680');
+xx = 0:7;
+hold on
+A = [...
+      100*nanmax([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmax([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmax([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmax([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmax([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmax([three_day_seq.tod_Rrs_680_07_CV])];
+
+B = [...
+      100*nanmin([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmin([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmin([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmin([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmin([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmin([three_day_seq.tod_Rrs_680_07_CV])];
+
+plot(xx,A,'--k')
+hold on
+plot(xx,B,'--k')
+
+hold on
+yy1 = [100*nanmean([three_day_seq.tod_Rrs_680_00_CV])+100*nanstd([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_01_CV])+100*nanstd([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_02_CV])+100*nanstd([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_03_CV])+100*nanstd([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_04_CV])+100*nanstd([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_05_CV])+100*nanstd([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_06_CV])+100*nanstd([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_07_CV])+100*nanstd([three_day_seq.tod_Rrs_680_07_CV])];
+yy2 = [100*nanmean([three_day_seq.tod_Rrs_680_00_CV])-100*nanstd([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_01_CV])-100*nanstd([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_02_CV])-100*nanstd([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_03_CV])-100*nanstd([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_04_CV])-100*nanstd([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_05_CV])-100*nanstd([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_06_CV])-100*nanstd([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_07_CV])-100*nanstd([three_day_seq.tod_Rrs_680_07_CV])];
+fill([xx fliplr(xx)],[yy1 fliplr(yy2)],[0.0 0.0 0.0])
+alpha(0.15)
+
+hold on
+yy = [100*nanmean([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmean([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmean([three_day_seq.tod_Rrs_680_07_CV])];
+plot(xx,yy,'-','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+yy = [100*nanmedian([three_day_seq.tod_Rrs_680_00_CV]) 100*nanmedian([three_day_seq.tod_Rrs_680_01_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_680_02_CV]) 100*nanmedian([three_day_seq.tod_Rrs_680_03_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_680_04_CV]) 100*nanmedian([three_day_seq.tod_Rrs_680_05_CV]) ...
+      100*nanmedian([three_day_seq.tod_Rrs_680_06_CV]) 100*nanmedian([three_day_seq.tod_Rrs_680_07_CV])];
+plot(xx,yy,'--','Color',[0.0 0.0 0.0],'LineWidth',lw)
+
+ylim([0 100])
+
+grid on
+ylabel('{\itCV} [%]_{3-day} for {\itR}_{rs}(680)','FontSize',fs)
+xlabel('Local Time','FontSize',fs)
+
+set(gcf,'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
+set(gcf,'PaperPositionMode','auto'); %set paper pos for printing
+
+xlim([0 7])
+ax = gca;
+ax.XTickLabel = {'9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'};
+
+set(gcf, 'renderer','painters')
+saveas(gcf,[savedirname '3day_CV_680'],'epsc')
+
+
+% ylabel('R_{rs}(680) (sr^{-1})','FontSize',fs)
+% xlabel('Time','FontSize',fs)
+% legend('0h','1h','2h','3h','4h','5h','6h','7h','Location','northeast')
+
+clear A B xx yy
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3-day set comparison by hour
+clear A_idx A three_day_idx cond1 cond2 cond3 cond4 cond5 cond6
+clear cond_brdf1 cond_brdf2 cond_brdf3
+brdf_opt = 7;
+
+for idx = 1:size(GOCI_DailyStatMatrix,2)-2
+      cond_brdf1 = [GOCI_DailyStatMatrix(idx+0).brdf_opt]==brdf_opt;
+      cond_brdf2 = [GOCI_DailyStatMatrix(idx+1).brdf_opt]==brdf_opt;
+      cond_brdf3 = [GOCI_DailyStatMatrix(idx+2).brdf_opt]==brdf_opt;
+      
+      
+      cond_412_00 = ...
+            ~isnan([GOCI_DailyStatMatrix(idx+0).Rrs_412_00]) && ... % the assumption that if at least one band is valid for that hour, the rest will be too!!! Maybe not true
+            ~isnan([GOCI_DailyStatMatrix(idx+1).Rrs_412_00]) && ...
+            ~isnan([GOCI_DailyStatMatrix(idx+2).Rrs_412_00]);
+      
+           
+      if ~isempty(cond_412_00)...
+                  &&~isempty(cond_brdf1)&&~isempty(cond_brdf2)&&~isempty(cond_brdf3)
+            if cond_412_00... % for all bands 
+                        &&cond_brdf1&&cond_brdf2&&cond_brdf3
+                  three_day_idx(idx)=true;
+                  
+            else
+                  three_day_idx(idx)=false;
+            end
+      else
+            three_day_idx(idx)=false;
+      end
+end
+
+A_idx_412_00= find(three_day_idx); % indeces to 3-day sequences.
+
+%% 3-day sequences stats -- Rrs
+clear three_day_seq
+for idx = 1:sum(three_day_idx)
+      
+      % Rrs
+      three_day_seq(idx).tod_Rrs_412_00 = [[GOCI_DailyStatMatrix(A_idx_412_00(idx)).Rrs_412_00] [GOCI_DailyStatMatrix(A_idx_412_00(idx)+1).Rrs_412_00] [GOCI_DailyStatMatrix(A_idx_412_00(idx)+2).Rrs_412_00]];
+     
+      
+      % mean
+      three_day_seq(idx).tod_Rrs_412_00_mean = nanmean(three_day_seq(idx).tod_Rrs_412_00);
+
+
+      % median
+      three_day_seq(idx).tod_Rrs_412_00_median = nanmedian(three_day_seq(idx).tod_Rrs_412_00);
+ 
+      
+      % SD
+      three_day_seq(idx).tod_Rrs_412_00_stdv = nanstd(three_day_seq(idx).tod_Rrs_412_00);
+ 
+      
+      % CV
+      three_day_seq(idx).tod_Rrs_412_00_CV = three_day_seq(idx).tod_Rrs_412_00_stdv/three_day_seq(idx).tod_Rrs_412_00_mean;
+
+      
+end

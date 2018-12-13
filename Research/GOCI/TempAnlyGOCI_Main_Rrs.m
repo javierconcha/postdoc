@@ -606,9 +606,14 @@ for idx = 1:size(wl_vec,2)
       % histogram
       N = nansum(cond_used);
       eval(sprintf('data_used_y = [GOCI_Data.Rrs_%s_filtered_mean];',wl_vec{idx}));
-      data_used_y = data_used_y((cond_used));
+      data_used_y = data_used_y(cond_used);
+      
+      % testing normality
+      [H,P]=kstest(data_used_y);
+      fig_name_str = sprintf('Rrs(%s): H=%1.3f;P=%1.3f',wl_vec{idx},H,P);
+      
       fs = 25;
-      figure('Color','white','DefaultAxesFontSize',fs);
+      figure('Color','white','DefaultAxesFontSize',fs,'Name',fig_name_str);
       [counts,centers] = hist(data_used_y,50);
       plot(centers,counts*100/N,'b-','LineWidth',1.5)
       ylabel('Frequency (%)','FontSize',fs)
@@ -832,7 +837,7 @@ for idx = 1:size(par_vec,2)
       hold on
       ylabel('Solar Zenith Angle (^o)','FontSize',fs)
       xlabel('Time','FontSize',fs)
-%       ylim([0 100])
+      %       ylim([0 100])
       ax = gca;
       ax.XTick = xData;
       datetick('x','yyyy')%
@@ -901,8 +906,14 @@ for idx = 1:size(par_vec,2)
       N = nansum(cond_used);
       eval(sprintf('data_used_y = [GOCI_Data.%s_filtered_mean];',par_vec{idx}));
       data_used_y = data_used_y(cond_used);
+      
+      % testing normality
+      [H,P]=kstest(data_used_y);
+      fig_name_str = sprintf('%s: H=%1.3f;P=%1.3f',par_vec{idx},H,P);
+      
       fs = 25;
-      figure('Color','white','DefaultAxesFontSize',fs);
+      figure('Color','white','DefaultAxesFontSize',fs,'Name',fig_name_str);
+      
       [counts,centers] = hist(data_used_y,50);
       plot(centers,counts*100/N,'b-','LineWidth',1.5)
       ylabel('Frequency (%)','FontSize',fs)
@@ -3313,6 +3324,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_412_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_412_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_412_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_412_H,GOCI_DailyStatMatrix(count).Rrs_412_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_412_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_412_min_mean = nanmin(data_used(cond_used));
                         
@@ -3606,6 +3620,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_443_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_443_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_443_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_443_H,GOCI_DailyStatMatrix(count).Rrs_443_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_443_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_443_min_mean = nanmin(data_used(cond_used));
                         
@@ -3900,6 +3917,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_490_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_490_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_490_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_490_H,GOCI_DailyStatMatrix(count).Rrs_490_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_490_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_490_min_mean = nanmin(data_used(cond_used));
                         
@@ -4194,6 +4214,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_555_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_555_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_555_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_555_H,GOCI_DailyStatMatrix(count).Rrs_555_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_555_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_555_min_mean = nanmin(data_used(cond_used));
                         
@@ -4488,6 +4511,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_660_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_660_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_660_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_660_H,GOCI_DailyStatMatrix(count).Rrs_660_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_660_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_660_min_mean = nanmin(data_used(cond_used));
                         
@@ -4782,6 +4808,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).Rrs_680_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_680_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_680_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).Rrs_680_H,GOCI_DailyStatMatrix(count).Rrs_680_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).Rrs_680_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).Rrs_680_min_mean = nanmin(data_used(cond_used));
                         
@@ -5076,6 +5105,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_412_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_412_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_412_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_412_giop_H,GOCI_DailyStatMatrix(count).a_412_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_412_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_412_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5221,6 +5253,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_443_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_443_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_443_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_443_giop_H,GOCI_DailyStatMatrix(count).a_443_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_443_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_443_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5366,6 +5401,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_490_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_490_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_490_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_490_giop_H,GOCI_DailyStatMatrix(count).a_490_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_490_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_490_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5511,6 +5549,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_555_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_555_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_555_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_555_H,GOCI_DailyStatMatrix(count).a_555_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_555_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_555_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5656,6 +5697,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_660_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_660_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_660_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_660_giop_H,GOCI_DailyStatMatrix(count).a_660_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_660_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_660_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5801,6 +5845,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).a_680_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_680_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_680_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).a_680_giop_H,GOCI_DailyStatMatrix(count).a_680_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).a_680_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).a_680_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -5946,6 +5993,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_412_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_412_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_412_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_412_giop_H,GOCI_DailyStatMatrix(count).bbp_412_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_412_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_412_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6091,6 +6141,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_443_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_443_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_443_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_443_giop_H,GOCI_DailyStatMatrix(count).bbp_443_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_443_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_443_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6236,6 +6289,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_490_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_490_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_490_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_490_giop_H,GOCI_DailyStatMatrix(count).bbp_490_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_490_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_490_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6381,6 +6437,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_555_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_555_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_555_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_555_giop_H,GOCI_DailyStatMatrix(count).bbp_555_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_555_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_555_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6526,6 +6585,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_660_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_660_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_660_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_660_giop_H,GOCI_DailyStatMatrix(count).bbp_660_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_660_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_660_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6671,6 +6733,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).bbp_680_giop_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_680_giop_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_680_giop_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).bbp_680_giop_H,GOCI_DailyStatMatrix(count).bbp_680_giop_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).bbp_680_giop_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).bbp_680_giop_min_mean = nanmin(data_used(cond_used));
                         
@@ -6812,6 +6877,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).aot_865_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).aot_865_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).aot_865_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).aot_865_H,GOCI_DailyStatMatrix(count).aot_865_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).aot_865_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).aot_865_min_mean = nanmin(data_used(cond_used));
                         
@@ -7396,6 +7464,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).poc_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).poc_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).poc_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).poc_H,GOCI_DailyStatMatrix(count).poc_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).poc_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).poc_min_mean = nanmin(data_used(cond_used));
                         
@@ -7690,6 +7761,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).ag_412_mlrc_H,GOCI_DailyStatMatrix(count).ag_412_mlrc_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).ag_412_mlrc_min_mean = nanmin(data_used(cond_used));
                         
@@ -7984,6 +8058,9 @@ if process_data_flag
                         GOCI_DailyStatMatrix(count).chlor_a_mean_mean = nanmean(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).chlor_a_stdv_mean = nanstd(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).chlor_a_N_mean = nansum(cond_used);
+                        if nansum(cond_used)>=3
+                              [GOCI_DailyStatMatrix(count).chlor_a_H,GOCI_DailyStatMatrix(count).chlor_a_P] = kstest((data_used(cond_used)-nanmean(data_used(cond_used)))/nanstd(data_used(cond_used)));
+                        end
                         GOCI_DailyStatMatrix(count).chlor_a_max_mean = nanmax(data_used(cond_used));
                         GOCI_DailyStatMatrix(count).chlor_a_min_mean = nanmin(data_used(cond_used));
                         
@@ -13163,9 +13240,9 @@ for idx = 1:size(par_vec,2)
       fprintf('(%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) & (%3.2f) \n',...
             rel_diff_stdv_all(1),rel_diff_stdv_all(2),rel_diff_stdv_all(3),rel_diff_stdv_all(4),...
             rel_diff_stdv_all(5),rel_diff_stdv_all(6),rel_diff_stdv_all(7),rel_diff_stdv_all(8))
-
+      
       disp(['max diff: ' num2str(max(abs([rel_diff_mean_all+rel_diff_stdv_all rel_diff_mean_all-rel_diff_stdv_all])))])
-
+      
       
       fprintf('%1.2e\n',mean_4h)
       %       ylim([-3e-3 1e-3])
@@ -15391,7 +15468,7 @@ y = [GOCI_used(GOCI_date_vec(find(cond_AG))).Rrs_680_mean_mid_three]...
       ./[AQUA_used(AQUA_date_vec(find(cond_AG))).Rrs_678_mean];
 plot(x(~isnan(y)),y(~isnan(y)),'r','LineWidth',lw)
 
-ylim([0 3.4])% 
+ylim([0 3.4])%
 
 h_legend = legend('412{    }','443{    }','490{    }','555{    }','660{    }','680',...
       'Location','north',...
@@ -16723,7 +16800,7 @@ for idx = 1:sum(three_day_idx)
       three_day_seq(idx).tod_Rrs_555_05_mean = nanmean(three_day_seq(idx).tod_Rrs_555_05);
       three_day_seq(idx).tod_Rrs_555_06_mean = nanmean(three_day_seq(idx).tod_Rrs_555_06);
       three_day_seq(idx).tod_Rrs_555_07_mean = nanmean(three_day_seq(idx).tod_Rrs_555_07);
-
+      
       % mean
       three_day_seq(idx).tod_Rrs_412_00_median = nanmedian(three_day_seq(idx).tod_Rrs_412_00);
       three_day_seq(idx).tod_Rrs_412_01_median = nanmedian(three_day_seq(idx).tod_Rrs_412_01);
@@ -17984,7 +18061,7 @@ y = [[GOCI_MonthlyStatMatrix(cond).a_412_giop_mean_mid_three];
       [GOCI_MonthlyStatMatrix(cond).a_680_giop_mean_mid_three]];
 
 for idx = 1:size(y,2)
-
+      
       if idx==1
             plot(x,nan(size(y(:,idx))),'g','LineWidth',lw-1)
             hold on
@@ -17992,9 +18069,9 @@ for idx = 1:size(y,2)
             plot(x,nan(size(y(:,idx))),'b','LineWidth',lw-1)
             plot(x,nan(size(y(:,idx))),'k','LineWidth',lw-1)
             legend('Spring{    }','Summer{    }','Fall{    }','Winter{    }',...
-            'Location','north',...
-            'Orientation','horizontal')
-      legend boxoff
+                  'Location','north',...
+                  'Orientation','horizontal')
+            legend boxoff
       end
       
       figure(h)
@@ -18058,7 +18135,7 @@ y = [[GOCI_MonthlyStatMatrix(cond).bbp_412_giop_mean_mid_three];
       [GOCI_MonthlyStatMatrix(cond).bbp_680_giop_mean_mid_three]];
 
 for idx = 1:size(y,2)
-
+      
       if idx==1
             plot(x,nan(size(y(:,idx))),'g','LineWidth',lw-1)
             hold on
@@ -18066,9 +18143,9 @@ for idx = 1:size(y,2)
             plot(x,nan(size(y(:,idx))),'b','LineWidth',lw-1)
             plot(x,nan(size(y(:,idx))),'k','LineWidth',lw-1)
             legend('Spring{    }','Summer{    }','Fall{    }','Winter{    }',...
-            'Location','north',...
-            'Orientation','horizontal')
-      legend boxoff
+                  'Location','north',...
+                  'Orientation','horizontal')
+            legend boxoff
       end
       
       figure(h)
