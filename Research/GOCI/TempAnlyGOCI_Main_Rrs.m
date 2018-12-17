@@ -13059,7 +13059,6 @@ for idx = 1:size(par_vec,2)
       diff_stdv_07 = nanstd(diff_07(cond_filter));
       diff_N_07 = sum(cond_filter);
       
-      
       diff_stdv_all = [diff_stdv_00,diff_stdv_01,diff_stdv_02,diff_stdv_03,diff_stdv_04,diff_stdv_05,diff_stdv_06,diff_stdv_07];
       diff_mean_all = [diff_mean_00,diff_mean_01,diff_mean_02,diff_mean_03,diff_mean_04,diff_mean_05,diff_mean_06,diff_mean_07];
       
@@ -13113,6 +13112,7 @@ savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 disp('All')
 
 par_vec = {'Rrs_412','Rrs_443','Rrs_490','Rrs_555','Rrs_660','Rrs_680','chlor_a','ag_412_mlrc','poc'};
+% par_vec = {'Rrs_412'};
 
 
 brdf_opt = 7;
@@ -13124,49 +13124,81 @@ for idx = 1:size(par_vec,2)
       
       %%
       eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_00]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_00-nanmean(rel_diff_00))/nanstd(rel_diff_00));
+      fprintf('%s,t=00,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_00)),H,P);
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+      [H,P] = kstest((rel_diff_00(cond_filter)-nanmean(rel_diff_00(cond_filter)))/nanstd(rel_diff_00(cond_filter)));
+      fprintf('%s,t=00,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_00(cond_filter))),H,P)
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
       rel_diff_N_00 = sum(cond_filter);
       
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_01]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_01-nanmean(rel_diff_01))/nanstd(rel_diff_01));
+      fprintf('%s,t=01,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_01)),H,P);
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
+      [H,P] = kstest((rel_diff_01(cond_filter)-nanmean(rel_diff_01(cond_filter)))/nanstd(rel_diff_01(cond_filter)));
+      fprintf('%s,t=01,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_01(cond_filter))),H,P)
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
       rel_diff_N_01 = sum(cond_filter);
       
-      eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      eval(sprintf('rel_diff_02= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_02]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_02-nanmean(rel_diff_02))/nanstd(rel_diff_02));
+      fprintf('%s,t=02,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_02)),H,P);
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
+      [H,P] = kstest((rel_diff_02(cond_filter)-nanmean(rel_diff_02(cond_filter)))/nanstd(rel_diff_02(cond_filter)));
+      fprintf('%s,t=02,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_02(cond_filter))),H,P)
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
       rel_diff_N_02 = sum(cond_filter);
       
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_03]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_03-nanmean(rel_diff_03))/nanstd(rel_diff_03));
+      fprintf('%s,t=03,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_03)),H,P);
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
+      [H,P] = kstest((rel_diff_03(cond_filter)-nanmean(rel_diff_03(cond_filter)))/nanstd(rel_diff_03(cond_filter)));
+      fprintf('%s,t=03,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_03(cond_filter))),H,P)
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
       rel_diff_N_03 = sum(cond_filter);
       
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_04]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      % [H,P] = kstest((rel_diff_04-nanmean(rel_diff_04))/nanstd(rel_diff_04));
+      % fprintf('%s,t=04,N=,raw%i: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_04)),H,P);
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
+      % [H,P] = kstest((rel_diff_04(cond_filter)-nanmean(rel_diff_04(cond_filter)))/nanstd(rel_diff_04(cond_filter)));
+      % fprintf('%s,t=04,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_04(cond_filter))),H,P)
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
       rel_diff_N_04 = sum(cond_filter);
       
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_05]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_05-nanmean(rel_diff_05))/nanstd(rel_diff_05));
+      fprintf('%s,t=05,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_05)),H,P);
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
+      [H,P] = kstest((rel_diff_05(cond_filter)-nanmean(rel_diff_05(cond_filter)))/nanstd(rel_diff_05(cond_filter)));
+      fprintf('%s,t=05,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_05(cond_filter))),H,P)
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
       rel_diff_N_05 = sum(cond_filter);
       
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_06]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_06-nanmean(rel_diff_06))/nanstd(rel_diff_06));
+      fprintf('%s,t=06,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_06)),H,P);
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
+      [H,P] = kstest((rel_diff_06(cond_filter)-nanmean(rel_diff_06(cond_filter)))/nanstd(rel_diff_06(cond_filter)));
+      fprintf('%s,t=06,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_06(cond_filter))),H,P)
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
       rel_diff_N_06 = sum(cond_filter);
       
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_brdf).%s_diff_w_r_4th_07]./abs([GOCI_DailyStatMatrix(cond_brdf).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_07-nanmean(rel_diff_07))/nanstd(rel_diff_07));
+      fprintf('%s,t=07,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_07)),H,P);
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
+      [H,P] = kstest((rel_diff_07(cond_filter)-nanmean(rel_diff_07(cond_filter)))/nanstd(rel_diff_07(cond_filter)));
+      fprintf('%s,t=07,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_07(cond_filter))),H,P)
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
       rel_diff_N_07 = sum(cond_filter);
@@ -13191,6 +13223,8 @@ for idx = 1:size(par_vec,2)
       %       ax.XAxis.FontSize = 18;
       ax.XTickLabelRotation = -40;
       xlim([0 9])
+      
+      
       
       switch par_vec{idx}
             case 'Rrs_412'
@@ -13261,6 +13295,17 @@ for idx = 1:size(par_vec,2)
       %       grid minor
       %%
       %       saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
+      
+      %% Heat Map
+      lim=50;
+      h_hm = heatmap_reldif(rel_diff_00,rel_diff_01,rel_diff_02,rel_diff_03,rel_diff_04,rel_diff_05,rel_diff_06,rel_diff_07,lim);  
+      figure(h_hm)
+      str1 = sprintf('{\\itR}\\Delta_{\\itt} [%%]');
+      ylabel(str1,'FontSize',fs)
+      
+      screen_size = get(0, 'ScreenSize');
+      set(gcf, 'Position', [1 1 screen_size(3) screen_size(4)] ); %set to screen size
+      saveas(gcf,[savedirname 'Rel_Diff_4th_' par_vec{idx}],'epsc')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13391,7 +13436,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Plot relative difference from 4th time of day for par -- ONLY SUMMER
+%% Plot relative difference from 4th time of day for par -- ONLY SUMMER
 savedirname = '/Users/jconchas/Documents/Latex/2017_GOCI_paper/Figures/source/';
 
 disp('Only Summers')
@@ -13430,49 +13475,81 @@ for idx = 1:size(par_vec,2)
       
       %%
       eval(sprintf('rel_diff_00= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_00]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_00-nanmean(rel_diff_00))/nanstd(rel_diff_00));
+      fprintf('%s,t=00,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_00)),H,P);
       cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+      [H,P] = kstest((rel_diff_00(cond_filter)-nanmean(rel_diff_00(cond_filter)))/nanstd(rel_diff_00(cond_filter)));
+      fprintf('%s,t=00,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_00(cond_filter))),H,P)
       rel_diff_mean_00 = nanmean(rel_diff_00(cond_filter));
       rel_diff_stdv_00 = nanstd(rel_diff_00(cond_filter));
       rel_diff_N_00 = sum(cond_filter);
       
       eval(sprintf('rel_diff_01= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_01]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_01-nanmean(rel_diff_01))/nanstd(rel_diff_01));
+      fprintf('%s,t=01,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_01)),H,P);
       cond_filter = abs(rel_diff_01) <= nanmean(rel_diff_01)+3*nanstd(rel_diff_01);
+      [H,P] = kstest((rel_diff_01(cond_filter)-nanmean(rel_diff_01(cond_filter)))/nanstd(rel_diff_01(cond_filter)));
+      fprintf('%s,t=01,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_01(cond_filter))),H,P)
       rel_diff_mean_01 = nanmean(rel_diff_01(cond_filter));
       rel_diff_stdv_01 = nanstd(rel_diff_01(cond_filter));
       rel_diff_N_01 = sum(cond_filter);
       
       eval(sprintf('rel_diff_02= 102*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_02]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_02-nanmean(rel_diff_02))/nanstd(rel_diff_02));
+      fprintf('%s,t=02,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_02)),H,P);
       cond_filter = abs(rel_diff_02) <= nanmean(rel_diff_02)+3*nanstd(rel_diff_02);
+      [H,P] = kstest((rel_diff_02(cond_filter)-nanmean(rel_diff_02(cond_filter)))/nanstd(rel_diff_02(cond_filter)));
+      fprintf('%s,t=02,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_02(cond_filter))),H,P)
       rel_diff_mean_02 = nanmean(rel_diff_02(cond_filter));
       rel_diff_stdv_02 = nanstd(rel_diff_02(cond_filter));
       rel_diff_N_02 = sum(cond_filter);
       
       eval(sprintf('rel_diff_03= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_03]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_03-nanmean(rel_diff_03))/nanstd(rel_diff_03));
+      fprintf('%s,t=03,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_03)),H,P);
       cond_filter = abs(rel_diff_03) <= nanmean(rel_diff_03)+3*nanstd(rel_diff_03);
+      [H,P] = kstest((rel_diff_03(cond_filter)-nanmean(rel_diff_03(cond_filter)))/nanstd(rel_diff_03(cond_filter)));
+      fprintf('%s,t=03,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_03(cond_filter))),H,P)
       rel_diff_mean_03 = nanmean(rel_diff_03(cond_filter));
       rel_diff_stdv_03 = nanstd(rel_diff_03(cond_filter));
       rel_diff_N_03 = sum(cond_filter);
       
       eval(sprintf('rel_diff_04= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_04]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      % [H,P] = kstest((rel_diff_04-nanmean(rel_diff_04))/nanstd(rel_diff_04));
+      % fprintf('%s,t=04,N=,raw%i: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_04)),H,P);
       cond_filter = abs(rel_diff_04) <= nanmean(rel_diff_04)+3*nanstd(rel_diff_04);
+      % [H,P] = kstest((rel_diff_04(cond_filter)-nanmean(rel_diff_04(cond_filter)))/nanstd(rel_diff_04(cond_filter)));
+      % fprintf('%s,t=04,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_04(cond_filter))),H,P)
       rel_diff_mean_04 = nanmean(rel_diff_04(cond_filter));
       rel_diff_stdv_04 = nanstd(rel_diff_04(cond_filter));
       rel_diff_N_04 = sum(cond_filter);
       
       eval(sprintf('rel_diff_05= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_05]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_05-nanmean(rel_diff_05))/nanstd(rel_diff_05));
+      fprintf('%s,t=05,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_05)),H,P);
       cond_filter = abs(rel_diff_05) <= nanmean(rel_diff_05)+3*nanstd(rel_diff_05);
+      [H,P] = kstest((rel_diff_05(cond_filter)-nanmean(rel_diff_05(cond_filter)))/nanstd(rel_diff_05(cond_filter)));
+      fprintf('%s,t=05,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_05(cond_filter))),H,P)
       rel_diff_mean_05 = nanmean(rel_diff_05(cond_filter));
       rel_diff_stdv_05 = nanstd(rel_diff_05(cond_filter));
       rel_diff_N_05 = sum(cond_filter);
       
       eval(sprintf('rel_diff_06= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_06]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_06-nanmean(rel_diff_06))/nanstd(rel_diff_06));
+      fprintf('%s,t=06,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_06)),H,P);
       cond_filter = abs(rel_diff_06) <= nanmean(rel_diff_06)+3*nanstd(rel_diff_06);
+      [H,P] = kstest((rel_diff_06(cond_filter)-nanmean(rel_diff_06(cond_filter)))/nanstd(rel_diff_06(cond_filter)));
+      fprintf('%s,t=06,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_06(cond_filter))),H,P)
       rel_diff_mean_06 = nanmean(rel_diff_06(cond_filter));
       rel_diff_stdv_06 = nanstd(rel_diff_06(cond_filter));
       rel_diff_N_06 = sum(cond_filter);
       
       eval(sprintf('rel_diff_07= 100*[GOCI_DailyStatMatrix(cond_used).%s_diff_w_r_4th_07]./abs([GOCI_DailyStatMatrix(cond_used).%s_04]);',par_vec{idx},par_vec{idx}));
+      [H,P] = kstest((rel_diff_07-nanmean(rel_diff_07))/nanstd(rel_diff_07));
+      fprintf('%s,t=07,N=%i,raw: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_07)),H,P);
       cond_filter = abs(rel_diff_07) <= nanmean(rel_diff_07)+3*nanstd(rel_diff_07);
+      [H,P] = kstest((rel_diff_07(cond_filter)-nanmean(rel_diff_07(cond_filter)))/nanstd(rel_diff_07(cond_filter)));
+      fprintf('%s,t=07,N=%i,fld: h=%i; p=%1.2d\n',par_vec{idx},sum(~isnan(rel_diff_07(cond_filter))),H,P)
       rel_diff_mean_07 = nanmean(rel_diff_07(cond_filter));
       rel_diff_stdv_07 = nanstd(rel_diff_07(cond_filter));
       rel_diff_N_07 = sum(cond_filter);

@@ -1,6 +1,5 @@
 %% Testing Normality for diurnal values
-
-%% Rrs_412
+% Rrs_412
 h = figure('Color','white','DefaultAxesFontSize',fs,'Name','Rrs_412');
 title('Rrs_412')
 subplot(2,1,1)
@@ -341,3 +340,261 @@ for idx = 1:100
       xlabel('x')
       ylabel('F(x)')
 end
+
+%% Testing Normality for 3-day using kstest
+%% Rrs_412
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_412');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_412_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_412_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_412');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_412_All-three_day_seq(idx).tod_Rrs_412_All_mean)/three_day_seq(idx).tod_Rrs_412_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_412_All_H,three_day_seq(idx).tod_Rrs_412_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Rrs_443
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_443');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_443_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_443_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_443');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_443_All-three_day_seq(idx).tod_Rrs_443_All_mean)/three_day_seq(idx).tod_Rrs_443_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_443_All_H,three_day_seq(idx).tod_Rrs_443_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Rrs_490
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_490');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_490_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_490_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_490');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_490_All-three_day_seq(idx).tod_Rrs_490_All_mean)/three_day_seq(idx).tod_Rrs_490_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_490_All_H,three_day_seq(idx).tod_Rrs_490_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Rrs_555
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_555');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_555_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_555_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_555');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_555_All-three_day_seq(idx).tod_Rrs_555_All_mean)/three_day_seq(idx).tod_Rrs_555_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_555_All_H,three_day_seq(idx).tod_Rrs_555_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Rrs_660
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_660');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_660_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_660_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_660');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_660_All-three_day_seq(idx).tod_Rrs_660_All_mean)/three_day_seq(idx).tod_Rrs_660_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_660_All_H,three_day_seq(idx).tod_Rrs_660_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% Rrs_680
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; Rrs_680');
+subplot(2,1,1)
+plot([three_day_seq.tod_Rrs_680_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_Rrs_680_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; Rrs_680');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_Rrs_680_All-three_day_seq(idx).tod_Rrs_680_All_mean)/three_day_seq(idx).tod_Rrs_680_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_Rrs_680_All_H,three_day_seq(idx).tod_Rrs_680_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% chlor_a
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; chlor_a');
+subplot(2,1,1)
+plot([three_day_seq.tod_chlor_a_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_chlor_a_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; chlor_a');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_chlor_a_All-three_day_seq(idx).tod_chlor_a_All_mean)/three_day_seq(idx).tod_chlor_a_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_chlor_a_All_H,three_day_seq(idx).tod_chlor_a_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% poc
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; poc');
+subplot(2,1,1)
+plot([three_day_seq.tod_poc_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_poc_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; poc');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_poc_All-three_day_seq(idx).tod_poc_All_mean)/three_day_seq(idx).tod_poc_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_poc_All_H,three_day_seq(idx).tod_poc_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+
+%% ag_412_mlrc
+h = figure('Color','white','DefaultAxesFontSize',fs,'Name','3-day seq; ag_412_mlrc');
+subplot(2,1,1)
+plot([three_day_seq.tod_ag_412_mlrc_All_H],'o-')
+ylabel('h')
+
+subplot(2,1,2)
+plot([three_day_seq.tod_ag_412_mlrc_All_P],'o-')
+ylabel('p')
+
+xlabel('sequence number')
+% Plotting CDFs
+h = figure('Color','white','Name','3-day seq; ag_412_mlrc');
+for idx = 1:size(three_day_seq,2)
+x = (three_day_seq(idx).tod_ag_412_mlrc_All-three_day_seq(idx).tod_ag_412_mlrc_All_mean)/three_day_seq(idx).tod_ag_412_mlrc_All_stdv;
+subplot(10,10,idx)
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+% legend('Empirical CDF','Standard Normal CDF','Location','best')
+title(sprintf('n=%i;h=%i;p=%1.4f',idx,three_day_seq(idx).tod_ag_412_mlrc_All_H,three_day_seq(idx).tod_ag_412_mlrc_All_P))
+xlabel('x')
+ylabel('F(x)')
+end
+%% Testing relative differences
+cond_filter = abs(rel_diff_00) <= nanmean(rel_diff_00)+3*nanstd(rel_diff_00);
+data=rel_diff_00(~isnan(rel_diff_00)&cond_filter);
+x=(data-nanmean(data))/nanstd(data);
+[H,P] = kstest(x,'Alpha',0.01)
+[H,P] = lillietest(x,'Alpha',0.01)
+figure
+cdfplot(x)
+hold on
+x_values = linspace(min(x),max(x));
+plot(x_values,normcdf(x_values,0,1),'r-')
+%%
+figure
+x=log(x+100);
+% x = x.^2;
+x=(x-nanmean(x))/nanstd(x);
+[H,P] = kstest(x)
+%%
+x_tran = log(x+100);
+cdfplot(x_tran)
+hold on
+x_values = linspace(min(x_tran),max(x_tran));
+plot(x_values,normcdf(x_values,0,1),'r-')
